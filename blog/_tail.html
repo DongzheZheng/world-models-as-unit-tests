@@ -1,0 +1,41 @@
+</article>
+<script>
+(function () {
+  // Life pips: <span class="lives" data-n="4" data-of="5"></span> draws 4 filled and 1 empty dot.
+  document.querySelectorAll(".lives").forEach(function (el) {
+    var n = parseInt(el.dataset.n || "0", 10), of = parseInt(el.dataset.of || el.dataset.n || "0", 10);
+    if (n > 24 || of > 24) { el.remove(); return; }
+    for (var i = 0; i < of; i++) { var d = document.createElement("i"); if (i >= n) d.className = "off"; el.appendChild(d); }
+    el.setAttribute("role", "img");
+    el.setAttribute("aria-label", n + " real episodes");
+  });
+
+  // Videos behave like GIFs (muted loop), but only while on screen, and never against a reduced-motion preference.
+  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var vids = Array.prototype.slice.call(document.querySelectorAll("figure video"));
+  vids.forEach(function (v) {
+    v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute("playsinline", "");
+    var wrap = document.createElement("div"); wrap.className = "media";
+    v.parentNode.insertBefore(wrap, v); wrap.appendChild(v);
+    var btn = document.createElement("button"); btn.type = "button";
+    var paused = still;
+    function label() { btn.textContent = paused ? "Play" : "Pause"; }
+    btn.addEventListener("click", function () {
+      paused = !paused; label();
+      if (paused) v.pause(); else { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    });
+    label(); wrap.appendChild(btn);
+    v._userPaused = function () { return paused; };
+  });
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting && !v._userPaused()) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
+    }, { threshold: 0.25 });
+    vids.forEach(function (v) { io.observe(v); });
+  }
+})();
+</script>

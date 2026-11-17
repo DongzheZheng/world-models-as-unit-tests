@@ -1,0 +1,654 @@
+<header class="post-head">
+<p class="kicker">Research note</p>
+<h1>World Models as Unit Tests</h1>
+<p class="dek">Code as World Models: agents observe their task environment, write its world model as code, and use it to help write and verify policies, including Code-as-Policies programs</p>
+<p class="byline">Denzel Zheng &middot; Mechanical and Aerospace Engineering (MAE), Princeton University &middot; November 2026</p>
+</header>
+
+<p class="lede">Frontier language models are starting to write robot controllers. On <a href="https://www.anthropic.com/claude-fable-and-mythos-5-2">RoboDojo Sim</a>, Claude Fable 5.2 scored 64.9% against 29.8% for GPT-6 Astra.<sup><a href="#fn-fable" id="fnref-fable">*</a></sup> In Code as Policies (CaP), an LLM writes a controller as code, runs it on the real system, and revises (<a href="https://arxiv.org/abs/2209.07753">Liang et&nbsp;al., 2022</a>).<sup><a href="#fn-cap" id="fnref-cap">1</a></sup> ASPIRE (<a href="https://arxiv.org/abs/2607.00272">Lu et&nbsp;al., 2026</a>) extends this with agentic skill discovery.<sup><a href="#fn-aspire" id="fnref-aspire">2</a></sup> The more often the model edits the program, the more real-world evaluation becomes the bottleneck.</p>
+
+<p>A few real tests prove little. Five successes in five trials show, at 95% confidence, only that the true success rate is above 55%.<sup><a href="#fn-clopper" id="fnref-clopper">4</a></sup> When an LLM writes code faster than a robot can test it, the five trials are spread over successive versions, each version is tried about once, and a single success shows only that the rate is above 5%. LLMs became useful for code and mathematics once their outputs could be verified automatically (<a href="https://arxiv.org/abs/2110.14168">Cobbe et&nbsp;al., 2021</a>, <a href="https://arxiv.org/abs/2305.20050">Lightman et&nbsp;al., 2023</a>). Robot control code has no such verifier.</p>
+
+<p>The question we explore is: when a general coding agent faces an unknown physical system and has no ready-made test environment, can it build the tests in its own harness (the system where it writes and runs its programs) from a few real trials? By verification we mean an empirical estimate, made before deployment, of how often a program will succeed, obtained by running it in the world model.</p>
+
+<p>We compared two agents on each of eight tasks. The CaP agent edits its control program after each real trial. The world-model agent first writes a world model, a Python file of a few hundred lines that simulates the task, and tests programs in it before deployment. The eight tasks, ordered from where the tests helped least to where they decided the outcome:</p>
+
+<ol>
+<li>A drone flying two fixed routes through a canyon with a damaged rotor and hidden wind</li>
+<li>Cable routing with hidden stiffness, friction and a live load reading</li>
+<li>Doom survival under random enemy fire</li>
+<li>Pushing a T-shaped block and then an unseen L-shaped block, each with a secretly moved centre of mass and random start poses</li>
+<li>The same drone canyon with seven to eight random other aircraft per episode</li>
+<li>Throwing a rope past a post into a target: deformable, one attempt, very sensitive to small changes</li>
+</ol>
+
+<p>In one variant of the drone task, seven to eight other aircraft fly random paths through the canyon on each episode. Our world-model agent spent its first real trial hovering for the full 19.4-second window and did nothing except record how the other aircraft moved. From that record it wrote four types of aircraft behaviour into its world model, tested controllers in the model, and its real success rate went from 50% to 97% after that single observation trial.</p>
+
+<p>The world model plays the role unit tests play for ordinary code: each candidate program is run in the world model before it is deployed. A world model written as code is one way to supply such tests inside the agent&rsquo;s harness (<a href="https://lilianweng.github.io/posts/2026-07-04-harness/">Weng, 2026</a>). Several groups have written world models as code (<a href="https://arxiv.org/abs/2405.15383">Dainese et&nbsp;al., 2024</a>; <a href="https://arxiv.org/abs/2402.12275">Tang, Key and Ellis, 2024</a>; <a href="https://arxiv.org/abs/2510.02387">Meta FAIR, 2025</a>; <a href="https://arxiv.org/abs/2608.27549">Wang et&nbsp;al., 2026</a>; <a href="https://arxiv.org/abs/2608.25927">Chen, Lin and Zhang, 2026</a>); here the agent estimates the model&rsquo;s parameters from what it records during its trials and uses the model to verify controllers before deployment.</p>
+
+<p>These runs suggest that a world model may not need to be a neural network trained on thousands of rollouts. A Python file of a few hundred lines, fitted on the spot from the agent&rsquo;s own experiments, may serve as the unit-test layer between code generation and physical deployment. In our runs, files of this size came close to a planner that had the true simulator: 78% on the rope throw against the oracle planner&rsquo;s 84%, and 84% held-out on the unseen L-shaped block against the oracle planner&rsquo;s 80%. When we announced a new drone route and granted no real trials, the agent reused its world model and found a 100% controller in 19.5&nbsp;seconds of search. On the first drone route, PPO and a learned neural dynamics model given the same five real trials both scored 0&nbsp;of&nbsp;50.</p>
+
+<figure class="wide" id="fig-overview">
+<!--OVERVIEW-->
+<figcaption><strong>Figure&nbsp;1.</strong> How the agent builds and uses its tests, from observing the system to deploying the version that passes.</figcaption>
+</figure>
+
+<p><strong>Active observation.</strong> The world-model agent decides what to observe before it acts. On the block-pushing task, two scripted pushes located the hidden centre of mass almost exactly.</p>
+
+<p><strong>Hidden dynamics.</strong> The physics contains changes the manual does not mention: a weakened rotor, cross-wind jets, a shifted centre of mass, a rope with a weighted end whose landing point moves by centimetres when a vertex is displaced by a micrometre. The world models made the weak rotor, the wind and the shifted centre of mass explicit as estimated parameters. For the rope, the model reproduced the motion well enough over a short horizon to test throws, without identifying the end weight.</p>
+
+<p><strong>Random variation.</strong> Where episodes vary at random, a few real trials say little. The tests run many simulated episodes across copies of the model with slightly different parameters, so that a program must succeed even if the model is not exactly right. On the drone task with traffic, our world-model agent reached 98% on episodes no agent had seen, against 49% for the CaP agent with the same five trials. On the rope throw, the controller tests each attempt against several copies of the model before executing it.</p>
+
+<p><strong>Test-time compute.</strong> Verification moves from real trials to computation: thousands of simulated episodes can rank programs in seconds. Given the world model as its test environment, the CaP agent went from 49% to 95% on the drone task with traffic, with no further real trials. On the rope throw, testing candidate actions in the model before each step reached 78% where editing programs from real trials alone reached 0 to 2%.</p>
+
+<p>These tests may help most when three conditions combine: episodes vary at random, the physics hides changes the agent is not told about, and there is no live signal the controller can use to correct itself.</p>
+
+<p>We tried this across eight tasks in four simulators, with our CaP agent modelled on ASPIRE under a five-trial cap and each world model a single Python file of 14 to 26&nbsp;KB, with dynamics equations, collision rules and friction fitted from the agent&rsquo;s observation logs. These tests can be wrong: they ranked programs well and overestimated absolute success.</p>
+
+<details class="note">
+<summary>Other RoboDojo scores and Chen et&nbsp;al. (2026) results</summary>
+<div class="note-body">
+<p>Claude Opus 5.5 scored 39.4% on RoboDojo Sim. <a href="https://arxiv.org/abs/2609.38537">Chen et&nbsp;al. (2026)</a> evaluated GPT-6 Astra across six domains with mixed results and about 40&nbsp;s per model call: 92% on RxR instruction following, 82% on HM3D object search, 48% on a RoboDojo subset when combined with &pi;0.5, no success in locomotion. Anthropic ran all RoboDojo models on the same harness.</p>
+</div>
+</details>
+
+<nav class="toc">
+<p class="label">Contents</p>
+<ol>
+<li><a href="#sec-cap">Real-world evaluation is the bottleneck: the agent cannot tell a good policy from a bad one</a></li>
+<li><a href="#sec-differ">System identification: the agent observed before it acted, and built its tests from that observation</a></li>
+<li><a href="#sec-bench">Policy evaluation in the world model: predicted and real success correlated at r = 0.97</a></li>
+<li><a href="#sec-hybrid">Real-to-sim-to-real: the improvement transferred with no additional real trials</a></li>
+<li><a href="#sec-cable">Closed-loop feedback and long-tail failures: a reactive policy was enough, and the tests still exposed rare failures</a></li>
+<li><a href="#sec-rope">Model-predictive control: a fraction-of-a-second forecast was enough when the controller re-planned from observations</a></li>
+<li><a href="#sec-26kb">Model size and interpretability: a few hundred lines of Python with named physical parameters</a></li>
+<li><a href="#sec-brings">Propose and verify: CaP writes programs, the tests select them</a></li>
+<li><a href="#sec-limits">Limitations</a></li>
+<li><a href="#sec-related">Related work</a></li>
+<li><a href="#sec-epilogue">Summary</a></li>
+</ol>
+</nav>
+
+<h2 id="sec-cap">1. Real-world evaluation is the bottleneck: the agent cannot tell a good policy from a bad one</h2>
+
+<p>Real-world evaluation is the bottleneck: the agent cannot tell whether its own policy code is good or bad. An LLM can write a new controller in seconds, but evaluating it on the real system takes minutes, hardware, and risk. Real-world evaluation of manipulation policies is hard to scale and hard to reproduce (<a href="https://arxiv.org/abs/2405.05941">Li et&nbsp;al., 2024</a>; <a href="https://arxiv.org/abs/2409.09491">Kress-Gazit et&nbsp;al., 2024</a>). In Code as Policies, the LLM writes a controller as executable code, runs it, and revises.<sup><a href="#fn-cap" id="fnref-cap">1</a></sup> We built our CaP agent as an ASPIRE-style re-implementation under a 5-trial cap<sup><a href="#fn-aspire" id="fnref-aspire">2</a></sup> that validates each program by running it in reality.</p>
+
+<p>Push-T illustrates what this bottleneck looks like in practice. The agent must move a T-shaped block onto a target outline. We shifted the block&rsquo;s centre of mass from its nominal position of (0,&nbsp;45) to (24,&nbsp;30), but the agent does not know this. A planner that trusts the nominal physics scores 0&nbsp;out&nbsp;of&nbsp;20.</p>
+
+<p>We gave the agent five real episodes to figure this out: after its third it had a program that solved <span class="good">96%</span> of 50&nbsp;unseen episodes, and after its fourth it had one that solved <span class="bad">16%</span>.</p>
+
+<p>All five of its test episodes had succeeded, so it shipped the 16% version. When we later ran that program on the five seeds it had tested on, we found it solved exactly one of them. The other four had been solved by earlier, better versions.</p>
+
+<figure class="wide" id="fig-1">
+<video src="media/pusht.mp4" poster="media/pusht_poster.png" muted loop playsinline preload="metadata"></video>
+<figcaption><strong>Figure 2.</strong> Four controllers on the same Push-T episode. Random fails. Code-as-policy with 5&nbsp;real trials times out at 0.94 coverage (just below the &gt;&thinsp;0.95 threshold). Code-as-policy with 13&nbsp;real trials solves it. The code-as-world-model agent with 4&nbsp;real trials solves it.</figcaption>
+</figure>
+
+<p>On the pushing tasks, we found that our CaP agent&rsquo;s best programs scored higher than our world-model agent&rsquo;s planner-based controllers (96% vs 82&ndash;90% on Push-T, 78% vs 66% on Push-L, an L-shaped variant), but our agent had no way to identify the best version with only five episodes.</p>
+
+
+<p>Our agents are both Claude Opus 5.5 and see only an instrument manual and their own trial recordings. We ran them in formal simulators (VizDoom, a quadrotor in PyBullet/PyFlyt, planar pushing in pymunk, cable manipulation in MuJoCo) standing in for reality. Separate teams of agents built each environment and planted hidden changes that no agent was told about. We capped each agent at five real trials per task, counted in a budget counter. Without tests, our agent deployed whatever version it had, good or bad.</p>
+
+<details class="note">
+<summary>Keeping the agents away from the simulator</summary>
+<div class="note-body">
+<p>To prevent the kind of circular reasoning that plagues simulation benchmarks, we enforced a strict separation. <strong>Opaque environments</strong> (no source code visible to the agents) were built by separate agents (Claude Sonnet 5.5 for Doom, drone and pushing, Claude Opus 5.5 for the cable) who could see the real simulator. The agents never could. Agents accessed the environment only through a narrow API documented in an <strong>instrument manual</strong>. They were instructed to read only the manual and their own logs. A <strong>budget counter</strong> hard-capped each agent at 5&nbsp;real trials for observing the system. An import-guard test failed if a world model imported the simulator or the environment package. We audited agent code afterwards. Hidden anomalies (a damaged rotor, shifted centres of mass, cross-wind jets, block glide after release, cable stiffness and drag) were planted by the environment teams with no mention in the manual.</p>
+<p><strong>Evaluation</strong> used seeds no agent had seen during its observation trials (1000&ndash;1099 for Doom and drone mission&nbsp;C, 1000&ndash;1049 elsewhere). Independent <strong>re-test</strong> runs on a third set of seeds (5000+) provided a second verification.</p>
+</div>
+</details>
+
+<h2 id="sec-differ">2. System identification: the agent observed before it acted, and built its tests from that observation</h2>
+
+<p>Before attempting the task, the agent spends its early real trials gathering information: hovering to watch other aircraft, pushing to locate a hidden centre of mass. This is active system identification, exploration before exploitation. We set up a quadrotor that flies through a narrow canyon with three checkpoints. We hid two changes from both agents: a damaged rotor and cross-wind jets. Episodes differ only slightly, so the damage and the wind are essentially the same in every episode.</p>
+
+<details class="note">
+<summary>Drone task details</summary>
+<div class="note-body">
+<p>Time window: 17 seconds. The damaged rotor produces only 60% thrust. Two cross-wind jets blow at roughly 14.8 and 11&nbsp;m/s&sup2;.</p>
+</div>
+</details>
+
+<p>On the first route (mission&nbsp;A), we found that every controller version was either 0% or 98&ndash;100%: the stock autopilot, whose 2&nbsp;m/s speed cap was too slow for the window, PPO with 5&nbsp;real trials, and a learned neural dynamics model all scored 0/50, while our CaP agent produced a 100% controller after one crashed flight and our world-model agent reached 98% after one real trial and 100% after two. Our world-model agent&rsquo;s flights are faster, 8.03&nbsp;s vs 9.50&nbsp;s, and pass closer to the canyon walls, minimum range 0.21&ndash;0.26&nbsp;m vs 0.53&ndash;1.1&nbsp;m.</p>
+
+<figure class="wide" id="fig-2">
+<video src="media/drone_a.mp4" poster="media/drone_a_poster.png" muted loop playsinline preload="metadata"></video>
+<figcaption><strong>Figure 3.</strong> Six controllers on the same mission-A episode. The wind zones and damaged rotor are drawn for the viewer but invisible to the agents. Stock, PPO (5&nbsp;real trials) and neural dynamics (5&nbsp;real trials) crash. Code-as-policy finishes in 9.4&nbsp;s, the code-as-world-model agent in 8.0&nbsp;s. PPO with 14,811&nbsp;real trials finishes in 2.9&nbsp;s.</figcaption>
+</figure>
+
+<p>After mission&nbsp;A we announced a new route without granting any real trials, and our agents scored 100% on mission&nbsp;B. Our world-model agent reused its world model and found a controller in 19.5 seconds of search. On <strong>mission&nbsp;C</strong> (the same canyon with 7&ndash;8 stochastic other aircraft per episode) and on the pushing tasks, where each episode starts from a random block pose, we found that success varied sharply across program versions. We retroactively evaluated every version our agents left behind on seeds nobody had seen (6000+), indexed by real trials consumed. The result is a learning curve of an LLM editing its own code.</p>
+
+<figure class="wide" id="fig-curves">
+<!--CURVES-->
+<figcaption><strong>Figure 4.</strong> Five panels (drone&nbsp;A, drone&nbsp;C, Push-T, Push-L, Doom). Black circles joined by a line show each code-as-policy program version, placed at the number of real trials consumed before it existed. A ring marks the version submitted for evaluation on episodes the agent had never seen (held-out). Blue squares show the code-as-world-model agent&rsquo;s controllers. The y-axis is the true success rate on unseen seeds. For Doom it is the share of episodes surviving 750&nbsp;game ticks (Doom runs at 35&nbsp;per second). On Push-T, a 96% controller at 3&nbsp;real trials becomes 16% at&nbsp;4.</figcaption>
+</figure>
+
+<p>On Push-T our CaP agent peaked at 96% after three real trials, then dropped to 16% after its fourth and shipped the weaker version. On mission&nbsp;C, success ranged from 9% to 87% across versions. On Push-L it peaked at 78% at six trials and fell to 36% on the next edit. What we observed is that success does not rise monotonically. The best version came and went without our agent detecting the change.</p>
+
+<details class="note">
+<summary>Full learning curves</summary>
+<div class="note-body">
+<p><strong>CaP agent.</strong> Push-T: 72% &rarr; 90% &rarr; 92% &rarr; <strong>96%</strong> &rarr; <span class="bad">16%</span> &rarr; 16% &rarr; 96% &rarr; 96%. Mission&nbsp;C: 66% &rarr; 9% &rarr; 54% &rarr; 54% &rarr; 56% &rarr; 79% &rarr; 87% &rarr; 85%. Push-L: 50% &rarr; 8% &rarr; 10% &rarr; 46% &rarr; 46% &rarr; <strong>78%</strong> &rarr; <span class="bad">36%</span>. Doom mean survival in game ticks: 596 &rarr; 1,049 &rarr; 648 &rarr; 1,889 &rarr; 2,455.</p>
+<p><strong>World-model agent.</strong> Drone&nbsp;A: 98% &rarr; 100% &rarr; 100%. Drone&nbsp;C: 50% (its mission-A controller, unmodified) &rarr; <span class="good">97%</span> &rarr; 99% &rarr; 95% &rarr; 96%. Push-T: 82% after 2&nbsp;real trials.</p>
+<p>The Doom agent&rsquo;s real trials happened to rise (296, 638, 811, 883, 2,095 game ticks observed), masking a dip after the second real trial.</p>
+<p><strong>Flight times.</strong> Mission&nbsp;A: world-model agent 98% (49/50). Mission&nbsp;B: code-as-policy 13.98&nbsp;s, world-model agent 11.28&nbsp;s. Start and checkpoint positions jitter by under a metre. The jets fluctuate by about a quarter.</p>
+</div>
+</details>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Task</th><th class="num">Test flights succeeded</th><th class="num">Submitted program&rsquo;s true rate</th></tr>
+</thead>
+<tbody>
+<tr><td>Drone A</td><td class="num">4 of 5</td><td class="num"><span class="good">100%</span></td></tr>
+<tr><td>Mission C</td><td class="num">4 of 5 initial</td><td class="num"><span class="bad">49%</span> <span class="dim">(16 of 20 over all real trials)</span></td></tr>
+<tr><td>Push-T</td><td class="num">5 of 5</td><td class="num"><span class="bad">20%</span> <span class="dim">(12 of 13 over all real trials)</span></td></tr>
+<tr><td>Push-L</td><td class="num">0 of 2</td><td class="num"><span class="bad">16%</span> <span class="dim">(1 of 8 over all real trials)</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The clearest example of writing the tests by observing came on drone&nbsp;C. The world-model agent went from 50% to 97% in a single real trial by spending the entire 19.4-second window hovering and logging every other aircraft&rsquo;s trajectory before changing anything about its controller. We expected it to fly. Instead, it watched, and from what it saw it wrote its tests.</p>
+
+<details class="note">
+<summary>Are the seeds the agents observed on easier than the evaluation seeds?</summary>
+<div class="note-body">
+<p>A natural worry is that the seeds the agents flew their real trials on are systematically easier. We checked this. The same program versions score comparably on seeds 0&ndash;99 as on 1000+ and 5000+. The CaP agent&rsquo;s submitted Push-T controller scored 16%&thinsp;/&thinsp;20%&thinsp;/&thinsp;22% across those three ranges. On mission&nbsp;C the CaP agent scored 52%&thinsp;/&thinsp;49%&thinsp;/&thinsp;48%. The world-model agent on mission&nbsp;C scored 92%&thinsp;/&thinsp;98%&thinsp;/&thinsp;95%. The gap between what the agents saw on their observation trials and what the evaluator measured comes from the gap between a handful of samples and the underlying distribution.</p>
+</div>
+</details>
+
+<h2 id="sec-bench">3. Policy evaluation in the world model: predicted and real success correlated at r = 0.97</h2>
+
+<p>The world model serves as a simulator for policy evaluation: each candidate program is scored by running it over many simulated episodes, and the scores correlate with real performance (34 programs, mean error 5.2 points, r&nbsp;=&nbsp;0.974). Our code-as-world-model agent writes the world as a small Python file, fits the parameters to its real-episode logs, and tests its controller inside the world model, running millions of simulated steps for every real trial.</p>
+
+<p>On <strong>mission&nbsp;C</strong>, our agent&rsquo;s first real trial was pure observation. We watched it hover at the starting position for the full 19.4-second time window and logged every other aircraft&rsquo;s trajectory. From those logs, our agent wrote four behaviour types into its world model (shuttlers along and across the canyon, wanderers hopping between random waypoints, and chasers that approach when disturbed), with spawn ranges and motion parameters set slightly wider than what it had observed. In the world model it discovered that every behaviour type except a chasing guard stays between 1.6 and 3.6&nbsp;m altitude, and synthesised a route at 4.8&nbsp;m with steep descents to each checkpoint. In-world testing: its mission-A controller scored 22&ndash;37%, the altitude lane alone 78&ndash;84%, and lane plus avoidance and tuning reached 94%. Deployed: <span class="good">98%</span> held-out, <span class="good">95%</span> re-test.</p>
+
+<figure class="wide" id="fig-4">
+<video src="media/drone_c.mp4" poster="media/drone_c_poster.png" muted loop playsinline preload="metadata"></video>
+<figcaption><strong>Figure 5.</strong> Four controllers on the same mission-C episode. Other aircraft are drawn as magenta spheres. Stock autopilot crashes. Code-as-policy with 5&nbsp;real trials crashes. Code-as-policy with 20&nbsp;real trials finishes. The code-as-world-model agent with 5&nbsp;real trials finishes by climbing over the traffic and diving to each checkpoint.</figcaption>
+</figure>
+
+<p>On <strong>Push-T</strong>, our agent used two of its four real trials for scripted exploratory pushes, then fit the centre of mass from the observed motion. We were surprised by the accuracy: it estimated <strong>(24.1, 30.0)</strong>. The truth was (24.0, 30.0), off by 0.1 units. Our CaP agent estimated roughly (3, 44), about 25&nbsp;units from the truth. Our world-model agent then spent about 173&nbsp;million simulated steps in the world model tuning its sampling planner.</p>
+
+<p>On <strong>Push-L</strong> (a new L-shaped block, 2&nbsp;real trials), our world-model agent carried over its Push-T world, swapped in the L&nbsp;geometry from the instrument manual, and refitted the centre of mass at (23.4, 55.6) against a true (23.0, 55.5), again within a unit. It also discovered a contact friction that the T&nbsp;block did not have, estimating 0.4 against a true pair coefficient of 0.36.</p>
+
+<figure class="wide" id="fig-altitude">
+<!--ALTITUDE-->
+<figcaption><strong>Figure 6.</strong> Altitude versus distance along the canyon for one real mission-C episode (evaluation seed&nbsp;1000). Grey dots mark the other aircraft (between 1.7 and 4.1&nbsp;m in this episode). The code-as-world-model agent&rsquo;s controller (blue) climbs to about 5&nbsp;m and drops to each checkpoint. The code-as-policy program with 20&nbsp;real trials (solid black) stays between 1.2 and 2.5&nbsp;m. The 5-trial program (dashed black, cross) crashes.</figcaption>
+</figure>
+
+<h3>Sim-to-real correlation: close on the drone, divergent on pushing and Doom</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Task</th><th class="num">Predicted</th><th class="num">Actual</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>Drone A</td><td class="num">95.7%, 8.0&nbsp;s</td><td class="num">98%, 8.03&nbsp;s</td><td>Close</td></tr>
+<tr><td>Drone B</td><td class="num">99.6%, 10.78&nbsp;s</td><td class="num">100%, 11.28&nbsp;s</td><td>Close</td></tr>
+<tr><td>Drone C</td><td class="num">94.3%, 10.35&nbsp;s</td><td class="num">98%, 10.34&nbsp;s</td><td>Slightly pessimistic; re-test 95%</td></tr>
+<tr><td>Push-T</td><td class="num">100% <span class="dim">(91% w/ jitter)</span></td><td class="num">83% <span class="dim">pooled</span></td><td>17 pts optimistic</td></tr>
+<tr><td>Push-L</td><td class="num">94%</td><td class="num">66% <span class="dim">pooled</span></td><td>28 pts optimistic; 9/14 failures hit wall</td></tr>
+<tr><td>Doom</td><td class="num">91% survive to 24k</td><td class="num">26% did</td><td>1.6&times; optimistic</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>On the drone the tests were within a few points of reality. On pushing they over-predicted success by 17&ndash;28 points, and on Doom by 1.6&times;. Even so, our tests separated controllers that looked identical after five real trials.</p>
+
+<p>We asked whether the tests could evaluate programs they had never seen during their own development. We took every code-as-policy version from every task, 34 programs in all, and ran each through the world model. Our world model had been fitted to the world-model agent&rsquo;s own observation-trial logs. With one exception (the pushing world-model agent had seen, in one program&rsquo;s docstring, the held-out result of Push-T v5 at 10/50), it had never seen any code-as-policy program or its performance.</p>
+
+<figure class="wide" id="fig-judge">
+<!--JUDGE-->
+<figcaption><strong>Figure 7.</strong> Five small panels, one per task. In each panel the x-axis is the program version in the order written. The solid line with dots is the true success rate (reality, unseen seeds). The dashed line with squares is the world model&rsquo;s prediction. A ring marks the submitted version. Mean absolute error&nbsp;=&nbsp;5.2 percentage points, r&nbsp;=&nbsp;0.974.</figcaption>
+</figure>
+
+<p>Across five tasks, our tests&rsquo; predictions tracked reality with a mean absolute error of 5.2 percentage points and a Pearson r of 0.974. Task by task: drone&nbsp;A 0.6&nbsp;pts MAE (5 programs), drone&nbsp;C 4.2&nbsp;pts (9 programs), Push-T 5.1&nbsp;pts (8 programs), Doom 5.1&nbsp;pts (5 programs, using the fraction surviving 750&nbsp;game ticks). Push-L is the worst at 10.1&nbsp;pts MAE with one prediction off by 22 points. The world model under-predicted success for five of its seven versions, matched one (v10: 8% vs 8%) and over-predicted one by 4 points (v11: 14% vs 10%).</p>
+
+<p>On the pushing tasks alone (15 programs, 3,000 simulated episodes in 19&nbsp;s), our world model tracked changes closely: Push-T version&nbsp;4 scored 98% in reality and 97% in the world model, while version&nbsp;5 scored 20% and 25.5%. Our screening was retrospective. The places our tests were used during the work are the CaP-in-world-model runs (Section&nbsp;4), where in both tasks the tests showed the agent that its last fix had made the program worse.</p>
+
+<blockquote class="pull"><p>The code-as-policy agent wrote strong programs but had no tests to select the best version. The world-model tests ranked all 34 programs with a mean absolute error of 5.2 percentage points (r&nbsp;=&nbsp;0.974).</p></blockquote>
+
+<h3>Sim-to-real gap: the tests over-predicted success on pushing and Doom</h3>
+
+<p>Our tests are an approximate verifier. They over-predicted absolute success on pushing, Doom and the rope: 17 points optimistic on Push-T, 28 on Push-L, 1.6&times; on Doom, and 100% predicted against 32% real on the rope&rsquo;s first controller. On Push-L our ranking is the worst of all tasks (MAE 10.1, largest error 22 points). On the rope our tests as a program-level evaluator are untested in a meaningful range, because nearly all programs scored 0&ndash;2%. What our tests did well was rank programs: the relative ordering held even where the absolute numbers were wrong. Section&nbsp;6 returns to the gap between predicted and real success on the rope.</p>
+
+<h2 id="sec-hybrid">4. Real-to-sim-to-real: the improvement transferred with no additional real trials</h2>
+
+<p>The agent builds a small simulation from real trials, improves the policy inside it, and the improved policy transfers back with zero additional real trials. This is a real-to-sim-to-real loop (<a href="https://arxiv.org/abs/2403.03949">Torne et&nbsp;al., 2024</a>), except the simulation is a Python file the agent writes itself. We gave the CaP agent the world model the world-model agent had already built, and let it validate each program version against tens of thousands of simulated episodes, with no additional real episodes.</p>
+
+<p>On <strong>drone mission&nbsp;C</strong>, we ran about 22,650 simulated episodes in 157&nbsp;s with zero additional real episodes. Held-out evaluation on 100&nbsp;real episodes (seeds 1000&ndash;1099): <span class="good">95%</span>, mean time 9.86&nbsp;s. Re-test on unseen seeds 5000&ndash;5099: <span class="good">95%</span>, mean 9.68&nbsp;s. For comparison, the same agent with 5&nbsp;real trials scored 49%, with 20&nbsp;real trials 76%. Our world-model agent&rsquo;s own controller scored 98% held-out and 95% re-test.</p>
+
+<p>On <strong>Push-L</strong>, our code-as-policy agent with 2&nbsp;initial real trials scored 16%. Given the world model (carried over from Push-T, where it had used 4&nbsp;real trials, and refitted for the L&nbsp;block with the world-model agent&rsquo;s 2&nbsp;Push-L real trials), we ran about 20,800 simulated episodes in 249&nbsp;s with zero additional real episodes. It scored <span class="good">84%</span> on 50&nbsp;held-out episodes (seeds 1000&ndash;1049) and <span class="good">80%</span> on re-test seeds 5000&ndash;5049. Our world-model agent&rsquo;s own controller scored 72% held-out and 62% re-test. A planner given the real simulator (the oracle planner) scores 80% on Push-L. CaP with the world model scored higher than either method alone.</p>
+
+<p>In both tasks, our tests caught a regression: our agent&rsquo;s last fix from real flights had made the program worse. Code as Policies wrote the controller structure. Our world model provided the test suite it needed to select the right version.</p>
+
+<h2 id="sec-cable">5. Closed-loop feedback and long-tail failures: a reactive policy was enough, and the tests still exposed rare failures</h2>
+
+<p>When a live reading of the quantity that defines failure is available, a reactive feedback policy is enough and a model adds nothing to success. But a few successful real trials can hide long-tail failures: testing over many simulated layouts exposed failure cases that five real successes had missed. We added a task with a deformable cable about 1&nbsp;m long on a table, routed around three posts. A force reading is reported at every step, and exceeding the limit fails the episode. We hid three changes from the agents that make pulling quickly overload the cable. Layouts differ in every episode.</p>
+
+<details class="note">
+<summary>Cable task details</summary>
+<div class="note-body">
+<p>Simulated in MuJoCo as a chain of elastic segments. One end is clamped and the other held by a tool (2-d position commands at 20&nbsp;Hz, speed limited to 0.30&nbsp;m/s). The cable must end up on a prescribed side of each post (a winding-angle rule), with the tool coming to rest within 2&nbsp;cm of a target. Force limit 10&nbsp;N. Time limit 30&nbsp;s.</p>
+<p>Hidden changes: bending stiffness 3&times; nominal, cable&ndash;post friction 1.0 instead of 0.3, and viscous drag against the table (90&nbsp;N&middot;s/m per metre of cable, nominal zero).</p>
+</div>
+</details>
+
+<p><strong>The agents were not told what the setup is.</strong> The manual calls it an &ldquo;installation&rdquo; and documents only the interface (twenty tracked points, a tool, three posts, a load reading, the success rule), with no images and one field note saying it &ldquo;fights back&rdquo; when you hurry. Our agents filed a written hypothesis before their first real trial and both got it right from the data, describing an inextensible cable of about 0.99&nbsp;m held by the tool and identifying it as a cable-routing task where the load grows with speed and wrapping.</p>
+
+<figure class="wide" id="fig-cable">
+<video src="media/station.mp4" poster="media/station_poster.png" muted loop playsinline preload="metadata"></video>
+<figcaption><strong>Figure 8.</strong> Three panels, same real episode (seed&nbsp;1000), 2&times; speed. The existing constant-speed program overloads at 11.0&nbsp;s. The code-as-policy program finishes in 10.8&nbsp;s with peak load 5.1&nbsp;N. The world-model agent&rsquo;s controller finishes in 20.2&nbsp;s with peak load 4.4&nbsp;N.</figcaption>
+</figure>
+
+<p>Our CaP agent with 5&nbsp;real trials scored 50/50 on both held-out and re-test seeds, setting its speed from the live load reading from its first program (full speed below 4&nbsp;N, stop at 7&nbsp;N, back off above 8.5&nbsp;N). Mean peak load was 5.0&nbsp;N against the 10&nbsp;N limit. Our world-model agent with 3&nbsp;real trials also scored 50/50 held-out and 49/50 unseen, with a 13,870-byte world model. A control CaP agent starting with no record of the cable in motion (the 10&nbsp;logged episodes removed) reached 47/50&nbsp;=&nbsp;94%, also using the live reading from its first program. Its three failures are time-outs from a geometric bug.</p>
+
+<p>The task turned out easy because the live load reading let all three agents build a reactive speed rule: slow down when the cable pulls, stop when it pulls hard. The hidden physics became irrelevant. Even our control CaP agent, starting with no record of the cable in motion, reached 94% from the reading alone. Where our tests mattered was as a bug-finder: our cable world scored 23&nbsp;programs to within 5.2&nbsp;percentage points on average (r&nbsp;=&nbsp;0.980) and predicted three programs&rsquo; outcomes on 150 of 150 episodes. Five successful real trials had not revealed a 6&ndash;12% failure rate. The tests did.</p>
+
+<details class="note">
+<summary>Cable routing: full results and analysis</summary>
+<div class="note-body">
+<h3>Three approaches to the cable task: feedback control, open-loop programs and world-model verification</h3>
+
+<p><strong>Code as Policies (5&nbsp;real trials, 50/50).</strong> The CaP agent wrote its first program before any real trial of its own, with the logs of 10&nbsp;episodes by an existing program in hand. The program follows a tight path around the posts and sets the tool speed from the live load reading (full speed below 4&nbsp;N, stop at 7&nbsp;N, back off above 8.5&nbsp;N). All five real trials succeeded. Version 2 pulled the path tight. Version 3 added two safety rules that never fired. Held-out evaluation 50/50. Re-test on unseen seeds 5000&ndash;5049: 50/50. All three versions score 50/50 on seeds 6000&ndash;6049. Mean peak load 5.0&nbsp;N against the 10&nbsp;N limit. Mean episode 171&nbsp;steps (8.5&nbsp;s).</p>
+
+<p><strong>Code-as-world-model (3&nbsp;real trials, 50/50 held-out, 49/50 unseen).</strong> The world-model agent used 3 of its 5&nbsp;real trials. Its world model (a 20-node spring-damper chain with bending stiffness, viscous and Coulomb drag, post collisions, and a tool servo model) is 13,870&nbsp;bytes. Held-out evaluation 50/50. Re-test on each of two unseen sets (5000&ndash;5049 and 6000&ndash;6049): 49/50. The world-model agent&rsquo;s controller is slower, averaging 350&nbsp;steps (17.5&nbsp;s).</p>
+
+<p><strong>Control: Code as Policies without the free logs (5&nbsp;real trials, 94%).</strong> A fresh CaP agent got only the manual and the 200&nbsp;static scene snapshots. The 10&nbsp;logged episodes and the earlier agents&rsquo; programs and logs were removed from the project. Its hypothesis before the first real trial again identified a cable of about 1&nbsp;m. All five real trials succeeded, the first one included (163&nbsp;steps, peak load 5.12&nbsp;N). No real trial and no evaluation episode ever overloaded. This agent also set its speed from the live load reading from the first program on. Held-out evaluation of its submitted program (v2): <strong>47/50&nbsp;=&nbsp;94%</strong>. The three failures are time-outs from a bug in its path sampling that freezes the commanded point on certain layouts. Unseen seeds: 49/50 (5000&ndash;5049) and 50/50 (6000&ndash;6049).</p>
+
+<h3>Reactive feedback policy: a force reading makes the model unnecessary for success</h3>
+
+<p><strong>The live load reading.</strong> The quantity that defines failure (the load) was fed live to the controller, and nothing forced the controller to hurry. A reactive rule on the load reading makes the hidden physics irrelevant. The controller slows down when the cable pulls, stops when it pulls hard, and backs off if it pulls harder. The control CaP agent, which started with no record of the cable in motion, reached 94% from the live reading alone.</p>
+
+<p><strong>The cable bears on about one post.</strong> The success rule asks only that the cable pass each post on a prescribed side, and every layout leaves 14&ndash;29&nbsp;cm of slack. As a result the cable ends a successful episode in contact with 1.16 of the 3&nbsp;posts on average for the code-as-policy program (1.02 for the world-model agent, 1.03 for the environment&rsquo;s informed controller, 1.14 for the constant-speed program). At most about 1.3 posts bear load at the same moment. The hidden post friction and the compounding of friction over several posts are therefore rarely exercised. The hidden effect that matters is the drag that grows with speed.</p>
+
+<p><strong>Speed and path do most of it.</strong> The code-as-policy program&rsquo;s speed is capped at 10&nbsp;cm/s (mean 8.4) against the constant-speed program&rsquo;s 15&nbsp;cm/s. Its path is pulled tight, 0.72&nbsp;m on average against 1.06&nbsp;m, so less cable is dragged. It slows between 4 and 7&nbsp;N, which it does for 37% of the episode. It never exceeds 7&nbsp;N (mean peak 5.0&nbsp;N, highest 5.7&nbsp;N). The constant-speed program&rsquo;s mean peak is 10.5&nbsp;N. The environment&rsquo;s open-loop program at a constant 10&nbsp;cm/s and 6.5&nbsp;cm clearance from the posts already succeeds in 84% of unseen episodes. The load feedback closes the rest.</p>
+
+<h3>Starting conditions: both agents had free logs, and the environment&rsquo;s reference scored 78%</h3>
+
+<p><strong>The environment&rsquo;s &ldquo;informed&rdquo; controller (78%) is a conservative reference. A faster policy would score higher.</strong> It fails by being slow. Mean tool speed is 4.5&nbsp;cm/s, 417&nbsp;steps on average. 10 of 50 episodes did not finish within the 30&nbsp;s limit (3 of them with a post still on the wrong side). One overload came from a 38&nbsp;N spike when the tool snagged.</p>
+
+<p><strong>Both agents started with the full step logs of 10&nbsp;episodes run by an existing program</strong> (load trace included, 8 of them failures), twice the trial budget in ready-made examples. In every other task the agents started with no record of the system in motion. The control experiment above (94%, five real trials, no overload, logs removed) shows that the free logs were not what made the task easy. The live reading was.</p>
+
+<h3>Short-horizon prediction accuracy of the cable world model</h3>
+
+<p>On logs it was not fitted to, the marker position error is 2.8, 8.7 and 20.5&nbsp;mm after 5, 20 and 60&nbsp;steps. A &ldquo;cable stays still&rdquo; baseline gives 7.5, 27 and 64&nbsp;mm. Load error is 0.26, 0.31 and 0.37&nbsp;N. The agent stated its own weak spot. Replaying the commands of the 10&nbsp;observation episodes, it reproduces only 3 of the 10 outcomes. Most end within half a newton of the 10&nbsp;N limit, and it under-predicts the spike when the tool snags on a post and lurches free (7.3&nbsp;N predicted against 21&nbsp;N real in one episode).</p>
+
+<h3>Coverage: the tests found failure cases the real trials had missed</h3>
+
+<p>Because both agents&rsquo; programs were at or near 100%, we added a spread of weaker programs to test the evaluator. These are the environment&rsquo;s open-loop program (tight path, one constant speed, no load feedback) at 8&nbsp;speeds &times;&nbsp;2&nbsp;clearances from the posts. Each was run on 50&nbsp;unseen real episodes (seeds 6000&ndash;6049) and independently scored in the world model from the reset readings of those same episodes (looking is free, zero real steps, the world-model agent never saw the outcomes). Mean absolute error <strong>6.0 points</strong>. 10 of 20 within 5&nbsp;pts, 16 of 20 within 10. Worst case 22 points (6.5&nbsp;cm clearance at 12&nbsp;cm/s: 60% real, 38% predicted). <strong>r&nbsp;=&nbsp;0.976</strong>. The predicted and real outcome agree in 916 of 1,000 individual episodes (91.6%). The world reproduces both failure modes. At 9&nbsp;cm clearance the real success rates at 4, 6, 8, 10, 12, 15, 20, 25&nbsp;cm/s are 16, 80, 82, 80, 58, 22, 4, 0% and the predictions 18, 90, 88, 68, 44, 18, 10, 6%. Too slow runs out of time, too fast overloads. We chose the 16 open-loop programs. No agent wrote them. The world had been fitted on logs of this same program at one setting (9&nbsp;cm, 15&nbsp;cm/s), on other episodes. This result is separate from the 34-program screening in Section&nbsp;3.</p>
+
+<figure class="wide" id="fig-station">
+<!--STATION-->
+<figcaption><strong>Figure 9.</strong> Three panels. Left and centre: the open-loop program&rsquo;s success rate against tool speed at 9&nbsp;cm and 6.5&nbsp;cm clearance from posts. Solid line with dots is the real rate, dashed line with squares the world model&rsquo;s prediction. Right: the four programs the agents wrote.</figcaption>
+</figure>
+
+<p><strong>The control CaP agent&rsquo;s three programs.</strong> The control CaP agent&rsquo;s five real trials all succeeded, yet its programs were not equally good. Selecting the best required more than five successful trials. On the held-out evaluation seeds, v1 (flown once, succeeded) scores <strong>44/50</strong>. V2 (flown four times, all succeeded, submitted) scores <strong>47/50</strong>. V3 (the fix it wrote after seeing the evaluation failures, never flown, not submitted) scores <strong>50/50</strong>. We gave the three programs to the cable world model, written by the other agent, which had never seen them. Each simulated episode started from the reset reading of the corresponding evaluation episode, with zero real steps. The world model predicted 44/50, 47/50 and 50/50. It named exactly the episodes that failed in reality: seeds 1029, 1033, 1046 for v2, and those three plus 1038, 1039 and 1043 for v1. That is 150 of 150 episode outcomes correct. On unseen seeds 6000&ndash;6049 the world likewise matched all three (49/50, 50/50, 50/50 real and predicted, same failing episode). These failures are geometric bugs in the program (a path the tool cannot follow), not subtle physics. The agent noted that a static verification over the 200&nbsp;snapshots would also have found the v2 bug. The point is the same as on Push-T at a smaller scale. Five successful flights did not show a 6&ndash;12% failure rate. Running the program on many simulated episodes did.</p>
+
+<p>With these three programs the cable world has now evaluated 23 programs on seeds 6000&ndash;6049: mean absolute error 5.2 points, worst 22, r&nbsp;=&nbsp;0.980.</p>
+
+<h3>Where the tests add nothing: closed-loop feedback makes the controller self-correcting</h3>
+
+<p>With the live load reading, the load stopped being a source of failure. A reactive speed rule made the hidden physics irrelevant. Even the control CaP agent, which started with no record of the cable in motion, reached 94% from the reading alone. The world model had nothing to add to the controller. What remained were ordinary program bugs, geometric path errors that never triggered during five successful real trials but failed on certain layouts. The world model still predicted all three programs&rsquo; outcomes on 150 of 150 episodes and identified the failing seeds by name.</p>
+
+<p>The world model&rsquo;s value in this post is tied to the condition identified in Section&nbsp;2. Episodes differ, and telling program versions apart requires more trials than the budget allows. Where a live reading lets a program correct itself in every episode, that condition is largely absent for the physics but not for the geometry. What the cable task does add is that both agents identified an undescribed deformable object from logs alone. A 14&nbsp;KB world model of it was written from the observation logs and 3&nbsp;real trials. That world evaluated 23 programs to within 5.2 points on average.</p>
+</div>
+</details>
+
+<h2 id="sec-rope">6. Model-predictive control: a fraction-of-a-second forecast was enough when the controller re-planned from observations</h2>
+
+<p>On a chaotic, contact-rich deformable task, a model accurate only over a short horizon, combined with sampling-based MPC and domain randomisation over model parameters, was enough where editing a fixed program from real trials alone was not. The cable task was quasi-static, slow, correctable, with every sensor reading available in real time. We designed the rope task as the opposite. A rope lies on a table and the agent must fling its free end past a post into a target disc that the tool cannot reach. There is no force reading and no slow path to the goal. We hid the rope&rsquo;s physical parameters from both agents. Neither agent was told what the setup is. The manual&rsquo;s field note, verbatim: &ldquo;the people who run this installation say you get one go at it, and that doing it slowly gets you nowhere. Nobody has written down why. They also say that a small change in how you do it changes where it ends up.&rdquo;</p>
+
+<details class="note">
+<summary>Rope task details</summary>
+<div class="note-body">
+<p>The rope is 0.70&nbsp;m long and 1&nbsp;cm thick, one end held by a tool that can move only inside a 0.25&nbsp;&times;&nbsp;0.40&nbsp;m zone. A post (radius 3&nbsp;cm) stands 0.40&ndash;0.56&nbsp;m from the zone centre, and the target is a disc of radius 0.10&nbsp;m centred 0.12&nbsp;m behind the post. Success requires the whole rope and the tool at rest (every tracked point moving at most 0.02&nbsp;m/s) with the free end inside the disc, within 236&nbsp;steps (4.72&nbsp;s) at 50&nbsp;Hz. Readings are 20 tracked points, tool position and velocity, post and target. Tool limits are 4&nbsp;m/s and 60&nbsp;m/s&sup2;.</p>
+<p>Hidden parameters: bending stiffness 2.0e&minus;3&nbsp;N&middot;m&sup2;, table friction 0.10, post friction 0.25, 56&nbsp;g of rope plus a 30&nbsp;g weight on the free end, viscous drag.</p>
+</div>
+</details>
+
+<p>Unlike the cable task, where both agents were given 10 logged episodes free, no recording of the setup in motion existed for anyone. Our agents had only the manual, 200 static snapshots and 5&nbsp;real trials. Two things the readings give away: the points&rsquo; height (0.005&nbsp;m) reveals the rope&rsquo;s radius, and the snapshots are taken 0.8&nbsp;s after release, so the rope is not at rest in them.</p>
+
+<figure class="wide" id="fig-rope">
+<video src="media/annex.mp4" poster="media/annex_poster.png" muted loop playsinline preload="metadata"></video>
+<figcaption><strong>Figure 10.</strong> Four programs on the same real episode (evaluation seed 1000), the lowest evaluation seed on which each panel shows that program&rsquo;s most common outcome. Top left: Code as Policies agent, 19&nbsp;real trials, 0/50 (at rest 1.12&nbsp;m from the target). Top right: Code-as-world-model agent, first model, 4&nbsp;real trials, 16/50 (still moving at the time limit, 0.11&nbsp;m from the target). Bottom left: Code-as-world-model agent, revised model, 20&nbsp;real trials, 39/50 (at rest inside the target after 2.22&nbsp;s). Bottom right: Oracle planner (true simulator), no real trials, 42/50 (at rest inside after 1.94&nbsp;s).</figcaption>
+</figure>
+
+<p>The difference between the two approaches here was qualitative. Across 19 program versions, editing from real trials never produced a throw that came to rest in the target on more than 1 of 50 episodes (Code as Policies scored 2% at 5&nbsp;real trials, 0% at 19). The agent learned true things about the reversal, the stroke threshold and the follow-through, but the gains on one layout did not transfer to others. Testing each throw in the world model before executing it produced a working controller: our code-as-world-model agent scored 32% at 4&nbsp;real trials with its first world (14,313&nbsp;bytes), then 39 of 50 episodes (78%) at 20&nbsp;real trials with a revised world (16,069&nbsp;bytes) that added speed-dependent friction and inextensible-link energy loss. That is three episodes short of the oracle planner&rsquo;s 84%, and 78% again on re-test seeds. We found that the world never became accurate to a few percent: our revised world&rsquo;s far-end error was 1.2&nbsp;/&nbsp;5.8&nbsp;/&nbsp;17.4&nbsp;cm at 5&nbsp;/&nbsp;20&nbsp;/&nbsp;60 steps. What worked was a model good for a fraction of a second, re-planning every 0.16&nbsp;s from the live reading across six perturbed copies. Our tests did not need a perfect model of a hard system. They needed only a short-horizon forecast, re-run as the system moved.</p>
+
+<details class="note">
+<summary>Rope task: full results and analysis</summary>
+<div class="note-body">
+<h3>Sensitivity to initial conditions: a one-shot throw with no feedback</h3>
+
+<p>On the cable task a live load reading let a program go slowly and brake. Here nothing can be done slowly and there is one throw. The environment&rsquo;s own measurements confirm the sensitivity. Changing each parameter of a successful throw by up to &plusmn;5% moves the landing point by 6.5&nbsp;cm (median, 17&nbsp;cm at the 90th percentile) against a 10&nbsp;cm target radius, and the throw still succeeds 36% of the time. Starting from the exact physics but rebuilding the state from the 20-point reading instead of copying it gives 17% (4/24), open loop. Moving every vertex by one micrometre makes 2 of 7 successful plans fail, their landing points moving 14&ndash;18&nbsp;cm.</p>
+
+<p>The oracle planner searches for a throw inside the real simulator, per episode (up to 1,000 trial throws), and scores <strong>42/50 (84%)</strong>. A planner using a copy of the simulator with every physical parameter wrong by &plusmn;10%, planning once, scores 12&ndash;14%. The same planner re-planning every 15&nbsp;steps from live readings scores 50&ndash;62.5% (about 1,100 simulated throws per episode). Exact physics, exact starting state, planning once: 42/50 on the 50 evaluation episodes. On 24 tuning episodes (where the oracle planner scores 47/50), exact physics with the starting state rebuilt from the reading gives 4/24. No slow strategy works. The best per-episode strategy at 0.2&nbsp;m/s, searched inside the real simulator, scores 1/50.</p>
+
+<h3>Open-loop policy search from real trials: overfitting to one layout</h3>
+
+<p>Before its first real trial the agent wrote that the setup is &ldquo;a flexible rope/cable&nbsp;&hellip; about 0.70&nbsp;m long and ~1&nbsp;cm thick&rdquo; to be thrown so its free end comes to rest in the disc (hypothesis file written before real trial&nbsp;1). Five initial real trials, 1,180 real steps, all failures. The free end landed 0.62&ndash;1.16&nbsp;m from the target. Submitted program v6 (3,603&nbsp;bytes) executes a full-rate stroke towards an aim point beside the post, an immediate reversal, then holds. Held-out evaluation: <strong>1/50 (2%)</strong>. Of the 50 episodes, 47 ended at rest outside the target and 2 were still moving at the time limit. Median distance of the free end from the target was 0.99&nbsp;m.</p>
+
+<p>Extended to 19&nbsp;real trials (4,484 real steps), versions v7&ndash;v19. Ten of those real trials were flown on one layout so that each change could be tested in isolation (the environment is deterministic). On that layout 7 of 8 throws with a stroke of at least 0.23&nbsp;m carried the free end within 0.05&ndash;0.14&nbsp;m of the target centre, but it never came to rest there. The rope either turned over and recoiled past the tool or grazed the post and collapsed. The agent reports a sharp stroke threshold. A stroke of 0.12&nbsp;m produces nothing, 0.20&nbsp;m lands 0.26&nbsp;m short, and 0.25&ndash;0.27&nbsp;m reaches the target. Final program v19 (8,973&nbsp;bytes): <strong>0/50</strong>, median 1.00&nbsp;m. An intermediate evaluation after 6&nbsp;real trials (v7) gave 1/50. Unseen episodes (seeds 5000&ndash;5049): v6 0/50, v19 0/50. All 19 versions on the evaluation episodes score between 0/50 and 1/50 each.</p>
+
+<p>The agent learned true things about the reversal, the stroke threshold, and the follow-through. On one layout it sent the free end through the target 7 times in 8. The free end did not come to rest in the target, and the gains on that layout did not transfer to other layouts.</p>
+
+<p>On the pushing and drone tasks the world model verified programs to determine which version to deploy. Here, no version was worth choosing because all 19 scored 0&ndash;2%. The same kind of world model can verify candidate <em>actions</em> instead, using model-predictive control (MPC). Every 8&nbsp;steps the controller scores 64 candidate throws in 6 perturbed worlds (384 rollouts, up to 120&nbsp;steps or 2.4&nbsp;s ahead) and executes the best. The first plan uses 5 rounds of this search.</p>
+
+<h3>Receding-horizon control: re-planning every 0.16 s with domain randomisation</h3>
+
+<p>Before its first real trial it wrote that the setup is an inextensible rope lying on the table with Coulomb friction, to be flung past the post. Four of its 5 initial real trials were used (944 real steps). Real trial&nbsp;1 was an observation script (hold, slow drag, step, wind-up, fling). Real trials 2&ndash;4 flew successive controllers end to end. All four failed (0.98, 0.75, 0.13, 0.58&nbsp;m from the target).</p>
+
+<p><strong>First world:</strong> one file of 14,313&nbsp;bytes, a planar chain of 20 point masses with stretch springs, bending stiffness and damping, table friction and drag, post contact and the tool&rsquo;s servo. It has 11&nbsp;parameters fitted to its real trials. Two things changed in the agent&rsquo;s picture after those trials. Elasticity dominates: with the tool still, the rope&rsquo;s kinetic energy rose while its bending relaxed. The rope is still moving at the reset reading (about 0.25&nbsp;m/s), so the snapshots are not rest shapes.</p>
+
+<p><strong>First controller:</strong> sampling-based planning over a throw (wind-up, throw, hold), evaluated in 4 perturbed worlds with parameters randomised by &plusmn;25%, re-planned every 8&nbsp;steps (0.16&nbsp;s) from the live reading, command speed capped at 3&nbsp;m/s, one re-throw allowed. About 0.4&nbsp;s of compute per step. Before the held-out evaluation its world predicted 24/24 (100%). It added in writing that the real figure would be far lower. Real: <strong>16/50 (32%)</strong>. Of the 50 episodes, 9 were at rest outside the target and 25 were still moving at the time limit. Median distance 0.14&nbsp;m.</p>
+
+<p>It measured the task&rsquo;s sensitivity inside its own world (12&nbsp;situations, the controller&rsquo;s commands replayed open loop): one parameter off by 3% moves the landing point by 2.3&nbsp;cm (median). Adding 0.1&nbsp;mm of noise on the starting positions moves it by 1.5&nbsp;cm (median, 11&nbsp;cm at the 90th percentile) and success drops from 11/12 to 9/12. At 1&nbsp;mm the landing point moves 12&nbsp;cm and success drops to 4/12.</p>
+
+<p><strong>Extended run (20&nbsp;real trials total, 3,766 real steps):</strong> four real trials of scripted strokes at 1&ndash;4&nbsp;m/s with long holds. They showed that after a stroke the rope curls and keeps moving elastically for more than 70 steps, and that friction is low at low speed. <strong>Revised world</strong> (16,069&nbsp;bytes), with two added mechanisms. The first is friction that depends on speed (fitted 0.28 at speed, 0.09 below about 0.7&nbsp;m/s). The second is nearly inextensible links that lose energy when they snap taut. Each mechanism accounts for about half of the gain. On two exploratory trials held out from fitting, the free-end error after 60&nbsp;steps went 24.6&nbsp;&rarr;&nbsp;19.3&nbsp;&rarr;&nbsp;14.5&nbsp;cm.</p>
+
+<p>Final controller: the same structure planning in the revised world, 6&nbsp;perturbed worlds randomised by &plusmn;35%, re-planned every 8&nbsp;steps. Flown for real on 12&nbsp;real trials before evaluation, of which 9 succeeded. The last five were trials of the frozen controller (4/5 successful). About 2&nbsp;s of compute per 0.02&nbsp;s step. Prediction before the extended evaluation: 65% (it would not be surprised by 45&ndash;80%), taken from the 9/12 real trials and shaded down. Its world&rsquo;s own prediction under &plusmn;15% parameter perturbations was 10/10. It wrote that it was deliberately not using that number.</p>
+
+<p>Extended evaluation: <strong>39/50 (78%)</strong>. Of the 11 failures, 7 were at rest outside the target and 4 were still moving. Median distance 0.088&nbsp;m. Unseen episodes (seeds 5000&ndash;5049): <strong>39/50 (78%)</strong>, every episode within 0.2&nbsp;m. Three episodes short of the oracle planner (42/50).</p>
+
+<h3>Prediction accuracy: 0.4 s ahead within about 6 cm</h3>
+
+<p>The world never became accurate to a few percent, and by the environment&rsquo;s and the agent&rsquo;s own measurements even exact physics started from the 20-point reading succeeds in only 17% (4/24 tuning episodes) open loop. On three controller real trials that neither world was fitted to, the first world&rsquo;s errors were 3.0&nbsp;/&nbsp;13.7&nbsp;/&nbsp;40.4&nbsp;cm at 5&nbsp;/&nbsp;20&nbsp;/&nbsp;60&nbsp;steps. The revised world&rsquo;s errors were 1.2&nbsp;/&nbsp;5.8&nbsp;/&nbsp;17.4&nbsp;cm. The controller re-plans every 8&nbsp;steps. What worked was a model good for a fraction of a second, re-planning every 0.16&nbsp;s from what the rope actually did, and planning across six perturbed copies of the world model.</p>
+
+<p>The world model still overestimates itself. It predicted 100% against 32% real for the first controller, and 10/10 against 78% for the final one. The prediction that held (65% against 78%) came from real trials flown with the frozen controller. The agent never identified the 30&nbsp;g weight on the free end, which is roughly eleven times a tracked point&rsquo;s share of the rope&rsquo;s mass. Its fit pushed the free-end mass to the upper bound twice (2&times;, then 6&times;), and it recorded only that &ldquo;the inertia distribution is still not right.&rdquo;</p>
+
+<h3>Sim-to-real gap on the rope: the test suite is too easy to pass</h3>
+
+<p>The 19 code-as-policy programs run inside the first world from the reset readings, against their real results. Evaluation episodes: real 0&ndash;2% per program, predicted 0&ndash;6%. Mean error 0.9 points, largest 6. Unseen episodes: real 0&ndash;2%, predicted 0&ndash;10%. Mean error 2.7 points, largest 10. The agreement is cheap because nearly everything fails. Of 950 episodes on the evaluation seeds the world predicted 7 successes and reality had 2, none of them the same episode. Per episode, predicted and real distance of the free end correlate at 0.27, with a median difference of 0.11&nbsp;m, the size of the target.</p>
+
+<h3>Controls and methodology: what was hidden, what was given, what was measured</h3>
+
+<p>Hypothesis files predate each agent&rsquo;s first real trial. The held-out evaluation logs were not used for fitting or tuning by either agent. During the agents&rsquo; runs the cable task&rsquo;s programs, logs, world model and all write-ups were moved out of the project and locked. The rope left the table once (real trial&nbsp;2, a 0.4&nbsp;m reversing stroke at 4&nbsp;m/s, rising 0.27&nbsp;m). In the other 19 real trials it stayed flat. The planar world holds under the 3&nbsp;m/s cap.</p>
+</div>
+</details>
+
+<figure class="wide" id="fig-annex">
+<!--ANNEX-->
+<figcaption><strong>Figure 11.</strong> Left: success on the 50 evaluation episodes against real trials used. Code-as-policy scored 2% at 5&nbsp;real trials, 2% at 6, and 0% at 19. The code-as-world-model agent scored 32% at 4&nbsp;real trials and 78% at 20. Dashed line at 84% is the oracle planner. Middle: the same four submitted programs on 50 unseen episodes (seeds 5000&ndash;5049), scoring 0%, 0%, 48%, 78%. Right: error of the rope&rsquo;s far end predicted by the world model on real trials it was not fitted to, at 5&nbsp;/&nbsp;20&nbsp;/&nbsp;60 steps ahead. First world 3.0&nbsp;/&nbsp;13.7&nbsp;/&nbsp;40.4&nbsp;cm, revised world 1.2&nbsp;/&nbsp;5.8&nbsp;/&nbsp;17.4&nbsp;cm. The controller re-plans every 8&nbsp;steps.</figcaption>
+</figure>
+
+<h2 id="sec-26kb">7. Model size and interpretability: a few hundred lines of Python with named physical parameters</h2>
+
+<p>Each world model is a 14 to 26&nbsp;KB Python file with named physical parameters, readable and editable by both the agent and a human. Our agents wrote five test suites, one per system. Our drone world model (the largest) is a single Python file of 25,975&nbsp;bytes, about one thirtieth of the mission-C video on this page (807&nbsp;KB). It contains the quadrotor&rsquo;s equations of motion with a constant body-rate bias and a thrust deficit (how a weak rotor shows up through the inner loop). It also contains a wind field where each jet is a Gaussian profile along the canyon with terms for depth into the aisle and height, a checkpoint-sequence description, and, after mission&nbsp;C, four types of stochastic other-aircraft behaviour with spawn ranges and motion parameters. Our pushing world model is 14,344&nbsp;bytes covering both the T and L&nbsp;blocks: a rigid-body impulse model with fitted centres of mass, floor friction, restitution, contact friction for the L, and a pusher model. Our Doom world model is 16,599&nbsp;bytes: player kinematics, fireball spawning, imp placement, and a damage model. Our cable world model is 13,870&nbsp;bytes: a 20-node spring-damper chain with bending stiffness, viscous and Coulomb drag on the table, post collisions, and a tool servo model. Our rope world model went through two versions: 14,313&nbsp;bytes for the first and 16,069&nbsp;bytes for the revised version, which added speed-dependent friction and inextensible-link energy loss. Both are a planar chain of 20 point masses with stretch springs, bending stiffness and damping, table friction and drag, post contact and the tool&rsquo;s servo. We wrote five worlds in 14&ndash;26&nbsp;KB: our drone world drew on ten real trials across missions&nbsp;A and&nbsp;C, and the others on two to twenty per task.</p>
+
+<p>For comparison: PPO trained in reality needs between 1,137 and 3,065 real trials to cross 50% success on drone mission&nbsp;A, and with 14,811&nbsp;real trials it finishes in 3.0&nbsp;s. Our LLM agents finish in under 10&nbsp;s with 4&ndash;5&nbsp;real trials, while a learned neural dynamics model with 5&nbsp;real trials scored 0/50 on mission&nbsp;A. PPO with 5&nbsp;real trials averages 206 game ticks in Doom, and with 4,672&nbsp;real trials it reaches 1,716, still below the CaP agent&rsquo;s 2,385 at 5&nbsp;real trials.</p>
+
+<div class="table-wrap wide">
+<table>
+<thead>
+<tr><th>Task</th><th>Controller</th><th class="num">Real trials</th><th class="num">Held-out</th><th class="num">Re-test</th><th>Trained in</th></tr>
+</thead>
+<tbody>
+<tr><td rowspan="5">Drone A</td><td>Stock autopilot</td><td class="num">&mdash;</td><td class="num"><span class="bad">0%</span></td><td class="num"></td><td></td></tr>
+<tr><td>PPO</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num"><span class="bad">0%</span></td><td class="num"></td><td>Reality</td></tr>
+<tr><td>Neural dynamics</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num"><span class="bad">0%</span></td><td class="num"></td><td>Reality</td></tr>
+<tr><td>Code-as-policy</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num"><span class="good">100%</span></td><td class="num">100%</td><td>Reality</td></tr>
+<tr class="ours"><td>Code-as-world-model</td><td class="num"><span class="real trials" data-n="4"></span>4</td><td class="num"><span class="good">98%</span></td><td class="num">100%</td><td>World model</td></tr>
+
+<tr><td rowspan="6">Drone C<br><span class="dim">(+traffic)</span></td><td>Stock autopilot</td><td class="num">&mdash;</td><td class="num"><span class="bad">0%</span></td><td class="num"></td><td></td></tr>
+<tr><td>Lab reference avoider</td><td class="num">&mdash;</td><td class="num"><span class="dim">75%</span></td><td class="num"></td><td><span class="dim">Oracle</span></td></tr>
+<tr><td>Code-as-policy</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num"><span class="bad">49%</span></td><td class="num">48%</td><td>Reality</td></tr>
+<tr><td>Code-as-policy</td><td class="num">20</td><td class="num">76%</td><td class="num">77%</td><td>Reality</td></tr>
+<tr class="ours"><td>Code-as-world-model</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num"><span class="good">98%</span></td><td class="num">95%</td><td>World model</td></tr>
+<tr class="ours"><td>CaP in world model</td><td class="num">5+10&dagger;</td><td class="num"><span class="good">95%</span></td><td class="num">95%</td><td>World model</td></tr>
+
+<tr><td rowspan="4">Doom<br><span class="dim">(game ticks)</span></td><td>Random</td><td class="num">&mdash;</td><td class="num"><span class="dim">287</span></td><td class="num"></td><td></td></tr>
+<tr><td>PPO</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num">206</td><td class="num"></td><td>Reality</td></tr>
+<tr><td>Code-as-policy</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num">2,385</td><td class="num">2,519</td><td>Reality</td></tr>
+<tr class="ours"><td>Code-as-world-model</td><td class="num"><span class="real trials" data-n="4"></span>4</td><td class="num"><span class="good">19,162</span></td><td class="num">16,705</td><td>World model</td></tr>
+
+<tr><td rowspan="5">Push-T</td><td>Datasheet planner</td><td class="num">&mdash;</td><td class="num"><span class="bad">0/20</span></td><td class="num"></td><td></td></tr>
+<tr><td>True-sim planner</td><td class="num">&mdash;</td><td class="num"><span class="dim">84%</span></td><td class="num"></td><td><span class="dim">Oracle</span></td></tr>
+<tr><td>Code-as-policy</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num"><span class="bad">20%</span></td><td class="num">22%</td><td>Reality</td></tr>
+<tr><td>Code-as-policy</td><td class="num">13</td><td class="num">94%</td><td class="num">94%</td><td>Reality</td></tr>
+<tr class="ours"><td>Code-as-world-model</td><td class="num"><span class="real trials" data-n="4"></span>4</td><td class="num"><span class="good">90%</span></td><td class="num">76%</td><td>World model</td></tr>
+
+<tr><td rowspan="6">Push-L<br><span class="dim">(new block)</span></td><td>Datasheet planner</td><td class="num">&mdash;</td><td class="num"><span class="bad">0/20</span></td><td class="num"></td><td></td></tr>
+<tr><td>True-sim planner</td><td class="num">&mdash;</td><td class="num"><span class="dim">80%</span></td><td class="num"></td><td><span class="dim">Oracle</span></td></tr>
+<tr><td>Code-as-policy</td><td class="num"><span class="real trials" data-n="2"></span>2</td><td class="num"><span class="bad">16%</span></td><td class="num">14%</td><td>Reality</td></tr>
+<tr><td>Code-as-policy</td><td class="num">8</td><td class="num">46%</td><td class="num">44%</td><td>Reality</td></tr>
+<tr class="ours"><td>Code-as-world-model</td><td class="num"><span class="real trials" data-n="2"></span>2</td><td class="num"><span class="good">72%</span></td><td class="num">62%</td><td>World model</td></tr>
+<tr class="ours"><td>CaP in world model</td><td class="num">2+2&dagger;</td><td class="num"><span class="good">84%</span></td><td class="num">80%</td><td>World model</td></tr>
+
+<tr><td rowspan="5">Cable<br><span class="dim">(MuJoCo)</span></td><td>Constant-speed program</td><td class="num">&mdash;</td><td class="num">28%</td><td class="num"></td><td></td></tr>
+<tr><td>Scripted (conservative)</td><td class="num">&mdash;</td><td class="num"><span class="dim">78%</span></td><td class="num"></td><td><span class="dim">Oracle</span></td></tr>
+<tr><td>Code-as-policy</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num"><span class="good">100%</span></td><td class="num">100%</td><td>Reality</td></tr>
+<tr><td>Code-as-policy, no logs</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num">94%</td><td class="num">98%</td><td>Reality</td></tr>
+<tr class="ours"><td>Code-as-world-model</td><td class="num"><span class="real trials" data-n="3"></span>3</td><td class="num"><span class="good">100%</span></td><td class="num">98%</td><td>World model</td></tr>
+
+<tr><td rowspan="6">Rope<br><span class="dim">(MuJoCo)</span></td><td>Best slow strategy</td><td class="num">&mdash;</td><td class="num"><span class="bad">1/50</span></td><td class="num"></td><td><span class="dim">Oracle</span></td></tr>
+<tr><td>Real-sim planner</td><td class="num">&mdash;</td><td class="num"><span class="dim">84%</span></td><td class="num"></td><td><span class="dim">Oracle</span></td></tr>
+<tr><td>Code-as-policy</td><td class="num"><span class="real trials" data-n="5"></span>5</td><td class="num"><span class="bad">2%</span></td><td class="num">0%</td><td>Reality</td></tr>
+<tr><td>Code-as-policy</td><td class="num">19</td><td class="num"><span class="bad">0%</span></td><td class="num">0%</td><td>Reality</td></tr>
+<tr class="ours"><td>Code-as-world-model</td><td class="num"><span class="real trials" data-n="4"></span>4</td><td class="num">32%</td><td class="num">48%</td><td>World model</td></tr>
+<tr class="ours"><td>Code-as-world-model</td><td class="num">20</td><td class="num"><span class="good">78%</span></td><td class="num">78%</td><td>World model</td></tr>
+</tbody>
+</table>
+<p class="dim">&dagger; CaP agent&rsquo;s real trials + real trials spent building the world model. Zero additional real episodes for the code-as-policy agent inside the world model. For Push-L the world model was carried over from Push-T (4&nbsp;real trials) and refitted with 2&nbsp;additional Push-L real trials.</p>
+</div>
+
+<figure class="wide" id="fig-9">
+<video src="media/doom.mp4" poster="media/doom_poster.png" muted loop playsinline preload="metadata"></video>
+<figcaption><strong>Figure 12.</strong> Four controllers in the same VizDoom episode, time-lapsed. Random dies at game tick 680, PPO (5&nbsp;real trials) at 270, code-as-policy at 2,533. The code-as-world-model agent&rsquo;s controller is still alive at game tick 3,000 (that episode ran 24,421&nbsp;game ticks).</figcaption>
+</figure>
+
+<details class="note">
+<summary>What about learned video world models?</summary>
+<div class="note-body">
+<p>World Models (<a href="https://arxiv.org/abs/1803.10122">Ha &amp; Schmidhuber, 2018</a>) reported 1,092&nbsp;&plusmn;&nbsp;556 mean survival on the same Doom task from a neural world model trained on 10,000 random rollouts from pixel observations. Our world-model agent&rsquo;s controller averages 19,162 game ticks from 4&nbsp;real trials with structured observations. The two setups differ (pixel versus structured input, 10,000 rollouts versus 4&nbsp;episodes, a neural network versus a text file).<sup><a href="#fn-wm" id="fnref-wm">3</a></sup></p>
+</div>
+</details>
+
+<h2 id="sec-brings">8. Propose and verify: CaP writes programs, the tests select them</h2>
+
+<p>Code as Policies proposes controller candidates and the world-model tests verify them. We found that the tests mattered most where three properties combined: episodes vary at random (so a few real trials do not separate program versions), the physics hides changes the manual does not mention (so the agent has to observe to find them), and the dynamics are complex or sensitive (so each action is worth testing just before it runs). They mattered least where variation is low or where the controller senses the failure signal live and can correct itself. The table below organises our tasks by these properties.</p>
+
+<div class="table-wrap wide">
+<table>
+<thead>
+<tr><th>Task</th><th>Hidden physics</th><th>Random variation</th><th>Dynamics</th><th>Live failure signal</th><th>What the tests did</th></tr>
+</thead>
+<tbody>
+<tr><td>Drone&nbsp;A/B</td><td>Weak rotor, cross-wind</td><td>Low</td><td>Rigid body</td><td>No</td><td>Little: both approaches near 100% after one or two trials</td></tr>
+<tr><td>Drone&nbsp;C</td><td>Same</td><td>High (7&ndash;8 random aircraft)</td><td>Rigid body</td><td>No</td><td>WM agent 98%; CaP 49% with 5&nbsp;trials, 95% with the tests</td></tr>
+<tr><td>Push-T</td><td>Shifted centre of mass</td><td>Random start poses</td><td>Contact</td><td>No</td><td>Tests ranked versions (v4: 97% predicted vs 98% real; v5: 25.5% vs 20%)</td></tr>
+<tr><td>Push-L</td><td>New block, contact friction</td><td>Random start poses</td><td>Contact</td><td>No</td><td>CaP 16% with 2&nbsp;trials; CaP with the tests 84%</td></tr>
+<tr><td>Doom</td><td>None planted</td><td>Random enemy fire</td><td>Game</td><td>No</td><td>WM agent 19,162 vs CaP 2,385 game ticks</td></tr>
+<tr><td>Cable</td><td>Stiffness, friction, drag</td><td>Layouts vary</td><td>Deformable, quasi-static</td><td>Yes (live load)</td><td>CaP 100% on its own; tests caught a bug (150/150)</td></tr>
+<tr><td>Rope</td><td>Weighted free end, stiffness, friction</td><td>Layouts vary</td><td>Deformable, dynamic, sensitive</td><td>No</td><td>CaP 0&ndash;2%; WM agent 78% with run-time tests</td></tr>
+</tbody>
+</table>
+</div>
+
+<figure class="wide" id="fig-10">
+<video src="media/pusht_l.mp4" poster="media/pusht_l_poster.png" muted loop playsinline preload="metadata"></video>
+<figcaption><strong>Figure 13.</strong> Four controllers on the same real Push-L episode. The random policy and the code-as-policy program (2&nbsp;real trials) do not solve it (best coverage 0.43 for the latter). The code-as-policy program with 8&nbsp;real trials solves it at step&nbsp;295 of&nbsp;300. The code-as-world-model agent&rsquo;s controller solves it at step&nbsp;152.</figcaption>
+</figure>
+
+<p>Our world model&rsquo;s contribution was <em>verification</em>: millions of simulated steps for every real trial, turning a handful of episodes into a statistical test. The combination mattered most when we gave a CaP agent the world model as its test environment. On drone&nbsp;C our agent alone scored 49%. With the tests, 95%. On Push-L it went from 16% to 84% held-out and 80% on re-test, higher than either agent alone (CaP 16%, world-model agent 72%) and on a par with the oracle planner (80%). On the cable, where a live reading lets the program correct itself, the tests added nothing to success but still caught a bug (150/150&nbsp;episodes). On the rope our tests verified actions, not programs, and produced a working controller where editing from real trials alone had not. Robustness on the rope came from testing in six perturbed copies of the world model (parameters randomised by &plusmn;35%), which covered what our agent had not measured.</p>
+
+<p>There is also a ceiling effect on the pushing tasks that is easy to misread. A sampling planner given the <em>real simulator itself</em> (the actual environment, with no model at all) scores only 84% on Push-T and 80% on Push-L. Our Push-T result (83% pooled over three evaluation sets) matches the oracle planner. On the L it is 66% pooled against 80%. The bottleneck on these tasks is the sampling planner&rsquo;s ability to exploit whatever world it is given. Code as Policies writes the programs. The world-model tests verify them.</p>
+
+<h2 id="sec-limits">9. Limitations</h2>
+
+
+<ul>
+<li><strong>Approximate verifier.</strong> Unlike a unit test or a proof checker, our world model can be wrong. It ranks programs well in aggregate (34 programs, MAE 5.2, r&nbsp;=&nbsp;0.974) but its absolute predictions are overconfident on pushing, Doom and the rope, and on Push-L our ranking is the worst (MAE 10.1, largest error 22). On the rope our test as a program evaluator is weak because nearly all programs scored 0&ndash;2%. On the cable, where a live reading lets the controller correct itself, our verifier adds nothing to the controller&rsquo;s success rate.</li>
+<li><strong>Small tasks.</strong> Eight tasks, all with structured-state observations, all small enough that one LLM agent can operate them in a single session. Whether our world models or CaP with the world model as its test environment scale to harder problems with richer observations is open.</li>
+<li><strong>One run per agent per task.</strong> PPO learning curves are from a single seed. Variance across runs is not characterised.</li>
+<li><strong>Simulators, not reality.</strong> All tasks run in VizDoom, PyBullet/PyFlyt, pymunk, or MuJoCo. No sim-to-real transfer was tested.</li>
+</ul>
+
+<details class="note">
+<summary>Additional disclosures</summary>
+<div class="note-body">
+<ul>
+<li><strong>VizDoom is not a robotics task.</strong> We include it because it was the first task. The inspiration (Saltline) is a first-person shooter, and take_cover is the scenario the 2018 World Models paper used.</li>
+<li><strong>Model-family coincidence on pushing.</strong> The Push-T world model and the real environment both use rigid-body impulse physics. On a physical robot this match has to be established for each system.</li>
+<li><strong>Push-L screening error.</strong> The world model&rsquo;s predictions on Push-L have an MAE of 10.1 percentage points with a worst-case error of 22 points, substantially worse than the 0.6&ndash;5.1 pts on other tasks. On Push-L the world model under-predicted success for five of seven versions, matched one and over-predicted one.</li>
+<li><strong>CaP-in-world-model cost.</strong> CaP with the world model as its test environment uses zero episodes beyond the CaP agent&rsquo;s own real trials and the real trials spent building the world model. On drone&nbsp;C this was 5&nbsp;+&nbsp;the world&rsquo;s 10 across missions A and C. On Push-L it was 2&nbsp;+&nbsp;2, where the world model was carried over from Push-T&rsquo;s 4&nbsp;real trials and refitted with the 2&nbsp;Push-L real trials.</li>
+<li><strong>Screening exception.</strong> The pushing world-model agent, before scoring code-as-policy programs, had seen one line in a Push-T v5 program&rsquo;s docstring stating the held-out result of that version (10/50). The 34-program screening was otherwise blind.</li>
+<li><strong>Carry-over on mission&nbsp;C.</strong> Both agents had completed missions A and B before attempting C, and observation-trial logs on C included every other aircraft&rsquo;s true track for both agents.</li>
+<li><strong>Post-hoc editing.</strong> The CaP agent&rsquo;s evaluated on held-out seeds mission-C program (v11) was edited after its five real trials ran out and never flown before evaluation.</li>
+<li><strong>Relaxed rules on Doom.</strong> The world-model agent&rsquo;s rules were relaxed mid-run to allow hand-written controllers tuned in the world model, instead of only RL-trained ones.</li>
+<li><strong>Retrospective evaluations.</strong> The learning curves in Figure&nbsp;4 are retrospective evaluations we ran afterwards. The agents did not see these scores during their trials.</li>
+<li><strong>Cable: hiding the task identity.</strong> The cable task relied on rules (the manual names no object). An after-the-fact audit of all three cable agents&rsquo; command logs confirmed that none accessed forbidden files.</li>
+<li><strong>Cable shared environment.</strong> The cable simulator package was installed in the shared environment accessible to both agents.</li>
+<li><strong>Cable free logs.</strong> Unlike every other task, both cable agents were given the full step logs of 10&nbsp;episodes run by an existing program before their first real trial, twice the trial budget in ready-made examples. The control experiment (94%, no logs) shows this did not drive the result.</li>
+<li><strong>Cable success rule and slack.</strong> The success rule asks only that the cable pass each post on a prescribed side. Every layout leaves 14&ndash;29&nbsp;cm of slack, and the cable ends a successful episode in contact with about 1 of 3&nbsp;posts on average. This does not test routing under tension around several posts.</li>
+<li><strong>Cable evaluate programs.</strong> The 16 open-loop programs and the control CaP agent&rsquo;s 3 versions were scored in the world model by us, not by the world-model agent itself.</li>
+<li><strong>Rope extended evaluations reuse seeds.</strong> The held-out and extended evaluations both use seeds 1000&ndash;1049. The unseen-seed re-test (seeds 5000&ndash;5049) covers this. On those seeds the world-model agent&rsquo;s controller scored 78%, matching the evaluation.</li>
+<li><strong>Rope compute cost.</strong> The world-model agent&rsquo;s controller needs about 2&nbsp;s of compute per 0.02&nbsp;s step. It is not real time.</li>
+<li><strong>Rope evaluation test is weak.</strong> Nearly all code-as-policy programs scored 0&ndash;2%, so agreement with the world model is cheap. Per-episode distance correlation is 0.27. The world model as a program-level evaluator on this task is untested in a meaningful range.</li>
+<li><strong>Rope: hiding earlier work.</strong> The cable task&rsquo;s programs, logs, world model and all write-ups were moved out of the project and locked during the rope agents&rsquo; runs.</li>
+</ul>
+</div>
+</details>
+
+<h2 id="sec-related">10. Related work</h2>
+
+<p><strong>Code as Policies.</strong> <a href="https://arxiv.org/abs/2209.07753">Liang et&nbsp;al. (2022; ICRA 2023)</a> introduced the term and showed that LLMs can write robot-control code from natural-language instructions, using code generation as the policy representation. <a href="https://arxiv.org/abs/2607.00272">ASPIRE</a> (NVIDIA GEAR) extends this with an agentic loop: the LLM writes skills, tests them in a simulator, and iterates. Eureka (Ma et&nbsp;al., 2023) uses LLMs to write reward functions. The controller is learned by RL from those rewards. Our CaP agent is an ASPIRE-style re-implementation under a 5-trial cap.</p>
+
+<p><strong>Code as world model.</strong> <a href="https://arxiv.org/abs/2405.15383">Code World Models</a> (Dainese et&nbsp;al., 2024) writes environment models as Python from descriptions and offline trajectories, searches over programs with a Monte Carlo tree search and plans with the resulting model, across 18&nbsp;Gym environments. <a href="https://arxiv.org/abs/2402.12275">WorldCoder</a> (Tang, Key and Ellis, 2024) builds a world model as Python while acting, explores optimistically, and plans with it in gridworlds and task-planning domains. <a href="https://arxiv.org/abs/2510.02387">CWM</a> (Meta FAIR CodeGen Team, 2025) is a 32B language model trained on execution traces and agentic interactions to model how code executes. <a href="https://arxiv.org/abs/2608.27549">Code as Worlds</a> (Wang et&nbsp;al., 2026) writes physical scenes as executable code and verifies them to supervise a vision-language model for quantitative physical reasoning. <a href="https://arxiv.org/abs/2608.25927">Code World Model: Coding Agent as World Brain</a> (Chen, Lin and Zhang, 2026) writes code that keeps the world state and its rules and drives a video model to render frames. Saltline, a single-file browser FPS (~1.43&nbsp;MB, generated in one pass by Claude Fable 5.2, Felix Rieseberg / Anthropic), was the spark for this note.</p>
+
+<p><strong>Verifiers in LLM reasoning.</strong> LLMs became useful for code and mathematics once their outputs could be verified automatically: unit tests for code, proof checkers for mathematics, and trained verifiers for math word problems (<a href="https://arxiv.org/abs/2110.14168">Cobbe et&nbsp;al., 2021</a>; <a href="https://arxiv.org/abs/2305.20050">Lightman et&nbsp;al., 2023</a>). Robot control code has no such verification. Real-world evaluation of manipulation policies is hard to scale and hard to reproduce (<a href="https://arxiv.org/abs/2405.05941">Li et&nbsp;al., 2024</a>; <a href="https://arxiv.org/abs/2409.09491">Kress-Gazit et&nbsp;al., 2024</a>). A handful of real trials is a weak verifier, and no ground-truth simulator is available at deployment. A code world model is an approximate verifier our agent writes for itself from its own trial recordings.</p>
+
+<p><strong>Agent harnesses and verification at test time.</strong> <a href="https://lilianweng.github.io/posts/2026-07-04-harness/">Weng (2026)</a> describes the harness as the system around a base model (planning, tools, context, evaluation) and argues that evaluators and held-out tests should sit outside the loop that improves the agent. <a href="https://arxiv.org/abs/2606.09498">Self-Harness</a> (Zhang et&nbsp;al., 2026) has an LLM agent mine its own traces for failure patterns, propose small edits to its harness, and accept an edit only if it passes regression tests. <a href="https://arxiv.org/abs/2610.14018">RoboHarness</a> (Qu et&nbsp;al., 2026) gives an LLM agent a visual-geometric control panel for robot manipulation and compares it with vision-language-action models on BEHAVIOR Challenge 2025 tasks. Verifying candidates in the world model spends compute at test time in place of real trials. Offline, 3,000 simulated episodes in 19&nbsp;s rank 15 pushing programs. Online, the rope controller re-plans in the world model every 8 steps at about 2&nbsp;s of compute per 0.02&nbsp;s step.</p>
+
+<p><strong>Policy evaluation in learned world models.</strong> <a href="https://arxiv.org/abs/2506.00613">WorldGym</a> (Quevedo et&nbsp;al., 2025) is an action-conditioned video world model in which policies are scored by Monte Carlo rollouts with a vision-language model as the reward. Its success rates correlate with real-robot success and preserve policy rankings. Our world models are written as code by the agent from a few trials.</p>
+
+<p><strong>Real-to-sim-to-real.</strong> <a href="https://arxiv.org/abs/2403.03949">Torne et&nbsp;al. (2024)</a> rebuild a real scene as a digital twin, improve the policy with reinforcement learning inside it, and transfer it back. In our case the simulation is a Python file the agent writes itself from a few trials, and the policy is improved by search or editing inside it.</p>
+
+<p><strong>Code world models with verification.</strong> <a href="https://arxiv.org/abs/2609.09163">Schwoebel (2026)</a> uses independently authored and verified code worlds to generate exactly labelled trajectories for fine-tuning LLMs in symbolic domains. <a href="https://arxiv.org/abs/2607.14169">Aguilar Mart&iacute;n (2026)</a> finds that an LLM-written code world model with perfect transition accuracy on sampled trajectories can still lose at play, because its rare errors fall on pivotal rules. Our world models likewise ranked programs better than they predicted absolute success.</p>
+
+<p><strong>Learned world models.</strong> <a href="https://arxiv.org/abs/1803.10122">Ha &amp; Schmidhuber (2018)</a> trained a neural world model (VAE + MDN-RNN) on 10,000 random rollouts from pixel observations in VizDoom. DreamerV3 (Hafner et&nbsp;al., 2023) trains a policy entirely inside a learned latent imagination. Our world models are LLM-written text files fitted to a handful of structured-observation episodes. Dreamer learns from pixels. The comparison is structural.</p>
+
+<h2 id="sec-epilogue">Summary</h2>
+
+<p>We asked whether a coding agent facing an unknown physical system could build its own tests from a few real trials. The agent built such tests on all eight tasks. They mattered most on mission&nbsp;C, the pushing tasks, Doom and the rope, where episodes varied at random, the physics contained changes the agent was not told about, and there was no live signal the controller could use to correct itself. Active observation let the agent choose what to look at before acting: on the drone it spent a whole trial hovering to map traffic, on Push-T two scripted pushes found a hidden centre of mass. The physics contained changes the manual did not mention: a weak rotor, cross-wind jets and a shifted centre of mass became explicit estimated parameters in the world model. For the rope, the model reproduced the motion well enough over a short horizon to test throws, without identifying the end weight. Random variation made a few real trials inadequate: on mission&nbsp;C, with stochastic other aircraft, our agent reached 98% held-out against 49% for the CaP agent with the same five trials. Test-time compute changed the outcome: the CaP agent went from 49% to 95% with no further real trials, and on the rope, testing candidate throws in the model every 0.16&nbsp;s reached 78% where editing programs from real trials alone reached 0 to 2%. On drone missions&nbsp;A and&nbsp;B, both approaches reached about 100% after one or two trials and our tests added little. On the cable, a live reading settled the physics, and our tests added nothing to the success rate. They still caught bugs that five real trials had missed (150/150&nbsp;episodes).</p>
+
+<p>Our tests are an approximate verifier. They over-predicted absolute success on pushing, Doom and the rope (17&ndash;28 points optimistic on pushing, 100% predicted against 32% on the rope). They still ranked 34 programs with a mean error of 5.2 points (r&nbsp;=&nbsp;0.974). Perhaps a world model does not need to be a neural network: a Python file of a few hundred lines, fitted from the agent&rsquo;s own experiments, may suffice as the test layer between code generation and deployment. Files of this size came close to the oracle planner on the rope and the unseen pushing block, and when a new drone route was announced the agent reused its model and found a controller without further real trials. Whether this holds as tasks grow harder and observations become pixels is open.</p>
+
+<blockquote class="pull"><p>Code as Policies writes controller candidates. The world-model tests verify them. On the cable our tests caught the bugs that five successful real trials had missed. On the rope our tests turned a 0.4-second forecast into a working controller by re-verifying each action from the live reading every 0.16&nbsp;s.</p></blockquote>
+
+<h3>About this note</h3>
+
+<p>This is an early exploration, shared so it can be discussed and corrected. If anything here is confused or wrong, we would like to hear about it. We welcome questions, objections and corrections so we can improve it together.</p>
+
+<hr>
+
+<h2>Appendix: The full results</h2>
+
+<h3>A. Hidden anomalies</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Task</th><th>Hidden change</th><th>Nominal rig</th></tr>
+</thead>
+<tbody>
+<tr><td>Drone (all missions)</td><td>Motor 2 at 60% thrust; two cross-wind jets (~14.8 and ~11 m/s&sup2;)</td><td>All motors healthy; no wind</td></tr>
+<tr><td>Drone mission C</td><td>7&ndash;8 stochastic other aircraft per episode</td><td>No other aircraft</td></tr>
+<tr><td>Push-T</td><td>Centre of mass at (24, 30); block glides after release</td><td>Nominal COM (0, 45); no glide</td></tr>
+<tr><td>Push-L</td><td>COM at (23, 55.5); contact friction (pair coeff. 0.36); glide</td><td>Nominal COM ~(45, 37.5); no pusher&ndash;block friction; no glide</td></tr>
+<tr><td>Cable</td><td>Bending stiffness 3&times; nominal; cable&ndash;post friction 1.0 (nominal 0.3); viscous drag 90&nbsp;N&middot;s/m per metre (nominal 0)</td><td>Nominal stiffness; low friction; no table drag</td></tr>
+<tr><td>Rope</td><td>Bending stiffness 2.0e&minus;3&nbsp;N&middot;m&sup2;; table friction 0.10; post friction 0.25; 56&nbsp;g rope + 30&nbsp;g weight on free end; viscous drag</td><td>No datasheet; the manual gives no physical values</td></tr>
+<tr><td>Doom</td><td>None (stock scenario)</td><td>Manual describes sensors and controls only, not game mechanics</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>B. Real trials consumed</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Agent</th><th>Task</th><th class="num">Real trials (cap)</th><th class="num">Real trials used</th><th class="num">Real steps</th></tr>
+</thead>
+<tbody>
+<tr><td>Code-as-world-model</td><td>Doom</td><td class="num">5</td><td class="num">4</td><td class="num">6,216</td></tr>
+<tr><td>Code-as-policy</td><td>Doom</td><td class="num">5</td><td class="num">5</td><td class="num">1,182</td></tr>
+<tr><td>Code-as-world-model</td><td>Drone A/B</td><td class="num">5</td><td class="num">5</td><td class="num">1,654</td></tr>
+<tr><td>Code-as-policy</td><td>Drone A/B</td><td class="num">5</td><td class="num">5</td><td class="num">1,354</td></tr>
+<tr><td>Code-as-world-model</td><td>Drone C</td><td class="num">5</td><td class="num">5</td><td class="num">1,810</td></tr>
+<tr><td>Code-as-policy</td><td>Drone C</td><td class="num">5</td><td class="num">5</td><td class="num">1,556</td></tr>
+<tr><td>Code-as-world-model</td><td>Push-T</td><td class="num">5</td><td class="num">4</td><td class="num">811</td></tr>
+<tr><td>Code-as-policy</td><td>Push-T</td><td class="num">5</td><td class="num">5</td><td class="num">971</td></tr>
+<tr><td>Code-as-world-model</td><td>Push-L</td><td class="num">2</td><td class="num">2</td><td class="num">600</td></tr>
+<tr><td>Code-as-policy</td><td>Push-L</td><td class="num">2</td><td class="num">2</td><td class="num">600</td></tr>
+<tr><td>Code-as-world-model</td><td>Cable</td><td class="num">5</td><td class="num">3</td><td class="num">1,286</td></tr>
+<tr><td>Code-as-policy</td><td>Cable</td><td class="num">5</td><td class="num">5</td><td class="num">1,127</td></tr>
+<tr><td>Code-as-policy, no logs</td><td>Cable</td><td class="num">5</td><td class="num">5</td><td class="num">1,124</td></tr>
+<tr><td>Code-as-world-model</td><td>Rope</td><td class="num">5</td><td class="num">4</td><td class="num">944</td></tr>
+<tr><td>Code-as-policy</td><td>Rope</td><td class="num">5</td><td class="num">5</td><td class="num">1,180</td></tr>
+<tr><td>Code-as-world-model (ext.)</td><td>Rope</td><td class="num">20</td><td class="num">20</td><td class="num">3,766</td></tr>
+<tr><td>Code-as-policy (ext.)</td><td>Rope</td><td class="num">20</td><td class="num">19</td><td class="num">4,484</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>When the CaP agent&rsquo;s held-out result was under 50%, additional real trials were granted: Push-T 13 in total, mission&nbsp;C 20, Push-L 8, rope 20 (world-model agent also extended to 20).</p>
+
+<h3>C. Models and infrastructure</h3>
+<p>Orchestrator: Claude Fable 5.2. Agents: Claude Opus 5.5. Environment construction: Claude Sonnet 5.5 (cable environment: Claude Opus 5.5). RL baselines: Claude Sonnet 5.5. Documents: Claude Opus 4.6. All agents interacted with the environment through an opaque API (no source code). No agent had access to the real simulator&rsquo;s source code or to any other agent&rsquo;s logs.</p>
+
+<h3>D. Experimental controls</h3>
+
+<ul>
+<li><strong>Import guard.</strong> An automated test failed if any world model imported the simulator or the environment package.</li>
+<li><strong>Command-log scan.</strong> We audited each agent&rsquo;s code and command logs after each run.</li>
+<li><strong>Time-stamped hypotheses.</strong> Each agent wrote a hypothesis file before its first real trial. The files&rsquo; timestamps predate the first real trial in every case.</li>
+<li><strong>Evaluation isolation.</strong> Held-out evaluation logs were not used for fitting or tuning by any agent.</li>
+<li><strong>Cross-task isolation (rope).</strong> During the rope agents&rsquo; runs, the cable task&rsquo;s programs, logs, world model and all write-ups were moved out of the project and locked.</li>
+<li><strong>Cable starting condition.</strong> Both cable agents were given the full step logs of 10&nbsp;episodes by an existing program before their first real trial. In every other task the agents started with no record of the system in motion. A control CaP agent without those logs reached 94%.</li>
+</ul>
+
+<details class="note">
+<summary>What does &ldquo;ASPIRE-style&rdquo; mean?</summary>
+<div class="note-body">
+<p>Our CaP agent is modelled on &ldquo;ASPIRE: Agentic /Skills Discovery for Robotics&rdquo; (NVIDIA GEAR, <a href="https://arxiv.org/abs/2607.00272">arXiv 2607.00272</a>). ASPIRE uses many more rollouts than we allowed. A five-trial cap is not how it is meant to be used.</p>
+</div>
+</details>
+
+<section class="footnotes">
+<ol>
+<li id="fn-cap">&ldquo;Code as Policies: Language Model Programs for Embodied Control,&rdquo; <a href="https://arxiv.org/abs/2209.07753">Liang et&nbsp;al., 2022 (ICRA 2023)</a>. The term &ldquo;code-as-policy&rdquo; refers to any method in which an LLM generates executable code as the controller representation. <a href="#fnref-cap">&crarr;</a></li>
+<li id="fn-aspire">Lu et&nbsp;al. (2026). &ldquo;ASPIRE: Agentic /Skills Discovery for Robotics,&rdquo; NVIDIA GEAR, <a href="https://arxiv.org/abs/2607.00272">arXiv 2607.00272</a>. See also <a href="https://research.nvidia.com/labs/gear/aspire/">research.nvidia.com/labs/gear/aspire</a>. Our CaP agent is a re-implementation under a 5-trial cap. <a href="#fnref-aspire">&crarr;</a></li>
+<li id="fn-wm">Ha, D. &amp; Schmidhuber, J. (2018). &ldquo;World Models.&rdquo; <a href="https://arxiv.org/abs/1803.10122"><em>arXiv:1803.10122</em></a>. Their setup used pixel observations, a VAE, and an MDN-RNN trained on 10,000 random rollouts. <a href="#fnref-wm">&crarr;</a></li>
+<li id="fn-clopper">One-sided Clopper&ndash;Pearson bound: 0.05<sup>1/5</sup> &asymp; 0.549 for 5/5. When each version is tried about once, 0.05<sup>1/1</sup> = 0.05 for 1/1. <a href="#fnref-clopper">&crarr;</a></li>
+<li id="fn-cwm">Meta FAIR CodeGen Team (2025). &ldquo;CWM: An Open-Weights LLM for Research on Code Generation with World Models.&rdquo; <a href="https://arxiv.org/abs/2510.02387"><em>arXiv:2510.02387</em></a>.</li>
+<li id="fn-caw">Wang et&nbsp;al. (2026). &ldquo;Code as Worlds: Agentic Discovery of Executable World Representations for Physical Reasoning.&rdquo; <a href="https://arxiv.org/abs/2608.27549"><em>arXiv:2608.27549</em></a>.</li>
+<li id="fn-cwmbrain">Chen, Lin and Zhang (2026). &ldquo;Code World Model: Coding Agent as World Brain.&rdquo; <a href="https://arxiv.org/abs/2608.25927"><em>arXiv:2608.25927</em></a>.</li>
+<li id="fn-harness">Weng, L. (2026). &ldquo;Harness Engineering for Self-Improvement.&rdquo; <a href="https://lilianweng.github.io/posts/2026-07-04-harness/">Lil&rsquo;Log, 4 July 2026</a>.</li>
+<li id="fn-selfharness">Zhang et&nbsp;al. (2026). &ldquo;Self-Harness: Harnesses That Improve Themselves.&rdquo; <a href="https://arxiv.org/abs/2606.09498"><em>arXiv:2606.09498</em></a>.</li>
+<li id="fn-roboharness">Qu et&nbsp;al. (2026). &ldquo;RoboHarness: A Simple Harness Outperforms VLA and World Action Models.&rdquo; <a href="https://arxiv.org/abs/2610.14018"><em>arXiv:2610.14018</em></a>.</li>
+<li id="fn-worldgym">Quevedo, Sharma, Sun, Suryavanshi, Liang and Yang (2025). &ldquo;WorldGym: World Model as An Environment for Policy Evaluation.&rdquo; <a href="https://arxiv.org/abs/2506.00613"><em>arXiv:2506.00613</em></a>.</li>
+<li id="fn-schwoebel">Schwoebel (2026). &ldquo;World-Time Compute with Verified Code World Models.&rdquo; <a href="https://arxiv.org/abs/2609.09163"><em>arXiv:2609.09163</em></a>.</li>
+<li id="fn-aguilar">Aguilar Mart&iacute;n (2026). &ldquo;When a Verified World Model Still Loses: Play-Adequacy vs Prediction-Accuracy in LLM-Synthesized Code World Models.&rdquo; <a href="https://arxiv.org/abs/2607.14169"><em>arXiv:2607.14169</em></a>.</li>
+<li id="fn-fable">Anthropic (2026). &ldquo;Claude Fable and Mythos 5.2.&rdquo; <a href="https://www.anthropic.com/claude-fable-and-mythos-5-2">anthropic.com, 9 November 2026</a>.</li>
+<li id="fn-chen-astra">Chen et&nbsp;al. (2026). &ldquo;Systematically Exploring the Capabilities of GPT-6 Astra as Embodied Policies.&rdquo; <a href="https://arxiv.org/abs/2609.38537"><em>arXiv:2609.38537</em></a>.</li>
+</ol>
+</section>
+
+<section class="endmatter">
+<h4>Acknowledgements</h4>
+<p>This note draws on Code World Models (Dainese et&nbsp;al., 2024), WorldCoder (Tang, Key and Ellis, 2024), CWM (Meta FAIR CodeGen Team, 2025), Code as Worlds (Wang et&nbsp;al., 2026), and Code World Model (Chen, Lin and Zhang, 2026). The spark came from Saltline, a single-file browser FPS (~1.43&nbsp;MB, generated in one pass by Claude Fable 5.2, Felix Rieseberg / Anthropic).</p>
+
+<h4>Citation</h4>
+<pre><code>@misc{cawm2026,
+  title       = {World Models as Unit Tests},
+  author      = {Denzel Zheng},
+  institution = {Princeton University},
+  year        = {2026},
+  note        = {Early research note. Simulators stand in for
+                 reality; one run per agent per task; results
+                 are not peer-reviewed.}
+}</code></pre>
+</section>

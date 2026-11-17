@@ -1,0 +1,22 @@
+<div class="flow" role="list" aria-label="How the agent builds and uses its tests, in four steps">
+<div class="step" role="listitem">
+<span class="tag">Active observation</span>
+<h4>1. Observe</h4>
+<p>The agent spends a few real trials watching and probing the system. On the drone it hovered for a whole trial to log the other aircraft. On the pushing task it made two scripted pushes to locate the block&rsquo;s centre of mass.</p>
+</div>
+<div class="step" role="listitem">
+<span class="tag">Hidden dynamics</span>
+<h4>2. Write the world model</h4>
+<p>It writes what it saw as one Python file of 14 to 26&nbsp;KB. Physics the manual does not mention, such as a weak rotor or a shifted centre of mass, becomes named parameters estimated from the trials.</p>
+</div>
+<div class="step" role="listitem">
+<span class="tag">Random variation</span>
+<h4>3. Run the tests</h4>
+<p>Every candidate program runs in the world model before any further real trial, over many random episodes and several perturbed copies of the model. For 15 pushing programs, 3,000 simulated episodes took 19&nbsp;s.</p>
+</div>
+<div class="step" role="listitem">
+<span class="tag">Test-time compute</span>
+<h4>4. Deploy, or test while acting</h4>
+<p>The version that passes goes to the real system. On the rope task the tests run during the episode. Every 0.16&nbsp;s the controller tests candidate throws in the world model and executes the best one.</p>
+</div>
+</div>
