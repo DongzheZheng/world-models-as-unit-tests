@@ -1,0 +1,165 @@
+{
+ "library": "aspire_annex skill library (code-as-policy, annex installation = bending-elastic cord on a table, tool holds one end)",
+ "skills": [
+  {
+   "id": "S1_plain_stop_kills_throw",
+   "failure_signature": "after a fast pull the tool stops; within 0.1 s the cord's kinetic-energy proxy drops by >80% (life 2: 12.8 -> 1.4), total bend rises from <0.5 to >4 rad, the tip whips towards the tool and stalls 0.1-0.3 m from it, then the cord slowly re-straightens along its near part (back where it came from)",
+   "when_to_apply": "any program that throws the cord with a single out-stroke and a stop (v1-v3)",
+   "repair_strategy": "do not end the stroke with a plain stop; reverse the tool immediately (haul) so the attached leg is pulled back while the free leg still flies forward",
+   "code_sketch": "if phase=='out' and (tool-F)@d >= frac*L: phase='back'; return F   # command the start point again at full rate",
+   "evidence": [
+    "life_1",
+    "life_2",
+    "life_5"
+   ],
+   "status": "validated partially: haul put the tip 0.25 m ahead of the tool and the cord ended pointing forward (life 5), first time in 5 lives; confirmed in the extended run (all casts with a haul got the tip ahead)"
+  },
+  {
+   "id": "S2_near_part_direction",
+   "failure_signature": "strike planned perpendicular to the cord, but the tool lags its reference badly (|v_tool| ~1.5-2 m/s vs 4 m/s reference) and the near points move with the tool along the strike; the far part barely moves (life 3)",
+   "when_to_apply": "estimating which way the cord lies at the tool before a strike",
+   "repair_strategy": "use the direction of the last few segments (p20 -> p15), not the tool->centroid direction; a curled cord can lie along the strike near the tool even when its centroid is off to the side",
+   "code_sketch": "r = atan2(*(pts[14]-pts[19])[::-1])",
+   "evidence": [
+    "life_3"
+   ],
+   "status": "diagnosed, not re-flown"
+  },
+  {
+   "id": "S3_servo_saturation_on_push",
+   "failure_signature": "tool speed saturates far below the reference (force limit 60 N) when the stroke drives into or across the cord",
+   "when_to_apply": "choosing a stroke direction",
+   "repair_strategy": "strike so the cord is pulled (stroke direction pointing away from the near part); a pull along the cord reached 3.5 m/s with every point moving together (life 2), a push did not",
+   "code_sketch": "reject m if m @ r_near > 0.15",
+   "evidence": [
+    "life_2",
+    "life_3"
+   ],
+   "status": "validated by contrast"
+  },
+  {
+   "id": "S4_slack_from_backing_up",
+   "failure_signature": "the preparation move carries the tool towards the cord; tip-tool distance does not grow during the stroke start; the first part of the stroke only takes up slack",
+   "when_to_apply": "placing the stroke start S",
+   "repair_strategy": "choose S with (S - tool0) . r <= 0 (move away from or across the cord, never into it) and approach S slowly",
+   "code_sketch": "slack = max(0, (S-tool0)@r); score -= w*slack",
+   "evidence": [
+    "life_1"
+   ],
+   "status": "applied in v3-v6"
+  },
+  {
+   "id": "S5_no_follow_the_leader",
+   "failure_signature": "tool drives 0.9 m of path but the tip moves <0.25 m and only while the cord is taut (tip-tool ~0.7)",
+   "when_to_apply": "any slow kinematic plan (laying a track, pushing the cord out tip-first, slow dragging)",
+   "repair_strategy": "abandon: slow work leaves the tip where it is ('doing it slowly gets you nowhere'); the tip only moves when pulled taut or thrown",
+   "code_sketch": "-",
+   "evidence": [
+    "life_4"
+   ],
+   "status": "refutes v5"
+  },
+  {
+   "id": "S6_relaxation_follows_near_part",
+   "failure_signature": "after a throw the cord ends straight (chord 0.65-0.70 m) but pointing where its near part pointed after the throw, reached by a slow (0.3-0.5 m/s, ~1.5-2 s) elastic straightening",
+   "when_to_apply": "predicting where the tip comes to rest",
+   "repair_strategy": "aim the near part (the leg attached to the tool after the haul), and allow ~2 s of holding still before the episode ends; a one-shot estimate: tip at rest ~ tool + 0.66 * direction(near part)",
+   "code_sketch": "tip_rest ~= F + 0.66*unit(pts[15]-pts[19])",
+   "evidence": [
+    "life_1",
+    "life_2",
+    "life_5"
+   ],
+   "status": "observed in all throws"
+  },
+  {
+   "id": "S7_reel_in",
+   "failure_signature": "tip rests beyond the target on the line through the tool",
+   "when_to_apply": "after the cord has stopped, tip farther from the tool than the target and roughly on the tool-target line",
+   "repair_strategy": "pull the tool slowly along (target - tip) until |tip-target| < 0.035 or the distance stops decreasing, then hold; BUG found in life 3: the 'beyond' test must also require (tip-tool).(target-tool) > 0 and |tip-tool| > |target-tool|, otherwise it fires when the tip lies behind the tool",
+   "code_sketch": "beyond = (tip-tool)@(tgt-tool) > 0 and norm(tip-tool) > norm(tgt-tool)",
+   "evidence": [
+    "life_3"
+   ],
+   "status": "never triggered legitimately; unvalidated"
+  },
+  {
+   "id": "S8_post_is_a_side_hazard_not_a_stop",
+   "failure_signature": "-",
+   "when_to_apply": "choosing the throw line",
+   "repair_strategy": "the target sits 0.12 m straight behind the post (radially from the zone centre); keep the line from the parked tool to the aim point >= 0.035 m from the post centre and aim at a point of the disc offset sideways by 0.05 m",
+   "code_sketch": "A = target + side*0.05*lat; require seg_dist(post, F, A) >= 0.035",
+   "evidence": [
+    "snapshots"
+   ],
+   "status": "geometry only; the swing-into-post idea (v4) was never properly tested because of S2"
+  },
+  {
+   "id": "S9_align_by_centroid",
+   "failure_signature": "cast line opposite to the near part (p20->p14) but the cord's mass lies off to one side: resting direction 140 deg off (x1-2, near mis 1.9 deg, centroid mis +26.5 deg)",
+   "when_to_apply": "choosing the cast line",
+   "repair_strategy": "pick the valid cast line most opposite to the tool->centroid direction; across lives 2, 5, x1-2 the sign of the resting deviation followed the sign of the centroid misalignment",
+   "code_sketch": "lie = atan2(*(pts.mean(0)-pts[19])[::-1]); mis = wrap(lie - (d+180)); pick argmin |mis|",
+   "evidence": [
+    "x1-2",
+    "x1-3"
+   ],
+   "status": "validated: with |mis_cen| < 10 deg the tip flew straight at the target on seed 62 (x1-3, x2-4, x2-5, x3-1, x3-2)"
+  },
+  {
+   "id": "S10_whip_energy_threshold",
+   "failure_signature": "stroke 0.12 m: tip peak 1.3 m/s, no whip; 0.20 m: tip stalls 0.26 m short; 0.23 m: stalls against the post; 0.25-0.27 m: tip reaches the target at 0.8-4.5 m/s",
+   "when_to_apply": "setting the stroke length (full-rate triangular stroke, tool peak ~sqrt(60 L))",
+   "repair_strategy": "use L ~0.25-0.27 m: the whip has a sharp threshold between 0.20 and 0.25 m; below it nothing reaches the target",
+   "code_sketch": "G = F + 0.27*d; switch to haul at 55% of the stroke",
+   "evidence": [
+    "x1-3",
+    "x1-4",
+    "x2-1",
+    "x2-2",
+    "x2-4"
+   ],
+   "status": "validated on one situation (seed 62); only ~26/200 layouts leave room for >= 0.22 m"
+  },
+  {
+   "id": "S11_turnover_recoil",
+   "failure_signature": "tip enters the target disc at the cord's turnover with flight chord 0.61 m (0.608/0.611/0.609), then recoils past the tool at 2-4 m/s",
+   "when_to_apply": "every strong cast",
+   "repair_strategy": "follow through: when the tip is ahead, chord > 0.42 m and still opening > 1 m/s, move the tool 0.08 m towards the tip at full rate (park 0.58 m from the aim point to compensate); a chord-servo that pulls the tool BACK (v15) did not help, and firing earlier with 0.12 m (v18) did not help either",
+   "code_sketch": "if ahead and chord > 0.42 and vout > 1 and not gave: hold += 0.08*unit(tip-tool)",
+   "evidence": [
+    "x2-5",
+    "x3-2",
+    "x3-3"
+   ],
+   "status": "partially validated: x3-2 kept the cord out (0.30 m final, best extended life)"
+  },
+  {
+   "id": "S12_post_contact",
+   "failure_signature": "tip or cord grazes the post (point-post distance <= 0.037 m) just as it slows near the target, then the cord collapses back towards the tool",
+   "when_to_apply": "choosing the line beside the post",
+   "repair_strategy": "the flight path lies 0.03-0.07 m off the straight F->A line, so clearance 0.035-0.05 m is not enough; use >= 0.08 m (not flown); aiming AT the post to let it catch the cord (v16) failed because the cord missed it by 0.07 m",
+   "code_sketch": "require seg_dist(post, F, A) >= 0.08",
+   "evidence": [
+    "x2-2",
+    "x2-4",
+    "x3-3",
+    "x3-5",
+    "x3-1"
+   ],
+   "status": "diagnosed; repair not flown (budget used)"
+  },
+  {
+   "id": "S13_prestraighten",
+   "failure_signature": "curled cord (chord < 0.45 m at the strike): no whip, tip peak ~2 m/s (x3-4, chord 0.375)",
+   "when_to_apply": "before the cast when |tip-tool| < 0.58 m",
+   "repair_strategy": "walk the tool slowly (0.5 m/s) straight away from the tip until the chord is 0.62 m, then re-plan and cast",
+   "code_sketch": "goal = clip(tip + 0.68*unit(tool-tip)); walk until chord >= 0.62",
+   "evidence": [
+    "x3-4",
+    "x3-5"
+   ],
+   "status": "validated: chord 0.375 -> 0.58, whip formed, tip reached 0.124 m from the target (then post contact)"
+  }
+ ]
+}

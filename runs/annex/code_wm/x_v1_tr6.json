@@ -1,0 +1,29 @@
+{
+ "params": {
+  "k_stretch": 911932.233568992,
+  "c_stretch": 226.21597678322564,
+  "k_bend": 396.07992440792896,
+  "c_bend": 3.181346469874317,
+  "mu": 0.18143178018759595,
+  "aniso": 1.275796228670201,
+  "c_visc": 0.0028772214813786792,
+  "c_quad": 0.009012088273949479,
+  "lat_mass": 0.952210455668666,
+  "tip_mass": 6.000000130432452,
+  "mu_post": 0.2,
+  "servo_w": 207.60734613701825,
+  "servo_z": 0.2950272634072199,
+  "servo_amax": 100.77893384644021
+ },
+ "loss": 0.024444127455353737,
+ "H": 30,
+ "lives": [
+  "runs/annex/blackbox/code_wm/life_1.npz",
+  "runs/annex/blackbox/code_wm/life_2.npz",
+  "runs/annex/blackbox/code_wm/life_3.npz",
+  "runs/annex/blackbox/code_wm/life_4.npz",
+  "runs/annex/blackbox/code_wm_x1/life_1.npz",
+  "runs/annex/blackbox/code_wm_x1/life_2.npz"
+ ],
+ "wall_s": 61.2327938079834
+}

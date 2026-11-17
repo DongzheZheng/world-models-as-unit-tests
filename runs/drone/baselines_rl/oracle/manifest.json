@@ -1,0 +1,67 @@
+[
+ {
+  "ckpt": "runs/drone/baselines_rl/oracle/ckpt_ep395.pt",
+  "real_episodes": 395,
+  "real_steps": 25600,
+  "train_wall_s": 65.3,
+  "train_success_recent": 0.0,
+  "n_recent": 395
+ },
+ {
+  "ckpt": "runs/drone/baselines_rl/oracle/ckpt_ep395.pt",
+  "real_episodes": 395,
+  "real_steps": 25600,
+  "train_wall_s": 65.3,
+  "train_success_recent": 0.0,
+  "n_recent": 0
+ },
+ {
+  "ckpt": "runs/drone/baselines_rl/oracle/ckpt_ep395.pt",
+  "real_episodes": 395,
+  "real_steps": 25600,
+  "train_wall_s": 65.3,
+  "train_success_recent": 0.0,
+  "n_recent": 0
+ },
+ {
+  "ckpt": "runs/drone/baselines_rl/oracle/ckpt_ep395.pt",
+  "real_episodes": 395,
+  "real_steps": 25600,
+  "train_wall_s": 65.3,
+  "train_success_recent": 0.0,
+  "n_recent": 0
+ },
+ {
+  "ckpt": "runs/drone/baselines_rl/oracle/ckpt_ep1137.pt",
+  "real_episodes": 1137,
+  "real_steps": 76800,
+  "train_wall_s": 151.7,
+  "train_success_recent": 0.0,
+  "n_recent": 742
+ },
+ {
+  "ckpt": "runs/drone/baselines_rl/oracle/ckpt_ep3065.pt",
+  "real_episodes": 3065,
+  "real_steps": 281600,
+  "train_wall_s": 458.1,
+  "train_success_recent": 0.3096473029045643,
+  "n_recent": 1928
+ },
+ {
+  "ckpt": "runs/drone/baselines_rl/oracle/ckpt_ep10082.pt",
+  "real_episodes": 10082,
+  "real_steps": 972800,
+  "train_wall_s": 1585.4,
+  "train_success_recent": 0.9223314806897535,
+  "n_recent": 7017
+ },
+ {
+  "ckpt": "runs/drone/baselines_rl/oracle/final.pt",
+  "real_episodes": 14811,
+  "real_steps": 1408000,
+  "train_wall_s": 2449.7,
+  "train_success_recent": 0.9966666666666667,
+  "n_recent": 300,
+  "final": true
+ }
+]

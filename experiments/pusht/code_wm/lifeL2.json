@@ -1,0 +1,3 @@
+{"pilot": "code_wm", "seed": 12, "tag": "L_life2_mpc", "object": "L",
+ "factory": "experiments.pusht.code_wm.controller:mpc_policy",
+ "kwargs": {"n_samples": 2048, "succ_thr": 0.965, "object": "L"}}

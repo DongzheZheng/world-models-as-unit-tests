@@ -1,0 +1,1 @@
+code-as-policy (ASPIRE-style) extended run: same program lineage continued to policy_v8.py (deadlock guard, tempo, selection threshold) with 8 extra lives (aspire_style_x1: 5, aspire_style_x2: 3); total lives 13 = 5 official + 8 extended; no simulator or forward model

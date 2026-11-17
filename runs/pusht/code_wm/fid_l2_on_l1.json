@@ -1,0 +1,32 @@
+{
+ "label": "fit life2 -> test life1",
+ "params_from": "runs/pusht/code_wm/fit_l2.json",
+ "test_lives": [
+  "runs/pusht/blackbox/code_wm/life_1.npz"
+ ],
+ "n_segments": 161,
+ "h5": {
+  "pos_err_mean_u": 0.20912876725196838,
+  "pos_err_median_u": 0.07459598034620285,
+  "ang_err_mean_deg": 0.11982610821723938,
+  "ang_err_median_deg": 0.03285320848226547,
+  "static_baseline_pos_mean_u": 6.483340263366699,
+  "static_baseline_ang_mean_deg": 2.657086133956909
+ },
+ "h10": {
+  "pos_err_mean_u": 0.34787479043006897,
+  "pos_err_median_u": 0.18088452517986298,
+  "ang_err_mean_deg": 0.23370513319969177,
+  "ang_err_median_deg": 0.06520098447799683,
+  "static_baseline_pos_mean_u": 12.671091079711914,
+  "static_baseline_ang_mean_deg": 4.993253707885742
+ },
+ "h20": {
+  "pos_err_mean_u": 0.6663145422935486,
+  "pos_err_median_u": 0.5947943925857544,
+  "ang_err_mean_deg": 0.46124789118766785,
+  "ang_err_median_deg": 0.3353895843029022,
+  "static_baseline_pos_mean_u": 24.776409149169922,
+  "static_baseline_ang_mean_deg": 9.52481746673584
+ }
+}

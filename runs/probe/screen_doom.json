@@ -1,0 +1,54 @@
+{
+ "v1": {
+  "n": 200,
+  "mean": 563.315,
+  "median": 491.0,
+  "sem": 24.99330268041821,
+  "frac_ge_750": 0.255,
+  "frac_at_cap": 0.0,
+  "min": 115.0,
+  "max": 1833.0
+ },
+ "v2": {
+  "n": 200,
+  "mean": 856.925,
+  "median": 755.0,
+  "sem": 37.27025753700932,
+  "frac_ge_750": 0.515,
+  "frac_at_cap": 0.0,
+  "min": 116.0,
+  "max": 2868.0
+ },
+ "v3": {
+  "n": 200,
+  "mean": 887.22,
+  "median": 706.0,
+  "sem": 49.22467428028345,
+  "frac_ge_750": 0.465,
+  "frac_at_cap": 0.0,
+  "min": 113.0,
+  "max": 3722.0
+ },
+ "v4": {
+  "n": 200,
+  "mean": 1655.69,
+  "median": 1308.5,
+  "sem": 86.28594189959335,
+  "frac_ge_750": 0.775,
+  "frac_at_cap": 0.0,
+  "min": 106.0,
+  "max": 6752.0
+ },
+ "v5": {
+  "n": 200,
+  "mean": 2148.17,
+  "median": 1651.5,
+  "sem": 117.5967425377931,
+  "frac_ge_750": 0.865,
+  "frac_at_cap": 0.0,
+  "min": 181.0,
+  "max": 11616.0
+ },
+ "wall_s": 4.667113304138184,
+ "note": "200 imagined episodes per version in worlds/fps/take_cover_world.py (unchanged), cap 24000 tics; world seeds 20000+1000*chunk, identical across versions"
+}

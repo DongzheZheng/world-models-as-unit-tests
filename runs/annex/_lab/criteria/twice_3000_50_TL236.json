@@ -1,0 +1,313 @@
+{
+ "summary": {
+  "single": 0.94,
+  "twice": 0.98,
+  "TL": 236,
+  "wall_s": 53.62214517593384
+ },
+ "per_seed": [
+  {
+   "seed": 3000,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3001,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3002,
+   "single": false,
+   "twice": false,
+   "k_look": 164,
+   "left": 72
+  },
+  {
+   "seed": 3003,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3004,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3005,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3006,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3007,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3008,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3009,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3010,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3011,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3012,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3013,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3014,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3015,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3016,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3017,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3018,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3019,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3020,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3021,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3022,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3023,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3024,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3025,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3026,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3027,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3028,
+   "single": false,
+   "twice": true,
+   "k_look": 155,
+   "left": 81
+  },
+  {
+   "seed": 3029,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3030,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3031,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3032,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3033,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3034,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3035,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3036,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3037,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3038,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3039,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3040,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3041,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3042,
+   "single": false,
+   "twice": true,
+   "k_look": 133,
+   "left": 103
+  },
+  {
+   "seed": 3043,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3044,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3045,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3046,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3047,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3048,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  },
+  {
+   "seed": 3049,
+   "single": true,
+   "twice": true,
+   "k_look": null
+  }
+ ]
+}

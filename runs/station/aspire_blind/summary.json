@@ -1,0 +1,33 @@
+{
+ "pilot": "aspire_blind",
+ "paradigm": "code_as_policy (ASPIRE-style: write program, execute, read trace, repair, distil skills); no simulator or forward model used",
+ "lives": [
+  {"life": 1, "program": "policy_v1", "seed": 38, "outcome": "success", "steps": 163, "max_load": 5.12,
+   "trace": "point 1 never moved (anchored); link lengths constant (inextensible chain); load 0.8 -> 2.9 N while dragging at ~0.07 m/s as more cable moved, jumps to 4-5 N once it wrapped the third post; throttle cut speed to ~0.045 m/s; windings ended +2.57/+3.35/-2.14 rad (required + + -); tool_vel reading is end-of-step velocity, lower than mean speed (tool moves in bursts toward each command)",
+   "change": "v2: homotopy grid fallback for layouts where the x-monotone corridor is infeasible (8/200 snapshots), windowed projection, earlier throttle (load_lo 3->2.5, load_hi 7->6.5)"},
+  {"life": 2, "program": "policy_v2", "seed": 163, "outcome": "success", "steps": 280, "max_load": 5.18,
+   "trace": "grid planner (R=0.06) routed below post 1, back up between posts 2 and 3 (0.16 m apart) and over/under correctly; load 3.5-5.1 N, speeds 0.03-0.06 m/s; sides + - + achieved at t=251",
+   "change": "none needed"},
+  {"life": 3, "program": "policy_v2", "seed": 184, "outcome": "success", "steps": 242, "max_load": 4.29,
+   "trace": "stress seed (longest path x largest total wrap); load stayed <= 4.3 N", "change": "none"},
+  {"life": 4, "program": "policy_v2", "seed": 57, "outcome": "success", "steps": 245, "max_load": 4.89,
+   "trace": "second grid-planner layout, path 1.06 m, winding about post 2 reached -4.66 rad (cable wraps deeply but stays correct)", "change": "none"},
+  {"life": 5, "program": "policy_v2", "seed": 537, "outcome": "success", "steps": 194, "max_load": 4.96,
+   "trace": "unseen layout (seed outside snapshots) as a validation flight", "change": "none; v2 submitted"}
+ ],
+ "real_steps_lives_total": 1124,
+ "versions": [
+  {"name": "policy_v1", "bytes": 3264, "desc": "x-monotone corridor path around posts on required sides, load-throttled carrot following, settle at target"},
+  {"name": "policy_v2", "bytes": 6492, "desc": "v1 + homotopy grid planner fallback (forbidden half-lines), windowed projection, earlier throttle", "submitted": true},
+  {"name": "policy_v3", "bytes": 6954, "desc": "v2 + uniform arc-length path resampling (fixes carrot stall); written after the official evaluation, never flown, not submitted"}
+ ],
+ "submitted": "policy_v2",
+ "final_program_bytes": 6492,
+ "official_eval": {"seeds": "1000-1049", "episodes": 50, "success_rate": 0.94, "successes": 47,
+  "failures": {"overload": 0, "wrong_side_at_rest": 0, "time_out": 3},
+  "failure_seeds": [1029, 1033, 1046],
+  "failure_diagnosis": "all three: program bug, not physics. The corridor path is sampled on a 5 mm x grid; where it needs a large y change over a tiny x step one segment is up to 0.15 m long; the carrot is capped at (tool projection onto vertices) + 0.03 m, so once the tool reaches the far end of the long segment's first 3 cm its vertex projection does not advance and the carrot freezes; the tool rests at the command (load 0.3-0.6 N) until time-out. Detectable offline: 14/200 snapshot layouts have a gap > 0.03 m under v2 (I did not check this before submitting). Fix in policy_v3 (static check: 0/200), not evaluated.",
+  "max_load_mean": 4.40, "max_load_max": 5.32, "n_steps_median": 186.5},
+ "extended_run": "not performed (official success rate 94% >= 50%)",
+ "conclusion_installation": "A ~1.0 m inextensible cable/chain (20 markers, 0.052 m apart, lying on the table, radius ~4 mm) clamped at point 1 = (0.05, 0); the tool holds point 20 and drags it around three fixed pegs. The load reading behaves like the pulling force at the tool: ~0.3-0.8 N at rest, rising with dragging speed and with the length of cable in motion (table friction/drag) and stepping up each time the cable wraps a peg (capstan friction). At <= 0.1 m/s with load-based throttling it never exceeded 5.3 N; the cable follows the tool's route and stays wrapped when the tool stops."
+}

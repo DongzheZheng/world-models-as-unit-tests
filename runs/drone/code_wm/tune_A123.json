@@ -1,0 +1,226 @@
+{
+ "cfg": {
+  "world": "runs/drone/code_wm/fit_l123.json",
+  "world_override": {
+   "OBS_NOISE_POS": 0.02,
+   "OBS_NOISE_VEL": 0.03,
+   "GUST_STD": 1.0,
+   "GUST_TAU": 0.5
+  },
+  "unc": {
+   "JET_S_AY": [
+    "mul",
+    0.3
+   ],
+   "JET_S_SIG": [
+    "add",
+    0.3
+   ],
+   "JET_N_AY": [
+    "mul",
+    0.3
+   ],
+   "JET_N_SIG": [
+    "add",
+    0.3
+   ],
+   "JET_N_X": [
+    "add",
+    0.4
+   ],
+   "JET_S_X": [
+    "add",
+    0.4
+   ],
+   "JET_N_GY": [
+    "add",
+    0.1
+   ],
+   "JET_S_GY": [
+    "add",
+    0.1
+   ],
+   "RATE_BIAS_P": [
+    "add",
+    0.05
+   ],
+   "RATE_BIAS_Q": [
+    "add",
+    0.05
+   ],
+   "RATE_BIAS_R": [
+    "add",
+    0.05
+   ],
+   "THRUST_GAIN": [
+    "mul",
+    0.03
+   ],
+   "CMD_DELAY": [
+    "add",
+    0.2
+   ],
+   "DRAG": [
+    "add",
+    0.08
+   ]
+  },
+  "init": {
+   "speed": 6.3,
+   "kp": 5.3,
+   "kv": 4.9,
+   "ki": 0.14,
+   "k_att": 9.0,
+   "max_tilt": 0.95,
+   "corner_speed": 3.0,
+   "corner_dist": 3.0
+  },
+  "time_weight": 0.002,
+  "N": 64,
+  "M": 48,
+  "rounds": 5,
+  "final_M": 2048,
+  "out": "runs/drone/code_wm/tune_A123.json"
+ },
+ "history": [
+  {
+   "round": 0,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 8.0,
+    "kp": 6.906,
+    "kv": 6.367,
+    "ki": 0.176,
+    "k_att": 11.292,
+    "max_tilt": 1.001,
+    "corner_speed": 3.69,
+    "corner_dist": 2.829
+   },
+   "mean_succ": 0.7604166666666667,
+   "elapsed": 77.50170183181763
+  },
+  {
+   "round": 1,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 6.977,
+    "kp": 5.843,
+    "kv": 5.659,
+    "ki": 0.272,
+    "k_att": 13.391,
+    "max_tilt": 1.052,
+    "corner_speed": 1.611,
+    "corner_dist": 4.624
+   },
+   "mean_succ": 0.9293619791666667,
+   "elapsed": 153.32153034210205
+  },
+  {
+   "round": 2,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 7.678,
+    "kp": 5.219,
+    "kv": 4.636,
+    "ki": 0.415,
+    "k_att": 13.891,
+    "max_tilt": 1.076,
+    "corner_speed": 1.501,
+    "corner_dist": 3.609
+   },
+   "mean_succ": 0.9505208333333333,
+   "elapsed": 230.2516005039215
+  },
+  {
+   "round": 3,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 7.713,
+    "kp": 6.249,
+    "kv": 6.318,
+    "ki": 0.852,
+    "k_att": 11.707,
+    "max_tilt": 1.052,
+    "corner_speed": 1.667,
+    "corner_dist": 3.889
+   },
+   "mean_succ": 0.9788411458333334,
+   "elapsed": 304.5411982536316
+  },
+  {
+   "round": 4,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 7.717,
+    "kp": 5.518,
+    "kv": 5.533,
+    "ki": 0.513,
+    "k_att": 11.737,
+    "max_tilt": 1.064,
+    "corner_speed": 2.847,
+    "corner_dist": 3.168
+   },
+   "mean_succ": 0.9723307291666666,
+   "elapsed": 378.53209257125854
+  }
+ ],
+ "finals": {
+  "mean": {
+   "params": {
+    "speed": 7.190619137811426,
+    "kp": 6.494732602830574,
+    "kv": 5.557303161137236,
+    "ki": 0.6925504562837715,
+    "k_att": 12.014725647884418,
+    "max_tilt": 1.087522968605817,
+    "corner_speed": 2.392413936180213,
+    "corner_dist": 3.797362126492348
+   },
+   "success": 0.95703125,
+   "collision": 0.0283203125,
+   "oob": 0.0,
+   "timeout": 0.0146484375,
+   "t_success": 8.000248908996582
+  },
+  "best": {
+   "params": {
+    "speed": 7.717060664104735,
+    "kp": 5.517716253152119,
+    "kv": 5.532550963501775,
+    "ki": 0.5126584837192547,
+    "k_att": 11.736612645018196,
+    "max_tilt": 1.0643519914418222,
+    "corner_speed": 2.847116143930878,
+    "corner_dist": 3.1683391173099635
+   },
+   "success": 0.939453125,
+   "collision": 0.04052734375,
+   "oob": 0.0,
+   "timeout": 0.02001953125,
+   "t_success": 7.531282424926758
+  }
+ },
+ "pick": "mean",
+ "controller": {
+  "speed": 7.190619137811426,
+  "kp": 6.494732602830574,
+  "kv": 5.557303161137236,
+  "ki": 0.6925504562837715,
+  "k_att": 12.014725647884418,
+  "max_tilt": 1.087522968605817,
+  "thrust_gain": 0.8748074173927307,
+  "rate_gain": 0.8904488682746887,
+  "t_bias": 0.0,
+  "p_bias": -0.5885395340717504,
+  "q_bias": 0.5852626634009077,
+  "r_bias": -0.28759680955935346,
+  "lookahead_corner": 1.5,
+  "slow_r3": 0.0,
+  "corner_dist": 3.797362126492348,
+  "corner_speed": 2.392413936180213,
+  "wind_ff": 1.0
+ },
+ "wm_steps": 5071639,
+ "wall_s": 528.724036693573,
+ "wm_steps_per_s": 9592.223254527988
+}

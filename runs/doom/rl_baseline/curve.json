@@ -1,0 +1,100 @@
+[
+ {
+  "real_episodes": 5,
+  "real_steps": 318,
+  "eval_mean": 205.72,
+  "eval_sem": 4.278669886775562,
+  "train_wall_s": 0.9872214794158936
+ },
+ {
+  "real_episodes": 28,
+  "real_steps": 1024,
+  "eval_mean": 354.51,
+  "eval_sem": 12.1316404084526,
+  "train_wall_s": 2.2863402366638184
+ },
+ {
+  "real_episodes": 52,
+  "real_steps": 3072,
+  "eval_mean": 346.26,
+  "eval_sem": 21.44410231275723,
+  "train_wall_s": 4.06847620010376
+ },
+ {
+  "real_episodes": 102,
+  "real_steps": 7168,
+  "eval_mean": 391.51,
+  "eval_sem": 24.852583346606043,
+  "train_wall_s": 7.551538467407227
+ },
+ {
+  "real_episodes": 206,
+  "real_steps": 16896,
+  "eval_mean": 438.3,
+  "eval_sem": 19.401878775005272,
+  "train_wall_s": 14.344713687896729
+ },
+ {
+  "real_episodes": 252,
+  "real_steps": 22016,
+  "eval_mean": 430.64,
+  "eval_sem": 15.795882501462211,
+  "train_wall_s": 96.21811151504517
+ },
+ {
+  "real_episodes": 302,
+  "real_steps": 28160,
+  "eval_mean": 482.93,
+  "eval_sem": 19.617967555279524,
+  "train_wall_s": 117.32224822044373
+ },
+ {
+  "real_episodes": 351,
+  "real_steps": 33280,
+  "eval_mean": 471.73,
+  "eval_sem": 15.670985004140613,
+  "train_wall_s": 142.32360005378723
+ },
+ {
+  "real_episodes": 400,
+  "real_steps": 39424,
+  "eval_mean": 595.17,
+  "eval_sem": 24.166158383160532,
+  "train_wall_s": 169.22827243804932
+ },
+ {
+  "real_episodes": 454,
+  "real_steps": 47104,
+  "eval_mean": 818.84,
+  "eval_sem": 47.19920067119781,
+  "train_wall_s": 194.6559455394745
+ },
+ {
+  "real_episodes": 505,
+  "real_steps": 57856,
+  "eval_mean": 971.05,
+  "eval_sem": 60.270426205561215,
+  "train_wall_s": 45.43214440345764
+ },
+ {
+  "real_episodes": 1000,
+  "real_steps": 176640,
+  "eval_mean": 981.13,
+  "eval_sem": 77.69876531194045,
+  "train_wall_s": 90.46420383453369
+ },
+ {
+  "real_episodes": 2001,
+  "real_steps": 439808,
+  "eval_mean": 1206.17,
+  "eval_sem": 87.22103422340277,
+  "train_wall_s": 206.30611085891724
+ },
+ {
+  "real_episodes": 4672,
+  "real_steps": 1300992,
+  "eval_mean": 1716.41,
+  "eval_sem": 116.08604920058224,
+  "train_wall_s": 1800.193725824356
+ }
+]

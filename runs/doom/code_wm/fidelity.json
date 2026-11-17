@@ -1,0 +1,333 @@
+{
+ "sanity_life1": {
+  "test_life": 1,
+  "fitted_on": "1(in-sample sanity)",
+  "policy": "sticky",
+  "real_return": 384.0,
+  "real_steps": 96,
+  "player_abs_err_y": {
+   "1_steps": {
+    "mean": 0.009392527530067845,
+    "max": 0.0234375,
+    "n": 95
+   },
+   "5_steps": {
+    "mean": 0.11709188104985835,
+    "max": 0.22994232177734375,
+    "n": 91
+   },
+   "10_steps": {
+    "mean": 0.2597652701444404,
+    "max": 0.62445068359375,
+    "n": 86
+   },
+   "25_steps": {
+    "mean": 0.340773945123377,
+    "max": 1.137298583984375,
+    "n": 71
+   }
+  },
+  "ball_pos_err": {
+   "4_tics": {
+    "mean": 3.856357399445526e-05,
+    "n": 8
+   },
+   "20_tics": {
+    "mean": 0.00020918025563083424,
+    "n": 7
+   },
+   "40_tics": {
+    "mean": 0.00042774063741100036,
+    "n": 6
+   }
+  },
+  "ball_speed_abs_err_max": 1.4235403742901553e-05,
+  "visibility_rule_acc": 1.0,
+  "shots": {
+   "observed": 8,
+   "world_expected": 7.3344,
+   "world_expected_range": [
+    3.6672,
+    14.6688
+   ]
+  },
+  "imp_spawns": {
+   "observed_tics": [
+    121,
+    241,
+    301,
+    361
+   ],
+   "on_world_schedule": true,
+   "attempts": 5,
+   "successes": 4,
+   "n_initial": 3
+  },
+  "survival": {
+   "real": 384.0,
+   "world_mean": 361.4091796875,
+   "world_median": 320.0,
+   "world_p10": 132.0,
+   "world_p90": 648.0,
+   "real_percentile_in_world": 62.5
+  }
+ },
+ "life2_fit_on_1": {
+  "test_life": 2,
+  "fitted_on": "1",
+  "policy": "runs/doom/code_wm/policy_v1.pt",
+  "real_return": 553.0,
+  "real_steps": 139,
+  "player_abs_err_y": {
+   "1_steps": {
+    "mean": 0.006616564764492754,
+    "max": 0.0988616943359375,
+    "n": 138
+   },
+   "5_steps": {
+    "mean": 0.1316229407467059,
+    "max": 0.4615478515625,
+    "n": 134
+   },
+   "10_steps": {
+    "mean": 0.3396939418112585,
+    "max": 0.71002197265625,
+    "n": 129
+   },
+   "25_steps": {
+    "mean": 0.8041203816731771,
+    "max": 1.599151611328125,
+    "n": 114
+   }
+  },
+  "ball_pos_err": {
+   "4_tics": {
+    "mean": 4.4679309472126985e-05,
+    "n": 16
+   },
+   "20_tics": {
+    "mean": 0.0002281287127351306,
+    "n": 14
+   },
+   "40_tics": {
+    "mean": 0.0004460320204391603,
+    "n": 13
+   }
+  },
+  "ball_speed_abs_err_max": 1.9069546389971492e-05,
+  "visibility_rule_acc": 0.9971830985915493,
+  "shots": {
+   "observed": 17,
+   "world_expected": 14.673599999999999,
+   "world_expected_range": [
+    7.336799999999999,
+    29.347199999999997
+   ]
+  },
+  "imp_spawns": {
+   "observed_tics": [
+    61,
+    181,
+    241,
+    361,
+    421,
+    481
+   ],
+   "on_world_schedule": true,
+   "attempts": 8,
+   "successes": 6,
+   "n_initial": 3
+  },
+  "survival": {
+   "real": 553.0,
+   "world_mean": 1300.16015625,
+   "world_median": 1204.0,
+   "world_p10": 520.0,
+   "world_p90": 2204.0,
+   "real_percentile_in_world": 11.42578125
+  }
+ },
+ "life3_fit_on_12": {
+  "test_life": 3,
+  "fitted_on": "1,2",
+  "policy": "planner:32,2.0,0.3",
+  "real_return": 18656.0,
+  "real_steps": 4664,
+  "player_abs_err_y": {
+   "1_steps": {
+    "mean": 0.0033415985107421876,
+    "max": 0.149688720703125,
+    "n": 600
+   },
+   "5_steps": {
+    "mean": 0.06185536702473959,
+    "max": 0.49627685546875,
+    "n": 600
+   },
+   "10_steps": {
+    "mean": 0.14927892049153646,
+    "max": 0.6810150146484375,
+    "n": 600
+   },
+   "25_steps": {
+    "mean": 0.26600306193033857,
+    "max": 1.0777435302734375,
+    "n": 600
+   }
+  },
+  "ball_pos_err": {
+   "4_tics": {
+    "mean": 3.5533531910392895e-05,
+    "n": 1460
+   },
+   "20_tics": {
+    "mean": 0.00017766765955183202,
+    "n": 1460
+   },
+   "40_tics": {
+    "mean": 0.0003551401950684821,
+    "n": 1457
+   }
+  },
+  "ball_speed_abs_err_max": 2.0682262690030484e-05,
+  "visibility_rule_acc": 0.9987671693461017,
+  "shots": {
+   "observed": 1492,
+   "world_expected": 1043.3616,
+   "world_expected_range": [
+    626.0169599999999,
+    1773.7147199999997
+   ]
+  },
+  "imp_spawns": {
+   "observed_tics": [
+    121,
+    181,
+    301,
+    361,
+    541,
+    781,
+    4501,
+    5341,
+    5461,
+    6841
+   ],
+   "on_world_schedule": true,
+   "attempts": 310,
+   "successes": 10,
+   "n_initial": 3
+  },
+  "survival": {
+   "real": 18656.0,
+   "world_mean": 3713.255859375,
+   "world_median": 3540.0,
+   "world_p10": 2101.4,
+   "world_p90": 5667.6,
+   "real_percentile_in_world": 100.0
+  }
+ },
+ "life4_fit_on_123": {
+  "test_life": 4,
+  "fitted_on": "1,2,3",
+  "policy": "planner:24,2.0,0.3",
+  "real_return": 5265.0,
+  "real_steps": 1317,
+  "player_abs_err_y": {
+   "1_steps": {
+    "mean": 0.003009312947591146,
+    "max": 0.152618408203125,
+    "n": 600
+   },
+   "5_steps": {
+    "mean": 0.061122105916341145,
+    "max": 0.539306640625,
+    "n": 600
+   },
+   "10_steps": {
+    "mean": 0.15068066914876302,
+    "max": 0.746307373046875,
+    "n": 600
+   },
+   "25_steps": {
+    "mean": 0.29490272521972655,
+    "max": 1.301177978515625,
+    "n": 600
+   }
+  },
+  "ball_pos_err": {
+   "4_tics": {
+    "mean": 3.613695309367758e-05,
+    "n": 420
+   },
+   "20_tics": {
+    "mean": 0.0001810626484898902,
+    "n": 418
+   },
+   "40_tics": {
+    "mean": 0.0003620362632489703,
+    "n": 416
+   }
+  },
+  "ball_speed_abs_err_max": 1.96590048719969e-05,
+  "visibility_rule_acc": 0.9992712034253439,
+  "shots": {
+   "observed": 427,
+   "world_expected": 393.8832,
+   "world_expected_range": [
+    256.02408,
+    512.04816
+   ]
+  },
+  "imp_spawns": {
+   "observed_tics": [
+    61,
+    181,
+    241,
+    301,
+    361,
+    481,
+    601,
+    1021,
+    2221,
+    4321
+   ],
+   "on_world_schedule": true,
+   "attempts": 87,
+   "successes": 10,
+   "n_initial": 3
+  },
+  "survival": {
+   "real": 5265.0,
+   "world_mean": 9800.4814453125,
+   "world_median": 10000.0,
+   "world_p10": 10000.0,
+   "world_p90": 10000.0,
+   "real_percentile_in_world": 2.1484375
+  }
+ },
+ "final_controller_world_vs_real_eval": {
+  "note": "code world v3 (fit on lives 1-3) prediction made before the eval; world episodes capped at 24000 tics",
+  "world_mean_capped": 22998.326171875,
+  "world_frac_reaching_cap": 0.9140625,
+  "real_mean": 19162.49,
+  "real_mean_capped": 14317.72,
+  "real_frac_reaching_cap": 0.26
+ },
+ "baselines_check": {
+  "note": "lab baselines.json (100 real eps) vs code world v3, 4096 eps; used for validation only, never fitted",
+  "noop": {
+   "real": 160.77,
+   "world": 142.29
+  },
+  "random": {
+   "real": 286.95,
+   "world": 277.12
+  }
+ },
+ "summary": [
+  "player strafe dynamics: 25-step open-loop error < 1.6 units on held-out lives 2-4",
+  "fireballs: straight line at 10 u/tic, position error < 0.001 units after 40 tics; visibility rule 99.7-99.9% on held-out lives",
+  "throw counts: life 3 observed 1492 vs world-v2 expected 1043 (range 626-1774); life 4 observed 427 vs world-v3 expected 394 (256-512)",
+  "survival: world v1 (life 1) put life 2 at its 11th percentile; world v2 (lives 1-2) put life 3 (18656) at its 100th percentile (missing imp cap and non-lethal hits); world v3 (lives 1-3) put life 4 (5265) at its 2nd percentile (knock-back, a looser hit box at the back wall not modelled)"
+ ]
+}

@@ -1,0 +1,201 @@
+{
+ "cfg": {
+  "world": "runs/drone/code_wm/fit_l12.json",
+  "world_override": {
+   "OBS_NOISE_POS": 0.02,
+   "OBS_NOISE_VEL": 0.03,
+   "GUST_STD": 0.7,
+   "GUST_TAU": 0.5
+  },
+  "unc": {
+   "JET_S_AY": [
+    "mul",
+    0.3
+   ],
+   "JET_S_SIG": [
+    "add",
+    0.4
+   ],
+   "JET_N_AY": [
+    "mul",
+    0.3
+   ],
+   "JET_N_SIG": [
+    "add",
+    0.4
+   ],
+   "JET_N_X": [
+    "add",
+    0.4
+   ],
+   "JET_S_X": [
+    "add",
+    0.4
+   ],
+   "RATE_BIAS_P": [
+    "add",
+    0.05
+   ],
+   "RATE_BIAS_Q": [
+    "add",
+    0.05
+   ],
+   "RATE_BIAS_R": [
+    "add",
+    0.05
+   ],
+   "THRUST_GAIN": [
+    "mul",
+    0.03
+   ],
+   "CMD_DELAY": [
+    "add",
+    0.2
+   ],
+   "DRAG": [
+    "add",
+    0.08
+   ]
+  },
+  "init": {
+   "speed": 6.3,
+   "kp": 5.3,
+   "kv": 4.9,
+   "ki": 0.14,
+   "k_att": 9.0,
+   "max_tilt": 0.95,
+   "corner_speed": 3.0,
+   "corner_dist": 3.0
+  },
+  "N": 48,
+  "M": 32,
+  "rounds": 4,
+  "final_M": 1024,
+  "out": "runs/drone/code_wm/tune_A12.json"
+ },
+ "history": [
+  {
+   "round": 0,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 8.0,
+    "kp": 7.601,
+    "kv": 5.391,
+    "ki": 0.0,
+    "k_att": 8.989,
+    "max_tilt": 1.04,
+    "corner_speed": 1.551,
+    "corner_dist": 3.445
+   },
+   "mean_succ": 0.8665364583333334,
+   "elapsed": 23.044466972351074
+  },
+  {
+   "round": 1,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 8.0,
+    "kp": 4.45,
+    "kv": 5.548,
+    "ki": 0.0,
+    "k_att": 8.617,
+    "max_tilt": 1.023,
+    "corner_speed": 1.71,
+    "corner_dist": 3.465
+   },
+   "mean_succ": 0.9563802083333334,
+   "elapsed": 39.11275815963745
+  },
+  {
+   "round": 2,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 8.0,
+    "kp": 5.484,
+    "kv": 5.971,
+    "ki": 0.611,
+    "k_att": 10.89,
+    "max_tilt": 1.036,
+    "corner_speed": 2.445,
+    "corner_dist": 4.018
+   },
+   "mean_succ": 0.9759114583333334,
+   "elapsed": 41.62702560424805
+  },
+  {
+   "round": 3,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 8.0,
+    "kp": 6.148,
+    "kv": 5.307,
+    "ki": 1.185,
+    "k_att": 8.29,
+    "max_tilt": 1.089,
+    "corner_speed": 1.5,
+    "corner_dist": 3.877
+   },
+   "mean_succ": 0.974609375,
+   "elapsed": 44.14754295349121
+  }
+ ],
+ "finals": {
+  "mean": {
+   "params": {
+    "speed": 7.889590210581421,
+    "kp": 5.166913579666759,
+    "kv": 5.448823806474713,
+    "ki": 0.7896003287770244,
+    "k_att": 10.11375860375242,
+    "max_tilt": 1.0196470355957055,
+    "corner_speed": 2.0509003086071944,
+    "corner_dist": 3.907901858310554
+   },
+   "success": 0.978515625,
+   "collision": 0.0205078125,
+   "oob": 0.0,
+   "timeout": 0.0009765625,
+   "t_success": 7.411737442016602
+  },
+  "best": {
+   "params": {
+    "speed": 8.0,
+    "kp": 6.147987364733014,
+    "kv": 5.306651434422197,
+    "ki": 1.1846089908887278,
+    "k_att": 8.290236674836507,
+    "max_tilt": 1.0888821292312973,
+    "corner_speed": 1.5,
+    "corner_dist": 3.8767494085730507
+   },
+   "success": 0.9677734375,
+   "collision": 0.0322265625,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 7.286271095275879
+  }
+ },
+ "pick": "mean",
+ "controller": {
+  "speed": 7.889590210581421,
+  "kp": 5.166913579666759,
+  "kv": 5.448823806474713,
+  "ki": 0.7896003287770244,
+  "k_att": 10.11375860375242,
+  "max_tilt": 1.0196470355957055,
+  "thrust_gain": 0.8792564868927002,
+  "rate_gain": 0.8931328654289246,
+  "t_bias": 0.0,
+  "p_bias": -0.5610968506134061,
+  "q_bias": 0.5571233538501642,
+  "r_bias": -0.2753470252797548,
+  "lookahead_corner": 1.5,
+  "slow_r3": 0.0,
+  "corner_dist": 3.907901858310554,
+  "corner_speed": 2.0509003086071944,
+  "wind_ff": 1.0
+ },
+ "wm_steps": 2040815,
+ "wall_s": 47.851070165634155,
+ "wm_steps_per_s": 42649.307380917875
+}

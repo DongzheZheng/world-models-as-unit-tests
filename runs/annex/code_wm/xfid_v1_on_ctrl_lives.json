@@ -1,0 +1,73 @@
+{
+ "params_file": "runs/annex/code_wm/fit10.json",
+ "horizons": {
+  "5": {
+   "n": 87,
+   "node_mean": 0.016823777084085775,
+   "node_median": 0.01260134087146209,
+   "p1_mean": 0.029506827179736336,
+   "p1_median": 0.01973646501023362,
+   "p1_p90": 0.07471578529278396
+  },
+  "20": {
+   "n": 77,
+   "node_mean": 0.0740487812359573,
+   "node_median": 0.05717570400471542,
+   "p1_mean": 0.1369622243809354,
+   "p1_median": 0.10166230746297603,
+   "p1_p90": 0.3406712644218469
+  },
+  "60": {
+   "n": 47,
+   "node_mean": 0.2479910508861309,
+   "node_median": 0.23900680662130963,
+   "p1_mean": 0.4038034423793902,
+   "p1_median": 0.41630783553564493,
+   "p1_p90": 0.6918906385946461
+  }
+ },
+ "whole_life": {
+  "runs/annex/blackbox/code_wm_x1/life_4.npz": {
+   "real_final_p1": [
+    0.9953356709036019,
+    0.07208907697294784
+   ],
+   "world_final_p1_from_reset": [
+    0.7242897152900696,
+    0.6904100179672241
+   ],
+   "dist_from_reset": 0.675119764283716,
+   "dist_from_reading2_with_velocity": 0.9013177578300626,
+   "real_success": true,
+   "n_steps": 144
+  },
+  "runs/annex/blackbox/code_wm_x1/life_5.npz": {
+   "real_final_p1": [
+    0.8978632652355653,
+    0.2754099770161947
+   ],
+   "world_final_p1_from_reset": [
+    0.7006224989891052,
+    0.19161517918109894
+   ],
+   "dist_from_reset": 0.2143023285307821,
+   "dist_from_reading2_with_velocity": 0.28288167534398334,
+   "real_success": true,
+   "n_steps": 71
+  },
+  "runs/annex/blackbox/code_wm_x2/life_1.npz": {
+   "real_final_p1": [
+    0.7912491119417362,
+    0.2965923603908362
+   ],
+   "world_final_p1_from_reset": [
+    0.2747056782245636,
+    0.5062140226364136
+   ],
+   "dist_from_reset": 0.557457047851156,
+   "dist_from_reading2_with_velocity": 0.7708601240368612,
+   "real_success": true,
+   "n_steps": 150
+  }
+ }
+}

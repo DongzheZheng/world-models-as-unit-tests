@@ -1,0 +1,96 @@
+{
+ "pilot": "aspire_style",
+ "scenario": "take_cover",
+ "paradigm": "code_as_policy (ASPIRE-style)",
+ "official_run": {
+  "lives_used": 5,
+  "real_steps": 1182,
+  "lives": [
+   {
+    "life": 1,
+    "seed": 1,
+    "program": "policy_v1",
+    "ret": 296,
+    "steps": 74,
+    "hits": 1,
+    "trace": "one fireball hit = death (105 dmg). Balls leave the 90deg FOV ~200 units before arrival and v1 forgot them; centre-drift rule walked the player into a ball's path; left/right chattering.",
+    "change": "v2: S1 track-out-of-view (extrapolate balls by id), S2 drift-respects-threats (single safe target selection), S3 commit-with-momentum (measured strafe ramp v'=0.64v+2.5/step, coast ~9.5v, hysteresis)."
+   },
+   {
+    "life": 2,
+    "seed": 2,
+    "program": "policy_v2",
+    "ret": 638,
+    "steps": 160,
+    "hits": 1,
+    "trace": "killed by one ball (168 dmg) at y=684 near +y wall: only safe offset (+25) rejected by 36-unit wall margin, fallback ran for the 'roomier' side into a ball 2 tics away.",
+    "change": "v3: S4 wall margin 36->20, S5 least-bad escape (candidate whose first conflict is latest), S6 centre weight 0.25->0.5."
+   },
+   {
+    "life": 3,
+    "seed": 3,
+    "program": "policy_v3",
+    "ret": 811,
+    "steps": 203,
+    "hits": 3,
+    "trace": "3 hits (21, 63, 84 dmg; damage per hit varies). All from oblique balls judged near misses by a single-point test at the player's plane.",
+    "change": "v4: S7 swept-box collision (block lateral span swept while ball within B=22 of player, +7 margin, entry/exit times), S8 reversal cost in time-to-reach."
+   },
+   {
+    "life": 4,
+    "seed": 4,
+    "program": "policy_v4",
+    "ret": 883,
+    "steps": 221,
+    "hits": 2,
+    "trace": "hit 1 (42 dmg): gliding out of a ball's span, the steering braked (coast overshoot of edge target) and stopped inside it. hit 2 (168): pinned at the +y wall (y=740), converging aimed balls.",
+    "change": "v5: S9 coast-don't-brake (release if closed-form coast path is clear), S10 wall-proximity cost (2/unit inside 140 of a wall)."
+   },
+   {
+    "life": 5,
+    "seed": 5,
+    "program": "policy_v5",
+    "ret": 2095,
+    "steps": 524,
+    "hits": 1,
+    "trace": "single fatal hit at tic 2096 at y~107 near the -y wall; the ball was never in obs['objects'] (fired from outside the FOV, 11 imps alive). Logged as open skill, not repaired.",
+    "change": "none (official lives exhausted); v5 is the final program."
+   }
+  ]
+ },
+ "official_eval": {
+  "program": "pilots/aspire_doom/policy_v5.py",
+  "seeds": "1000-1099",
+  "n": 100,
+  "mean": 2384.56,
+  "sem": 213.33961531792448,
+  "std": 2133.3961531792447,
+  "median": 1992.0,
+  "min": 204.0,
+  "max": 12276.0,
+  "frac_ge_750": 0.79,
+  "results_record": "runs/doom/results/take_cover__aspire_style.json"
+ },
+ "extended_run": {
+  "lives_used": 0,
+  "reason": "official eval mean >= 750, extended run not required"
+ },
+ "extended_eval": null,
+ "final_program_bytes": 8619,
+ "skill_library": "pilots/aspire_doom/skills.json",
+ "gifs": {
+  "lives": [
+   "runs/doom/aspire_style/gifs/aspire_style_life_seed1_v1.gif",
+   "runs/doom/aspire_style/gifs/aspire_style_life_seed2_v2.gif",
+   "runs/doom/aspire_style/gifs/aspire_style_life_seed3_v3.gif",
+   "runs/doom/aspire_style/gifs/aspire_style_life_seed4_v4.gif",
+   "runs/doom/aspire_style/gifs/aspire_style_life_seed5_v5.gif"
+  ],
+  "eval_first": "runs/doom/aspire_style/gifs/aspire_style_eval_seed1000_v5.gif"
+ },
+ "baselines": {
+  "random": 286.95,
+  "noop": 160.77,
+  "solved_bar": 750
+ }
+}

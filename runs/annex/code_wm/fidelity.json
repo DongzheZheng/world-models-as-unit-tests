@@ -1,0 +1,317 @@
+{
+ "method": "open-loop replay of the logged commands from a logged reading (node velocities from the two previous readings), every 4th reading as a start; error = |world - real| of tracked points' (x,y) after h steps; each life is scored with parameters fitted only to EARLIER lives",
+ "per_life": {
+  "life_2": {
+   "params": "fit6 (life 1)",
+   "horizons": {
+    "5": {
+     "n": 58,
+     "node_mean": 0.02520940620902383,
+     "node_median": 0.010458995869148937,
+     "p1_mean": 0.036691777566766996,
+     "p1_median": 0.015518029570640452,
+     "p1_p90": 0.08217565929548651
+    },
+    "20": {
+     "n": 54,
+     "node_mean": 0.10632569600240625,
+     "node_median": 0.0681305814771356,
+     "p1_mean": 0.19626779813002782,
+     "p1_median": 0.1298479820171104,
+     "p1_p90": 0.3786743698158271
+    },
+    "60": {
+     "n": 44,
+     "node_mean": 0.24782487647887289,
+     "node_median": 0.23413186480132916,
+     "p1_mean": 0.3943756877716099,
+     "p1_median": 0.3823034443965746,
+     "p1_p90": 0.6862014975529785
+    },
+    "150": {
+     "n": 22,
+     "node_mean": 0.28013078993467927,
+     "node_median": 0.26826810296156867,
+     "p1_mean": 0.4933474144934537,
+     "p1_median": 0.5148491316138573,
+     "p1_p90": 0.6897423669153386
+    }
+   }
+  },
+  "life_3": {
+   "params": "fit7 (lives 1-2)",
+   "horizons": {
+    "5": {
+     "n": 58,
+     "node_mean": 0.00948929942656577,
+     "node_median": 0.0075004643001809245,
+     "p1_mean": 0.01613873409866189,
+     "p1_median": 0.013679001848893688,
+     "p1_p90": 0.03350130253577977
+    },
+    "20": {
+     "n": 54,
+     "node_mean": 0.03772027999096078,
+     "node_median": 0.031608172302172236,
+     "p1_mean": 0.07389756386989019,
+     "p1_median": 0.055478268759306865,
+     "p1_p90": 0.14777043359884504
+    },
+    "60": {
+     "n": 44,
+     "node_mean": 0.09163504576246599,
+     "node_median": 0.07470279016616324,
+     "p1_mean": 0.16092089165339196,
+     "p1_median": 0.0958726453049258,
+     "p1_p90": 0.3894190905443883
+    },
+    "150": {
+     "n": 22,
+     "node_mean": 0.13753043545141258,
+     "node_median": 0.13294718427728974,
+     "p1_mean": 0.262794147664111,
+     "p1_median": 0.2106192130783781,
+     "p1_p90": 0.44400702714347773
+    }
+   }
+  },
+  "life_4": {
+   "params": "fit9 (lives 1-3)",
+   "horizons": {
+    "5": {
+     "n": 58,
+     "node_mean": 0.015745051581697485,
+     "node_median": 0.00851760596107292,
+     "p1_mean": 0.024974896965209454,
+     "p1_median": 0.019212836351573087,
+     "p1_p90": 0.05352182178042927
+    },
+    "20": {
+     "n": 54,
+     "node_mean": 0.07626772205311808,
+     "node_median": 0.053872148073790926,
+     "p1_mean": 0.16068675189417328,
+     "p1_median": 0.1395073328969887,
+     "p1_p90": 0.263050862447848
+    },
+    "60": {
+     "n": 44,
+     "node_mean": 0.21898140015852663,
+     "node_median": 0.17903452095063788,
+     "p1_mean": 0.44256899630786106,
+     "p1_median": 0.3510133838410199,
+     "p1_p90": 0.8419742119283231
+    },
+    "150": {
+     "n": 22,
+     "node_mean": 0.2782661792707434,
+     "node_median": 0.25167090235924394,
+     "p1_mean": 0.5349331808718077,
+     "p1_median": 0.5255767136713726,
+     "p1_p90": 0.9591584135147612
+    }
+   }
+  }
+ },
+ "rest_point": {
+  "life_2": {
+   "params": "fit6 (life 1)",
+   "real_final_p1": [
+    0.26656308466382483,
+    0.2909960703103091
+   ],
+   "world_final_p1_from_reset": [
+    0.2782696783542633,
+    0.46433866024017334
+   ],
+   "dist_from_reset_m": 0.17373743931411584,
+   "dist_from_reading2_with_velocity_m": 0.4545475203376879,
+   "note": "no life ended at rest; this is the final reading at the 236-step limit"
+  },
+  "life_3": {
+   "params": "fit7 (lives 1-2)",
+   "real_final_p1": [
+    1.0691526850701316,
+    0.2045959360661141
+   ],
+   "world_final_p1_from_reset": [
+    0.8972510695457458,
+    0.012895163148641586
+   ],
+   "dist_from_reset_m": 0.25748660500509557,
+   "dist_from_reading2_with_velocity_m": 0.27845147852597135,
+   "note": "no life ended at rest; this is the final reading at the 236-step limit"
+  },
+  "life_4": {
+   "params": "fit9 (lives 1-3)",
+   "real_final_p1": [
+    0.4394722624625306,
+    -0.21628148352719245
+   ],
+   "world_final_p1_from_reset": [
+    0.9285389184951782,
+    0.5034868121147156
+   ],
+   "dist_from_reset_m": 0.8702026163223213,
+   "dist_from_reading2_with_velocity_m": 0.39014979399146593,
+   "note": "no life ended at rest; this is the final reading at the 236-step limit"
+  },
+  "life_1": {
+   "params": "fit6 (life 1, in-sample)",
+   "real_final_p1": [
+    0.3708017793883164,
+    0.4457124565083461
+   ],
+   "world_final_p1_from_reset": [
+    1.1258914470672607,
+    -0.36279934644699097
+   ],
+   "dist_from_reset": 1.106278329243409,
+   "dist_from_reading2_with_velocity": 0.3706287973132408,
+   "real_success": false,
+   "n_steps": 236
+  }
+ },
+ "in_sample_final_world_fit10_lives1to4": {
+  "5": {
+   "n": 232,
+   "node_mean": 0.01335354601106196,
+   "node_median": 0.007031220109940709,
+   "p1_mean": 0.024665256925566946,
+   "p1_median": 0.014766910950786694,
+   "p1_p90": 0.05127449136118694
+  },
+  "20": {
+   "n": 216,
+   "node_mean": 0.06035464136288188,
+   "node_median": 0.039424767130403694,
+   "p1_mean": 0.12570371759466897,
+   "p1_median": 0.09632494925667906,
+   "p1_p90": 0.2810968116125212
+  },
+  "60": {
+   "n": 176,
+   "node_mean": 0.1456848455090663,
+   "node_median": 0.12259571801307209,
+   "p1_mean": 0.2683858048341204,
+   "p1_median": 0.1921731546466956,
+   "p1_p90": 0.5848382798564473
+  },
+  "150": {
+   "n": 88,
+   "node_mean": 0.21797425304865073,
+   "node_median": 0.1865315134857593,
+   "p1_mean": 0.3931373163628789,
+   "p1_median": 0.3436247956725548,
+   "p1_p90": 0.6501929964236431
+  }
+ },
+ "extended": {
+  "world_selection_held_out": {
+   "note": "all three fitted on the same 6 lives (code_wm 1-4, x1 1-2), scored on 2 unseen probe lives (code_wm 5, x1 3)",
+   "official_structure": {
+    "5": {
+     "node_mean": 0.0072,
+     "p1_mean": 0.0082,
+     "p1_median": 0.0048
+    },
+    "20": {
+     "node_mean": 0.0383,
+     "p1_mean": 0.0533,
+     "p1_median": 0.0385
+    },
+    "60": {
+     "node_mean": 0.172,
+     "p1_mean": 0.2459,
+     "p1_median": 0.1967
+    },
+    "150": {
+     "node_mean": 0.3824,
+     "p1_mean": 0.6175,
+     "p1_median": 0.6141
+    }
+   },
+   "v2_without_link_projection": {
+    "5": {
+     "node_mean": 0.0062,
+     "p1_mean": 0.0088,
+     "p1_median": 0.0061
+    },
+    "20": {
+     "node_mean": 0.0355,
+     "p1_mean": 0.0507,
+     "p1_median": 0.0405
+    },
+    "60": {
+     "node_mean": 0.124,
+     "p1_mean": 0.1926,
+     "p1_median": 0.1455
+    },
+    "150": {
+     "node_mean": 0.3621,
+     "p1_mean": 0.5932,
+     "p1_median": 0.6234
+    }
+   },
+   "v2": {
+    "5": {
+     "node_mean": 0.0062,
+     "p1_mean": 0.008,
+     "p1_median": 0.0052
+    },
+    "20": {
+     "node_mean": 0.0284,
+     "p1_mean": 0.044,
+     "p1_median": 0.0365
+    },
+    "60": {
+     "node_mean": 0.0945,
+     "p1_mean": 0.1449,
+     "p1_median": 0.1348
+    },
+    "150": {
+     "node_mean": 0.3495,
+     "p1_mean": 0.5987,
+     "p1_median": 0.5537
+    }
+   }
+  },
+  "controller_lives_out_of_sample": {
+   "note": "lives x1 4, x1 5, x2 1 (flown with throw_v2, never fitted); official world fit10 vs v2 world_params_v2",
+   "official_world_fit10": {
+    "5": {
+     "node_mean": 0.0168,
+     "p1_mean": 0.0295,
+     "p1_median": 0.0197
+    },
+    "20": {
+     "node_mean": 0.074,
+     "p1_mean": 0.137,
+     "p1_median": 0.1017
+    },
+    "60": {
+     "node_mean": 0.248,
+     "p1_mean": 0.4038,
+     "p1_median": 0.4163
+    }
+   },
+   "v2": {
+    "5": {
+     "node_mean": 0.0084,
+     "p1_mean": 0.0117,
+     "p1_median": 0.0076
+    },
+    "20": {
+     "node_mean": 0.0349,
+     "p1_mean": 0.058,
+     "p1_median": 0.0412
+    },
+    "60": {
+     "node_mean": 0.1041,
+     "p1_mean": 0.1741,
+     "p1_median": 0.1288
+    }
+   }
+  }
+ }
+}

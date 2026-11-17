@@ -1,0 +1,65 @@
+{
+ "controller": "an existing program that moves the tool along a waypoint path around the posts at a fixed clearance and a fixed speed",
+ "episodes": [
+  {
+   "seed": 900,
+   "outcome": "overload",
+   "steps": 132,
+   "max_load": 10.808
+  },
+  {
+   "seed": 901,
+   "outcome": "overload",
+   "steps": 95,
+   "max_load": 10.023
+  },
+  {
+   "seed": 902,
+   "outcome": "overload",
+   "steps": 142,
+   "max_load": 10.165
+  },
+  {
+   "seed": 903,
+   "outcome": "success",
+   "steps": 148,
+   "max_load": 8.431
+  },
+  {
+   "seed": 904,
+   "outcome": "success",
+   "steps": 203,
+   "max_load": 9.354
+  },
+  {
+   "seed": 905,
+   "outcome": "overload",
+   "steps": 117,
+   "max_load": 10.048
+  },
+  {
+   "seed": 906,
+   "outcome": "overload",
+   "steps": 82,
+   "max_load": 21.039
+  },
+  {
+   "seed": 907,
+   "outcome": "overload",
+   "steps": 146,
+   "max_load": 10.513
+  },
+  {
+   "seed": 908,
+   "outcome": "overload",
+   "steps": 85,
+   "max_load": 11.173
+  },
+  {
+   "seed": 909,
+   "outcome": "overload",
+   "steps": 147,
+   "max_load": 10.432
+  }
+ ]
+}

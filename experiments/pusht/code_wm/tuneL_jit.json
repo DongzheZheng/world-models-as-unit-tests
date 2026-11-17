@@ -1,0 +1,1 @@
+{"n_ep": 32, "seed": 5, "planner": {"n_samples": 2048, "succ_thr": 0.965, "object": "L"}, "params_jitter": 0.1, "out": "runs/pusht/code_wm/wmL_tune_jit.json"}

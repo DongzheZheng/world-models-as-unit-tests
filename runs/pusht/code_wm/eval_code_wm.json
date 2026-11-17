@@ -1,0 +1,417 @@
+{
+ "episodes": [
+  {
+   "seed": 1000,
+   "ret": 67.79800442339952,
+   "n_steps": 136,
+   "success": true,
+   "max_coverage": 0.9565486179739571,
+   "final_coverage": 0.9565486179739571
+  },
+  {
+   "seed": 1001,
+   "ret": 51.669155498010014,
+   "n_steps": 163,
+   "success": true,
+   "max_coverage": 0.9792807385282482,
+   "final_coverage": 0.9792807385282482
+  },
+  {
+   "seed": 1002,
+   "ret": 4.797835659940112,
+   "n_steps": 48,
+   "success": true,
+   "max_coverage": 0.954166412251133,
+   "final_coverage": 0.954166412251133
+  },
+  {
+   "seed": 1003,
+   "ret": 77.48803070224034,
+   "n_steps": 117,
+   "success": true,
+   "max_coverage": 0.9687002773076883,
+   "final_coverage": 0.9687002773076883
+  },
+  {
+   "seed": 1004,
+   "ret": 131.764019682497,
+   "n_steps": 284,
+   "success": true,
+   "max_coverage": 0.9551740056701155,
+   "final_coverage": 0.9551740056701155
+  },
+  {
+   "seed": 1005,
+   "ret": 16.917739626980456,
+   "n_steps": 119,
+   "success": true,
+   "max_coverage": 0.9509594662017443,
+   "final_coverage": 0.9509594662017443
+  },
+  {
+   "seed": 1006,
+   "ret": 142.5802097550332,
+   "n_steps": 277,
+   "success": true,
+   "max_coverage": 0.9519914034639384,
+   "final_coverage": 0.9519914034639384
+  },
+  {
+   "seed": 1007,
+   "ret": 39.84817415650553,
+   "n_steps": 122,
+   "success": true,
+   "max_coverage": 0.9716996898000112,
+   "final_coverage": 0.9716996898000112
+  },
+  {
+   "seed": 1008,
+   "ret": 5.809200056543788,
+   "n_steps": 109,
+   "success": true,
+   "max_coverage": 0.9530263014106025,
+   "final_coverage": 0.9530263014106025
+  },
+  {
+   "seed": 1009,
+   "ret": 66.6052470746186,
+   "n_steps": 169,
+   "success": true,
+   "max_coverage": 0.9852768913719756,
+   "final_coverage": 0.9852768913719756
+  },
+  {
+   "seed": 1010,
+   "ret": 21.934650869424026,
+   "n_steps": 83,
+   "success": true,
+   "max_coverage": 0.9566125645884002,
+   "final_coverage": 0.9566125645884002
+  },
+  {
+   "seed": 1011,
+   "ret": 153.6470034711613,
+   "n_steps": 300,
+   "success": false,
+   "max_coverage": 0.9458257189811649,
+   "final_coverage": 0.862715355187394
+  },
+  {
+   "seed": 1012,
+   "ret": 99.89431873351833,
+   "n_steps": 264,
+   "success": true,
+   "max_coverage": 0.965896956350753,
+   "final_coverage": 0.965896956350753
+  },
+  {
+   "seed": 1013,
+   "ret": 84.40254821550144,
+   "n_steps": 213,
+   "success": true,
+   "max_coverage": 0.9621549229142343,
+   "final_coverage": 0.9621549229142343
+  },
+  {
+   "seed": 1014,
+   "ret": 59.21576337449375,
+   "n_steps": 127,
+   "success": true,
+   "max_coverage": 0.9516510476574453,
+   "final_coverage": 0.9516510476574453
+  },
+  {
+   "seed": 1015,
+   "ret": 100.47494780515363,
+   "n_steps": 135,
+   "success": true,
+   "max_coverage": 0.9527334512039094,
+   "final_coverage": 0.9527334512039094
+  },
+  {
+   "seed": 1016,
+   "ret": 48.09754123451995,
+   "n_steps": 99,
+   "success": true,
+   "max_coverage": 0.9572400501900112,
+   "final_coverage": 0.9572400501900112
+  },
+  {
+   "seed": 1017,
+   "ret": 97.51965635692787,
+   "n_steps": 300,
+   "success": false,
+   "max_coverage": 0.9337106960068309,
+   "final_coverage": 0.6943844830704765
+  },
+  {
+   "seed": 1018,
+   "ret": 93.60456650821595,
+   "n_steps": 192,
+   "success": true,
+   "max_coverage": 0.9747386093798855,
+   "final_coverage": 0.9747386093798855
+  },
+  {
+   "seed": 1019,
+   "ret": 31.304591190112223,
+   "n_steps": 94,
+   "success": true,
+   "max_coverage": 0.9574214411048472,
+   "final_coverage": 0.9574214411048472
+  },
+  {
+   "seed": 1020,
+   "ret": 126.66494475070782,
+   "n_steps": 300,
+   "success": false,
+   "max_coverage": 0.9486137856017871,
+   "final_coverage": 0.36325858786621795
+  },
+  {
+   "seed": 1021,
+   "ret": 72.6099409898017,
+   "n_steps": 168,
+   "success": true,
+   "max_coverage": 0.9515733075210848,
+   "final_coverage": 0.9515733075210848
+  },
+  {
+   "seed": 1022,
+   "ret": 112.49170478315196,
+   "n_steps": 213,
+   "success": true,
+   "max_coverage": 0.9540716110153501,
+   "final_coverage": 0.9540716110153501
+  },
+  {
+   "seed": 1023,
+   "ret": 147.184238266152,
+   "n_steps": 300,
+   "success": false,
+   "max_coverage": 0.948294500095022,
+   "final_coverage": 0.8119538926551125
+  },
+  {
+   "seed": 1024,
+   "ret": 36.62698490919295,
+   "n_steps": 119,
+   "success": true,
+   "max_coverage": 0.9531619482670776,
+   "final_coverage": 0.9531619482670776
+  },
+  {
+   "seed": 1025,
+   "ret": 139.25002340269344,
+   "n_steps": 250,
+   "success": true,
+   "max_coverage": 0.9566946112733339,
+   "final_coverage": 0.9566946112733339
+  },
+  {
+   "seed": 1026,
+   "ret": 96.52326065767731,
+   "n_steps": 229,
+   "success": true,
+   "max_coverage": 0.9544749152502787,
+   "final_coverage": 0.9544749152502787
+  },
+  {
+   "seed": 1027,
+   "ret": 13.688186884094174,
+   "n_steps": 69,
+   "success": true,
+   "max_coverage": 0.9597345723173555,
+   "final_coverage": 0.9597345723173555
+  },
+  {
+   "seed": 1028,
+   "ret": 81.23274471906355,
+   "n_steps": 154,
+   "success": true,
+   "max_coverage": 0.9523636573540706,
+   "final_coverage": 0.9523636573540706
+  },
+  {
+   "seed": 1029,
+   "ret": 86.86318567751752,
+   "n_steps": 197,
+   "success": true,
+   "max_coverage": 0.9779494285383266,
+   "final_coverage": 0.9779494285383266
+  },
+  {
+   "seed": 1030,
+   "ret": 16.968695229339076,
+   "n_steps": 100,
+   "success": true,
+   "max_coverage": 0.9764183360392364,
+   "final_coverage": 0.9764183360392364
+  },
+  {
+   "seed": 1031,
+   "ret": 29.08891944035381,
+   "n_steps": 86,
+   "success": true,
+   "max_coverage": 0.9657634201239033,
+   "final_coverage": 0.9657634201239033
+  },
+  {
+   "seed": 1032,
+   "ret": 77.07711460174407,
+   "n_steps": 278,
+   "success": true,
+   "max_coverage": 0.9565552522253391,
+   "final_coverage": 0.9565552522253391
+  },
+  {
+   "seed": 1033,
+   "ret": 100.87221579116849,
+   "n_steps": 227,
+   "success": true,
+   "max_coverage": 0.9574443803717442,
+   "final_coverage": 0.9574443803717442
+  },
+  {
+   "seed": 1034,
+   "ret": 66.28891499613836,
+   "n_steps": 251,
+   "success": true,
+   "max_coverage": 0.9547804738003584,
+   "final_coverage": 0.9547804738003584
+  },
+  {
+   "seed": 1035,
+   "ret": 40.22649122209611,
+   "n_steps": 107,
+   "success": true,
+   "max_coverage": 0.9509297016713579,
+   "final_coverage": 0.9509297016713579
+  },
+  {
+   "seed": 1036,
+   "ret": 105.72171330651827,
+   "n_steps": 186,
+   "success": true,
+   "max_coverage": 0.9648199937979779,
+   "final_coverage": 0.9648199937979779
+  },
+  {
+   "seed": 1037,
+   "ret": 127.50487984978007,
+   "n_steps": 236,
+   "success": true,
+   "max_coverage": 0.9556528211798879,
+   "final_coverage": 0.9556528211798879
+  },
+  {
+   "seed": 1038,
+   "ret": 55.95773786287236,
+   "n_steps": 145,
+   "success": true,
+   "max_coverage": 0.9688876037447776,
+   "final_coverage": 0.9688876037447776
+  },
+  {
+   "seed": 1039,
+   "ret": 48.53158244806158,
+   "n_steps": 110,
+   "success": true,
+   "max_coverage": 0.971574220366834,
+   "final_coverage": 0.971574220366834
+  },
+  {
+   "seed": 1040,
+   "ret": 72.0543771184004,
+   "n_steps": 133,
+   "success": true,
+   "max_coverage": 0.9509344436003423,
+   "final_coverage": 0.9509344436003423
+  },
+  {
+   "seed": 1041,
+   "ret": 136.36507906906485,
+   "n_steps": 255,
+   "success": true,
+   "max_coverage": 0.9715903458723408,
+   "final_coverage": 0.9715903458723408
+  },
+  {
+   "seed": 1042,
+   "ret": 3.765572412233729,
+   "n_steps": 50,
+   "success": true,
+   "max_coverage": 0.9652068138615838,
+   "final_coverage": 0.9652068138615838
+  },
+  {
+   "seed": 1043,
+   "ret": 185.11183854104132,
+   "n_steps": 300,
+   "success": false,
+   "max_coverage": 0.9457205905943069,
+   "final_coverage": 0.8040214919843147
+  },
+  {
+   "seed": 1044,
+   "ret": 49.74257612545594,
+   "n_steps": 200,
+   "success": true,
+   "max_coverage": 0.9614290159297241,
+   "final_coverage": 0.9614290159297241
+  },
+  {
+   "seed": 1045,
+   "ret": 13.736236444148506,
+   "n_steps": 53,
+   "success": true,
+   "max_coverage": 0.9672150779479615,
+   "final_coverage": 0.9672150779479615
+  },
+  {
+   "seed": 1046,
+   "ret": 9.251186833757664,
+   "n_steps": 60,
+   "success": true,
+   "max_coverage": 0.9730031313992057,
+   "final_coverage": 0.9730031313992057
+  },
+  {
+   "seed": 1047,
+   "ret": 158.2172305595479,
+   "n_steps": 297,
+   "success": true,
+   "max_coverage": 0.9717949285904408,
+   "final_coverage": 0.9717949285904408
+  },
+  {
+   "seed": 1048,
+   "ret": 92.29032650016168,
+   "n_steps": 249,
+   "success": true,
+   "max_coverage": 0.9536885546470555,
+   "final_coverage": 0.9536885546470555
+  },
+  {
+   "seed": 1049,
+   "ret": 42.35474244378448,
+   "n_steps": 81,
+   "success": true,
+   "max_coverage": 0.9522410949336334,
+   "final_coverage": 0.9522410949336334
+  }
+ ],
+ "wall_s": 862.9823839664459,
+ "cfg": {
+  "controller": "code_wm",
+  "planner": {
+   "n_samples": 2048,
+   "succ_thr": 0.965
+  },
+  "real_steps_calibration": 811,
+  "wm_steps": 173349888,
+  "train_wall_s": 3632.9958910942078,
+  "n_workers": 8,
+  "notes": "4 of 5 lives used (2 scripted probes, 2 controller test runs, both succeeded). Code world = rigid T with fitted off-centre COM (24,30) vs drawn centroid (0,40.7), kinematic PD pusher, frictionless impulse contact, viscous floor friction; fitted on lives 1-2. Controller = push-primitive sampling MPC (2048 samples, 2 CEM iters) in the code world; tuned on imagined episodes only (wm success 1.0 on 32). wm_steps/train_wall_s = all in-world tuning evaluations (5 runs)."
+ }
+}

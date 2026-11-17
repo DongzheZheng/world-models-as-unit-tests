@@ -1,0 +1,36 @@
+{
+ "pilot": "aspire_style",
+ "paradigm": "code-as-policy (ASPIRE style): write program, fly it for real, read the trace, repair, distil skills",
+ "lives": [
+  {"life": 1, "program": "policy_v1", "seed": 0, "outcome": "success", "n_steps": 239, "max_load": 5.17,
+   "trace": "Tool lag <= 0.008 m; load 1.3-2.2 N while pulling unwrapped cable at ~0.1 m/s, 4.6-5.2 N once wrapped around 3 posts (governor slowed to ~0.07 m/s); arrival final_dist 0.0196. Noted: tool_vel reading is ~2/3 of displacement speed. Path had unnecessary dips (length 1.07 m).",
+   "change": "v2: pull the path taut in its homotopy class (radius 0.065) -> shorter path, less wrap."},
+  {"life": 2, "program": "policy_v2", "seed": 78, "outcome": "success", "n_steps": 221, "max_load": 5.41,
+   "trace": "Hardest snapshot by path turning (weave 1,1,-1). Cable touching posts (0.030-0.034 m) while dragged; governor held load 4.3-5.4 N; no back-off needed.",
+   "change": "none (validated)"},
+  {"life": 3, "program": "policy_v2", "seed": 163, "outcome": "success", "n_steps": 250, "max_load": 5.57,
+   "trace": "Long weaving path (1,-1,1); load regulated ~5 N at 0.035-0.05 m/s reading; load is not purely proportional to speed - it grows with the amount of wrapped cable being slid.",
+   "change": "v3: add stall recovery and late-episode threshold relaxation as guards (replay of lives 2-3: identical commands)."},
+  {"life": 4, "program": "policy_v3", "seed": 91, "outcome": "success", "n_steps": 231, "max_load": 4.95,
+   "trace": "Longest planned path (1.065 m); no guard triggered.", "change": "none"},
+  {"life": 5, "program": "policy_v3", "seed": 146, "outcome": "success", "n_steps": 186, "max_load": 5.18,
+   "trace": "Start nearest the anchor (coiled cable, 0.045 m); no guard triggered.", "change": "none; v3 submitted"}
+ ],
+ "program_versions": [
+  {"version": "policy_v1", "description": "pass each post on the required side at 0.07 m (smoothed waypoints) + load-governed reference follower (vmax 0.10, 4-7 N ramp, back-off >8.5 N, no wind-up)"},
+  {"version": "policy_v2", "description": "v1 with the path string-pulled taut in its homotopy class at 0.065 m from posts (least wrap, shortest drag)"},
+  {"version": "policy_v3", "description": "v2 + stall recovery (2 cm back-off after 20 steps without progress) + thresholds +1 N after t=400", "submitted": true}
+ ],
+ "submitted": "policy_v3",
+ "lives_official": 5,
+ "real_steps_lives": 1127,
+ "lives_extended": 0,
+ "extended_run": "not run (official success rate >= 50%)",
+ "official_eval": {"seeds": "1000-1049", "episodes": 50, "success_rate": 1.0, "failures": {"overload": 0, "wrong_side": 0, "time_out": 0},
+                   "max_load_mean": 5.02, "max_load_max": 5.73, "n_steps_mean": 171.4, "n_steps_max": 230,
+                   "final_dist_mean": 0.0195, "log_dir": "runs/station/aspire_style/eval_logs",
+                   "result_file": "runs/station/results/station__aspire_style.json"},
+ "final_program_bytes": 5133,
+ "conclusion_installation": "A ~0.993 m inextensible cable lying on the table, one end anchored at (0.05, 0), the other end held by the tool; 20 markers along it. The task is cable routing: lay the cable on the prescribed side of three pegs and park the end at the target. The load is the cable tension at the tool: friction/drag of the cable sliding on the table, increasing with drag speed and with the length of cable being slid around pegs (capstan-like); ~0.2-0.9 N residual at rest. The geometry always leaves 0.14-0.29 m of slack, so failures are dynamic, never geometric.",
+ "field_note_refers_to": "'Fights back when you hurry' = rate-dependent drag: the faster the cable is pulled (especially when wrapped around pegs) the higher the tension; and a tool jammed against a peg that breaks free rushes to its servo reference, giving tension spikes of 11-21 N."
+}

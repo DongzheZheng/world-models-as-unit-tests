@@ -1,0 +1,1 @@
+{"tuned": "runs/drone/code_wm/tune_A123.json", "belief": "runs/drone/code_wm/fit_all.json", "prm": {"return_fix": 1.0}, "route": ["R1", {"like": "R2", "y": 0.0}, "R2", {"like": "R2", "y": 0.5}, "R3"]}

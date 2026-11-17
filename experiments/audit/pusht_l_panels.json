@@ -1,0 +1,44 @@
+{
+ "footer": "The L \"came from the same batch as the T\": its centre of mass is off-centre in a different direction and it grips the pusher. Pilots were told only the quoted part.",
+ "panels": [
+  {
+   "key": "random",
+   "factory": "reallab.pusht.parallel:random_policy",
+   "kw": {
+    "seed": 0
+   },
+   "title": "Random policy",
+   "sub": "0 lives \u00b7 0% of 50"
+  },
+  {
+   "key": "aspire2",
+   "factory": "pilots.aspire_pusht.policy_v10:make_policy",
+   "kw": {},
+   "title": "Code-as-policy (ASPIRE-style)",
+   "sub": "2 lives on this block \u00b7 16% of 50"
+  },
+  {
+   "key": "aspire8",
+   "factory": "pilots.aspire_pusht.policy_v15:make_policy",
+   "kw": {},
+   "title": "Code-as-policy, four times the lives",
+   "sub": "8 lives on this block \u00b7 46% of 50"
+  },
+  {
+   "key": "code_wm",
+   "factory": "experiments.pusht.code_wm.controller:mpc_policy",
+   "kw": {
+    "n_samples": 2048,
+    "succ_thr": 0.965,
+    "object": "L",
+    "wall_w": 1.0,
+    "time_w": 0.0,
+    "ang_w": 300.0,
+    "chain_k": 32,
+    "chain_n": 64
+   },
+   "title": "Code-as-world-model",
+   "sub": "2 lives on this block \u00b7 72% of 50"
+  }
+ ]
+}

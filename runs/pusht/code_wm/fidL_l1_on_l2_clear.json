@@ -1,0 +1,32 @@
+{
+ "label": "L world (fit L life 1) -> L life 2, clear windows",
+ "params_from": null,
+ "test_lives": [
+  "runs/pusht/blackbox_L/code_wm/life_2.npz"
+ ],
+ "n_segments": 68,
+ "h5": {
+  "pos_err_mean_u": 4.047548770904541,
+  "pos_err_median_u": 0.4845520555973053,
+  "ang_err_mean_deg": 1.3142789602279663,
+  "ang_err_median_deg": 0.12052550911903381,
+  "static_baseline_pos_mean_u": 19.52495002746582,
+  "static_baseline_ang_mean_deg": 7.756731986999512
+ },
+ "h10": {
+  "pos_err_mean_u": 5.327821254730225,
+  "pos_err_median_u": 0.7532654404640198,
+  "ang_err_mean_deg": 1.3933155536651611,
+  "ang_err_median_deg": 0.28606879711151123,
+  "static_baseline_pos_mean_u": 29.07471466064453,
+  "static_baseline_ang_mean_deg": 9.423257827758789
+ },
+ "h20": {
+  "pos_err_mean_u": 7.19216775894165,
+  "pos_err_median_u": 3.567469596862793,
+  "ang_err_mean_deg": 1.698764681816101,
+  "ang_err_median_deg": 0.5272086262702942,
+  "static_baseline_pos_mean_u": 45.06443786621094,
+  "static_baseline_ang_mean_deg": 11.450599670410156
+ }
+}

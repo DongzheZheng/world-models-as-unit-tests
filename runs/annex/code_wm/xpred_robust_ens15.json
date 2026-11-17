@@ -1,0 +1,142 @@
+{
+ "factory": "experiments.annex.code_wm.throw_v2:make_robust",
+ "kwargs": {},
+ "spread": 0.15,
+ "success_rate": 1.0,
+ "n": 10,
+ "moving_at_limit": 0,
+ "episodes": [
+  {
+   "success": true,
+   "tip_dist": 0.07882651433695266,
+   "n_steps": 132,
+   "final_p1": [
+    0.9760645031929016,
+    -0.003666328964754939
+   ],
+   "final_speed": 0.019506740500219166,
+   "final_tool_speed": 0.0,
+   "actions": null,
+   "snapshot": 60
+  },
+  {
+   "success": true,
+   "tip_dist": 0.035221997721085356,
+   "n_steps": 97,
+   "final_p1": [
+    0.9794915914535522,
+    -0.16633105278015137
+   ],
+   "final_speed": 0.010577627836028114,
+   "final_tool_speed": 1.127773430198431e-08,
+   "actions": null,
+   "snapshot": 61
+  },
+  {
+   "success": true,
+   "tip_dist": 0.05173434496119702,
+   "n_steps": 86,
+   "final_p1": [
+    0.873749852180481,
+    -0.35923731327056885
+   ],
+   "final_speed": 0.01432749122614041,
+   "final_tool_speed": 0.0,
+   "actions": null,
+   "snapshot": 62
+  },
+  {
+   "success": true,
+   "tip_dist": 0.04156332087302051,
+   "n_steps": 113,
+   "final_p1": [
+    1.0291138887405396,
+    -0.005415922962129116
+   ],
+   "final_speed": 0.012612246791832149,
+   "final_tool_speed": 0.0,
+   "actions": null,
+   "snapshot": 63
+  },
+  {
+   "success": true,
+   "tip_dist": 0.06692692012909322,
+   "n_steps": 138,
+   "final_p1": [
+    0.9837661981582642,
+    0.20497171580791473
+   ],
+   "final_speed": 0.016343088645953685,
+   "final_tool_speed": 0.00018224591258331202,
+   "actions": null,
+   "snapshot": 64
+  },
+  {
+   "success": true,
+   "tip_dist": 0.05421155342359025,
+   "n_steps": 143,
+   "final_p1": [
+    0.9291279911994934,
+    0.2334154099225998
+   ],
+   "final_speed": 0.01908433623611927,
+   "final_tool_speed": 0.0,
+   "actions": null,
+   "snapshot": 65
+  },
+  {
+   "success": true,
+   "tip_dist": 0.0844197825003383,
+   "n_steps": 90,
+   "final_p1": [
+    0.9706740379333496,
+    -0.1540212780237198
+   ],
+   "final_speed": 0.015383056597784162,
+   "final_tool_speed": 0.0,
+   "actions": null,
+   "snapshot": 66
+  },
+  {
+   "success": true,
+   "tip_dist": 0.04267666399569352,
+   "n_steps": 175,
+   "final_p1": [
+    0.9842498898506165,
+    -0.12454994022846222
+   ],
+   "final_speed": 0.010550810111453757,
+   "final_tool_speed": 0.0,
+   "actions": null,
+   "snapshot": 67
+  },
+  {
+   "success": true,
+   "tip_dist": 0.0449383836502967,
+   "n_steps": 104,
+   "final_p1": [
+    1.0221084356307983,
+    0.06795743852853775
+   ],
+   "final_speed": 0.016291148494929075,
+   "final_tool_speed": 0.0,
+   "actions": null,
+   "snapshot": 68
+  },
+  {
+   "success": true,
+   "tip_dist": 0.06344831763733313,
+   "n_steps": 136,
+   "final_p1": [
+    0.9505703449249268,
+    0.07473868131637573
+   ],
+   "final_speed": 0.01665624586166814,
+   "final_tool_speed": 0.0,
+   "actions": null,
+   "snapshot": 69
+  }
+ ],
+ "wall_s": 614.2313094139099,
+ "steps": 1214
+}

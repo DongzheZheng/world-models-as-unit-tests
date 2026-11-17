@@ -1,0 +1,502 @@
+[
+ {
+  "seed": 1000,
+  "ret": 17.861825387948265,
+  "n_steps": 242,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.001269289213499458,
+  "max_load": 4.565400455745802,
+  "overload": false
+ },
+ {
+  "seed": 1001,
+  "ret": 18.14854832641533,
+  "n_steps": 218,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.000823872890479324,
+  "max_load": 4.459314092748662,
+  "overload": false
+ },
+ {
+  "seed": 1002,
+  "ret": 19.258942426736013,
+  "n_steps": 148,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0009721689891860006,
+  "max_load": 4.490257188078365,
+  "overload": false
+ },
+ {
+  "seed": 1003,
+  "ret": 20.62251460891531,
+  "n_steps": 186,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0008615523439155031,
+  "max_load": 3.78193726287433,
+  "overload": false
+ },
+ {
+  "seed": 1004,
+  "ret": 18.097239977855214,
+  "n_steps": 188,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0009793837505855895,
+  "max_load": 4.99209064964688,
+  "overload": false
+ },
+ {
+  "seed": 1005,
+  "ret": 17.675672270842234,
+  "n_steps": 208,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.001077743560718984,
+  "max_load": 4.624552410542738,
+  "overload": false
+ },
+ {
+  "seed": 1006,
+  "ret": 19.196925520471893,
+  "n_steps": 147,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0007856944213859416,
+  "max_load": 4.109561276596742,
+  "overload": false
+ },
+ {
+  "seed": 1007,
+  "ret": 19.19760403393359,
+  "n_steps": 188,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0012124916511889515,
+  "max_load": 4.567704597217303,
+  "overload": false
+ },
+ {
+  "seed": 1008,
+  "ret": 20.754012592269277,
+  "n_steps": 178,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0011953726206862033,
+  "max_load": 4.688659071181037,
+  "overload": false
+ },
+ {
+  "seed": 1009,
+  "ret": 19.987234680188514,
+  "n_steps": 249,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0010555924860732677,
+  "max_load": 4.7054420679128235,
+  "overload": false
+ },
+ {
+  "seed": 1010,
+  "ret": 18.88440770096272,
+  "n_steps": 250,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0008851392163988399,
+  "max_load": 4.369521553658296,
+  "overload": false
+ },
+ {
+  "seed": 1011,
+  "ret": 19.05710748903659,
+  "n_steps": 233,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0010502719943580629,
+  "max_load": 4.858764667630754,
+  "overload": false
+ },
+ {
+  "seed": 1012,
+  "ret": 17.61386044803839,
+  "n_steps": 143,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0015094692769285847,
+  "max_load": 4.751414740908528,
+  "overload": false
+ },
+ {
+  "seed": 1013,
+  "ret": 20.447678349961198,
+  "n_steps": 200,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0005601213013765704,
+  "max_load": 3.588783531198985,
+  "overload": false
+ },
+ {
+  "seed": 1014,
+  "ret": 19.19891902979436,
+  "n_steps": 164,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0008988294499434969,
+  "max_load": 4.049837899514442,
+  "overload": false
+ },
+ {
+  "seed": 1015,
+  "ret": 19.58660618983594,
+  "n_steps": 183,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.000529093191558139,
+  "max_load": 3.974790019213927,
+  "overload": false
+ },
+ {
+  "seed": 1016,
+  "ret": 19.200983420791758,
+  "n_steps": 173,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0011937246383105019,
+  "max_load": 4.932435092738556,
+  "overload": false
+ },
+ {
+  "seed": 1017,
+  "ret": 19.475555174797556,
+  "n_steps": 191,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0015741106543909222,
+  "max_load": 4.243634878137645,
+  "overload": false
+ },
+ {
+  "seed": 1018,
+  "ret": 20.16234257008405,
+  "n_steps": 215,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0011585641877259745,
+  "max_load": 5.103840641128528,
+  "overload": false
+ },
+ {
+  "seed": 1019,
+  "ret": 18.31458869121048,
+  "n_steps": 192,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0012909363790461362,
+  "max_load": 4.85907277862796,
+  "overload": false
+ },
+ {
+  "seed": 1020,
+  "ret": 18.495648607347903,
+  "n_steps": 140,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0011472106589200273,
+  "max_load": 4.860907064361779,
+  "overload": false
+ },
+ {
+  "seed": 1021,
+  "ret": 17.66248469894726,
+  "n_steps": 155,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0015844780050628363,
+  "max_load": 5.09075565707612,
+  "overload": false
+ },
+ {
+  "seed": 1022,
+  "ret": 20.1782390015632,
+  "n_steps": 178,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0011110840695235137,
+  "max_load": 4.770137322723698,
+  "overload": false
+ },
+ {
+  "seed": 1023,
+  "ret": 17.687054217002096,
+  "n_steps": 201,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.001082515612780115,
+  "max_load": 4.923773673105234,
+  "overload": false
+ },
+ {
+  "seed": 1024,
+  "ret": 19.783446642499456,
+  "n_steps": 177,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0010407062599110811,
+  "max_load": 4.92639694646301,
+  "overload": false
+ },
+ {
+  "seed": 1025,
+  "ret": 19.063704154594266,
+  "n_steps": 166,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0013285932477329543,
+  "max_load": 4.772060417539536,
+  "overload": false
+ },
+ {
+  "seed": 1026,
+  "ret": 18.836857463452148,
+  "n_steps": 161,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0012299077284669638,
+  "max_load": 4.854719910630199,
+  "overload": false
+ },
+ {
+  "seed": 1027,
+  "ret": 18.901191224169892,
+  "n_steps": 183,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0014268647302732545,
+  "max_load": 4.792126580191876,
+  "overload": false
+ },
+ {
+  "seed": 1028,
+  "ret": 18.785126545045664,
+  "n_steps": 170,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0006448570104558149,
+  "max_load": 3.9104242627526506,
+  "overload": false
+ },
+ {
+  "seed": 1029,
+  "ret": 3.54526859344579,
+  "n_steps": 600,
+  "success": false,
+  "sides_ok": 1,
+  "final_dist": 0.36697289100319624,
+  "max_load": 2.901632964201531,
+  "overload": false
+ },
+ {
+  "seed": 1030,
+  "ret": 19.376140938891872,
+  "n_steps": 162,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0004121229972541548,
+  "max_load": 3.748799227102992,
+  "overload": false
+ },
+ {
+  "seed": 1031,
+  "ret": 19.816671519822087,
+  "n_steps": 197,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0009845448777061436,
+  "max_load": 4.201643152100129,
+  "overload": false
+ },
+ {
+  "seed": 1032,
+  "ret": 19.485120577512138,
+  "n_steps": 201,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0011501176833611853,
+  "max_load": 4.944683794921661,
+  "overload": false
+ },
+ {
+  "seed": 1033,
+  "ret": 0.17479579909980836,
+  "n_steps": 600,
+  "success": false,
+  "sides_ok": 0,
+  "final_dist": 0.6329421884835663,
+  "max_load": 1.7860681473253552,
+  "overload": false
+ },
+ {
+  "seed": 1034,
+  "ret": 19.786700168213663,
+  "n_steps": 192,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0005459927806010895,
+  "max_load": 4.005162092444941,
+  "overload": false
+ },
+ {
+  "seed": 1035,
+  "ret": 20.06576302321077,
+  "n_steps": 159,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0006110547268174478,
+  "max_load": 3.839802979053077,
+  "overload": false
+ },
+ {
+  "seed": 1036,
+  "ret": 19.45320368076448,
+  "n_steps": 187,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0005906598351560135,
+  "max_load": 4.289844252677823,
+  "overload": false
+ },
+ {
+  "seed": 1037,
+  "ret": 18.789019256935816,
+  "n_steps": 140,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.00039733595946711705,
+  "max_load": 3.733818481680192,
+  "overload": false
+ },
+ {
+  "seed": 1038,
+  "ret": 18.1069524213759,
+  "n_steps": 179,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.001545729547547577,
+  "max_load": 5.319028311716015,
+  "overload": false
+ },
+ {
+  "seed": 1039,
+  "ret": 18.809479277952374,
+  "n_steps": 229,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0009344168381936343,
+  "max_load": 4.4236640108460445,
+  "overload": false
+ },
+ {
+  "seed": 1040,
+  "ret": 21.050840253551215,
+  "n_steps": 205,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0007969604528994886,
+  "max_load": 4.085253217435537,
+  "overload": false
+ },
+ {
+  "seed": 1041,
+  "ret": 18.653653776341454,
+  "n_steps": 240,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0010743202271206547,
+  "max_load": 4.9032193053787045,
+  "overload": false
+ },
+ {
+  "seed": 1042,
+  "ret": 18.633061927762846,
+  "n_steps": 154,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0012404256128349556,
+  "max_load": 4.862666660087897,
+  "overload": false
+ },
+ {
+  "seed": 1043,
+  "ret": 17.399904008916682,
+  "n_steps": 188,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.001890753252800287,
+  "max_load": 5.021999217847962,
+  "overload": false
+ },
+ {
+  "seed": 1044,
+  "ret": 19.31671173770801,
+  "n_steps": 185,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.000673121564687574,
+  "max_load": 4.279427908444348,
+  "overload": false
+ },
+ {
+  "seed": 1045,
+  "ret": 17.536858916103952,
+  "n_steps": 162,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0007366015625928814,
+  "max_load": 4.342602288501767,
+  "overload": false
+ },
+ {
+  "seed": 1046,
+  "ret": 3.1926213556625838,
+  "n_steps": 600,
+  "success": false,
+  "sides_ok": 1,
+  "final_dist": 0.30151749076398493,
+  "max_load": 2.6164036093258183,
+  "overload": false
+ },
+ {
+  "seed": 1047,
+  "ret": 17.475734183895774,
+  "n_steps": 177,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0011344997991721867,
+  "max_load": 4.2334559509709155,
+  "overload": false
+ },
+ {
+  "seed": 1048,
+  "ret": 18.112602371038534,
+  "n_steps": 181,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0016360735718831418,
+  "max_load": 5.080001131805798,
+  "overload": false
+ },
+ {
+  "seed": 1049,
+  "ret": 20.17529853569558,
+  "n_steps": 205,
+  "success": true,
+  "sides_ok": 3,
+  "final_dist": 0.0015443049023943455,
+  "max_load": 4.859304280662283,
+  "overload": false
+ }
+]

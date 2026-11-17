@@ -1,0 +1,1 @@
+{"n_ep": 32, "seed": 7, "block_range": [40, 472], "planner": {"n_samples": 2048, "succ_thr": 0.965, "object": "L", "wall_w": 1.0}, "reality_override": {"mu": 2.0}, "params_jitter": 0.1, "out": "runs/pusht/code_wm/wmL_w1_mu2_jit.json"}

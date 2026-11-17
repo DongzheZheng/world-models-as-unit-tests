@@ -1,0 +1,175 @@
+{
+ "n_ep": 32,
+ "success_rate": 0.96875,
+ "mean_max_coverage": 0.967881977558136,
+ "mean_steps": 139.9375,
+ "wm_steps": 33666048,
+ "wall_s": 981.973247051239,
+ "wm_steps_per_s": 34284.078615273436,
+ "planner": {
+  "n_samples": 1024
+ },
+ "params_jitter": 0.0,
+ "per_episode": [
+  {
+   "success": true,
+   "max_cov": 1.0,
+   "steps": 76
+  },
+  {
+   "success": true,
+   "max_cov": 0.95634925365448,
+   "steps": 87
+  },
+  {
+   "success": true,
+   "max_cov": 1.0,
+   "steps": 204
+  },
+  {
+   "success": true,
+   "max_cov": 0.9642857909202576,
+   "steps": 189
+  },
+  {
+   "success": false,
+   "max_cov": 0.8730159401893616,
+   "steps": 300
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 48
+  },
+  {
+   "success": true,
+   "max_cov": 0.9761905074119568,
+   "steps": 175
+  },
+  {
+   "success": true,
+   "max_cov": 0.9722222685813904,
+   "steps": 125
+  },
+  {
+   "success": true,
+   "max_cov": 0.9642857909202576,
+   "steps": 39
+  },
+  {
+   "success": true,
+   "max_cov": 0.9880952835083008,
+   "steps": 193
+  },
+  {
+   "success": true,
+   "max_cov": 0.95634925365448,
+   "steps": 176
+  },
+  {
+   "success": true,
+   "max_cov": 0.9761905074119568,
+   "steps": 166
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 204
+  },
+  {
+   "success": true,
+   "max_cov": 1.0,
+   "steps": 118
+  },
+  {
+   "success": true,
+   "max_cov": 0.980158805847168,
+   "steps": 136
+  },
+  {
+   "success": true,
+   "max_cov": 0.9920635223388672,
+   "steps": 109
+  },
+  {
+   "success": true,
+   "max_cov": 0.9642857909202576,
+   "steps": 269
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 90
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 96
+  },
+  {
+   "success": true,
+   "max_cov": 0.968254029750824,
+   "steps": 282
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 137
+  },
+  {
+   "success": true,
+   "max_cov": 0.9722222685813904,
+   "steps": 104
+  },
+  {
+   "success": true,
+   "max_cov": 0.9880952835083008,
+   "steps": 108
+  },
+  {
+   "success": true,
+   "max_cov": 0.9722222685813904,
+   "steps": 121
+  },
+  {
+   "success": true,
+   "max_cov": 1.0,
+   "steps": 54
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 50
+  },
+  {
+   "success": true,
+   "max_cov": 1.0,
+   "steps": 93
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 236
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 165
+  },
+  {
+   "success": true,
+   "max_cov": 0.9722222685813904,
+   "steps": 110
+  },
+  {
+   "success": true,
+   "max_cov": 0.9642857909202576,
+   "steps": 97
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 121
+  }
+ ]
+}

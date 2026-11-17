@@ -1,0 +1,53 @@
+{
+ "params": {
+  "kp": 100.0,
+  "kv": 20.0,
+  "com_u": 23.33113670349121,
+  "com_v": 54.18511962890625,
+  "k_gyr": 99.73932647705078,
+  "restitution": 0.03,
+  "mu": 0.36126527190208435,
+  "bias": 0.052,
+  "lin_damp": 4.63,
+  "ang_damp": 4.95,
+  "lin_coul": 2.19,
+  "ang_coul": 0.01
+ },
+ "block_loss_prior_params": 1.254176378250122,
+ "pusher_loss_u": 3.433557503740303e-05,
+ "block_loss": 0.8369116187095642,
+ "block_loss_check": 0.8369116187095642,
+ "block_loss_com_at_centroid": 1.4623851776123047,
+ "ci95": {
+  "com_u": [
+   23.273529052734375,
+   23.391185760498047
+  ],
+  "com_v": [
+   54.10877990722656,
+   54.254478454589844
+  ],
+  "k_gyr": [
+   99.63446807861328,
+   99.84791564941406
+  ],
+  "mu": [
+   0.3596388101577759,
+   0.36252379417419434
+  ]
+ },
+ "n_segments": 252,
+ "H": 10,
+ "lives": [
+  "runs/pusht/blackbox_L/code_wm/life_1.npz",
+  "runs/pusht/blackbox_L/code_wm/life_2.npz"
+ ],
+ "object": "L",
+ "searched": [
+  "com_u",
+  "com_v",
+  "k_gyr",
+  "mu"
+ ],
+ "wall_s": 18.51652956008911
+}

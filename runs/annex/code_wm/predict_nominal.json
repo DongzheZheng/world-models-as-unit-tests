@@ -1,0 +1,297 @@
+{
+ "factory": "experiments.annex.code_wm.throw:make_final",
+ "override": null,
+ "success_rate": 1.0,
+ "episodes": [
+  {
+   "success": true,
+   "tip_dist": 0.020218808829043602,
+   "n_steps": 80,
+   "final_p1": [
+    1.0637251138687134,
+    -0.10261669009923935
+   ],
+   "final_speed": 0.0133626745082438,
+   "final_tool_speed": 0.0,
+   "snapshot": 100
+  },
+  {
+   "success": true,
+   "tip_dist": 0.05244377002797081,
+   "n_steps": 96,
+   "final_p1": [
+    1.0256145000457764,
+    0.1635160595178604
+   ],
+   "final_speed": 0.007903547520982102,
+   "final_tool_speed": 0.0,
+   "snapshot": 101
+  },
+  {
+   "success": true,
+   "tip_dist": 0.09082160231002916,
+   "n_steps": 65,
+   "final_p1": [
+    0.8976081013679504,
+    -0.2305615097284317
+   ],
+   "final_speed": 0.006012339144945145,
+   "final_tool_speed": 0.0,
+   "snapshot": 102
+  },
+  {
+   "success": true,
+   "tip_dist": 0.04695246783263233,
+   "n_steps": 86,
+   "final_p1": [
+    1.0009897947311401,
+    0.0873422622680664
+   ],
+   "final_speed": 0.011034521594410762,
+   "final_tool_speed": 0.0,
+   "snapshot": 103
+  },
+  {
+   "success": true,
+   "tip_dist": 0.03782405275382476,
+   "n_steps": 82,
+   "final_p1": [
+    0.9181272983551025,
+    0.15862435102462769
+   ],
+   "final_speed": 0.013162025425117463,
+   "final_tool_speed": 0.0,
+   "snapshot": 104
+  },
+  {
+   "success": true,
+   "tip_dist": 0.08026411802005813,
+   "n_steps": 95,
+   "final_p1": [
+    0.8210923075675964,
+    0.3189168870449066
+   ],
+   "final_speed": 0.008515116496710107,
+   "final_tool_speed": 0.000743079544918146,
+   "snapshot": 105
+  },
+  {
+   "success": true,
+   "tip_dist": 0.050012445296535334,
+   "n_steps": 89,
+   "final_p1": [
+    0.8354544043540955,
+    -0.28719210624694824
+   ],
+   "final_speed": 0.0047163171984720975,
+   "final_tool_speed": 0.0,
+   "snapshot": 106
+  },
+  {
+   "success": true,
+   "tip_dist": 0.06912085140265328,
+   "n_steps": 77,
+   "final_p1": [
+    0.9649664163589478,
+    0.07839994877576828
+   ],
+   "final_speed": 0.014082284178584814,
+   "final_tool_speed": 0.0,
+   "snapshot": 107
+  },
+  {
+   "success": true,
+   "tip_dist": 0.05098230903079628,
+   "n_steps": 64,
+   "final_p1": [
+    1.0244059562683105,
+    -0.3310600221157074
+   ],
+   "final_speed": 0.008397272176807746,
+   "final_tool_speed": 0.0,
+   "snapshot": 108
+  },
+  {
+   "success": true,
+   "tip_dist": 0.08136479694158551,
+   "n_steps": 91,
+   "final_p1": [
+    0.9555068612098694,
+    0.17138247191905975
+   ],
+   "final_speed": 0.01877482864074409,
+   "final_tool_speed": 0.0,
+   "snapshot": 109
+  },
+  {
+   "success": true,
+   "tip_dist": 0.09287527260033782,
+   "n_steps": 77,
+   "final_p1": [
+    1.0051871538162231,
+    -0.09516806155443192
+   ],
+   "final_speed": 0.009343394776806235,
+   "final_tool_speed": 0.0,
+   "snapshot": 110
+  },
+  {
+   "success": true,
+   "tip_dist": 0.06771532698997043,
+   "n_steps": 72,
+   "final_p1": [
+    1.0494426488876343,
+    -0.1618984043598175
+   ],
+   "final_speed": 0.014189844659995288,
+   "final_tool_speed": 0.0,
+   "snapshot": 111
+  },
+  {
+   "success": true,
+   "tip_dist": 0.01769961579286621,
+   "n_steps": 61,
+   "final_p1": [
+    1.0591434240341187,
+    -0.21708205342292786
+   ],
+   "final_speed": 0.015733395412098616,
+   "final_tool_speed": 5.21540641784668e-06,
+   "snapshot": 112
+  },
+  {
+   "success": true,
+   "tip_dist": 0.0701573006306543,
+   "n_steps": 90,
+   "final_p1": [
+    0.9156951904296875,
+    0.1087835282087326
+   ],
+   "final_speed": 0.016108468116726726,
+   "final_tool_speed": 0.0,
+   "snapshot": 113
+  },
+  {
+   "success": true,
+   "tip_dist": 0.05466169496887254,
+   "n_steps": 78,
+   "final_p1": [
+    0.7881679534912109,
+    0.35931679606437683
+   ],
+   "final_speed": 0.014182426093611866,
+   "final_tool_speed": 0.0,
+   "snapshot": 114
+  },
+  {
+   "success": true,
+   "tip_dist": 0.09165426052947077,
+   "n_steps": 85,
+   "final_p1": [
+    1.0119072198867798,
+    -0.05783608928322792
+   ],
+   "final_speed": 0.01674673258094117,
+   "final_tool_speed": 1.4901161193847656e-06,
+   "snapshot": 115
+  },
+  {
+   "success": true,
+   "tip_dist": 0.07138277055113823,
+   "n_steps": 87,
+   "final_p1": [
+    1.0431240797042847,
+    0.24643325805664062
+   ],
+   "final_speed": 0.005563543527387083,
+   "final_tool_speed": 0.0,
+   "snapshot": 116
+  },
+  {
+   "success": true,
+   "tip_dist": 0.07325004994068968,
+   "n_steps": 62,
+   "final_p1": [
+    0.8462802767753601,
+    -0.39932867884635925
+   ],
+   "final_speed": 0.01530335284769535,
+   "final_tool_speed": 0.0,
+   "snapshot": 117
+  },
+  {
+   "success": true,
+   "tip_dist": 0.004666040661470429,
+   "n_steps": 88,
+   "final_p1": [
+    1.0024704933166504,
+    0.31394895911216736
+   ],
+   "final_speed": 0.01055100146913901,
+   "final_tool_speed": 0.0,
+   "snapshot": 118
+  },
+  {
+   "success": true,
+   "tip_dist": 0.0702813609654164,
+   "n_steps": 75,
+   "final_p1": [
+    1.073184609413147,
+    0.13148170709609985
+   ],
+   "final_speed": 0.015447978512383997,
+   "final_tool_speed": 0.0,
+   "snapshot": 119
+  },
+  {
+   "success": true,
+   "tip_dist": 0.08634980249048058,
+   "n_steps": 95,
+   "final_p1": [
+    0.9978623390197754,
+    -0.19235248863697052
+   ],
+   "final_speed": 0.008180056465789676,
+   "final_tool_speed": 0.0,
+   "snapshot": 120
+  },
+  {
+   "success": true,
+   "tip_dist": 0.09342810705312933,
+   "n_steps": 83,
+   "final_p1": [
+    0.8313068747520447,
+    0.3199627995491028
+   ],
+   "final_speed": 0.005683277777279727,
+   "final_tool_speed": 0.0,
+   "snapshot": 121
+  },
+  {
+   "success": true,
+   "tip_dist": 0.061028724987179844,
+   "n_steps": 73,
+   "final_p1": [
+    1.0214745998382568,
+    -0.36440905928611755
+   ],
+   "final_speed": 0.017872265016194433,
+   "final_tool_speed": 0.0004079572136106435,
+   "snapshot": 122
+  },
+  {
+   "success": true,
+   "tip_dist": 0.05217404064873997,
+   "n_steps": 146,
+   "final_p1": [
+    0.9229277968406677,
+    -0.009036502800881863
+   ],
+   "final_speed": 0.011687034566421062,
+   "final_tool_speed": 0.0,
+   "snapshot": 123
+  }
+ ],
+ "wall_s": 399.3112533092499,
+ "steps": 1997
+}

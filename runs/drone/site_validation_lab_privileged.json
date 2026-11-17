@@ -1,0 +1,157 @@
+{
+ "time_limit_calibration": {
+  "A": {
+   "T_ap": 27.033000000000005,
+   "T_c": 11.331782945736434,
+   "L": 17.0
+  },
+  "B": {
+   "T_ap": 32.67933333333333,
+   "T_c": 16.15993265993266,
+   "L": 24.2
+  },
+  "C": {
+   "T_c": 12.942666666666668,
+   "L": 19.4,
+   "rule": "1.5 x mean completion time of the privileged avoider"
+  }
+ },
+ "stock_autopilot_missionA_anomalies_on": {
+  "success": 0.0,
+  "relays": 1.05,
+  "time_s_successes": null,
+  "n": 100,
+  "collision": 0.96,
+  "timeout": 0.04,
+  "out_of_bounds": 0.0
+ },
+ "stock_autopilot_missionA_anomalies_off": {
+  "success": 0.0,
+  "relays": 2.0,
+  "time_s_successes": null,
+  "n": 100,
+  "collision": 0.0,
+  "timeout": 1.0,
+  "out_of_bounds": 0.0
+ },
+ "privileged_ctbr_informed_missionA_anomalies_on": {
+  "success": 0.86,
+  "relays": 2.77,
+  "time_s_successes": 11.331782945736434,
+  "n": 100,
+  "collision": 0.01,
+  "timeout": 0.0,
+  "out_of_bounds": 0.13
+ },
+ "privileged_ctbr_informed_missionA_anomalies_off": {
+  "success": 0.0,
+  "relays": 1.0,
+  "time_s_successes": null,
+  "n": 100,
+  "collision": 1.0,
+  "timeout": 0.0,
+  "out_of_bounds": 0.0
+ },
+ "privileged_ctbr_windblind_missionA_anomalies_on": {
+  "success": 0.13,
+  "relays": 1.35,
+  "time_s_successes": 11.517948717948716,
+  "n": 100,
+  "collision": 0.57,
+  "timeout": 0.0,
+  "out_of_bounds": 0.3
+ },
+ "privileged_ctbr_windblind_missionA_anomalies_off": {
+  "success": 1.0,
+  "relays": 3.0,
+  "time_s_successes": 11.452666666666666,
+  "n": 100,
+  "collision": 0.0,
+  "timeout": 0.0,
+  "out_of_bounds": 0.0
+ },
+ "stock_autopilot_missionB_anomalies_on": {
+  "success": 0.0,
+  "relays": 1.0,
+  "time_s_successes": null,
+  "n": 100,
+  "collision": 1.0,
+  "timeout": 0.0,
+  "out_of_bounds": 0.0
+ },
+ "stock_autopilot_missionB_anomalies_off": {
+  "success": 0.0,
+  "relays": 2.0,
+  "time_s_successes": null,
+  "n": 100,
+  "collision": 0.0,
+  "timeout": 1.0,
+  "out_of_bounds": 0.0
+ },
+ "privileged_ctbr_informed_missionB_anomalies_on": {
+  "success": 0.99,
+  "relays": 2.99,
+  "time_s_successes": 16.15993265993266,
+  "n": 100,
+  "collision": 0.01,
+  "timeout": 0.0,
+  "out_of_bounds": 0.0
+ },
+ "privileged_ctbr_informed_missionB_anomalies_off": {
+  "success": 0.0,
+  "relays": 1.39,
+  "time_s_successes": null,
+  "n": 100,
+  "collision": 0.61,
+  "timeout": 0.39,
+  "out_of_bounds": 0.0
+ },
+ "privileged_ctbr_windblind_missionB_anomalies_on": {
+  "success": 0.0,
+  "relays": 1.0,
+  "time_s_successes": null,
+  "n": 100,
+  "collision": 0.99,
+  "timeout": 0.0,
+  "out_of_bounds": 0.01
+ },
+ "privileged_ctbr_windblind_missionB_anomalies_off": {
+  "success": 1.0,
+  "relays": 3.0,
+  "time_s_successes": 16.422,
+  "n": 100,
+  "collision": 0.0,
+  "timeout": 0.0,
+  "out_of_bounds": 0.0
+ },
+ "stock_autopilot_missionC_anomalies_on": {
+  "success": 0.0,
+  "relays": 0.99,
+  "time_s_successes": null,
+  "n": 100,
+  "collision": 1.0,
+  "timeout": 0.0,
+  "out_of_bounds": 0.0,
+  "time_limit_s": 19.4
+ },
+ "privileged_ctbr_avoider_missionC_anomalies_on": {
+  "success": 0.75,
+  "relays": 2.67,
+  "time_s_successes": 12.942666666666668,
+  "n": 100,
+  "collision": 0.25,
+  "timeout": 0.0,
+  "out_of_bounds": 0.0,
+  "time_limit_s": 19.4
+ },
+ "privileged_ctbr_missionA_controller_ignores_movers_missionC_anomalies_on": {
+  "success": 0.31,
+  "relays": 2.03,
+  "time_s_successes": 11.568817204301077,
+  "n": 100,
+  "collision": 0.69,
+  "timeout": 0.0,
+  "out_of_bounds": 0.0,
+  "time_limit_s": 19.4
+ }
+}

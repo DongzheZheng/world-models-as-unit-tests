@@ -1,0 +1,114 @@
+{
+ "world": "runs/drone/code_wm/fit_l12.json",
+ "world_override": {
+  "OBS_NOISE_POS": 0.02,
+  "OBS_NOISE_VEL": 0.03,
+  "GUST_STD": 0.7,
+  "GUST_TAU": 0.5
+ },
+ "unc": {
+  "JET_S_AY": [
+   "mul",
+   0.3
+  ],
+  "JET_S_SIG": [
+   "add",
+   0.4
+  ],
+  "JET_N_AY": [
+   "mul",
+   0.3
+  ],
+  "JET_N_SIG": [
+   "add",
+   0.4
+  ],
+  "JET_N_X": [
+   "add",
+   0.4
+  ],
+  "JET_S_X": [
+   "add",
+   0.4
+  ],
+  "RATE_BIAS_P": [
+   "add",
+   0.05
+  ],
+  "RATE_BIAS_Q": [
+   "add",
+   0.05
+  ],
+  "RATE_BIAS_R": [
+   "add",
+   0.05
+  ],
+  "THRUST_GAIN": [
+   "mul",
+   0.03
+  ],
+  "CMD_DELAY": [
+   "add",
+   0.2
+  ],
+  "DRAG": [
+   "add",
+   0.08
+  ]
+ },
+ "route": [
+  "R1",
+  [
+   23.75,
+   0,
+   4.0
+  ],
+  [
+   23.75,
+   3.0,
+   4.0
+  ],
+  [
+   23.75,
+   0.3,
+   3.5
+  ],
+  "R2",
+  [
+   39.75,
+   0,
+   1.5
+  ],
+  [
+   39.75,
+   -3.0,
+   1.5
+  ],
+  [
+   39.75,
+   -0.3,
+   2.0
+  ],
+  [
+   44,
+   0,
+   2.5
+  ],
+  "R3"
+ ],
+ "init": {
+  "speed": 6.0,
+  "kp": 5.3,
+  "kv": 4.9,
+  "ki": 0.14,
+  "k_att": 9.0,
+  "max_tilt": 0.95,
+  "corner_speed": 3.0,
+  "corner_dist": 3.0
+ },
+ "N": 48,
+ "M": 32,
+ "rounds": 4,
+ "final_M": 1024,
+ "out": "runs/drone/code_wm/tune_l3.json"
+}

@@ -1,0 +1,39 @@
+{
+ "wm_steps_total": 389368302,
+ "train_wall_s_total": 2054,
+ "cost_parts": {
+  "ppo_smoke": {
+   "train_steps": 1835008,
+   "eval_steps": 1451205,
+   "wall_s": 3.70575213432312
+  },
+  "ppo_smoke2": {
+   "train_steps": 2883584,
+   "eval_steps": 1521550,
+   "wall_s": 30.053114652633667
+  },
+  "ppo_v1": {
+   "train_steps": 149946368,
+   "eval_steps": 3098743,
+   "wall_s": 361.59232664108276
+  },
+  "ppo_v2": {
+   "train_steps": 199753728,
+   "eval_steps": 3575013,
+   "wall_s": 758.544183254242
+  },
+  "planner_grid(killed after 8 of 27 configs)": {
+   "eval_steps": 12030997,
+   "configs": 8
+  },
+  "selection.json": {
+   "eval_steps": 3955070,
+   "wall_s": 202.7881486415863
+  },
+  "selection_v3world.json": {
+   "eval_steps": 9317034,
+   "wall_s": 137.60660338401794
+  }
+ },
+ "wall_note": "PPO training + candidate evaluation in the code world; excludes real lives and my editing time"
+}

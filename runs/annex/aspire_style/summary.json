@@ -1,0 +1,377 @@
+{
+ "lives": [
+  {
+   "pilot": "aspire_style",
+   "life": 1,
+   "program": "v1",
+   "program_idea": "tethered cast: back up, one full-rate 0.17 m stroke at 52 deg to the cord's lie, hold",
+   "seed": 71,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.155,
+   "trace_showed": "tool reached 3.0 m/s; cord folded, tip whipped past the tool by 0.09 m, then the cord slowly (0.5 m/s for ~2 s) re-straightened back to its initial direction; very little energy survived the stop",
+   "changed": "v2/v3: align the stroke with the cord's lie, longest stroke, avoid slack; add reel-in"
+  },
+  {
+   "pilot": "aspire_style",
+   "life": 2,
+   "program": "v3",
+   "program_idea": "overcast + reel-in, aligned 0.26 m stroke",
+   "seed": 52,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 0.994,
+   "trace_showed": "whole straight cord moved at 3.5 m/s with the tool (rigid, axial); at the stop KE fell 12.8 -> 1.4 in 5 steps, bend 0.3 -> 4.7 rad; tip travelled ~0.9 m but stalled 0.3 m from the tool and the cord re-straightened sideways/back (rotated ~110 deg); reel-in never triggered",
+   "changed": "v4: turn the strike into a swing about the parked tool and use the post as a stop"
+  },
+  {
+   "pilot": "aspire_style",
+   "life": 3,
+   "program": "v4",
+   "program_idea": "swing-into-post: perpendicular strike ending at a tool point whose tangent line past the post carries the tip to the target",
+   "seed": 31,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.066,
+   "trace_showed": "cord direction estimated from its centroid, but the near part lay along the strike: the tool pushed into it, lagged (1.5-2 m/s vs 4 m/s reference, servo saturation), cord hardly swung; reel-in fired wrongly (bug) and dragged the tool forward",
+   "changed": "skills S2/S3/S7; v5: kinematic track-laying + tip-first push"
+  },
+  {
+   "pilot": "aspire_style",
+   "life": 4,
+   "program": "v5",
+   "program_idea": "lay a 0.7 m track with the tool so the tip lies on it heading away from the target, then reverse along it to push the cord out tip-first",
+   "seed": 3,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 0.834,
+   "trace_showed": "the cord does not follow the tool's path: tip moved <0.25 m over 0.9 m of tool path, only while taut; push did nothing useful",
+   "changed": "abandon kinematic plans (S5); v6: snap-back cast with a haul"
+  },
+  {
+   "pilot": "aspire_style",
+   "life": 5,
+   "program": "v6",
+   "program_idea": "snap-back cast: full-rate strike from the back of the zone towards the aim point, immediate reversal (haul) to the start, hold",
+   "seed": 96,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 0.62,
+   "trace_showed": "strike reached 2.5 m/s; after the haul the tip passed 0.25 m ahead of the tool and the cord ended straight and pointing FORWARD (tip 0.65 m from the tool, x=0.77) for the first time, but at -46 deg instead of +8 deg (direction set by the near part after the haul)",
+   "changed": "submitted v6 as final program (S1, S6)"
+  },
+  {
+   "pilot": "aspire_style_x1",
+   "life": 1,
+   "program": "v7",
+   "program_idea": "v6 with the haul at 85% of the stroke",
+   "seed": 96,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 0.62,
+   "closest_tip_to_target_m": 0.458,
+   "trace_showed": "practically identical to life 5",
+   "changed": "nothing; timing irrelevant for short strokes"
+  },
+  {
+   "pilot": "aspire_style_x1",
+   "life": 2,
+   "program": "v8",
+   "program_idea": "cast line most opposite to the near part (p20->p14), re-plan on arrival",
+   "seed": 182,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.242,
+   "closest_tip_to_target_m": 0.505,
+   "trace_showed": "near mis 1.9 deg but centroid mis 26.5: tip got 0.15 m ahead, cord swung to +y and unfolded at 112 deg (delta +139)",
+   "changed": "v9: measure the lie by the centroid"
+  },
+  {
+   "pilot": "aspire_style_x1",
+   "life": 3,
+   "program": "v9",
+   "program_idea": "cast line most opposite to the tool->centroid direction (stroke 0.27 m)",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.31,
+   "closest_tip_to_target_m": 0.057,
+   "trace_showed": "centroid mis -4.8: tip flew straight at the target at 6 m/s, reached 0.057 m from its centre at 4.5 m/s, snapped at chord 0.61 and recoiled behind the tool",
+   "changed": "v10: cut energy"
+  },
+  {
+   "pilot": "aspire_style_x1",
+   "life": 4,
+   "program": "v10",
+   "program_idea": "v9 with a 0.12 m stroke (closed-form energy estimate)",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.281,
+   "closest_tip_to_target_m": 0.858,
+   "trace_showed": "no whip at all, tip peak 1.3 m/s",
+   "changed": "bracket the energy: v11"
+  },
+  {
+   "pilot": "aspire_style_x2",
+   "life": 1,
+   "program": "v11",
+   "program_idea": "v9 with stroke <= 0.20 m",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 0.389,
+   "closest_tip_to_target_m": 0.257,
+   "trace_showed": "tip stalled 0.26 m short of the target, then fell back; final 0.389 m",
+   "changed": "v12: interpolate"
+  },
+  {
+   "pilot": "aspire_style_x2",
+   "life": 2,
+   "program": "v12",
+   "program_idea": "v9 with stroke 0.23 m (energy interpolation)",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.257,
+   "closest_tip_to_target_m": 0.135,
+   "trace_showed": "tip slowed to ~0 at the post's side (0.136 m from the target), kinked cord dragged it back",
+   "changed": "v13: more energy and more clearance"
+  },
+  {
+   "pilot": "aspire_style_x2",
+   "life": 3,
+   "program": "v13",
+   "program_idea": "stroke 0.25 m, line >= 0.07 m from the post",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.252,
+   "closest_tip_to_target_m": 0.326,
+   "trace_showed": "different parked point; tip stalled 0.33 m away beside the post, cord swung laterally and went back",
+   "changed": "v14"
+  },
+  {
+   "pilot": "aspire_style_x2",
+   "life": 4,
+   "program": "v14",
+   "program_idea": "v9 geometry, stroke 0.25 m + soft give (<= 0.06 m)",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 0.396,
+   "closest_tip_to_target_m": 0.082,
+   "trace_showed": "tip reached 0.082 m from the target centre (inside the disc) at 0.8 m/s, grazed the post, recoiled; give only 0.02 m",
+   "changed": "v15: keep the cord taut"
+  },
+  {
+   "pilot": "aspire_style_x2",
+   "life": 5,
+   "program": "v15",
+   "program_idea": "stroke 0.25, park 0.60 m, chord servo pulling the tool back (<= 0.12 m)",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.293,
+   "closest_tip_to_target_m": 0.068,
+   "trace_showed": "tip at the target (0.077 m) at 3.6 m/s, snapped at chord 0.611, recoiled despite the servo",
+   "changed": "v16: let the post absorb it"
+  },
+  {
+   "pilot": "aspire_style_x3",
+   "life": 1,
+   "program": "v16",
+   "program_idea": "cast aimed at the post (post 0.50 m from the tool), stroke 0.27",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.209,
+   "closest_tip_to_target_m": 0.054,
+   "trace_showed": "cord missed the post by 0.07 m; tip reached 0.054 m from the target at 1.4 m/s and recoiled at chord 0.609",
+   "changed": "v17: follow-through"
+  },
+  {
+   "pilot": "aspire_style_x3",
+   "life": 2,
+   "program": "v17",
+   "program_idea": "v9 cast (park 0.58 m, clearance 0.05, stroke 0.27) + 0.08 m follow-through at turnover",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 0.299,
+   "closest_tip_to_target_m": 0.089,
+   "trace_showed": "recoil largely suppressed: tip 0.089 m from the target at turnover, then crept to 0.30 m with the cord folded; best extended life",
+   "changed": "v18: fire earlier, give more"
+  },
+  {
+   "pilot": "aspire_style_x3",
+   "life": 3,
+   "program": "v18",
+   "program_idea": "v17 with the follow-through at chord 0.30 and 0.12 m, park 0.56 m",
+   "seed": 62,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 0.933,
+   "closest_tip_to_target_m": 0.102,
+   "trace_showed": "tip 0.107 m from the target, then hit the post (0.030 m) and collapsed back",
+   "changed": "keep v17 timing; test generalisation"
+  },
+  {
+   "pilot": "aspire_style_x3",
+   "life": 4,
+   "program": "v17",
+   "program_idea": "v17 on a new situation",
+   "seed": 184,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 0.887,
+   "closest_tip_to_target_m": 0.407,
+   "trace_showed": "curled cord (chord 0.375): no whip, tip only 0.2 m ahead",
+   "changed": "v19: pre-straighten"
+  },
+  {
+   "pilot": "aspire_style_x3",
+   "life": 5,
+   "program": "v19",
+   "program_idea": "v17 + slow pre-straightening walk",
+   "seed": 184,
+   "outcome": "at rest outside the target",
+   "n_steps": 236,
+   "final_tip_dist_m": 1.01,
+   "closest_tip_to_target_m": 0.121,
+   "trace_showed": "chord 0.375 -> 0.58, whip formed, tip 0.124 m from the target at 0.85 m/s, then grazed the post (0.031 m) and came back",
+   "changed": "budget used; v19 submitted"
+  }
+ ],
+ "versions": [
+  {
+   "v": "v1",
+   "desc": "tethered cast from the back to a parked point at reach 0.66 m beside the post; plain stop; hold"
+  },
+  {
+   "v": "v2",
+   "desc": "v1 + stroke direction chosen opposite to the cord's lie (never flown)"
+  },
+  {
+   "v": "v3",
+   "desc": "overcast beyond the target + slow feedback reel-in of the tip; slack penalty"
+  },
+  {
+   "v": "v4",
+   "desc": "perpendicular strike to swing the cord about the parked tool into the post as a stop; reel-in"
+  },
+  {
+   "v": "v5",
+   "desc": "kinematic: lay a track and push the cord out tip-first along it"
+  },
+  {
+   "v": "v6",
+   "desc": "snap-back cast: full-rate strike towards the aim point then immediate haul back to the start; hold  [SUBMITTED, official]"
+  },
+  {
+   "v": "v7",
+   "desc": "v6 with later haul switch (85%) [extended run]"
+  },
+  {
+   "v": "v8",
+   "desc": "cast line chosen opposite to the near part; one live re-plan"
+  },
+  {
+   "v": "v9",
+   "desc": "cast line chosen opposite to the cord's centroid"
+  },
+  {
+   "v": "v10",
+   "desc": "v9, stroke 0.12 m"
+  },
+  {
+   "v": "v11",
+   "desc": "v9, stroke 0.20 m"
+  },
+  {
+   "v": "v12",
+   "desc": "v9, stroke 0.23 m"
+  },
+  {
+   "v": "v13",
+   "desc": "stroke 0.25, clearance 0.07"
+  },
+  {
+   "v": "v14",
+   "desc": "stroke 0.25 + small soft give"
+  },
+  {
+   "v": "v15",
+   "desc": "park 0.60 + chord servo (tool pulls back)"
+  },
+  {
+   "v": "v16",
+   "desc": "cast aimed at the post"
+  },
+  {
+   "v": "v17",
+   "desc": "v9 cast (park 0.58, stroke 0.27) + 0.08 m follow-through at turnover"
+  },
+  {
+   "v": "v18",
+   "desc": "v17 with earlier/larger follow-through, park 0.56"
+  },
+  {
+   "v": "v19",
+   "desc": "v17 + pre-straightening walk for curled cords  [SUBMITTED for the extended evaluation]"
+  }
+ ],
+ "submitted": "policy_v6.py",
+ "final_program_bytes": 3603,
+ "official": {
+  "lives": 5,
+  "real_steps": 1180,
+  "eval_seeds": "1000-1049",
+  "success_rate": 0.02,
+  "split": {
+   "success": 1,
+   "at_rest_outside_target": 47,
+   "still_moving_at_limit": 2
+  },
+  "tip_dist_median_m": 0.994,
+  "tip_dist_mean_m": 0.862
+ },
+ "conclusion": "A flexible, bending-elastic cord (~0.70 m, ~1 cm thick) lying on a table, one end held by the tool. It slides quickly when pulled taut and fast (the whole straight cord moved at 3.5 m/s with the tool), stops within ~0.1 s when the motion has to bend it, and after any throw re-straightens slowly (0.3-0.5 m/s over 1.5-2 s) along the direction of its near part. The task is to throw (cast/flick) it so the free end comes to rest in a disc placed 0.12 m straight behind a short post, out of the tool's reach. Extended run: a full-rate stroke of >= 0.25 m with an immediate haul, on a straight cord aligned so its centroid lies straight behind the cast line, throws the tip into the target disc reliably on one situation (7 of the 8 casts of >= 0.23 m on seed 62 passed 0.054-0.135 m from its centre), but the cord turns over at a flight chord of 0.61 m and recoils, or grazes the post and collapses; a follow-through softens the recoil. Few layouts leave room for the needed stroke, and nothing made the tip come to rest in the disc.",
+ "field_note": {
+  "one_go": "once thrown, the cord can only be pulled back (and slow pulls only move a taut tip towards the tool); a second throw needs the cord behind the tool again",
+  "slowly_nowhere": "confirmed in life 4: slow tool paths leave the tip where it is; only a fast, taut throw moves the cord beyond the zone",
+  "small_change": "confirmed: the end direction depends on how the near part ends up after the hairpin (life 5: 54 deg off), which shifts with small changes of stroke and initial curl"
+ },
+ "extended_after_6_lives": {
+  "lives_extra": 1,
+  "lives_total": 6,
+  "real_steps_total": 1416,
+  "program": "policy_v7.py",
+  "success_rate": 0.02,
+  "split": {
+   "success": 1,
+   "at_rest_outside_target": 47,
+   "still_moving_at_limit": 2
+  },
+  "note": "cut short after 1 extra life (time budget); v7 behaved like v6 on every eval seed",
+  "record_copy": "runs/annex/aspire_style/result_extended_after_6_lives.json"
+ },
+ "extended_final": {
+  "lives_extra": 14,
+  "lives_total": 19,
+  "unused_extra_lives": 1,
+  "real_steps_total": 4484,
+  "program": "policy_v19.py",
+  "program_bytes": 8973,
+  "success_rate": 0.0,
+  "split": {
+   "success": 0,
+   "at_rest_outside_target": 50,
+   "still_moving_at_limit": 0
+  },
+  "tip_dist_median_m": 1.002,
+  "tip_dist_mean_m": 0.807,
+  "log_dir": "runs/annex/aspire_style/eval_logs_extended_final",
+  "note": "one of the 15 allowed extra lives was not used (counting slip: x1 got 4 lives, not 5); noticed after the evaluation"
+ }
+}

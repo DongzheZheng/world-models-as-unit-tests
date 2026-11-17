@@ -1,0 +1,173 @@
+{
+ "lives_used": 4,
+ "lives": {
+  "life_1.jsonl.gz": {
+   "seed": 1,
+   "steps": 96,
+   "ret": 384.0
+  },
+  "life_2.jsonl.gz": {
+   "seed": 2,
+   "steps": 139,
+   "ret": 553.0
+  },
+  "life_3.jsonl.gz": {
+   "seed": 3,
+   "steps": 4664,
+   "ret": 18656.0
+  },
+  "life_4.jsonl.gz": {
+   "seed": 4,
+   "steps": 1317,
+   "ret": 5265.0
+  }
+ },
+ "real_steps_total": 6216,
+ "world_file_bytes": 16599,
+ "final_controller": {
+  "kind": "hand-written feature-space planner (cawm-style lookahead in the code world's player dynamics over remembered fireballs)",
+  "params": {
+   "horizon": 24,
+   "margin": 2.0,
+   "w_center": 0.3
+  },
+  "selected_by": "code-world mean over 512 episodes (selection_v3world.json)"
+ },
+ "code_world_score_final": {
+  "mean": 22998.326171875,
+  "sem": 169.7689208984375,
+  "median": 24000.0,
+  "frac_capped": 0.9140625,
+  "n": 512,
+  "max_tics": 24000,
+  "eval_wall_s": 35.64838123321533
+ },
+ "code_world_scores_all": {
+  "noop": {
+   "mean": 142.29052734375,
+   "sem": 0.6612996459007263,
+   "median": 127.0,
+   "frac_capped": 0.0,
+   "n": 4096,
+   "max_tics": 24000
+  },
+  "random": {
+   "mean": 277.1181640625,
+   "sem": 2.3785877227783203,
+   "median": 242.0,
+   "frac_capped": 0.0,
+   "n": 4096,
+   "max_tics": 24000
+  },
+  "ppo_v1": {
+   "mean": 1090.208984375,
+   "sem": 28.887500762939453,
+   "median": 959.0,
+   "frac_capped": 0.0,
+   "n": 512,
+   "max_tics": 24000,
+   "eval_wall_s": 3.143932819366455
+  },
+  "ppo_v2": {
+   "mean": 2763.55078125,
+   "sem": 93.16587829589844,
+   "median": 2201.0,
+   "frac_capped": 0.0,
+   "n": 512,
+   "max_tics": 24000,
+   "eval_wall_s": 15.133919477462769
+  },
+  "planner_h32_m2.0_w0.3": {
+   "mean": 21520.017578125,
+   "sem": 261.6778869628906,
+   "median": 24000.0,
+   "frac_capped": 0.802734375,
+   "n": 512,
+   "max_tics": 24000,
+   "eval_wall_s": 43.80370783805847
+  },
+  "planner_h24_m2.0_w0.3": {
+   "mean": 22998.326171875,
+   "sem": 169.7689208984375,
+   "median": 24000.0,
+   "frac_capped": 0.9140625,
+   "n": 512,
+   "max_tics": 24000,
+   "eval_wall_s": 35.64838123321533
+  },
+  "planner_h32_m4.0_w0.3": {
+   "mean": 21061.958984375,
+   "sem": 279.5584411621094,
+   "median": 24000.0,
+   "frac_capped": 0.767578125,
+   "n": 512,
+   "max_tics": 24000,
+   "eval_wall_s": 39.87666201591492
+  }
+ },
+ "ppo": {
+  "v1": {
+   "wm_steps": 149946368,
+   "wall_s": 361.59232664108276,
+   "sps": 416010
+  },
+  "v2": {
+   "wm_steps": 199753728,
+   "wall_s": 758.544183254242,
+   "sps": 263631
+  }
+ },
+ "wm_steps_note": "PPO steps (v1+v2) plus planner tuning/selection rollouts (see wm_steps_total)",
+ "real_eval": {
+  "mean": 19162.49,
+  "sem": 1658.723496638002,
+  "median": 14407.0,
+  "n": 100,
+  "min": 454.0,
+  "max": 75747.0
+ },
+ "gifs": [
+  "runs/doom/code_wm/gifs/eval_seed1000.gif",
+  "runs/doom/code_wm/gifs/life_1.gif",
+  "runs/doom/code_wm/gifs/life_2.gif",
+  "runs/doom/code_wm/gifs/life_3.gif",
+  "runs/doom/code_wm/gifs/life_4.gif"
+ ],
+ "wm_steps_total": 389368302,
+ "train_wall_s_total": 2054,
+ "cost_parts": {
+  "ppo_smoke": {
+   "train_steps": 1835008,
+   "eval_steps": 1451205,
+   "wall_s": 3.70575213432312
+  },
+  "ppo_smoke2": {
+   "train_steps": 2883584,
+   "eval_steps": 1521550,
+   "wall_s": 30.053114652633667
+  },
+  "ppo_v1": {
+   "train_steps": 149946368,
+   "eval_steps": 3098743,
+   "wall_s": 361.59232664108276
+  },
+  "ppo_v2": {
+   "train_steps": 199753728,
+   "eval_steps": 3575013,
+   "wall_s": 758.544183254242
+  },
+  "planner_grid(killed after 8 of 27 configs)": {
+   "eval_steps": 12030997,
+   "configs": 8
+  },
+  "selection.json": {
+   "eval_steps": 3955070,
+   "wall_s": 202.7881486415863
+  },
+  "selection_v3world.json": {
+   "eval_steps": 9317034,
+   "wall_s": 137.60660338401794
+  }
+ },
+ "wall_note": "PPO training + candidate evaluation in the code world; excludes real lives and my editing time"
+}

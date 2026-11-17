@@ -1,0 +1,624 @@
+{
+ "metric": "open-loop replay of the logged commands from every logged state (windows start at each step); median over windows of |position error| [m] and |velocity error| [m/s] after 0.5 s and 1.0 s",
+ "note": "'held_out' = world fitted only on earlier lives, scored on a life it never saw",
+ "comparisons": [
+  {
+   "world": "life-1 world",
+   "world_fitted_on": [
+    "life_1.npz"
+   ],
+   "life": "life_1.npz",
+   "held_out": false,
+   "description": "world fitted on life 1 only, scored on lives 1 (in-sample) and 2 (held out)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.2188320755958557,
+     "pos_err_m_mean": 0.22414913773536682,
+     "vel_err_ms_median": 0.9985533952713013,
+     "vel_err_ms_mean": 1.044517993927002
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.2213307619094849,
+     "pos_err_m_mean": 1.253397822380066,
+     "vel_err_ms_median": 3.4314258098602295,
+     "vel_err_ms_mean": 3.499099016189575
+    },
+    "n_windows": 189
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.050523340702056885,
+     "pos_err_m_mean": 0.05156542733311653,
+     "vel_err_ms_median": 0.05856157839298248,
+     "vel_err_ms_mean": 0.06868156790733337
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.07315758615732193,
+     "pos_err_m_mean": 0.07667122781276703,
+     "vel_err_ms_median": 0.11058785766363144,
+     "vel_err_ms_mean": 0.13917309045791626
+    },
+    "n_windows": 189
+   }
+  },
+  {
+   "world": "life-1 world",
+   "world_fitted_on": [
+    "life_1.npz"
+   ],
+   "life": "life_2.npz",
+   "held_out": true,
+   "description": "world fitted on life 1 only, scored on lives 1 (in-sample) and 2 (held out)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.2373027354478836,
+     "pos_err_m_mean": 0.4030652642250061,
+     "vel_err_ms_median": 1.004716396331787,
+     "vel_err_ms_mean": 1.6403595209121704
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.2300097942352295,
+     "pos_err_m_mean": 1.7069095373153687,
+     "vel_err_ms_median": 3.3261361122131348,
+     "vel_err_ms_mean": 4.020725250244141
+    },
+    "n_windows": 244
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.0740722194314003,
+     "pos_err_m_mean": 0.17121782898902893,
+     "vel_err_ms_median": 0.1872974932193756,
+     "vel_err_ms_mean": 0.5930588245391846
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.21013346314430237,
+     "pos_err_m_mean": 0.5772983431816101,
+     "vel_err_ms_median": 0.38866400718688965,
+     "vel_err_ms_mean": 1.0835498571395874
+    },
+    "n_windows": 244
+   }
+  },
+  {
+   "world": "lives-1+2 world",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz"
+   ],
+   "life": "life_1.npz",
+   "held_out": false,
+   "description": "world fitted on lives 1-2, scored on 1-2 (in-sample) and 3 (held out; first flight into the aisle mouths)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.2188320755958557,
+     "pos_err_m_mean": 0.22414913773536682,
+     "vel_err_ms_median": 0.9985533952713013,
+     "vel_err_ms_mean": 1.044517993927002
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.2213307619094849,
+     "pos_err_m_mean": 1.253397822380066,
+     "vel_err_ms_median": 3.4314258098602295,
+     "vel_err_ms_mean": 3.499099016189575
+    },
+    "n_windows": 189
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.053745947778224945,
+     "pos_err_m_mean": 0.05563119053840637,
+     "vel_err_ms_median": 0.10991223901510239,
+     "vel_err_ms_mean": 0.10963645577430725
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.10211096704006195,
+     "pos_err_m_mean": 0.10468358546495438,
+     "vel_err_ms_median": 0.17501486837863922,
+     "vel_err_ms_mean": 0.17822712659835815
+    },
+    "n_windows": 189
+   }
+  },
+  {
+   "world": "lives-1+2 world",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz"
+   ],
+   "life": "life_2.npz",
+   "held_out": false,
+   "description": "world fitted on lives 1-2, scored on 1-2 (in-sample) and 3 (held out; first flight into the aisle mouths)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.2373027354478836,
+     "pos_err_m_mean": 0.4030652642250061,
+     "vel_err_ms_median": 1.004716396331787,
+     "vel_err_ms_mean": 1.6403595209121704
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.2300097942352295,
+     "pos_err_m_mean": 1.7069095373153687,
+     "vel_err_ms_median": 3.3261361122131348,
+     "vel_err_ms_mean": 4.020725250244141
+    },
+    "n_windows": 244
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.06246531009674072,
+     "pos_err_m_mean": 0.07244104892015457,
+     "vel_err_ms_median": 0.12220141291618347,
+     "vel_err_ms_mean": 0.17474855482578278
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.1279810518026352,
+     "pos_err_m_mean": 0.16584201157093048,
+     "vel_err_ms_median": 0.22786365449428558,
+     "vel_err_ms_mean": 0.2926538586616516
+    },
+    "n_windows": 244
+   }
+  },
+  {
+   "world": "lives-1+2 world",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz"
+   ],
+   "life": "life_3.npz",
+   "held_out": true,
+   "description": "world fitted on lives 1-2, scored on 1-2 (in-sample) and 3 (held out; first flight into the aisle mouths)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.39395326375961304,
+     "pos_err_m_mean": 0.8881933689117432,
+     "vel_err_ms_median": 1.6492282152175903,
+     "vel_err_ms_mean": 3.5594987869262695
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.899523138999939,
+     "pos_err_m_mean": 3.623929738998413,
+     "vel_err_ms_median": 4.818681716918945,
+     "vel_err_ms_mean": 7.700171947479248
+    },
+    "n_windows": 430
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.09405143558979034,
+     "pos_err_m_mean": 0.1656615287065506,
+     "vel_err_ms_median": 0.2573065161705017,
+     "vel_err_ms_mean": 0.5752791166305542
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.24984829127788544,
+     "pos_err_m_mean": 0.477303147315979,
+     "vel_err_ms_median": 0.4040215015411377,
+     "vel_err_ms_mean": 0.865220844745636
+    },
+    "n_windows": 430
+   }
+  },
+  {
+   "world": "lives-1-3 world (used for the evaluated controller)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz"
+   ],
+   "life": "life_1.npz",
+   "held_out": false,
+   "description": "scored on 1-3 (in-sample) and 4-5 (held out)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.2188320755958557,
+     "pos_err_m_mean": 0.22414913773536682,
+     "vel_err_ms_median": 0.9985533952713013,
+     "vel_err_ms_mean": 1.044517993927002
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.2213307619094849,
+     "pos_err_m_mean": 1.253397822380066,
+     "vel_err_ms_median": 3.4314258098602295,
+     "vel_err_ms_mean": 3.499099016189575
+    },
+    "n_windows": 189
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.05381200462579727,
+     "pos_err_m_mean": 0.05514758452773094,
+     "vel_err_ms_median": 0.09893939644098282,
+     "vel_err_ms_mean": 0.10250969231128693
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.10584370046854019,
+     "pos_err_m_mean": 0.10941925644874573,
+     "vel_err_ms_median": 0.1901026964187622,
+     "vel_err_ms_mean": 0.24541562795639038
+    },
+    "n_windows": 189
+   }
+  },
+  {
+   "world": "lives-1-3 world (used for the evaluated controller)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz"
+   ],
+   "life": "life_2.npz",
+   "held_out": false,
+   "description": "scored on 1-3 (in-sample) and 4-5 (held out)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.2373027354478836,
+     "pos_err_m_mean": 0.4030652642250061,
+     "vel_err_ms_median": 1.004716396331787,
+     "vel_err_ms_mean": 1.6403595209121704
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.2300097942352295,
+     "pos_err_m_mean": 1.7069095373153687,
+     "vel_err_ms_median": 3.3261361122131348,
+     "vel_err_ms_mean": 4.020725250244141
+    },
+    "n_windows": 244
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.06539928168058395,
+     "pos_err_m_mean": 0.09114374965429306,
+     "vel_err_ms_median": 0.13935010135173798,
+     "vel_err_ms_mean": 0.2502731382846832
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.15275244414806366,
+     "pos_err_m_mean": 0.23084773123264313,
+     "vel_err_ms_median": 0.27998054027557373,
+     "vel_err_ms_mean": 0.42708757519721985
+    },
+    "n_windows": 244
+   }
+  },
+  {
+   "world": "lives-1-3 world (used for the evaluated controller)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz"
+   ],
+   "life": "life_3.npz",
+   "held_out": false,
+   "description": "scored on 1-3 (in-sample) and 4-5 (held out)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.39395326375961304,
+     "pos_err_m_mean": 0.8881933689117432,
+     "vel_err_ms_median": 1.6492282152175903,
+     "vel_err_ms_mean": 3.5594987869262695
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.899523138999939,
+     "pos_err_m_mean": 3.623929738998413,
+     "vel_err_ms_median": 4.818681716918945,
+     "vel_err_ms_mean": 7.700171947479248
+    },
+    "n_windows": 430
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.08377378433942795,
+     "pos_err_m_mean": 0.1296592652797699,
+     "vel_err_ms_median": 0.2184089869260788,
+     "vel_err_ms_mean": 0.42354995012283325
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.19483080506324768,
+     "pos_err_m_mean": 0.3315373659133911,
+     "vel_err_ms_median": 0.38714495301246643,
+     "vel_err_ms_mean": 0.623160719871521
+    },
+    "n_windows": 430
+   }
+  },
+  {
+   "world": "lives-1-3 world (used for the evaluated controller)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz"
+   ],
+   "life": "life_4.npz",
+   "held_out": true,
+   "description": "scored on 1-3 (in-sample) and 4-5 (held out)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.265273779630661,
+     "pos_err_m_mean": 0.4543614685535431,
+     "vel_err_ms_median": 1.087199091911316,
+     "vel_err_ms_mean": 1.8059132099151611
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.3116511106491089,
+     "pos_err_m_mean": 1.8210690021514893,
+     "vel_err_ms_median": 3.453317165374756,
+     "vel_err_ms_mean": 4.097733974456787
+    },
+    "n_windows": 212
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.06688150763511658,
+     "pos_err_m_mean": 0.0916384607553482,
+     "vel_err_ms_median": 0.14773975312709808,
+     "vel_err_ms_mean": 0.27411073446273804
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.16276079416275024,
+     "pos_err_m_mean": 0.2583584189414978,
+     "vel_err_ms_median": 0.33456405997276306,
+     "vel_err_ms_mean": 0.48623111844062805
+    },
+    "n_windows": 212
+   }
+  },
+  {
+   "world": "lives-1-3 world (used for the evaluated controller)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz"
+   ],
+   "life": "life_5.npz",
+   "held_out": true,
+   "description": "scored on 1-3 (in-sample) and 4-5 (held out)",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.39647015929222107,
+     "pos_err_m_mean": 0.8933285474777222,
+     "vel_err_ms_median": 1.7864906787872314,
+     "vel_err_ms_mean": 3.567859172821045
+    },
+    "1.0s": {
+     "pos_err_m_median": 2.0650129318237305,
+     "pos_err_m_mean": 3.6179428100585938,
+     "vel_err_ms_median": 5.209036350250244,
+     "vel_err_ms_mean": 7.630162715911865
+    },
+    "n_windows": 421
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.07806293666362762,
+     "pos_err_m_mean": 0.114811971783638,
+     "vel_err_ms_median": 0.22600142657756805,
+     "vel_err_ms_mean": 0.39507731795310974
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.2337527871131897,
+     "pos_err_m_mean": 0.3773980736732483,
+     "vel_err_ms_median": 0.5579871535301208,
+     "vel_err_ms_mean": 0.8127027153968811
+    },
+    "n_windows": 421
+   }
+  },
+  {
+   "world": "all-lives world (for phase 2)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz",
+    "life_4.npz",
+    "life_5.npz"
+   ],
+   "life": "life_1.npz",
+   "held_out": false,
+   "description": "fitted on lives 1-5, in-sample only",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.2188320755958557,
+     "pos_err_m_mean": 0.22414913773536682,
+     "vel_err_ms_median": 0.9985533952713013,
+     "vel_err_ms_mean": 1.044517993927002
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.2213307619094849,
+     "pos_err_m_mean": 1.253397822380066,
+     "vel_err_ms_median": 3.4314258098602295,
+     "vel_err_ms_mean": 3.499099016189575
+    },
+    "n_windows": 189
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.05594963580369949,
+     "pos_err_m_mean": 0.057119473814964294,
+     "vel_err_ms_median": 0.10434456914663315,
+     "vel_err_ms_mean": 0.11569066345691681
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.11404084414243698,
+     "pos_err_m_mean": 0.12943388521671295,
+     "vel_err_ms_median": 0.2218809872865677,
+     "vel_err_ms_mean": 0.3166296184062958
+    },
+    "n_windows": 189
+   }
+  },
+  {
+   "world": "all-lives world (for phase 2)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz",
+    "life_4.npz",
+    "life_5.npz"
+   ],
+   "life": "life_2.npz",
+   "held_out": false,
+   "description": "fitted on lives 1-5, in-sample only",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.2373027354478836,
+     "pos_err_m_mean": 0.4030652642250061,
+     "vel_err_ms_median": 1.004716396331787,
+     "vel_err_ms_mean": 1.6403595209121704
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.2300097942352295,
+     "pos_err_m_mean": 1.7069095373153687,
+     "vel_err_ms_median": 3.3261361122131348,
+     "vel_err_ms_mean": 4.020725250244141
+    },
+    "n_windows": 244
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.06728581339120865,
+     "pos_err_m_mean": 0.09191243350505829,
+     "vel_err_ms_median": 0.14003325998783112,
+     "vel_err_ms_mean": 0.2522067725658417
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.15489043295383453,
+     "pos_err_m_mean": 0.22560010850429535,
+     "vel_err_ms_median": 0.2737154960632324,
+     "vel_err_ms_mean": 0.40293779969215393
+    },
+    "n_windows": 244
+   }
+  },
+  {
+   "world": "all-lives world (for phase 2)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz",
+    "life_4.npz",
+    "life_5.npz"
+   ],
+   "life": "life_3.npz",
+   "held_out": false,
+   "description": "fitted on lives 1-5, in-sample only",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.39395326375961304,
+     "pos_err_m_mean": 0.8881933689117432,
+     "vel_err_ms_median": 1.6492282152175903,
+     "vel_err_ms_mean": 3.5594987869262695
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.899523138999939,
+     "pos_err_m_mean": 3.623929738998413,
+     "vel_err_ms_median": 4.818681716918945,
+     "vel_err_ms_mean": 7.700171947479248
+    },
+    "n_windows": 430
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.08455595374107361,
+     "pos_err_m_mean": 0.13285872340202332,
+     "vel_err_ms_median": 0.21259430050849915,
+     "vel_err_ms_mean": 0.4350630044937134
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.1941543072462082,
+     "pos_err_m_mean": 0.33449670672416687,
+     "vel_err_ms_median": 0.415254682302475,
+     "vel_err_ms_mean": 0.6256964206695557
+    },
+    "n_windows": 430
+   }
+  },
+  {
+   "world": "all-lives world (for phase 2)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz",
+    "life_4.npz",
+    "life_5.npz"
+   ],
+   "life": "life_4.npz",
+   "held_out": false,
+   "description": "fitted on lives 1-5, in-sample only",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.265273779630661,
+     "pos_err_m_mean": 0.4543614685535431,
+     "vel_err_ms_median": 1.087199091911316,
+     "vel_err_ms_mean": 1.8059132099151611
+    },
+    "1.0s": {
+     "pos_err_m_median": 1.3116511106491089,
+     "pos_err_m_mean": 1.8210690021514893,
+     "vel_err_ms_median": 3.453317165374756,
+     "vel_err_ms_mean": 4.097733974456787
+    },
+    "n_windows": 212
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.06812303513288498,
+     "pos_err_m_mean": 0.08724555373191833,
+     "vel_err_ms_median": 0.13976989686489105,
+     "vel_err_ms_mean": 0.25261232256889343
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.15426556766033173,
+     "pos_err_m_mean": 0.2375974804162979,
+     "vel_err_ms_median": 0.323415070772171,
+     "vel_err_ms_mean": 0.44655299186706543
+    },
+    "n_windows": 212
+   }
+  },
+  {
+   "world": "all-lives world (for phase 2)",
+   "world_fitted_on": [
+    "life_1.npz",
+    "life_2.npz",
+    "life_3.npz",
+    "life_4.npz",
+    "life_5.npz"
+   ],
+   "life": "life_5.npz",
+   "held_out": false,
+   "description": "fitted on lives 1-5, in-sample only",
+   "datasheet": {
+    "0.5s": {
+     "pos_err_m_median": 0.39647015929222107,
+     "pos_err_m_mean": 0.8933285474777222,
+     "vel_err_ms_median": 1.7864906787872314,
+     "vel_err_ms_mean": 3.567859172821045
+    },
+    "1.0s": {
+     "pos_err_m_median": 2.0650129318237305,
+     "pos_err_m_mean": 3.6179428100585938,
+     "vel_err_ms_median": 5.209036350250244,
+     "vel_err_ms_mean": 7.630162715911865
+    },
+    "n_windows": 421
+   },
+   "code_world": {
+    "0.5s": {
+     "pos_err_m_median": 0.0730329379439354,
+     "pos_err_m_mean": 0.10027986019849777,
+     "vel_err_ms_median": 0.21205268800258636,
+     "vel_err_ms_mean": 0.3294358551502228
+    },
+    "1.0s": {
+     "pos_err_m_median": 0.22043277323246002,
+     "pos_err_m_mean": 0.30108925700187683,
+     "vel_err_ms_median": 0.5155746340751648,
+     "vel_err_ms_mean": 0.6496650576591492
+    },
+    "n_windows": 421
+   }
+  }
+ ]
+}

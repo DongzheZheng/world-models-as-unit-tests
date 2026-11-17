@@ -1,0 +1,1 @@
+code-as-policy (ASPIRE-style) on the L: policy_v10.py = T lineage v8 made shape-generic (v9) plus L-specific repairs from 2 real L lives (rotation-response scaling g=2.5, shrunk COM estimate, relative alignment thresholds); skill library pilots/aspire_pusht/skills.json; no simulator or forward model

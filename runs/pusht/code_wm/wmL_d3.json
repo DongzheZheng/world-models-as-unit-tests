@@ -1,0 +1,109 @@
+{
+ "n_ep": 12,
+ "success_rate": 0.8333333333333334,
+ "mean_max_coverage": 0.9237132668495178,
+ "mean_steps": 159.41666666666666,
+ "wm_steps": 26191872,
+ "wall_s": 1286.9563376903534,
+ "wm_steps_per_s": 20351.79534296047,
+ "planner": {
+  "n_samples": 2048,
+  "succ_thr": 0.965,
+  "object": "L",
+  "wall_w": 1.0,
+  "time_w": 0.0,
+  "ang_w": 300.0
+ },
+ "params_jitter": 0.0,
+ "reality_override": {},
+ "block_range": [
+  40,
+  472
+ ],
+ "per_episode": [
+  {
+   "success": false,
+   "max_cov": 0.6102941036224365,
+   "steps": 300,
+   "final_centroid_err": 35.68705749511719,
+   "final_ang_err_deg": 28.901601791381836
+  },
+  {
+   "success": true,
+   "max_cov": 0.9926470518112183,
+   "steps": 94,
+   "final_centroid_err": 5.033698558807373,
+   "final_ang_err_deg": 4.358931064605713
+  },
+  {
+   "success": true,
+   "max_cov": 0.9742646813392639,
+   "steps": 121,
+   "final_centroid_err": 14.477923393249512,
+   "final_ang_err_deg": 2.4144580364227295
+  },
+  {
+   "success": true,
+   "max_cov": 0.9558823704719543,
+   "steps": 68,
+   "final_centroid_err": 1.7674552202224731,
+   "final_ang_err_deg": 2.459810495376587
+  },
+  {
+   "success": true,
+   "max_cov": 1.0,
+   "steps": 142,
+   "final_centroid_err": 37.35077667236328,
+   "final_ang_err_deg": 2.009127378463745
+  },
+  {
+   "success": true,
+   "max_cov": 0.9889705777168274,
+   "steps": 97,
+   "final_centroid_err": 9.248291969299316,
+   "final_ang_err_deg": 2.122699737548828
+  },
+  {
+   "success": false,
+   "max_cov": 0.6764705777168274,
+   "steps": 300,
+   "final_centroid_err": 60.20575714111328,
+   "final_ang_err_deg": 10.005311012268066
+  },
+  {
+   "success": true,
+   "max_cov": 0.966911792755127,
+   "steps": 88,
+   "final_centroid_err": 5.574275016784668,
+   "final_ang_err_deg": 3.8003852367401123
+  },
+  {
+   "success": true,
+   "max_cov": 0.966911792755127,
+   "steps": 287,
+   "final_centroid_err": 6.104321002960205,
+   "final_ang_err_deg": 2.7948997020721436
+  },
+  {
+   "success": true,
+   "max_cov": 0.9779411554336548,
+   "steps": 129,
+   "final_centroid_err": 13.408660888671875,
+   "final_ang_err_deg": 1.3098115921020508
+  },
+  {
+   "success": true,
+   "max_cov": 0.9742646813392639,
+   "steps": 220,
+   "final_centroid_err": 10.790373802185059,
+   "final_ang_err_deg": 5.091673374176025
+  },
+  {
+   "success": true,
+   "max_cov": 1.0,
+   "steps": 67,
+   "final_centroid_err": 14.359261512756348,
+   "final_ang_err_deg": 1.9522181749343872
+  }
+ ]
+}

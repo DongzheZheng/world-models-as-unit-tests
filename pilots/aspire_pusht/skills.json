@@ -1,0 +1,280 @@
+{
+ "library": "aspire_style Push-T skill library (code-as-policy). Each skill: failure signature seen in a real trace, when to apply, repair strategy, code sketch, evidence.",
+ "base_program": {
+  "name": "S0 wrench-alignment contact choice",
+  "strategy": "Score every reachable contact (point p, push direction n) on the T faces by the cosine between its unit wrench (n, (p-c) x n / rho) and the desired twist (goal_xy - xy, rho * wrap(goal_th - th)); walk around the block to the pre-contact point; push along n by a depth proportional to the remaining error.",
+  "code_sketch": "w = [n_w, cross(p - com, n)/rho]; s = w.dot([ep, rho*eth]) / |w||tw|; best = argmax(s - lam*travel/100); tgt = touch + n_w*clip(k*|tw|*s, dmin, dmax)",
+  "introduced": "policy_v1",
+  "evidence": "life 1 (seed 11): success at step 278"
+ },
+ "skills": [
+  {
+   "id": "S1",
+   "name": "travel-cost and contact persistence",
+   "failure_signature": "Trace segmentation shows >80% of steps in approach; contacts alternate A/B with ~28-step walks per ~7-step push; a push ends while its contact still has alignment > 0.8 because another contact is 0.15 better.",
+   "when_to_apply": "Whenever the fraction of free (non-contact) steps exceeds ~0.6 or pushes are much shorter than walks.",
+   "repair": "Subtract lam * (orbit arc + radial distance to the pre-contact point)/100 from each contact's score; keep the current contact until its alignment drops below 0.45 or another beats it by 0.35.",
+   "code_sketch": "travel = R_orb*|wrap(ang(pre-c) - ang(q-c))| + ||q-c| - |pre-c||; sc = s - lam*travel/100; switch if s[cur] < keep or sc[best] > sc[cur] + hyst",
+   "introduced": "policy_v2",
+   "validated_on": [
+    "life 2 (success, 193 steps)",
+    "lives 3-5"
+   ]
+  },
+  {
+   "id": "S2",
+   "name": "lagging position-controlled pusher",
+   "failure_signature": "Pusher covers ~40% of the distance to its target per step; slow walks.",
+   "when_to_apply": "Any free-space motion.",
+   "repair": "Fitted response dq = 0.30 (target - q) + 0.30 v dt (lives 1-2, both axes); command targets 90 u ahead, orbit the block on a 112 u circle with an 80 u look-ahead, corridor approach in 15 u increments.",
+   "code_sketch": "tgt = q + d/|d| * min(|d|, 90); orbit: phi += sign(dphi)*min(|dphi|, 80/R_orb)",
+   "introduced": "policy_v2/v3",
+   "validated_on": [
+    "lives 3-5"
+   ]
+  },
+  {
+   "id": "S3",
+   "name": "centre of mass is not where the drawing suggests",
+   "failure_signature": "Rotation per unit push does not match the nominal-area centroid (0, 40.7).",
+   "when_to_apply": "Every torque / lever-arm computation in the contact score.",
+   "repair": "Linear regression dth = k*((p - c) x n)*L over contact steps; pooled over 4 lives c = (2.6, 43.5), bootstrap sd (1.4, 1.6); program uses (3, 44). Per-life estimates scatter from -5 to +7 in u, so only the v-shift (~+3 u toward the stem) and a small +u shift are supported.",
+   "code_sketch": "X = [cross(p,n)*L, -n_v*L, n_u*L]; coef = lstsq(X, dth); com = (coef1/coef0, coef2/coef0)",
+   "introduced": "policy_v3 (5, 42.5) -> policy_v4 (3, 44)",
+   "validated_on": [
+    "lives 3-5"
+   ]
+  },
+  {
+   "id": "S4",
+   "name": "corner slip / sliding contact",
+   "failure_signature": "Repeated 'push 3-5 steps -> lateral drift > tolerance -> 7-step re-approach' on the same contact near a corner (life 2 t=13-46, life 3 t=14-62), coverage not improving.",
+   "when_to_apply": "Contacts within ~7 u of a corner; any push whose pusher drifts along the face as the block turns.",
+   "repair": "Trim candidate faces away from corners (v3); while pushing, re-anchor the contact to the pusher's actual position along the same face instead of abandoning the push (v4).",
+   "code_sketch": "same = F == F[cur]; j = argmin |qb - (P[same] - N[same]*r)|; if min < lat_tol+4: cur = j",
+   "introduced": "policy_v3 (trim) / policy_v4 (re-anchor)",
+   "validated_on": [
+    "life 4 (contact slid 25->27->28 without re-approach)",
+    "life 5 (22->23->24)"
+   ]
+  },
+  {
+   "id": "S5",
+   "name": "coasting block",
+   "failure_signature": "Block keeps moving after contact ends; motion decays by ~0.63 per step (total ~1.7x the last step); near the goal a push overshoots (life 3 t=222: 0.943 -> 0.916).",
+   "when_to_apply": "Pushes when the twist error is < 25.",
+   "repair": "Stop the push (back the pusher off 4 u) when the remaining error along the contact's wrench <= 1.7 x the block's last-step motion along it + 0.5.",
+   "code_sketch": "mv = w.dot([dxy, rho*dth]); if rem <= 1.7*max(mv,0) + 0.5: depth = -4",
+   "introduced": "policy_v4",
+   "validated_on": [
+    "life 4",
+    "life 5"
+   ]
+  },
+  {
+   "id": "S6",
+   "name": "precision phase dominated by walking",
+   "failure_signature": "Going from coverage 0.8 to 0.95 took 83-111 steps (lives 3-4), ~2/3 of them walking between contacts.",
+   "when_to_apply": "Twist error < 20.",
+   "repair": "Raise the travel weight (0.25 -> 0.6) and lower the keep threshold (0.45 -> 0.3) so corrections use nearby faces.",
+   "code_sketch": "prec = nt < 20; sc = s - (0.6 if prec else 0.25)*travel/100; keep = 0.3 if prec else 0.45",
+   "introduced": "policy_v5",
+   "validated_on": [
+    "life 5 (success at step 105; 0.79 -> 0.95 in 30 steps)"
+   ]
+  },
+  {
+   "id": "S7",
+   "name": "tempo: the program runs out of time",
+   "failure_signature": "Official evaluation of v5: 10/50 success, median 300 steps, median max coverage 0.86; official lives all ended just above 0.95 after 105-278 steps with the block motionless during long walks.",
+   "when_to_apply": "Any free-space motion and coarse pushes.",
+   "repair": "Amplify free-space commands x2 (pusher closes only ~40% of the gap per step), orbit look-ahead 110 u on a circle 10 u outside the orbit, corridor tolerance 6 u with 1.5x steps, coarse push depth k=0.5 up to 40 u.",
+   "code_sketch": "tgt = q + d/|d| * min(2|d|, 120); corridor: q + (pre-q)/|pre-q| * min(1.5|pre-q|, 25)",
+   "introduced": "policy_v6",
+   "validated_on": [
+    "x1 life 1 (success, 96 steps)"
+   ]
+  },
+  {
+   "id": "S8",
+   "name": "travel-cost deadlock",
+   "failure_signature": "Stuck for 272 steps in 'push' on a contact with alignment ~0.01, pusher parked 4 u behind it (coast stop), block motionless (x1 life 2, coverage 0.82). Cause: travel cost of every well-aligned contact exceeded its alignment, so the program kept picking the adjacent point on the same face.",
+   "when_to_apply": "Contact selection whenever a travel cost is in the score.",
+   "repair": "Contacts below the keep threshold are never selected (unless none qualifies); stall watchdog bans the current contact for 25 steps after 6 motionless 'push' steps.",
+   "code_sketch": "sc = where(s >= keep, sc, -inf) if any(s >= keep); if still >= 6: ban[cur] = t + 25",
+   "introduced": "policy_v7",
+   "validated_on": [
+    "x1 lives 3-5 (3/3 success; 93, 115, 246 steps)"
+   ]
+  },
+  {
+   "id": "S6b",
+   "name": "low-alignment pushes undo progress",
+   "failure_signature": "Coverage drops during pushes started on contacts with alignment 0.33-0.55 (x1 life 5: 0.937 -> 0.85, 0.78 -> 0.59).",
+   "when_to_apply": "Choosing a new contact.",
+   "repair": "A new contact needs alignment >= 0.6 (fallback: keep threshold, then best available); an ongoing push may continue down to the keep threshold.",
+   "code_sketch": "sc = where(s >= 0.6, sc, -inf) if any(s >= 0.6); sc[cur] = cur_sc if cur still >= keep",
+   "introduced": "policy_v8",
+   "validated_on": [
+    "x2 lives 1-3 (3/3 success; 100, 92, 81 steps)",
+    "extended evaluation 47/50"
+   ]
+  },
+  {
+   "id": "S9",
+   "name": "shape transfer",
+   "object": "L",
+   "failure_signature": "New object; the program had the T's polygon and faces built in.",
+   "when_to_apply": "Any new block shape.",
+   "repair": "Read the shape from task_card in bind(); build the polygon and reachable faces from it with the T's clearance rules (>= ~8 u from convex corners, >= r+3 from an adjoining concave wall); start the COM at the area centroid. Verified offline: contact pusher centres keep 15.00 u clearance; v9 reproduces v8 exactly on logged T lives.",
+   "code_sketch": "SHAPES = {'T': {...}, 'L': {rects: (LEG, FOOT), faces: [...], com: ...}}; bind: set_shape(card['object'])",
+   "introduced": "policy_v9",
+   "validated_on": [
+    "L life 1 (failure, max 0.945 at t=263)"
+   ]
+  },
+  {
+   "id": "S10",
+   "name": "the L turns much less per push than the T",
+   "object": "L",
+   "failure_signature": "Angle error falls slowly in a fixed 4-contact cycle (L life 1: +69 -> +2.5 deg in 300 steps) although position error is small.",
+   "when_to_apply": "Contact scoring on an object whose rotation/translation response differs from the T's.",
+   "repair": "Measure rotation and translation per unit of push (same regression tool as S3): L 0.81 u and 0.000068 rad per u*u of lever vs T 0.56 u and 0.00014 -> relative turning ~1/1.9..1/2.9. Predicted motion direction of a contact = [n, tau/(g rho)], g = 2.5 for the L.",
+   "code_sketch": "w = [n_w, tau / (rho * g)]",
+   "introduced": "policy_v10",
+   "validated_on": [
+    "(official L eval of v10: 8/50)"
+   ]
+  },
+  {
+   "id": "S11",
+   "name": "relative alignment thresholds",
+   "object": "L",
+   "failure_signature": "Best achievable alignment on the L is 0.55-0.65, so absolute T thresholds (keep 0.45 / select 0.6) end pushes at once.",
+   "when_to_apply": "Whenever S10 lowers achievable alignment.",
+   "repair": "keep = max(0.2, min(abs, 0.75 x best)), select = max(0.2, min(0.6, 0.9 x best)); unchanged on the T when best >= 0.67.",
+   "code_sketch": "kth = max(0.2, min(keep, 0.75*smax)); sel = max(0.2, min(select_min, 0.9*smax))",
+   "introduced": "policy_v10",
+   "validated_on": [
+    "v10 reproduces v8 on logged T lives"
+   ]
+  },
+  {
+   "id": "S12",
+   "name": "twist about the centre of mass",
+   "object": "L (also latent on the T)",
+   "failure_signature": "Large angle error while the body ORIGIN is near its goal (L life 2: eth +83 deg, origin 2 u off, COM ~80 u off); pushes judged as if translation were done; coverage <= 0.43.",
+   "when_to_apply": "Any block whose body origin is far from its COM (the L's origin is its outer corner, ~61 u from the COM).",
+   "repair": "Translation error and coast estimate use the COM point (goal COM = goal_xy + R(goal_th) com); while |eth| > 15 deg weight the translation part of the desired twist 0.5.",
+   "code_sketch": "ep = goal_xy + R(goal_th) @ com - (xy + R(th) @ com); tw = [wt*ep, rho*eth]",
+   "introduced": "policy_v11",
+   "validated_on": [
+    "x1 life 1, same seed 29: max 0.43 -> 0.78"
+   ]
+  },
+  {
+   "id": "S10b",
+   "name": "push depth in push units",
+   "object": "L",
+   "failure_signature": "Later pushes turned the L only 1-4 deg in 6 steps (depth ~8 u, pusher ~2.4 u/step).",
+   "when_to_apply": "Outside the precision phase on objects with g > 1.",
+   "repair": "Depth = 0.5 x |[ep, rho g eth]| x alignment (rotation part scaled by g).",
+   "code_sketch": "remp = norm([ep, rho*g*eth]) * s; depth = clip(0.5*remp, 2, 40)",
+   "introduced": "policy_v12",
+   "validated_on": [
+    "x1 life 2, seed 29: success at step 267 (0.78 -> 0.952)"
+   ]
+  },
+  {
+   "id": "S13",
+   "name": "push commitment",
+   "object": "L",
+   "failure_signature": "~80% of steps walking; pushes of 2-4 steps each followed by 9-22-step walks (x2 life 1, seed 41, 0.862).",
+   "when_to_apply": "Objects that need long pushes to turn (commit = 6 on the L, 0 on the T).",
+   "repair": "Keep a started push for >= 6 push steps unless alignment < 0.1, banned, or (|eth| > 15 deg) its torque has the wrong sign.",
+   "code_sketch": "if mode=='push' and push_steps < commit and s[cur] > 0.1 and tau_cur*eth > 0: keep",
+   "introduced": "policy_v13",
+   "validated_on": [
+    "x2 life 2, same seed 41: 0.862 -> 0.882"
+   ]
+  },
+  {
+   "id": "S7b",
+   "name": "leaving the block fast",
+   "object": "generic",
+   "failure_signature": "Phase breakdown: 76/300 steps in the radial exit at 10.9 u/step (x2 life 2).",
+   "when_to_apply": "Free-space navigation when the pusher is inside the orbit circle.",
+   "repair": "Radial exit commands twice the remaining radial distance and starts advancing along the orbit beyond 0.85 R_orb; corridor approach commands 2x the gap.",
+   "code_sketch": "r_cmd = dq + 2*(R_orb - dq); if dq > 0.85*R_orb: phq += sign(dph)*min(|dph|, 0.5*look/R_orb)",
+   "introduced": "policy_v14",
+   "validated_on": [
+    "x3 life 1, same seed 41: 0.882 -> 0.942"
+   ]
+  },
+  {
+   "id": "S10c",
+   "name": "precision-phase depth",
+   "object": "L",
+   "failure_signature": "Near the goal coverage rose during walks and fell during each push (0.940 -> 0.923).",
+   "when_to_apply": "Precision phase (twist error < 20).",
+   "repair": "Use the T-validated depth (coverage units) inside the precision phase; push-unit depth (S10b) only outside it.",
+   "code_sketch": "depth = clip(0.5*(rem if prec else remp), 2, 40)",
+   "introduced": "policy_v15",
+   "validated_on": [
+    "x3 life 2 (seed 53, failure 0.890; started at eth +151 deg, barely reached the precision phase)",
+    "extended L evaluation 23/50"
+   ]
+  },
+  {
+   "id": "S14",
+   "name": "approach-stall watchdog (code world)",
+   "object": "L (generic)",
+   "failure_signature": "Imagined 0-coverage episodes near walls: pusher pinned at the clipped wall line for 300 steps while orbiting toward an orbit point outside the walls.",
+   "when_to_apply": "Any approach phase.",
+   "repair": "If the pusher moved < 1 u for 5 approach steps, ban that contact for 25 steps. (Orbit-direction choice and launch-point feasibility were tried; orbit choice hurt, launch neutral.)",
+   "code_sketch": "if mode=='approach' and |q-prev_q|<1: still_q+=1; if still_q>=5: ban[cur]=t+25",
+   "introduced": "policy_v17",
+   "validated_on": [
+    "code world ablation 84.6% -> 85.4% (480 imagined)",
+    "real eval 42/50"
+   ]
+  }
+ ],
+ "final_program": "policy_v8.py (extended); policy_v5.py was the official program",
+ "transfer_to_L": {
+  "unchanged": [
+   "S1",
+   "S2/S2b",
+   "S4/S4b",
+   "S5",
+   "S6",
+   "S6b",
+   "S7",
+   "S8"
+  ],
+  "changed": [
+   "S3 (COM re-estimated on the L; pooled fit (37.4, 48.8) vs centroid (37.6, 42.6))",
+   "S0 scoring (S10 rotation-response scaling)",
+   "S6/S6b thresholds made relative (S11)"
+  ],
+  "new": [
+   "S9",
+   "S10",
+   "S10b",
+   "S10c",
+   "S11",
+   "S12",
+   "S13",
+   "S7b"
+  ]
+ },
+ "final_program_L": "policy_v15.py (extended); policy_v10.py was the official L program",
+ "code_world_retuning_L": {
+  "s10c": "removed",
+  "k_depth": 0.8,
+  "d_max": 60.0,
+  "coast": 1.0,
+  "evidence": "runs/pusht/aspire_style/cw_screen.jsonl"
+ },
+ "final_program_cap_in_code_world": "policy_v17.py"
+}

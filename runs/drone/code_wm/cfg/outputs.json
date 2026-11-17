@@ -1,0 +1,44 @@
+{
+ "pilots": ["code_wm"],
+ "purposes": {
+  "code_wm/1": "system ID: 2 s hover with rate/thrust pulses, then datasheet-tuned path follower at 4 m/s along the relays (no fault compensation). Revealed delay, rate bias, thrust deficit, and the north-aisle jet that crashed it",
+  "code_wm/2": "first controller synthesised in the life-1 code world (fault compensation + north-jet feed-forward; south aisle randomised +-13 m/s^2 since unknown). End-to-end test; revealed the south-aisle jet",
+  "code_wm/3": "exploration for site generality: mission A route with probes into both aisle mouths (y +3 at z 4, y -3 at z 1.5) and canyon legs at z 4 / 1.5; route controller synthesised in the lives-1+2 world",
+  "code_wm/4": "end-to-end test of the final mission-A controller (exactly the one evaluated), synthesised in the lives-1-3 world",
+  "code_wm/5": "flown AFTER the official evaluation, for phase 2 only: deeper aisle probes (y +3.8 at z 3, y -3.8 at z 3.5); held-out fidelity data for the lives-1-3 world. Not used by the evaluated controller"
+ },
+ "fidelity_files": [
+  ["life-1 world", "fid_l1_on_l2.json", "world fitted on life 1 only, scored on lives 1 (in-sample) and 2 (held out)"],
+  ["lives-1+2 world", "fid_l12_on_l3.json", "world fitted on lives 1-2, scored on 1-2 (in-sample) and 3 (held out; first flight into the aisle mouths)"],
+  ["lives-1-3 world (used for the evaluated controller)", "fid_l123_on_l45.json", "scored on 1-3 (in-sample) and 4-5 (held out)"],
+  ["all-lives world (for phase 2)", "fit_all.json", "fitted on lives 1-5, in-sample only"]
+ ],
+ "final_world": "fit_l123.json",
+ "tune_json": "tune_A123.json",
+ "controller_type": "hand-written cascade policy (path following along start->relays, accel PD+I with code-world jet feed-forward, geometric attitude -> body-rate command, inverse of the fitted rate bias/gain, thrust deficit) whose 8 gains were chosen by cross-entropy search over imagined lives in the code world with domain randomisation (jets +-30 %, jet position +-0.4 m, rate bias +-0.05, thrust +-3 %, delay +-0.2 steps, drag +-0.08, OU gusts 1 m/s^2, sensor noise)",
+ "all_tunes": {
+  "tune_l2 (mission A, life-1 world; flew life 2)": {"wm_steps": 2445347, "wall_s": 6.9, "code_world_success": 1.0, "t_success": 8.97},
+  "tune_l3 (exploration route, lives-1+2 world; flew life 3)": {"wm_steps": 3244826, "wall_s": 58.9, "code_world_success": 0.896, "t_success": 15.09},
+  "tune_A12 (mission A, lives-1+2 world; superseded)": {"wm_steps": 2040815, "wall_s": 47.9, "code_world_success": 0.979, "t_success": 7.41},
+  "tune_A123 (mission A, lives-1-3 world; FINAL, flew life 4 and the evaluation)": {"wm_steps": 5071639, "wall_s": 528.7, "code_world_success": 0.957, "t_success": 8.0},
+  "tune_l5 (exploration route, lives-1-3 world; flew life 5)": {"wm_steps": 2140332, "code_world_success": 0.80}
+ },
+ "evals": {"code_wm": "eval_code_wm_rows.json"},
+ "mechanisms": [
+  {"name": "command delay", "param": "CMD_DELAY", "value_agent_steps": 1.04, "evidence": "life 1 hover pulses and cruise: least squares w[t+1] on (w[t], a[t], a[t-1], a[t-2]) gives coefficient 0.004 on a[t] and 0.88 on a[t-1] (pitch axis); fitted 1.00 on life 1 alone, 1.00 on lives 1-2, 1.04 on lives 1-3", "confidence": "high", "datasheet": "not listed (manual: 'small delay')"},
+  {"name": "constant body-rate bias (aircraft fault)", "param": ["RATE_BIAS_P", "RATE_BIAS_Q", "RATE_BIAS_R"], "value_rad_s": [-0.52, 0.52, -0.26], "evidence": "steady cruise of life 1 (t 3-6.5 s): the controller had to command about (+0.5, -0.5, +0.27) rad/s to hold zero measured rates; fitted per data set: life 1 (-0.50, +0.49, -0.24), lives 1-2 (-0.50, +0.50, -0.25), lives 1-3 (-0.52, +0.52, -0.26). the life-1 fit loss fell from 589 (datasheet values) to 33 within 50 gradient steps, by which time bias and thrust gain had converged while the jet term had not", "confidence": "high", "interpretation": "the unit drifts left-side-down, nose-down and clockwise unless countered: consistent with an asymmetric thrust/torque from a damaged rotor (maintenance flag); which motor is not identified"},
+  {"name": "thrust deficit (aircraft fault)", "param": "THRUST_GAIN", "value": 0.875, "evidence": "vertical force balance in life 1 hover and cruise (residual -1.3 m/s^2 with datasheet thrust); hover needs T = 0.32 instead of 0.30; fitted 0.877 (l1), 0.879 (l1-2), 0.875 (l1-3)", "confidence": "high", "datasheet": 1.0},
+  {"name": "rate loop", "param": ["RATE_GAIN", "TAU_RATE"], "value": [0.89, 0.006], "evidence": "gain matches the datasheet (0.88-0.92); once the 1-step delay is modelled the remaining lag is small (weakly identified)", "confidence": "high (gain) / low (tau)"},
+  {"name": "drag and uniform wind", "param": ["DRAG", "WIND0_X", "WIND0_Y"], "value": [0.21, 0.82, -0.40], "evidence": "x-residual about -1.2 m/s^2 at 6 m/s cruise (lives 2, 4); drag and a uniform wind trade off and are not separately identified; net effect small", "confidence": "medium (drag) / low (wind)"},
+  {"name": "north-aisle jet (site)", "param": ["JET_N_AY", "JET_N_X", "JET_N_SIG", "JET_N_GY", "JET_N_GZ", "JET_N_SP"], "value": [-16.7, 23.82, 1.38, -0.054, -0.11, -0.06], "evidence": "life 1 crashed into the south wall at x 24.2 after a y-acceleration residual of -9 to -11 m/s^2 between x 21 and 24 (pushed toward -y out of the north side aisle at x 22-25.5); crossed again in lives 2-5, probed into the aisle mouth in lives 3 and 5. Gaussian-in-x fit: life 1 -11.4 m/s^2; lives 1-2 -13.7; lives 1-3 (with height and depth terms) -16.7 at the mouth, weaker with height (GZ -0.11 per m) and spreading little. Open-loop 1 s error on life 1: datasheet 1.22 m -> 0.07-0.11 m", "confidence": "high (existence, sign, location); medium (strength, shape); unsteady: within the jet one-step y-acceleration residual stays 1.5-2 m/s^2 rms"},
+  {"name": "south-aisle jet (site)", "param": ["JET_S_AY", "JET_S_X", "JET_S_SIG", "JET_S_GY", "JET_S_GZ", "JET_S_SP"], "value": [10.4, 39.96, 1.23, 0.019, -0.048, 0.043], "evidence": "first seen in life 2: y-acceleration residual +9 m/s^2 at x 39-41 (pushed toward +y, out of the south side aisle at x 38-41.5); fitted +11.7 on lives 1-2, +10.4 on lives 1-3; probed at z 1.5 (life 3) and z 3.5 (life 5)", "confidence": "high (existence, sign, location); medium (strength, shape)"},
+  {"name": "sensor noise", "param": ["OBS_NOISE_POS", "OBS_NOISE_VEL"], "value": [0.02, 0.03], "evidence": "second differences of logged position (0.02 m per sample) and velocity (0.02-0.07 m/s; larger in y) in life 1; used only in controller synthesis", "confidence": "medium"},
+  {"name": "unmodelled residual flow", "param": ["GUST_STD", "GUST_TAU"], "value": [1.0, 0.5], "evidence": "not fitted: chosen to cover the 1.5-2 m/s^2 rms y-residual inside the jets; synthesis-only randomisation", "confidence": "low (it is an uncertainty model, not a measurement)"}
+ ],
+ "extra": {
+  "real_steps_per_life_note": "lives 1-4 (1202 steps) preceded the evaluation; life 5 (452 steps) was flown after it for phase 2",
+  "real_steps_calibration_recorded": 1202,
+  "eval_failure_note": "the one failed eval episode (seed 1038, timeout, 1 relay) passed relay 2 at about 1.2 m and then hovered at x 33.7: when a relay is missed the path follower's along-track pull back to the relay and its forward speed reference cancel (a deadlock in my controller logic, not a world error). The same failure mode is present in the code world (1.5 % timeouts of the final controller in imagination). Not fixed, since it was seen on an evaluation seed.",
+  "gif_locations": "runs/drone/code_wm/gifs/: code_wm_life_1..5.gif (lives), eval_code_wm_seed1000.gif (first evaluation episode)"
+ }
+}

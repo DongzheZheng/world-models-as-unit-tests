@@ -1,0 +1,55 @@
+{
+ "n_ep": 8,
+ "success_rate": 0.875,
+ "mean_max_coverage": 0.9623016119003296,
+ "mean_steps": 185.0,
+ "wm_steps": 10000384,
+ "wall_s": 100.8897032737732,
+ "wm_steps_per_s": 99121.94877670586,
+ "planner": {
+  "n_samples": 1024
+ },
+ "params_jitter": 0.0,
+ "per_episode": [
+  {
+   "success": true,
+   "max_cov": 0.9841270446777344,
+   "steps": 153
+  },
+  {
+   "success": true,
+   "max_cov": 0.9642857909202576,
+   "steps": 68
+  },
+  {
+   "success": true,
+   "max_cov": 0.9523810148239136,
+   "steps": 152
+  },
+  {
+   "success": true,
+   "max_cov": 0.9642857909202576,
+   "steps": 268
+  },
+  {
+   "success": false,
+   "max_cov": 0.9246032238006592,
+   "steps": 300
+  },
+  {
+   "success": true,
+   "max_cov": 0.9642857909202576,
+   "steps": 284
+  },
+  {
+   "success": true,
+   "max_cov": 0.9722222685813904,
+   "steps": 136
+  },
+  {
+   "success": true,
+   "max_cov": 0.9722222685813904,
+   "steps": 119
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+{
+ "controller": "code_wm",
+ "object": "L",
+ "planner": {
+  "n_samples": 2048,
+  "succ_thr": 0.965,
+  "object": "L",
+  "wall_w": 1.0,
+  "time_w": 0.0,
+  "ang_w": 300.0,
+  "chain_k": 32,
+  "chain_n": 64
+ },
+ "real_steps_calibration": 600,
+ "wm_steps": 1693335552,
+ "train_wall_s": 14718.320574998856,
+ "n_workers": 8,
+ "notes": "L block, 2 L lives (probe + controller test, the latter failed at max cov 0.59 after dragging the block along a wall). World = T world with L datasheet geometry; carried over unchanged: pusher PD, floor friction, restitution, contact bias; refitted on the L: COM (23.4,55.6) vs drawn centroid (37.6,42.6), radius of gyration 99, contact friction 0.4 (T: ~0). Planner retuned in the code world only: angle weight 300, no time penalty, wall-clearance cost, two-primitive lookahead; in-world success 11/12 on a 12-episode tuning set. wm_steps/train_wall_s sum 10 logged in-world runs (wall_s summed over concurrent runs); 4 killed early runs not counted."
+}

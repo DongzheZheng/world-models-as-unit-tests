@@ -1,0 +1,53 @@
+{
+ "cap_v6": 0.0,
+ "cap_v6_detail": {
+  "n": 50,
+  "n_success": 0,
+  "tip_median": 0.9701187427128746,
+  "within_0p2": 1,
+  "wall_s": 12.524058818817139
+ },
+ "cap_v19": 0.0,
+ "cap_v19_detail": {
+  "n": 50,
+  "n_success": 0,
+  "tip_median": 1.0059563508089737,
+  "within_0p2": 3,
+  "wall_s": 12.212098598480225
+ },
+ "code_wm_official": 0.48,
+ "code_wm_official_detail": {
+  "n": 50,
+  "n_success": 24,
+  "tip_median": 0.09640480961438072,
+  "within_0p2": 39,
+  "wall_s": 1403.635508775711
+ },
+ "code_wm_ext": 0.78,
+ "code_wm_ext_detail": {
+  "n": 50,
+  "n_success": 39,
+  "tip_median": 0.08729861446107577,
+  "within_0p2": 50,
+  "wall_s": 2824.0972352027893,
+  "halves": [
+   18,
+   21
+  ],
+  "steps_mean": 169.62,
+  "fail_seeds": [
+   5003,
+   5005,
+   5006,
+   5007,
+   5009,
+   5017,
+   5021,
+   5026,
+   5035,
+   5040,
+   5049
+  ]
+ },
+ "seeds": "5000-5049"
+}

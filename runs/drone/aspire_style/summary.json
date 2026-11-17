@@ -1,0 +1,627 @@
+{
+ "pilot": "aspire_style",
+ "paradigm": "code_as_policy (ASPIRE-style: write program -> fly -> read trace -> repair -> distil skills)",
+ "mission": "A",
+ "lives": [
+  {
+   "life": 1,
+   "seed": 11,
+   "program": "policy_v1.py",
+   "command_mode": "ctbr",
+   "end": "collision",
+   "relays_reached": 1,
+   "time_s": 5.0,
+   "steps": 150,
+   "trace": "constant commanded rates (+0.6,-0.57,+0.29) rad/s with zero measured rate and a constant attitude error (actuation bias); hover throttle ~0.33 not 0.30; at x 21.5-25 (north side-aisle opening) a lateral disturbance of -13 m/s^2 appeared within 0.2 s, the controller saturated at its 39 deg tilt limit, drifted at -4 m/s and hit the south wall at x 25.1",
+   "changed": "v2: rate-bias feed-forward from a w[i+2]=g*cmd+b fit, hover T 0.329, online disturbance observer, map-indexed prior for the north jet, a_max 8->16 m/s^2"
+  },
+  {
+   "life": 2,
+   "seed": 12,
+   "program": "policy_v2.py",
+   "command_mode": "ctbr",
+   "end": "success",
+   "relays_reached": 3,
+   "time_s": 10.1,
+   "steps": 303,
+   "trace": "north jet handled (roll -50 deg, <0.1 m drift); a second jet in the south side-aisle opening (x 37.5-42, +7.5 m/s^2 toward +y) caught only by the observer: 0.45 m drift then -1.6 m/s overshoot at the exit; rate response is a clean 2-step delay",
+   "changed": "v3: south jet prior, refined north profile, refined rate constants (delay-2 fit), C_thrust 88, prior lead 0.2 s"
+  },
+  {
+   "life": 3,
+   "seed": 13,
+   "program": "policy_v3.py",
+   "command_mode": "ctbr",
+   "end": "success",
+   "relays_reached": 3,
+   "time_s": 10.23,
+   "steps": 307,
+   "trace": "north jet gusted to -17.8 m/s^2 and its tail extended beyond the v3 prior -> 0.6 m drift before relay 2; 0.2 s lead pre-tilted too early; south jet clean. Replay of v3 on life-3 observations reproduced the logged commands exactly (replay tool validated)",
+   "changed": "v4: longer north-jet tail, lead 0.15 s, observer alpha 0.3->0.4"
+  },
+  {
+   "life": 4,
+   "seed": 14,
+   "program": "policy_v4.py",
+   "command_mode": "ctbr",
+   "end": "success",
+   "relays_reached": 3,
+   "time_s": 10.37,
+   "steps": 311,
+   "trace": "max cross-track 0.36 m (north) / 0.32 m (south); south jet gusted to +12.4 m/s^2 (vs +7.5 in the prior): the jets vary episode to episode",
+   "changed": "v5: both jet priors re-fitted as the knot-wise average of all crossings; cruise 5.5->6.0 m/s"
+  },
+  {
+   "life": 5,
+   "seed": 15,
+   "program": "policy_v5.py",
+   "command_mode": "ctbr",
+   "end": "success",
+   "relays_reached": 3,
+   "time_s": 9.43,
+   "steps": 283,
+   "trace": "cross-track <= 0.2 m through both jets (peaks -14.9 and +11.7 m/s^2), min range 1.69 m",
+   "changed": "none: v5 frozen as the final program"
+  }
+ ],
+ "official_run": {
+  "lives_used": 5,
+  "real_steps_total": 1354,
+  "successes": 4,
+  "final_program": "pilots/aspire_drone/policy_v5.py",
+  "final_program_bytes": 7957
+ },
+ "official_evaluation": {
+  "program": "policy_v5.py",
+  "command_mode": "ctbr",
+  "seeds": "1000-1049",
+  "episodes": 50,
+  "success_rate": 1.0,
+  "mean_time_success_s": 9.5,
+  "time_success_s_range": [
+   9.3,
+   9.7
+  ],
+  "end_causes": {
+   "success": 50,
+   "collision": 0,
+   "out_of_bounds": 0,
+   "timeout": 0
+  },
+  "min_range_seen_min_m": 1.0,
+  "result_file": "runs/drone/results/site_A__aspire_style.json",
+  "episodes_file": "runs/drone/aspire_style/eval_aspire_style.json"
+ },
+ "extended_run": {
+  "performed": false,
+  "reason": "official success rate 100% >= 50%",
+  "lives_used": 0
+ },
+ "gifs": {
+  "life_1": "runs/drone/aspire_style/aspire_style_life_1.gif",
+  "life_2": "runs/drone/aspire_style/aspire_style_life_2.gif",
+  "life_3": "runs/drone/aspire_style/aspire_style_life_3.gif",
+  "life_4": "runs/drone/aspire_style/aspire_style_life_4.gif",
+  "life_5": "runs/drone/aspire_style/aspire_style_life_5.gif",
+  "eval_episode_1": "runs/drone/aspire_style/aspire_style_eval_seed1000.gif",
+  "mission_B_eval_episode_1": "runs/drone/aspire_style/aspire_style_B_eval_seed1000.gif"
+ },
+ "findings": {
+  "aircraft": "actuation rate bias (zero command -> about (-0.50, +0.54, -0.27) rad/s body rate, gains 0.89/0.96/0.99), command delay 2 agent steps (67 ms), ~11-15% more throttle needed to hover (0.33-0.35 vs 0.30); gyro and attitude readings consistent",
+  "site": "two crosswind jets across the canyon at the side-aisle openings: north aisle x 21.2-26.9 toward -y, peak 12-18 m/s^2; south aisle x 37.0-42.7 toward +y, peak 7.5-12.4 m/s^2; both gusty from episode to episode; mild headwind/drag along the canyon (~-1 m/s^2 at 5.5-6 m/s)"
+ },
+ "skill_library": "pilots/aspire_drone/skills.json",
+ "phase2_mission_B": {
+  "lives_for_B": 0,
+  "flights_before_eval": 0,
+  "program": "pilots/aspire_drone/policy_v6.py",
+  "program_bytes": 10546,
+  "command_mode": "ctbr",
+  "seeds": "1000-1049",
+  "episodes": 50,
+  "success_rate": 1.0,
+  "mean_time_success_s": 13.979,
+  "time_success_s_range": [
+   13.5,
+   14.47
+  ],
+  "time_limit_s": 24.2,
+  "end_causes": {
+   "success": 50,
+   "collision": 0,
+   "out_of_bounds": 0,
+   "timeout": 0
+  },
+  "min_range_seen_min_m": 0.47,
+  "closest_wall_approach": "at the T1 corner (turn from the canyon into the north aisle): drone overshoots ~0.8-1.3 m in +x while turning and passes 0.47-0.58 m from the east corner of the aisle mouth (x 25.5, y 2) in the closest episodes (seeds 1027, 1039, 1028)",
+  "changes_vs_v5": [
+   "N1 route planner: relay segments that cross a site_map box (inflated 0.6 m) are replaced by L-shaped legs; B becomes start->R1->(R2.x, R1.y+0.42)->R2->same corner->R3; the corner is shifted 0.42 m north, against the north jet",
+   "N2 turn-dependent along-track speed: sqrt(v_end^2 + 2*4*d_remaining) with v_end 1.5 m/s at 90-deg corners, 0.5 m/s at the R2 reversal, 3.5 m/s cap on legs not along the canyon; mission A reduces to v5's constant cruise",
+   "N3 assumption: north-jet x-profile also acts inside the north aisle at 70 %",
+   "N4 a_max 16 -> 24 m/s^2, observer clip 15 -> 20 m/s^2 (climbing the aisle against a 12-18 m/s^2 jet)",
+   "N5 wall push from distance to any site_map box instead of the canyon half-width"
+  ],
+  "offline_checks": "check_v6.py: replay of mission-A lives 2-5 through v5 and v6 (commands identical except 1-9 steps per life, max 0.49 rad/s, from the 2-D wall-push look-ahead); planner on 500 jittered B relay/start sets: always 2 corners, min leg clearance 0.78 m, route 62.5-68 m; static command snapshots at hand-placed aisle states",
+  "result_file": "runs/drone/results/site_B__aspire_style.json",
+  "episodes_file": "runs/drone/aspire_style/eval_aspire_style_B.json",
+  "gif_eval_episode_1": "runs/drone/aspire_style/aspire_style_B_eval_seed1000.gif"
+ },
+ "phase3_mission_C": {
+  "lives": [
+   {
+    "pilot": "aspire_style_C",
+    "life": 1,
+    "seed": 21,
+    "program": "policy_v7.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 9.67,
+    "trace": "7 aircraft; 4 'darters' (hover, then 5 m/s dashes of 0.1-1.5 s every ~2 s in random directions), 3 'patrols' (0.9-1.9 m/s shuttles, two across the canyon via the side aisles); a darter started a dash 1.1 m away -> 0.66 m miss; v7 passed hovering darters at 0.8-1.3 m",
+    "changed": "v8: keep-out 1.7 m from hovering aircraft, 0.9 m around moving ones; velocity-level escape tracked by the damping term (replay showed the acceleration law acting only in the last 0.6 s)"
+   },
+   {
+    "pilot": "aspire_style_C",
+    "life": 2,
+    "seed": 22,
+    "program": "policy_v8.py",
+    "command_mode": "ctbr",
+    "end": "out_of_bounds",
+    "relays_reached": 0,
+    "time_s": 10.97,
+    "trace": "darter hovering 2.9 m before relay 1; v8 dove to z 0.8 to keep 2 m, passed relay 1 at 2.08 m; a straight-through relay only switched on lab confirmation and kept vref = cruise -> flew down the canyon and out of the yard",
+    "changed": "v9: relay funnel (allowed deviation shrinks toward the relay, outward escape removed, speed cut), missed-relay recovery (come back), faster offset decay"
+   },
+   {
+    "pilot": "aspire_style_C",
+    "life": 3,
+    "seed": 23,
+    "program": "policy_v9.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 9.87,
+    "trace": "8 aircraft clustered at x 38-48; climbed over them to z 5.35 against the 6 m ceiling",
+    "changed": "v10: altitude band 0.8-4.6 m, stiffer soft limits"
+   },
+   {
+    "pilot": "aspire_style_C",
+    "life": 4,
+    "seed": 24,
+    "program": "policy_v10.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 11.03,
+    "trace": "min separation 1.45 m, z 1.34-3.38",
+    "changed": "none (confirmation)"
+   },
+   {
+    "pilot": "aspire_style_C",
+    "life": 5,
+    "seed": 25,
+    "program": "policy_v10.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 10.33,
+    "trace": "a patrol crossing the pinch triggered an 18 m/s^2 downward push, then a hovering aircraft above kept it pushing down: drone bottomed out at z 0.27 m",
+    "changed": "v11 (unflown before the official eval): vertical velocity barrier, no downward avoidance below 1.3 m"
+   },
+   {
+    "pilot": "aspire_style_C_x1",
+    "life": 1,
+    "seed": 31,
+    "program": "policy_v11.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 9.93,
+    "trace": "clean",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x1",
+    "life": 2,
+    "seed": 32,
+    "program": "policy_v11.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 11.33,
+    "trace": "min mover separation 0.86 m",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x1",
+    "life": 3,
+    "seed": 33,
+    "program": "policy_v11.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 11.83,
+    "trace": "-",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x1",
+    "life": 4,
+    "seed": 517,
+    "program": "policy_v11.py",
+    "command_mode": "ctbr",
+    "end": "collision",
+    "relays_reached": 2,
+    "time_s": 7.73,
+    "trace": "WALL contact: passing a hovering darter at 1.3 m in the pinch, proximity shell + t*<0.6 s emergency law (fires for any static object flown past) commanded +16 sideways / -11 down; roll ~60 deg; left the pinch at +3.7 m/s toward the north wall",
+    "changed": "v12: emergency law/proximity shell only for moving aircraft; wall velocity barrier; no escape toward a wall < 1 m"
+   },
+   {
+    "pilot": "aspire_style_C_x1",
+    "life": 5,
+    "seed": 911,
+    "program": "policy_v11.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 9.47,
+    "trace": "-",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x2",
+    "life": 1,
+    "seed": 517,
+    "program": "policy_v12.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 11.87,
+    "trace": "the scenario that crashed v11 flown again: success (min wall clearance 0.12 m)",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x2",
+    "life": 2,
+    "seed": 601,
+    "program": "policy_v12.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 10.2,
+    "trace": "min mover separation 0.95 m",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x2",
+    "life": 3,
+    "seed": 702,
+    "program": "policy_v12.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 13.2,
+    "trace": "min mover separation 0.86 m, z down to 0.6",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x2",
+    "life": 4,
+    "seed": 803,
+    "program": "policy_v12.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 9.53,
+    "trace": "-",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x2",
+    "life": 5,
+    "seed": 950,
+    "program": "policy_v12.py",
+    "command_mode": "ctbr",
+    "end": "collision",
+    "relays_reached": 2,
+    "time_s": 6.63,
+    "trace": "WALL contact: diving under an aircraft parked 1.5 m before relay 2 left the drone 0.9 m low, it missed relay 2 at 1.1 m, the recovery reversed at 3 m/s into a slow patrol, the emergency law pushed 18 m/s^2 sideways and the wall barrier engaged too late at 4 m/s",
+    "changed": "v13: funnel 0.5+0.2d with stronger restoring, recovery at <=1.5 m/s, emergency law only for dashes (>=2.5 m/s), wall barrier with attitude-lag allowance"
+   },
+   {
+    "pilot": "aspire_style_C_x3",
+    "life": 1,
+    "seed": 950,
+    "program": "policy_v13.py",
+    "command_mode": "ctbr",
+    "end": "collision",
+    "relays_reached": 2,
+    "time_s": 7.0,
+    "trace": "AIRCRAFT contact: a patrol creeping along the route started climbing into the drone when 1.5 m away; the 'slow' rule had cut speed to 2 m/s so the drone hung in front of it. Replay of mission A showed the new wall barrier firing at canyon-mouth box corners",
+    "changed": "v14: no speed cut near aircraft, moving keep-out 1.2 m, wall barrier on faces only"
+   },
+   {
+    "pilot": "aspire_style_C_x3",
+    "life": 2,
+    "seed": 111,
+    "program": "policy_v13.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 9.73,
+    "trace": "min mover separation 0.82 m",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x3",
+    "life": 3,
+    "seed": 950,
+    "program": "policy_v14.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 9.9,
+    "trace": "the seed that killed v12 and v13: success (min separation 0.64 m)",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x3",
+    "life": 4,
+    "seed": 222,
+    "program": "policy_v14.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 10.13,
+    "trace": "min separation 1.15 m, min wall clearance 0.36 m",
+    "changed": "-"
+   },
+   {
+    "pilot": "aspire_style_C_x3",
+    "life": 5,
+    "seed": 333,
+    "program": "policy_v14.py",
+    "command_mode": "ctbr",
+    "end": "success",
+    "relays_reached": 3,
+    "time_s": 10.67,
+    "trace": "min separation 1.17 m",
+    "changed": "none: v14 frozen for the extended evaluation"
+   }
+  ],
+  "official_run": {
+   "pilot": "aspire_style_C",
+   "lives_used": 5,
+   "real_steps": 1556,
+   "programs_flown": [
+    "v7",
+    "v8",
+    "v9",
+    "v10",
+    "v10"
+   ]
+  },
+  "official_evaluation": {
+   "program": "policy_v11.py (+ imports policy_v6.py)",
+   "flown_before_eval": false,
+   "note": "v11 = v10 + vertical barrier; checked only by replaying logged lives",
+   "seeds": "1000-1099",
+   "episodes": 100,
+   "success_rate": 0.49,
+   "mean_time_success_s": 10.694,
+   "end_causes": {
+    "success": 49,
+    "collision": 49,
+    "out_of_bounds": 2,
+    "timeout": 0
+   },
+   "result_file": "runs/drone/results/site_C__aspire_style.json",
+   "gif_eval_episode_1": "runs/drone/aspire_style/aspire_style_C_eval_seed1000.gif",
+   "eval_logs_inspected": false
+  },
+  "extended_run": {
+   "performed": true,
+   "pilots": [
+    "aspire_style_C_x1",
+    "aspire_style_C_x2",
+    "aspire_style_C_x3"
+   ],
+   "extra_lives": 15,
+   "total_mission_C_lives": 20,
+   "real_steps_all_20_lives": 6031,
+   "calibration_success": {
+    "v7": "1/1",
+    "v8": "0/1",
+    "v9": "1/1",
+    "v10": "2/2",
+    "v11": "4/5",
+    "v12": "4/5",
+    "v13": "1/2",
+    "v14": "3/3"
+   }
+  },
+  "extended_evaluation": {
+   "program": "policy_v14.py (+ imports policy_v6.py)",
+   "program_bytes": 18535,
+   "plus_policy_v6_bytes": 10546,
+   "seeds": "1000-1099",
+   "episodes": 100,
+   "success_rate": 0.76,
+   "mean_time_success_s": 10.06,
+   "time_success_s_range": [
+    9.43,
+    12.87
+   ],
+   "end_causes": {
+    "success": 76,
+    "collision": 24,
+    "out_of_bounds": 0,
+    "timeout": 0
+   },
+   "result_file": "runs/drone/results/site_C__aspire_style_extended.json",
+   "gif_eval_episode_1": "runs/drone/aspire_style/aspire_style_extended_C_eval_seed1000.gif"
+  },
+  "other_aircraft": {
+   "count": "7-8 per episode, in and around the canyon; observed rows accurate (pos err ~5 cm, vel err ~8 cm/s), only within 15 m and line of sight (aircraft in the side aisles appear late)",
+   "darters": "hover, then dash at a constant per-aircraft speed of 4.6-5.5 m/s for 0.1-1.5 s in random directions, roughly every 2 s; a dash can start within ~1 m of the drone",
+   "patrols": "constant-speed shuttles at 0.6-2.4 m/s: across the canyon through the side aisles (x ~22-24 and ~38-41) and in the pinch, or creeping along the canyon, sometimes reversing",
+   "reaction_to_drone": "velocity changes are 1.7x more frequent within 3 m of the drone (3.1 vs 1.6-2.0 per 100 samples, new speed ~1.3-1.5 m/s) with only a weak bias toward the drone (mean cos +0.13); observed cases of a patrol climbing/descending to the drone's altitude at 1.5 m. Not predictable under constant velocity.",
+   "gap": "calibration lives of v9-v11 succeeded 7/8 while v11 scored 49/100 on the evaluation seeds; the cause of the gap was not diagnosed (evaluation logs deliberately not inspected)"
+  },
+  "gifs": "runs/drone/aspire_style/aspire_style_C_life_1..5.gif, aspire_style_C_x{1,2,3}_life_1..5.gif, aspire_style_C_eval_seed1000.gif, aspire_style_extended_C_eval_seed1000.gif"
+ },
+ "cap_in_code_world": {
+  "world": "worlds/drone/site_world.py through experiments.drone.code_wm.screen setup (mission C, its fitted belief + randomisation + mover prior), run by pilots/aspire_drone/world_runner.py (copy of run_in_world with per-episode failure details and traces)",
+  "real_lives_used": 0,
+  "versions_tried_in_world": [
+   {
+    "program": "v14 (reference)",
+    "imagined": "400 eps seed0 7000",
+    "success": 0.79,
+    "wall": 0.175,
+    "mover": 0.03
+   },
+   {
+    "program": "v13 (reference)",
+    "imagined": "400 eps seed0 7000",
+    "success": 0.875
+   },
+   {
+    "program": "v11 (reference)",
+    "imagined": "400 eps seed0 7000",
+    "success": 0.5625
+   },
+   {
+    "program": "v15 first draft (corridor look-ahead W1-W3, v14 margins 1.2/1.7)",
+    "imagined": "400 eps seed0 7000",
+    "success": 0.7975
+   },
+   {
+    "program": "v14 margin 0.9 / v15 margin 0.9 / v13 margin 1.2 (ablation of C24)",
+    "imagined": "400 eps seed0 7000",
+    "success": [
+     0.855,
+     0.8675,
+     0.81
+    ]
+   },
+   {
+    "program": "v15 keep-out sweep (moving 0.6-0.9, hovering 1.0-1.7)",
+    "imagined": "6 x 400 eps seed0 7000",
+    "success_range": [
+     0.89,
+     0.945
+    ],
+    "best": "0.6 / 1.3: 0.945"
+   },
+   {
+    "program": "v15 band margin / look-ahead / vertical bias sweep",
+    "imagined": "8 x 400 eps seed0 7100",
+    "success_range": [
+     0.925,
+     0.9525
+    ],
+    "best": "vertical bias 3: 0.9525"
+   },
+   {
+    "program": "v15 + pursuer handling W4 (margin_pursuer 0 / 0.9 / 1.2 / 1.6)",
+    "imagined": "4 x 600 eps seed0 7200",
+    "success": {
+     "0": 0.9367,
+     "0.9": 0.9367,
+     "1.2": 0.9133,
+     "1.6": 0.88
+    },
+    "decision": "disabled"
+   },
+   {
+    "program": "v15 lateral barrier deceleration sweep (5 / 3 / 2, gain 8 / 12)",
+    "imagined": "5 x 600 eps seed0 7300",
+    "success_range": [
+     0.94,
+     0.9433
+    ],
+    "decision": "3 m/s^2"
+   },
+   {
+    "program": "v15 cruise 5.5 / 6 / 6.5 / 7, horizon 2, margin 0.8",
+    "imagined": "6 x 600 eps seed0 7400",
+    "success_range": [
+     0.925,
+     0.945
+    ],
+    "decision": "keep cruise 6"
+   },
+   {
+    "program": "FINAL comparison on fresh episodes",
+    "imagined": "4 x 1000 eps seed0 8000",
+    "success": {
+     "v15": 0.948,
+     "v14": 0.774,
+     "v13": 0.861,
+     "v11": 0.511
+    },
+    "v15_failures": {
+     "wall": 0.02,
+     "mover": 0.032,
+     "mover_by_kind": {
+      "shuttle_x": 4,
+      "shuttle_y": 3,
+      "wanderer": 6,
+      "guard": 19
+     }
+    },
+    "v15_mean_time_success_s": 9.74
+   }
+  ],
+  "world_vs_reality_check": {
+   "v11": {
+    "world": 0.511,
+    "real": 0.49
+   },
+   "v14": {
+    "world": 0.774,
+    "real": 0.76
+   },
+   "v15": {
+    "world": 0.948,
+    "real": 0.95
+   }
+  },
+  "what_the_world_showed": [
+   "failures of v14 were mostly WALL contacts (17.5-18.5 % of episodes), not aircraft contacts (3-4 %): real single flights showed two wall crashes but could not show that walls, not aircraft, dominated",
+   "the walls are hit where the canyon narrows ahead (pinch entrance x 30.5-31.5, north-wall end face at x 25.5, south jet): the drone arrives with |y| 1.3-1.6 m and 1.5-3.5 m/s of lateral velocity left over from an avoidance turn or a jet stronger than the prior; my wall barrier only looked at the nearest wall here and now",
+   "my C24 change (moving keep-out 0.9 -> 1.2 m, made after one real collision) cost ~7 points: larger keep-outs mean larger lateral manoeuvres that end on walls; across sweeps smaller keep-outs (0.6 / 1.3) were better",
+   "v13 was better than v14 (86 vs 77 %) -- the opposite of what three real successes of v14 suggested",
+   "pursuer-specific handling (my reading of real close-range reactions) did not help against the world's guards"
+  ],
+  "imagined_episodes": 22650,
+  "imagined_steps_measured": 6330761,
+  "imagined_steps_note": "plus one 50-episode trace run not counted (<= 29,100 steps)",
+  "imagined_wall_clock_s": 157,
+  "submitted": {
+   "program": "pilots/aspire_drone/policy_v15.py (+ imports policy_v6.py)",
+   "program_bytes": 23139,
+   "world_prediction": 0.948
+  },
+  "real_evaluation": {
+   "pilot": "cap_in_world",
+   "seeds": "1000-1099",
+   "episodes": 100,
+   "success_rate": 0.95,
+   "mean_time_success_s": 9.861,
+   "time_success_s_range": [
+    9.3,
+    13.8
+   ],
+   "end_causes": {
+    "success": 95,
+    "collision": 5,
+    "out_of_bounds": 0,
+    "timeout": 0
+   },
+   "result_file": "runs/drone/results/site_C__cap_in_code_world.json",
+   "gif_eval_episode_1": "runs/drone/aspire_style/cap_in_code_world_C_eval_seed1000.gif"
+  }
+ }
+}

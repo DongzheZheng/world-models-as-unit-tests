@@ -1,0 +1,429 @@
+{
+ "lives_used": 4,
+ "lives": [
+  {
+   "life": 1,
+   "seed": 1,
+   "purpose": "scripted probe: pusher step/ramp tracking, axial push through stem tip, off-centre pushes, fast push, release-and-watch",
+   "n_steps": 300,
+   "success": false,
+   "max_coverage": 0.09937463426033534,
+   "gif": "runs/pusht/code_wm/gifs/code_wm_life_1.gif"
+  },
+  {
+   "life": 2,
+   "seed": 2,
+   "purpose": "scripted probe: 9 denser pushes at varied faces/speeds (3-8 u/step) with release phases",
+   "n_steps": 300,
+   "success": false,
+   "max_coverage": 0.6626594801419857,
+   "gif": "runs/pusht/code_wm/gifs/code_wm_life_2.gif"
+  },
+  {
+   "life": 3,
+   "seed": 3,
+   "purpose": "end-to-end test of primitive-MPC (1024 samples) in the code world fitted on lives 1-2",
+   "n_steps": 109,
+   "success": true,
+   "max_coverage": 0.96430475125947,
+   "gif": "runs/pusht/code_wm/gifs/code_wm_life_3.gif"
+  },
+  {
+   "life": 4,
+   "seed": 4,
+   "purpose": "end-to-end test of the final controller (2048 samples, succ_thr 0.965)",
+   "n_steps": 102,
+   "success": true,
+   "max_coverage": 0.9710066109345619,
+   "gif": "runs/pusht/code_wm/gifs/code_wm_life_4.gif"
+  }
+ ],
+ "real_steps_total": 811,
+ "world_file_bytes": 11596,
+ "controller": {
+  "type": "push-primitive sampling MPC (random shooting + 2 CEM refinements) in the code world",
+  "settings": {
+   "n_samples": 2048,
+   "succ_thr": 0.965
+  }
+ },
+ "code_world": {
+  "steps_controller_synthesis_and_tuning": 173349888,
+  "wall_s": 3632.9958910942078,
+  "steps_per_s": 47715.40987011395,
+  "tuning_runs": [
+   {
+    "file": "runs/pusht/code_wm/wm_eval_smoke.json",
+    "success": 0.875,
+    "n": 8,
+    "planner": {
+     "n_samples": 1024
+    },
+    "params_jitter": 0.0
+   },
+   {
+    "file": "runs/pusht/code_wm/wm_tune_a.json",
+    "success": 0.96875,
+    "n": 32,
+    "planner": {
+     "n_samples": 1024
+    },
+    "params_jitter": 0.0
+   },
+   {
+    "file": "runs/pusht/code_wm/wm_tune_b.json",
+    "success": 0.96875,
+    "n": 32,
+    "planner": {
+     "n_samples": 1024,
+     "succ_thr": 0.965
+    },
+    "params_jitter": 0.0
+   },
+   {
+    "file": "runs/pusht/code_wm/wm_tune_c.json",
+    "success": 1.0,
+    "n": 32,
+    "planner": {
+     "n_samples": 2048,
+     "succ_thr": 0.965
+    },
+    "params_jitter": 0.0
+   },
+   {
+    "file": "runs/pusht/code_wm/wm_tune_d.json",
+    "success": 0.90625,
+    "n": 32,
+    "planner": {
+     "n_samples": 1024,
+     "succ_thr": 0.965
+    },
+    "params_jitter": 0.1
+   }
+  ],
+  "final_controller_success": 1.0,
+  "final_controller_n_ep": 32
+ },
+ "real_eval": {
+  "seeds": "1000-1049",
+  "success_rate": 0.9,
+  "mean_max_coverage": 0.959547836005772,
+  "mean_n_steps": 175.08,
+  "gifs": "runs/pusht/code_wm/gifs/eval_code_wm/ep_1000..1002.gif",
+  "wall_s": 862.9823839664459
+ },
+ "gifs": {
+  "lives": "runs/pusht/code_wm/gifs/code_wm_life_<k>.gif",
+  "eval": "runs/pusht/code_wm/gifs/eval_code_wm/"
+ },
+ "object_L": {
+  "lives_used": 2,
+  "lives": [
+   {
+    "life": 1,
+    "seed": 11,
+    "purpose": "scripted probe (9 pushes on different faces at 3-7 u/step with release phases), no wall contact; used to fit the L's mass distribution and contact friction",
+    "n_steps": 300,
+    "success": false,
+    "max_coverage": 0.4287565107531485,
+    "gif": "runs/pusht/code_wm/gifs/L_code_wm_life_1.gif"
+   },
+   {
+    "life": 2,
+    "seed": 12,
+    "purpose": "end-to-end test of the T planner settings on the L world fitted on life 1; also the held-out fidelity set",
+    "n_steps": 300,
+    "success": false,
+    "max_coverage": 0.5877786838160824,
+    "gif": "runs/pusht/code_wm/gifs/L_code_wm_life_2.gif",
+    "outcome_note": "failed (max cov 0.59): the planner pushed the block into the top wall and dragged it along it for ~100 steps; the real block penetrated the wall by up to 25 u and was later ejected, which the world's wall clamp cannot reproduce"
+   }
+  ],
+  "real_steps_total": 600,
+  "world_changes": [
+   "geometry from the L datasheet (boxes, outline, centroid, goal) via set_object('L')",
+   "COM, radius of gyration and contact friction refitted (see diagnosis.object_L)"
+  ],
+  "carried_over_from_T": [
+   "all mechanisms M1-M5 and their code",
+   "pusher PD gains",
+   "floor friction",
+   "restitution and penetration bias",
+   "the primitive planner and fitting tools"
+  ],
+  "fitted": {
+   "com_u": 23.4,
+   "com_v": 55.6,
+   "k_gyr": 99.0,
+   "mu": 0.4
+  },
+  "controller": {
+   "type": "push-primitive sampling MPC with two-primitive lookahead, in the code world",
+   "settings": {
+    "n_samples": 2048,
+    "succ_thr": 0.965,
+    "object": "L",
+    "wall_w": 1.0,
+    "time_w": 0.0,
+    "ang_w": 300.0,
+    "chain_k": 32,
+    "chain_n": 64
+   },
+   "changes_vs_T": [
+    "angle weight 60 -> 300 (failures in the world were 'right place, wrong angle')",
+    "time penalty removed",
+    "wall-clearance cost (wall_w 1)",
+    "two-primitive lookahead (32 x 64)"
+   ]
+  },
+  "code_world": {
+   "steps": 1893533696,
+   "wall_s_summed": 18357.264891147614,
+   "steps_per_s_per_run": [
+    160880.05024122956,
+    163050.41016817902,
+    149090.04090621872,
+    160096.20211418415,
+    151761.4976630677,
+    69549.66678765575,
+    66468.80724762184,
+    20351.79534296047,
+    30084.190167284236,
+    25445.948677993503,
+    45576.77355857516,
+    63853.31879784414
+   ],
+   "runs": {
+    "wmL_w0": {
+     "success": 0.09375,
+     "n": 32,
+     "mean_max_cov": 0.6352251768112183,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L"
+     },
+     "reality_override": {},
+     "params_jitter": 0.0
+    },
+    "wmL_w1": {
+     "success": 0.09375,
+     "n": 32,
+     "mean_max_cov": 0.6276424527168274,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0
+     },
+     "reality_override": {},
+     "params_jitter": 0.0
+    },
+    "wmL_w1_mu2_jit": {
+     "success": 0.125,
+     "n": 32,
+     "mean_max_cov": 0.6222426891326904,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0
+     },
+     "reality_override": {
+      "mu": 2.0
+     },
+     "params_jitter": 0.1
+    },
+    "wmL_w1_mu02_jit": {
+     "success": 0.09375,
+     "n": 32,
+     "mean_max_cov": 0.6354549527168274,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0
+     },
+     "reality_override": {
+      "mu": 0.2
+     },
+     "params_jitter": 0.1
+    },
+    "wmL_d0": {
+     "success": 0.3333333333333333,
+     "n": 12,
+     "mean_max_cov": 0.7227328419685364,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0
+     },
+     "reality_override": {},
+     "params_jitter": 0.0
+    },
+    "wmL_d1": {
+     "success": 0.5833333333333334,
+     "n": 12,
+     "mean_max_cov": 0.858149528503418,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0,
+      "ang_w": 150.0
+     },
+     "reality_override": {},
+     "params_jitter": 0.0
+    },
+    "wmL_d2": {
+     "success": 0.6666666666666666,
+     "n": 12,
+     "mean_max_cov": 0.8477328419685364,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0,
+      "ang_w": 150.0,
+      "time_w": 0.0
+     },
+     "reality_override": {},
+     "params_jitter": 0.0
+    },
+    "wmL_d3": {
+     "success": 0.8333333333333334,
+     "n": 12,
+     "mean_max_cov": 0.9237132668495178,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0,
+      "time_w": 0.0,
+      "ang_w": 300.0
+     },
+     "reality_override": {},
+     "params_jitter": 0.0
+    },
+    "wmL_d4": {
+     "success": 0.5833333333333334,
+     "n": 12,
+     "mean_max_cov": 0.828125,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0,
+      "time_w": 0.0,
+      "ang_w": 150.0,
+      "chain_k": 32,
+      "chain_n": 64
+     },
+     "reality_override": {},
+     "params_jitter": 0.0
+    },
+    "wmL_d5": {
+     "success": 0.9166666666666666,
+     "n": 12,
+     "mean_max_cov": 0.9546568989753723,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0,
+      "time_w": 0.0,
+      "ang_w": 300.0,
+      "chain_k": 32,
+      "chain_n": 64
+     },
+     "reality_override": {},
+     "params_jitter": 0.0
+    },
+    "wmL_final_pred": {
+     "success": 0.9375,
+     "n": 32,
+     "mean_max_cov": 0.9693244099617004,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0,
+      "time_w": 0.0,
+      "ang_w": 300.0,
+      "chain_k": 32,
+      "chain_n": 64
+     },
+     "reality_override": {},
+     "params_jitter": 0.0
+    },
+    "wmL_final_robust": {
+     "success": 0.875,
+     "n": 32,
+     "mean_max_cov": 0.9364660382270813,
+     "planner": {
+      "n_samples": 2048,
+      "succ_thr": 0.965,
+      "object": "L",
+      "wall_w": 1.0,
+      "time_w": 0.0,
+      "ang_w": 300.0,
+      "chain_k": 32,
+      "chain_n": 64
+     },
+     "reality_override": {
+      "mu": 1.0
+     },
+     "params_jitter": 0.1
+    }
+   },
+   "note": "wall_s summed over runs that partly ran concurrently; 4 early runs (world with mu = 5) were killed and are not counted"
+  },
+  "predicted_success_code_world": 0.9375,
+  "predicted_success_code_world_perturbed": 0.875,
+  "real_eval": {
+   "seeds": "1000-1049",
+   "success_rate": 0.72,
+   "mean_max_coverage": 0.801181762437158,
+   "mean_n_steps": 202.68,
+   "wall_s": 1455.6014671325684,
+   "gifs": "runs/pusht/code_wm/gifs/eval_L_code_wm/ep_1000..1002.gif"
+  },
+  "failure_analysis": {
+   "n_failed": 14,
+   "wall_failures": {
+    "n": 9,
+    "seeds": [
+     1005,
+     1008,
+     1012,
+     1017,
+     1022,
+     1031,
+     1034,
+     1040,
+     1048
+    ],
+    "note": "block ended up to 25-95 u beyond the wall line (outline vertices outside the wall), with max coverage 0-0.71; several started > 60 u from any wall, so the planner drove the block into walls despite the clearance cost: the world clamps the block at the wall and cannot represent penetration/ejection"
+   },
+   "clear_of_walls": {
+    "n": 5,
+    "seeds": [
+     1006,
+     1016,
+     1024,
+     1038,
+     1047
+    ],
+    "max_cov": [
+     0.84,
+     0.78,
+     0.71,
+     0.83,
+     0.6
+    ],
+    "note": "no wall contact; stalled below 0.95 -- planner/model mismatch not diagnosed further (no iteration on eval seeds)"
+   }
+  }
+ }
+}

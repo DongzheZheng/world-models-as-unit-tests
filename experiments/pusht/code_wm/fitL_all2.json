@@ -1,0 +1,1 @@
+{"object": "L", "lives": ["runs/pusht/blackbox_L/code_wm/life_1.npz"], "H": 10, "out": "runs/pusht/code_wm/fitL_all2.json", "pop": 768, "iters": 60, "fit_pusher": false, "space_override": {"com_u": [-30, 130, false], "com_v": [-30, 140, false], "k_gyr": [15, 200, true], "mu": [0.0, 5.0, false]}}

@@ -1,0 +1,20 @@
+{
+ "aspire_v5": {
+  "n": 50,
+  "success": 0.22,
+  "max_coverage": 0.75387926359155,
+  "n_steps": 269.3
+ },
+ "aspire_v8": {
+  "n": 50,
+  "success": 0.94,
+  "max_coverage": 0.8968587918193309,
+  "n_steps": 166.44
+ },
+ "code_wm": {
+  "n": 50,
+  "success": 0.76,
+  "max_coverage": 0.9307715428615004,
+  "n_steps": 192.62
+ }
+}

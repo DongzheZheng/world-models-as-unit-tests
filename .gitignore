@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+
+# budget counter written by every real episode (cawm/ledger.py)
+runs/ledger.jsonl
+runs/ledger.jsonl.*
+
+# outputs of re-runs: reproduce.py results, reset-reading snapshots, step logs and media
+runs/reproduce/
+runs/annex/audit/layouts_*.npz
+runs/annex/audit/logs_*/
+runs/station/audit/
+runs/**/audit_logs/**/*.npz
+runs/**/audit_logs/**/*.gz
+runs/**/eval_logs*/**/*.npz
+runs/**/eval_logs*/**/*.gz
+runs/**/evlogs/
+runs/**/videos/
+runs/**/gifs/
+runs/**/montage_raw*/
+runs/logs/
+runs/**/*.gif
+runs/**/*.mp4
+
+# simulator side files
+_vizdoom/
+_vizdoom.ini
+
+# built page fragment and standalone site
+blog/index.html
+_site/

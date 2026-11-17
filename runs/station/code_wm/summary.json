@@ -1,0 +1,88 @@
+{
+ "written_before_eval": "2026-11-15 01:53:02",
+ "controller": "RoutePolicy {\"clear\": 0.09, \"load_soft\": 3.0, \"load_hard\": 6.0}",
+ "predicted_success_rate": 0.995,
+ "prediction_basis": {
+  "nominal_world_200_snapshots": {
+   "n": 200,
+   "success": 0.995,
+   "overload": 0.0,
+   "wrong_side": 0.005,
+   "not_at_target": 0.0,
+   "mean_max_load": 5.219902440309524,
+   "mean_steps": 364.535
+  },
+  "randomized_world_30pct_200_snapshots": {
+   "n": 200,
+   "success": 0.995,
+   "overload": 0.0,
+   "wrong_side": 0.005,
+   "not_at_target": 0.0,
+   "mean_max_load": 5.185384155511856,
+   "mean_steps": 366.405
+  }
+ },
+ "completed": "2026-11-15 01:57:17",
+ "lives_used": 3,
+ "lives": [
+  {
+   "life": 1,
+   "seed": 18,
+   "purpose": "scripted probe: speed steps 0.02-0.20 m/s while dragging, lateral drag, slack 0.3 m/s push, near-taut pull",
+   "outcome": "no success intended; 600 steps, no overload, max load 9.97 N (guard stopped the taut pull)",
+   "steps": 600
+  },
+  {
+   "life": 2,
+   "seed": 3,
+   "purpose": "end-to-end test of the code-world controller",
+   "outcome": "success at step 378, max load 4.63 N (world: success 388, 5.35 N)",
+   "steps": 378
+  },
+  {
+   "life": 3,
+   "seed": 12,
+   "purpose": "end-to-end test on the code world's hardest snapshot (predicted 9.7 N peak)",
+   "outcome": "success at step 308, max load 4.13 N (world: success 328, 9.71 N)",
+   "steps": 308
+  }
+ ],
+ "real_steps_total": 1286,
+ "station_world_bytes": 13870,
+ "controller_type": "hand-written waypoint router (pegs on required side at clearance, detours), load-governed speed, snag pause, taut back-off; structure written and debugged in the code world, settings selected there (no runtime planning)",
+ "controller_settings": {
+  "clear": 0.09,
+  "load_soft": 3.0,
+  "load_hard": 6.0,
+  "v_max": 0.1,
+  "v_min": 0.015,
+  "lag_pause": 0.02,
+  "v_end": 0.04,
+  "end_dist": 0.1
+ },
+ "runtime_compute_per_step": "< 0.1 ms (path planned once at the first step; no model at run time)",
+ "code_world_steps": 648000,
+ "code_world_wall_s": 120.0,
+ "code_world_steps_per_s": 5400,
+ "world_fit": {
+  "method": "CEM over 14 parameters, 256 candidates x 120 segments in one GPU batch, 80 iterations",
+  "wall_s": 30
+ },
+ "screening_harness_check": {
+  "snapshots_200": 0.995,
+  "observation_situations_10": 1.0,
+  "note": "experiments/station/code_wm/screen.py run_in_world with this controller (tune.py)"
+ },
+ "real_success_rate": 1.0,
+ "real_eval": {
+  "episodes": 50,
+  "success": 50,
+  "overload": 0,
+  "wrong_side": 0,
+  "not_at_target_in_time": 0,
+  "mean_steps": 350.22,
+  "mean_max_load": 4.3813850095647435,
+  "max_max_load": 5.34440512258654
+ },
+ "extended_run": "not needed (official success >= 50%)"
+}

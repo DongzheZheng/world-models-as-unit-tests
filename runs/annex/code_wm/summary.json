@@ -1,0 +1,238 @@
+{
+ "stage": "final (prediction fields written before the eval, unchanged)",
+ "predicted_success_rate_code_world": 1.0,
+ "prediction_basis": "runs/annex/code_wm/predict_nominal.json: final controller (throw:make_final) run closed-loop in the nominal code world (fit10) on snapshot situations 100-123 from rest: 24/24 successes",
+ "caveat_written_before_eval": "open-loop fidelity on unseen lives is poor (p1 error ~1.6 cm after 5 steps, ~7-20 cm after 20 steps, ~26-49 cm after 150 steps); lives 2-4 with earlier versions of this controller all failed in reality; the real success rate is expected to be far below the code-world prediction",
+ "lives_used": 4,
+ "real_steps_calibration": 944,
+ "lives": [
+  {
+   "life": 1,
+   "seed": 0,
+   "purpose": "system ID: hold, slow drag, step, wind-up, fling",
+   "outcome": "fail, tip 0.98 m"
+  },
+  {
+   "life": 2,
+   "seed": 7,
+   "purpose": "first throw-CEM controller end to end",
+   "outcome": "fail, tip 0.75 m; second uncapped stroke threw rod to z=0.27 m"
+  },
+  {
+   "life": 3,
+   "seed": 11,
+   "purpose": "rate-limited one-throw controller",
+   "outcome": "fail, tip 0.13 m, nearly at rest twice"
+  },
+  {
+   "life": 4,
+   "seed": 25,
+   "purpose": "hard case, rod pointing away",
+   "outcome": "fail, tip 0.58 m; throw overshot sideways and rebounded"
+  }
+ ],
+ "world_file_bytes": 14313,
+ "controller": {
+  "type": "receding-horizon CEM over throw primitive (wind-up, throw, hold), domain randomisation 4 worlds +-25%, replan every 8 steps, cmd rate 3 m/s, one re-throw",
+  "factory": "experiments.annex.code_wm.throw:make_final"
+ },
+ "wm_steps_estimate": 60000000.0,
+ "compute_per_step_s": "~0.4 (eval: 50 eps, 6 workers, 1506 s wall)",
+ "real_success_rate": 0.32,
+ "real_failures": {
+  "rest_outside_target": 9,
+  "moving_at_time_limit": 25
+ },
+ "tip_dist_mean": 0.193,
+ "tip_dist_median": 0.141,
+ "extended_run": "not done (time budget exceeded)",
+ "sensitivity": "sensitivity_raw.json pending at handback (job cw_sens)",
+ "extended": {
+  "written": "2026-11-15 14:21:17",
+  "stage": "written BEFORE the extended evaluation",
+  "predicted_success_rate": 0.65,
+  "range_not_surprised": [
+   0.45,
+   0.8
+  ],
+  "basis": "Real lives flown with the v2 controllers: 9/12 successes (frozen final controller make_robust: 6/8, incl. 4/5 on the dedicated calibration lives x3 1-5; make_final 3/4). Beta(1,1) posterior mean on 9/12 = 0.71. The code-world ensemble (every parameter perturbed +-15%, random initial spin) gives 10/10, so it is NOT used directly: the official run showed the world over-predicting by 68 points. I shade 0.71 down to 0.65 because several real successes were marginal (tip 0.08-0.09 m of the 0.10 m radius) and the 12 calibration seeds are few; the range is roughly the 80% posterior interval.",
+  "lives_total": 20,
+  "extended_lives": [
+   {
+    "pilot": "code_wm",
+    "life": 5,
+    "seed": 40,
+    "purpose": "scripted stroke probe (slow drag, 4 m/s stroke, lateral strokes, long holds)",
+    "success": false,
+    "tip_dist": 0.757,
+    "n_steps": 236
+   },
+   {
+    "pilot": "code_wm_x1",
+    "life": 1,
+    "seed": 41,
+    "purpose": "scripted stroke probe",
+    "success": false,
+    "tip_dist": 0.771,
+    "n_steps": 236
+   },
+   {
+    "pilot": "code_wm_x1",
+    "life": 2,
+    "seed": 42,
+    "purpose": "scripted stroke probe",
+    "success": false,
+    "tip_dist": 0.778,
+    "n_steps": 236
+   },
+   {
+    "pilot": "code_wm_x1",
+    "life": 3,
+    "seed": 43,
+    "purpose": "scripted stroke probe (held out for world selection)",
+    "success": false,
+    "tip_dist": 1.037,
+    "n_steps": 236
+   },
+   {
+    "pilot": "code_wm_x1",
+    "life": 4,
+    "seed": 44,
+    "purpose": "throw_v2 make_final end to end",
+    "success": true,
+    "tip_dist": 0.004,
+    "n_steps": 144
+   },
+   {
+    "pilot": "code_wm_x1",
+    "life": 5,
+    "seed": 45,
+    "purpose": "throw_v2 make_robust end to end",
+    "success": true,
+    "tip_dist": 0.084,
+    "n_steps": 71
+   },
+   {
+    "pilot": "code_wm_x2",
+    "life": 1,
+    "seed": 46,
+    "purpose": "throw_v2 make_final end to end",
+    "success": true,
+    "tip_dist": 0.06,
+    "n_steps": 150
+   },
+   {
+    "pilot": "code_wm_x2",
+    "life": 2,
+    "seed": 47,
+    "purpose": "throw_v2 make_robust end to end",
+    "success": true,
+    "tip_dist": 0.086,
+    "n_steps": 172
+   },
+   {
+    "pilot": "code_wm_x2",
+    "life": 3,
+    "seed": 48,
+    "purpose": "throw_v2 make_final end to end",
+    "success": true,
+    "tip_dist": 0.061,
+    "n_steps": 90
+   },
+   {
+    "pilot": "code_wm_x2",
+    "life": 4,
+    "seed": 49,
+    "purpose": "throw_v2 make_robust end to end",
+    "success": false,
+    "tip_dist": 0.058,
+    "n_steps": 236
+   },
+   {
+    "pilot": "code_wm_x2",
+    "life": 5,
+    "seed": 50,
+    "purpose": "throw_v2 make_final end to end",
+    "success": false,
+    "tip_dist": 0.106,
+    "n_steps": 236
+   },
+   {
+    "pilot": "code_wm_x3",
+    "life": 1,
+    "seed": 51,
+    "purpose": "calibration trial of the FROZEN final controller (throw_v2 make_robust)",
+    "success": true,
+    "tip_dist": 0.077,
+    "n_steps": 147
+   },
+   {
+    "pilot": "code_wm_x3",
+    "life": 2,
+    "seed": 52,
+    "purpose": "calibration trial of the FROZEN final controller (throw_v2 make_robust)",
+    "success": true,
+    "tip_dist": 0.092,
+    "n_steps": 90
+   },
+   {
+    "pilot": "code_wm_x3",
+    "life": 3,
+    "seed": 53,
+    "purpose": "calibration trial of the FROZEN final controller (throw_v2 make_robust)",
+    "success": false,
+    "tip_dist": 0.131,
+    "n_steps": 236
+   },
+   {
+    "pilot": "code_wm_x3",
+    "life": 4,
+    "seed": 54,
+    "purpose": "calibration trial of the FROZEN final controller (throw_v2 make_robust)",
+    "success": true,
+    "tip_dist": 0.087,
+    "n_steps": 145
+   },
+   {
+    "pilot": "code_wm_x3",
+    "life": 5,
+    "seed": 55,
+    "purpose": "calibration trial of the FROZEN final controller (throw_v2 make_robust)",
+    "success": true,
+    "tip_dist": 0.077,
+    "n_steps": 161
+   }
+  ],
+  "real_steps_total_all_lives": 3766,
+  "world_file": "worlds/annex/annex_world_v2.py",
+  "world_file_bytes": 16069,
+  "world_params": "runs/annex/code_wm/world_params_v2.json (CEM fit, H=30 windows, 8 lives: code_wm 1-5, x1 1-3)",
+  "controller": {
+   "factory": "experiments.annex.code_wm.throw_v2:make_robust",
+   "n_cand": 64,
+   "M": 6,
+   "iters0": 5,
+   "iters": 1,
+   "every": 8,
+   "H": 120,
+   "dr": 0.35,
+   "vcmd": 3.0,
+   "f_max": 0.06
+  },
+  "ensemble_predictions": {
+   "make_final": "9/10 (xpred_final_ens15.json)",
+   "make_robust": "10/10 (xpred_robust_ens15.json)"
+  },
+  "real_success_rate": 0.78,
+  "real_successes": 39,
+  "real_failures": {
+   "rest_outside_target": 7,
+   "moving_at_time_limit": 4
+  },
+  "tip_dist_mean": 0.09888925653866787,
+  "eval_wall_s": 3007.3805980682373,
+  "compute_per_step_s": 2.015220414162321,
+  "prediction_error_points": -13.0,
+  "recorded_as": "code_wm_extended (runs/annex/results/annex__code_wm_extended.json)"
+ }
+}

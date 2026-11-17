@@ -1,0 +1,425 @@
+{
+ "summary": {
+  "mode": "closed",
+  "scale": 0.1,
+  "draw": 2,
+  "n": 24,
+  "real_success": 0.5,
+  "median_real_tip_dist": 0.11626762741140292,
+  "wall_s": 619.8,
+  "replan_every": 15,
+  "replan_budget": 90,
+  "mean_replans": 9.083333333333334,
+  "mean_rollouts": 1127.9583333333333
+ },
+ "per_seed": [
+  {
+   "seed": 3000,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 149,
+   "n_replans": 9,
+   "rollouts": 978,
+   "real_tip_dist": 0.07622069259114791,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3001,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 175,
+   "n_replans": 10,
+   "rollouts": 1030,
+   "real_tip_dist": 0.03261563294329353,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3002,
+   "model_success_initial": false,
+   "real_success": true,
+   "t_done": 131,
+   "n_replans": 8,
+   "rollouts": 1720,
+   "real_tip_dist": 0.043291608816263,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3003,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1055,
+   "real_tip_dist": 0.561322044335632,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3004,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 7,
+   "rollouts": 1298,
+   "real_tip_dist": 0.21771403206062073,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3005,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1016,
+   "real_tip_dist": 0.8851458298796601,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3006,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 157,
+   "n_replans": 10,
+   "rollouts": 1218,
+   "real_tip_dist": 0.06951098260801077,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3007,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1243,
+   "real_tip_dist": 0.30471727281861544,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3008,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 7,
+   "rollouts": 785,
+   "real_tip_dist": 0.3479946244493942,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3009,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1015,
+   "real_tip_dist": 0.40241836189756025,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3010,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 90,
+   "n_replans": 5,
+   "rollouts": 701,
+   "real_tip_dist": 0.03118928127403912,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3011,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1193,
+   "real_tip_dist": 0.7007893118259698,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3012,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1003,
+   "real_tip_dist": 0.15213832506437272,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3013,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 172,
+   "n_replans": 10,
+   "rollouts": 1115,
+   "real_tip_dist": 0.0086552171395336,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3014,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1247,
+   "real_tip_dist": 0.4139633966668666,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3015,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1180,
+   "real_tip_dist": 0.7452186374222608,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3016,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 122,
+   "n_replans": 8,
+   "rollouts": 980,
+   "real_tip_dist": 0.041905034921938346,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3017,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 146,
+   "n_replans": 9,
+   "rollouts": 1039,
+   "real_tip_dist": 0.06492077750770302,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3018,
+   "model_success_initial": false,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1900,
+   "real_tip_dist": 0.8686962093572196,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3019,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 146,
+   "n_replans": 9,
+   "rollouts": 1265,
+   "real_tip_dist": 0.08039692975843313,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3020,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 199,
+   "n_replans": 10,
+   "rollouts": 1093,
+   "real_tip_dist": 0.05165571448446748,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3021,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 162,
+   "n_replans": 10,
+   "rollouts": 1210,
+   "real_tip_dist": 0.0386054897465128,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3022,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 99,
+   "n_replans": 6,
+   "rollouts": 778,
+   "real_tip_dist": 0.028942785932882853,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  },
+  {
+   "seed": 3023,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1009,
+   "real_tip_dist": 0.269873164907317,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 0.9,
+    "mu_table": 0.9,
+    "mu_post": 0.9,
+    "drag": 1.1
+   }
+  }
+ ]
+}

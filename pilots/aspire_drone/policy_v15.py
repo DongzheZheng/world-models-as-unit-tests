@@ -1,0 +1,385 @@
+"""policy_v15 -- first program iterated INSIDE THE CODE WORLD (worlds/drone/site_world.py via the code_wm screen
+setup), no real flight.
+
+Code world on 400 imagined mission-C episodes (seed0 7000): v11 56 %, v13 87.5 %, v14 79 % (real: v11 49 %, v14 76 %).
+Failures of v14 there are mostly WALL contacts (17.5 % of episodes), clustered at the pinch entrance (x 30.5-31.5),
+at x 25-30 (end face of the north wall where the north aisle closes) and in the south jet; per-step traces show the
+drone arriving at a narrowing with |y| ~1.3-1.6 m and 1.5-3 m/s of lateral velocity left over from an avoidance
+manoeuvre or a jet, plus along-track overspeed (8.5 m/s) when the escape velocity points forward.  The C17 barrier
+only looks at the nearest wall at the current position, so it never sees the narrowing ahead.
+Repairs:
+  W1 corridor look-ahead: the free y-interval of the site map over the next 0.4 + 0.8 vx metres (pinch, aisle end
+     faces) defines a safe band (0.5 m inside); lateral velocity toward a band edge <= sqrt(2*5*room), violations
+     corrected at 8 m/s^2 per m/s with priority; outside the band: push back 10 m/s^2 per m; escape-velocity
+     components leaving the band removed
+  W2 vertical preference grows when the band is narrower than 2.5 m (vertical bias 2 -> 4): pass aircraft parked in
+     the pinch over/under, not beside
+  W3 along-track reference + escape component capped at cruise + 0.5 m/s
+  W4 pursuers: an aircraft moving at 0.5-2.5 m/s whose velocity points at the drone (cos > 0.85) within 5 m is
+     treated as heading wherever the drone is: CPA taken as if it held position, keep-out radius + margin_pursuer
+  W6 lateral corridor barrier deceleration 5 -> 3 m/s^2 (lateral speed toward a band edge <= sqrt(2*3*room)):
+     a jet stronger than the prior plus an avoidance turn otherwise overshoots into the pinch
+  (W4 pursuer handling was tried and made things worse at 1.2-1.6 m, neutral at 0.9: disabled, margin_pursuer=0)
+  W5 code-world sweeps (400-episode batches, fresh seeds per sweep): smaller keep-outs win because large lateral
+     manoeuvres end on the walls -- defaults margin 0.6 (moving), margin_hover 1.3, vertical bias 3
+History of v14:
+policy_v14 -- repairs after extended lives x3-1..2 (v13: seed 950 COLLISION with an aircraft, seed 111 success).
+
+x3 life-1 trace (seed 950): a patrol creeping along -x at z 1.6 on the route started CLIMBING (vz +1.3) when the
+drone was 1.5 m away, 0.5 m above it; v13's 'slow' rule (moving aircraft ahead, CPA < D/2) had cut the speed to
+2 m/s, so the drone hung in front of it: contact.  Statistics over all 17 mission-C lives (pursuit_stats.py):
+other aircraft change velocity 1.7x more often within 3 m of the drone (3.1 vs 1.6-2.0 changes per 100 samples)
+at ~1.3-1.5 m/s, with only a weak bias toward the drone (mean cos +0.13): they react at close range in a way the
+constant-velocity CPA cannot foresee, so lingering near them is the risk.
+Replaying mission-A life 5 through v13 also showed the C22 wall barrier firing at the canyon mouth: the nearest
+'wall' there is a box CORNER (diagonal normal) that the route passes, not a wall it approaches.
+Repairs:
+  C23 no speed cut near aircraft (the 'slow' rule is removed): pass them quickly instead of hovering in front
+  C24 keep-out around moving aircraft radius + 0.9 -> + 1.2 m (close-range reactions at 1.3-1.5 m/s)
+  C25 wall barrier only on wall faces (axis-aligned normal), never on box corners
+History of v13:
+policy_v13 -- repairs after extended lives x2-1..5 (v12: 4 successes, seed 517 -- v11's wall crash -- now a
+success; x2 life 5 = COLLISION with the south wall).
+
+x2 life-5 trace: diving under a hovering aircraft parked 1.5 m before relay 2, the drone was still 0.9 m low when
+it reached relay 2 (funnel 0.6 m too late to converge at 6 m/s) and missed it at 1.1 m; the missed-relay recovery
+reversed at 3 m/s straight back into a slow patrol (1.4 m/s), the emergency law (fires for any moving aircraft)
+pushed 18 m/s^2 toward -y, and at 4 m/s toward the wall the wall barrier engaged too late (no allowance for the
+~0.15 s attitude lag): wall contact.
+Repairs:
+  C19 funnel 0.5 + 0.2 max(0, d_remaining - 1) m (wider far out, converged 1 m before the relay), restoring
+      velocity 3 (dev - funnel)
+  C20 missed-relay recovery at <= 1.5 m/s
+  C21 emergency law only for FAST movers (|v| >= 2.5 m/s, i.e. darter dashes); patrols are handled by the CPA
+      escape velocity; proximity shell for moving aircraft radius + 1.0 m
+  C22 wall barrier allows for attitude lag: v_toward <= sqrt(2*4*(clearance - 0.35 - 0.15 v_toward))
+History of v12:
+policy_v12 -- repairs after the official mission-C evaluation of v11 (49/100) and extended lives x1-1..5.
+
+v11 flew 5 extended lives (x1): 4 successes and one COLLISION WITH A WALL (x1 life 4, seed 517): passing a
+HOVERING darter at 1.3 m in the pinch, the proximity shell (8 m/s^2 per m inside 2.65 m) and the t* < 0.6 s
+emergency law (which fires for any static object the drone flies past, since t* = time to pass) commanded
++16 m/s^2 sideways and -11 m/s^2 down at once; roll reached ~60 deg, the drone left the pinch with +3.7 m/s
+toward the north wall and the 0.7 m wall push (8 m/s^2 per m) could not stop it: wall contact at x 36.2.
+(The evaluation logs were not inspected; only this calibration life was diagnosed.)
+Repairs:
+  C16 emergency law and proximity shell only for aircraft that are MOVING (|v| >= 0.5 m/s, i.e. a dash or a
+      patrol); hovering darters get only the smooth velocity-level escape; shell radius + 1.3 m
+  C17 wall velocity barrier (same closed form as C14): velocity toward the nearest wall
+      <= sqrt(2*6*(clearance - 0.35)); a violation is corrected at 8 m/s^2 per m/s with priority over the
+      other horizontal terms inside the 24 m/s^2 budget
+  C18 escape velocity components toward a wall closer than 1.0 m are removed
+History of v11:
+policy_v11 -- repair after mission-C life 5 (v10 flown twice: lives 4 and 5 both success, 11.03 s and 10.33 s).
+NOT FLOWN before the evaluation (no lives left); checked only by replaying all logged lives through it.
+
+Life-5 trace: in the pinch (x 31-32) a patrol shuttling across the canyon at 1.8 m/s came within 1.5 m; the
+proximity shell / emergency law pushed the drone DOWN at 18 m/s^2 (the patrol was 0.5 m higher), vz reached
+-3 m/s, then a second aircraft hovering at z 1.9 above the drone kept the push downward: the drone bottomed out at
+z 0.27 m (ground contact = collision) -- the 0.8 m soft floor (10 m/s^2 per m) cannot stop 3 m/s in time.
+Repairs:
+  C14 vertical velocity barrier: vz >= -sqrt(2*5*(z - 0.6)) and vz <= sqrt(2*5*(5.3 - z)); a violation is
+      corrected with 8 m/s^2 per m/s (kinematic stopping distance, closed form)
+  C15 avoidance pushes (escape velocity and emergency/proximity acceleration) may not point down below
+      z = 1.3 m or up above z = 4.1 m
+History of v10:
+policy_v10 -- refinement after mission-C life 3 (v9: success 9.87 s, min separation 1.34 m).
+
+Life-3 trace: 8 other aircraft (2 darters at 5.3-5.5 m/s, 6 patrols at 0.6-2.4 m/s, some reversing along x),
+6-8 of them clustered at x 38-48.  v9 climbed over the cluster and peaked at z 5.35 m against the 6.0 m ceiling
+(out of bounds above it): the 5.0 m soft limit overshoots by ~0.35 m.  The funnel brought the drone back to
+relay 3 in time.
+Repairs:
+  C13 altitude band 0.8-4.6 m with a stiffer soft limit (6 -> 10 m/s^2 per m), so the overshoot stays < 5.2 m
+History of v9:
+policy_v9 -- repairs after mission-C life 2 (v8: OUT OF BOUNDS at x > 62 with 0 relays).
+
+Life-2 trace: a darter hovered 2.9 m before relay 1 (x 11.4, on the line); v8 kept its 2.3 m hover margin by
+diving to z 0.8 / y +1.2, the reference offset decayed back at only 1.2 m/s, the drone passed relay 1 at 2.08 m
+(needs < 1.0 m), and because a relay target only switches on lab confirmation and an overshot straight-through
+relay kept vref = cruise, it flew down the whole canyon and out of the yard.
+Repairs:
+  C10 relay funnel: while the target is a relay, the allowed deviation from the route line is
+      0.6 + 0.3 max(0, d_remaining - 0.5) m; beyond it the reference is clamped to the funnel, the outward part
+      of the escape velocity is removed, a restoring velocity 2 (dev - funnel) is added and the speed reference
+      is cut (6 - 6 (dev - funnel), >= 2 m/s) so the drone can get back in before the relay (the emergency acceleration and proximity shell stay: they react to
+      actual dashes)
+  C11 missed-relay recovery: past a relay that the lab has not confirmed (d_remaining < 0) the speed reference
+      turns negative -> come back to it, whatever the turn type
+  C12 offset decay after a threat 1.2 -> 2.5 m/s
+Mover findings added in life 2: same two classes (darters 5.5 m/s dashes; patrols 0.6-1.8 m/s, three of them
+shuttling across the canyon at x ~ 40 through the south aisle, two creeping down the canyon along -x).
+History of v8:
+policy_v8 -- repairs after mission-C life 1 (v7, success 9.67 s, but minimum separation 0.66 m).
+
+Life-1 instrumentation (movers_stats.py), 7 other aircraft, observed rows accurate (pos err 5 cm, vel 8 cm/s):
+  - 'darters' (4 of 7): hover, then dash at a constant ~5 m/s (4.6-5.2 per aircraft) for 0.1-1.5 s in a random
+    direction, every ~2 s; a dash can start next to the drone (m1 started one 1.1 m away -> 0.66 m miss)
+  - 'patrols' (3 of 7): constant-speed shuttles, 0.9-1.9 m/s (two cross the canyon along y through the side
+    aisles, one creeps along -x down the canyon)
+  - v7 passed hovering darters at 0.8-1.3 m: inside the reach of a dash that starts at the wrong moment.
+Repairs:
+  C6 separation depends on what the mover is doing: hovering (|v| < 0.5 m/s, may dash at any time) -> keep
+     radius + 1.7 m (a dash starting at >= ~2 m leaves ~0.3 s to dodge 0.5 m); moving at constant velocity
+     (patrol or dash in progress) -> radius + 0.9 m around its CPA
+  C7 avoidance acceleration cap 14 -> 20 m/s^2 (dodging a dash that starts close)
+  C8 altitude band 0.8-5.0 m (ceiling 6 m = out of bounds)
+  C9 replaying life 1 through the acceleration-level law showed it acting only in the last ~0.6 s with 12-19 m/s^2:
+     the cross-track damping -kd*v_perp cancels the avoidance velocity, so the required acceleration keeps
+     growing.  Avoidance is now velocity-level: an escape velocity v_av = sum 1.5 (D - |m|) / max(t*, 0.3) e
+     (|v_av| <= 5 m/s) is TRACKED by the damping term (kd (v_av_perp - v_perp)) and the along-track speed loop;
+     the acceleration law is kept only for t* < 0.6 s (emergencies) and for the proximity shell.
+History of v7:
+policy_v7 -- mission C first program: v6 (validated on A and B) + reactive avoidance of other aircraft.  ctbr mode.
+
+Nothing is known about the other aircraft yet, so the avoidance is pure closed-form geometry on obs["movers"]:
+  C1 constant-velocity closest point of approach (CPA): relative position r = p_m - p, relative velocity
+     w = v_m - v, t* = clip(-(r.w)/|w|^2, 0, 3 s), miss vector m = r + w t*.
+  C2 if |m| < D (= mover radius + 0.65 m) the drone needs a displacement (D - |m|) along e = -m/|m| within t*:
+     closed-form kinematic acceleration 2 (D - |m|) / max(t*, 0.35)^2 (capped 14 m/s^2) along e.
+     e is biased toward the vertical (the canyon is 4 m wide but 0.8-5.2 m of altitude is usable and the walls
+     are 7.8 m tall); for an almost head-on miss the drone climbs if below the mover / at the same height and
+     z < 3.5, else descends.
+  C3 proximity shell: within D + 0.6 m an additional push straight away from the mover.
+  C4 while any threat is active the cross-track reference follows the drone (no PD fighting the avoidance);
+     afterwards it decays back to the route at 1.2 m/s.
+  C5 if the CPA lies ahead and is unavoidable at the current speed (t* small, |m| tiny) the along-track speed
+     reference is cut to 2 m/s, so the time window (19.4 s vs ~9.5 s needed) is spent instead of the airframe.
+"""
+from __future__ import annotations
+
+import numpy as np
+
+from pilots.aspire_drone.policy_v6 import (BOXES, C_THRUST, G, RATE_BIAS, RATE_GAIN, box_clearance, jet_prior, plan_route,
+                                           quat_to_R, vee)
+from pilots.aspire_drone.policy_v6 import Policy as V6
+
+Z_MIN, Z_MAX = 0.8, 4.6
+
+
+def mover_rows(obs):
+    if "movers" not in obs:
+        return np.zeros((0, 7))
+    M = np.asarray(obs["movers"], float).reshape(-1, 7)
+    n = int(np.asarray(obs.get("n_movers", [len(M)])).reshape(-1)[0])
+    return M[:n]
+
+
+def y_limits(x, y):
+    """free y-interval (lo, hi) of the site map at abscissa x for a drone at lateral position y (boxes are 2-D)."""
+    lo, hi = -14.0, 14.0
+    for cx, cy, hx, hy in BOXES:
+        if abs(x - cx) <= hx + 0.15:
+            if cy - hy >= y - 0.05:
+                hi = min(hi, cy - hy)
+            elif cy + hy <= y + 0.05:
+                lo = max(lo, cy + hy)
+    return lo, hi
+
+
+def corridor(p, v, look_t=0.8):
+    L = 0.4 + look_t * max(v[0], 0.0)
+    lo, hi = -14.0, 14.0
+    for s in np.arange(0.0, L + 1e-6, 0.25):
+        l, h = y_limits(p[0] + s, p[1])
+        lo, hi = max(lo, l), min(hi, h)
+    return lo, hi
+
+
+class Policy(V6):
+    def __init__(self, margin=0.6, margin_hover=1.3, horizon=3.0, a_avoid_max=20.0, vert_bias=3.0, margin_pursuer=0.0, bar_dec=3.0, bar_gain=8.0, off_decay=2.5, slow_v=2.0, band_margin=0.5, look_t=0.8, vert_narrow=4.0, **kw):
+        self.band_margin, self.look_t, self.vert_narrow = band_margin, look_t, vert_narrow
+        self.margin_pursuer = margin_pursuer
+        self.bar_dec, self.bar_gain = bar_dec, bar_gain
+        self.margin, self.margin_hover, self.horizon, self.a_avoid_max = margin, margin_hover, horizon, a_avoid_max
+        self.vert_bias, self.off_decay, self.slow_v = vert_bias, off_decay, slow_v
+        super().__init__(**kw)
+
+    def reset(self):
+        self._vb = 2.0
+        super().reset()
+        self.off = np.zeros(3)
+        self.threat_t = -9.0
+
+    def avoidance(self, p, v, obs):
+        """returns (escape velocity, emergency acceleration, slow flag, info)"""
+        v_av, a = np.zeros(3), np.zeros(3)
+        slow = False
+        info = []
+        for row in mover_rows(obs):
+            pm, vm, rad = row[:3], row[3:6], max(row[6], 0.2)
+            r, w = pm - p, vm - v
+            spm = float(np.linalg.norm(vm))
+            D = rad + (self.margin_hover if spm < 0.5 else self.margin)
+            dist0 = float(np.linalg.norm(r))
+            if 0.5 <= spm <= 2.5 and dist0 < 5.0 and float(-(r @ vm)) > 0.85 * spm * dist0 and self.margin_pursuer > 0:
+                w = -v                                  # W4 pursuer: assume it stays where we pass it
+                D = rad + self.margin_pursuer
+            ww = float(w @ w)
+            t = float(np.clip(-(r @ w) / ww, 0.0, self.horizon)) if ww > 1e-6 else 0.0
+            m = r + w * t
+            dm = float(np.linalg.norm(m))
+            dist = float(np.linalg.norm(r))
+            info.append((round(dist, 2), round(t, 2), round(dm, 2)))
+            if dm < D and t < self.horizon:
+                if dm > 0.15:
+                    e = -m / dm
+                else:                                   # head-on: pick vertical side
+                    up = (pm[2] >= p[2] and p[2] < 3.5) or p[2] < 1.6
+                    e = np.array([0.0, 0.0, 1.0 if up else -1.0])
+                e = e * np.array([1.0, 1.0, self._vb])
+                if p[2] > Z_MAX - 0.4 and e[2] > 0 or p[2] < Z_MIN + 0.4 and e[2] < 0:
+                    e[2] = -0.3 * e[2]
+                e /= max(np.linalg.norm(e), 1e-6)
+                v_av += 1.5 * (D - dm) / max(t, 0.3) * e
+                if t < 0.6 and np.linalg.norm(vm) >= 2.5:      # C16/C21
+                    a += min(self.a_avoid_max, 2.0 * (D - dm) / max(t, 0.25) ** 2) * e
+                if t < 1.0 and dm < 0.5 * D and float(-(r @ v)) < 0 and np.linalg.norm(vm) >= 0.5:
+                    slow = True        # only for moving aircraft: braking near a hovering darter extends exposure
+            if np.linalg.norm(vm) >= 0.5 and dist < rad + 1.0:   # C16/C21
+                a += 8.0 * (rad + 1.0 - dist) * (-r / max(dist, 1e-6))
+        n = np.linalg.norm(v_av)
+        if n > 5.0:
+            v_av *= 5.0 / n
+        n = np.linalg.norm(a)
+        if n > self.a_avoid_max:
+            a *= self.a_avoid_max / n
+        return v_av, a, slow, info
+
+    def act(self, obs):
+        dt = 1.0 / 30.0
+        p = np.asarray(obs["pos"], float)
+        v = np.asarray(obs["lin_vel"], float)
+        t = float(obs["t"][0])
+        R = quat_to_R(np.asarray(obs["quat"], float))
+        if self.wps is None:
+            self.wps = plan_route(p, obs["relays"])
+        r_hat = self._dob(p, v)
+        self._advance(p, int(obs["relay_index"][0]))
+        goal, prev = self.wps[self.wi][0], self.wps[self.wi - 1][0]
+        d = goal - prev
+        d /= max(np.linalg.norm(d), 1e-6)
+        rel = p - prev
+        e_perp = rel - np.dot(rel, d) * d
+        blo, bhi = corridor(p, v, self.look_t)
+        slo, shi = blo + self.band_margin, bhi - self.band_margin
+        self._vb = self.vert_narrow if (bhi - blo) < 2.5 else self.vert_bias
+        v_av, a_av, slow, info = self.avoidance(p, v, obs)
+        if p[1] > shi - 0.3 and v_av[1] > 0:           # W1: no escape out of the band
+            v_av[1] = 0.0
+        if p[1] < slo + 0.3 and v_av[1] < 0:
+            v_av[1] = 0.0
+        clr0, n0 = box_clearance(p[0], p[1])
+        if clr0 < 1.0 and float(v_av[:2] @ n0) < 0:     # C18
+            v_av[:2] -= float(v_av[:2] @ n0) * n0
+        if p[2] < Z_MIN + 0.5:                         # C15
+            v_av[2] = max(v_av[2], 0.0)
+        if p[2] > Z_MAX - 0.5:
+            v_av[2] = min(v_av[2], 0.0)
+        kind = self.wps[self.wi][1]
+        d_rem = float(np.dot(goal - p, d))
+        funnel = 0.5 + 0.2 * max(0.0, d_rem - 1.0) if kind == "relay" else 1e9
+        n_e = float(np.linalg.norm(e_perp))
+        if n_e > funnel:                                # C10: relay funnel beats hover-margin avoidance
+            u = e_perp / n_e
+            comp = float(v_av @ u)
+            if comp > 0:
+                v_av = v_av - comp * u
+            v_av = v_av - 3.0 * (n_e - funnel) * u
+        active = np.linalg.norm(a_av) > 0.05 or np.linalg.norm(v_av) > 0.05
+        if active:
+            self.threat_t = t
+            self.off = e_perp.copy()                    # C4: reference follows the drone during avoidance
+        elif t - self.threat_t > 0.3:
+            n = np.linalg.norm(self.off)
+            if n > 0:
+                self.off *= max(0.0, n - self.off_decay * dt) / n
+        n_o = float(np.linalg.norm(self.off))
+        if n_o > funnel:
+            self.off *= funnel / n_o
+        e_ref = e_perp - self.off
+        v_along = np.dot(v, d)
+        v_perp = v - v_along * d
+        cruise = self.cruise if abs(d[0]) > 0.9 else self.side_cruise
+        v_end = min(self._v_end(d), cruise)
+        if d_rem >= 0:
+            vref = min(cruise, np.sqrt(v_end ** 2 + 2 * self.a_brake * d_rem))
+        else:
+            if kind == "relay":                         # C11: passed a relay the lab did not confirm -> come back
+                vref = -min(1.5, np.sqrt(2 * self.a_brake * -d_rem))
+            else:
+                vref = -min(2.0, np.sqrt(2 * self.a_brake * -d_rem)) if v_end < cruise else cruise
+        vref = min(vref, self.cruise * min(1.0, (t + 0.3) / self.ramp_s))
+        if n_e > funnel:
+            vref = min(vref, max(2.0, self.cruise - 6.0 * (n_e - funnel)))
+        av_along = float(np.dot(v_av, d))
+        av_perp = v_av - av_along * d
+        av_along = min(av_along, self.cruise + 0.5 - vref)   # W3
+        a = self.kv * (vref + av_along - v_along) * d - self.kp * e_ref + self.kd * (av_perp - v_perp)
+        if not active:
+            self.integ += dt * (-e_ref + 0.3 * (vref - v_along) * d)
+            self.integ = np.clip(self.integ, -self.i_max / self.ki, self.i_max / self.ki)
+        if p[2] < Z_MIN + 0.5:                         # C15
+            a_av[2] = max(a_av[2], 0.0)
+        if p[2] > Z_MAX - 0.5:
+            a_av[2] = min(a_av[2], 0.0)
+        a = a + self.ki * self.integ + a_av
+        if p[2] < Z_MIN:
+            a[2] += 10.0 * (Z_MIN - p[2])
+        if p[2] > Z_MAX:
+            a[2] -= 10.0 * (p[2] - Z_MAX)
+        clr, nrm = box_clearance(p[0] + 0.3 * v[0], p[1] + 0.3 * v[1])
+        if clr < self.wall_margin:
+            a[:2] += nrm * self.k_wall * (self.wall_margin - clr)
+        dist = jet_prior(p[0] + v[0] * self.lead_s, p[1] + v[1] * self.lead_s) + r_hat
+        a = a - dist
+        v_in = -float(v[:2] @ n0) if min(abs(n0[0]), abs(n0[1])) < 1e-6 else 0.0   # C17/C25 faces only
+        v_lim = np.sqrt(2 * 4.0 * max(clr0 - 0.35 - 0.15 * max(v_in, 0.0), 0.0))   # C22
+        bar = n0 * 8.0 * (v_in - v_lim) if v_in > v_lim else np.zeros(2)
+        nb = float(np.linalg.norm(bar))
+        if nb > self.a_max:
+            bar *= self.a_max / nb; nb = self.a_max
+        n = np.linalg.norm(a[:2])
+        room = self.a_max - nb
+        if n > room:
+            a[:2] *= room / max(n, 1e-9)
+        a[:2] += bar
+        # W1 lateral corridor barrier (priority over everything lateral)
+        if p[1] > shi:
+            a[1] = min(a[1], 0.0) - 10.0 * (p[1] - shi) - 3.0 * max(v[1], 0.0)
+        elif p[1] < slo:
+            a[1] = max(a[1], 0.0) + 10.0 * (slo - p[1]) - 3.0 * min(v[1], 0.0)
+        else:
+            vmax = np.sqrt(2 * self.bar_dec * (shi - p[1])); vmin = -np.sqrt(2 * self.bar_dec * (p[1] - slo))
+            if v[1] > vmax:
+                a[1] = min(a[1], 0.0) - self.bar_gain * (v[1] - vmax)
+            elif v[1] < vmin:
+                a[1] = max(a[1], 0.0) + self.bar_gain * (vmin - v[1])
+        a[1] = float(np.clip(a[1], -self.a_max, self.a_max))
+        a[2] = np.clip(a[2], -7.0, 12.0)
+        vz_min = -np.sqrt(2 * 5.0 * max(p[2] - 0.6, 0.0))   # C14 vertical velocity barrier
+        vz_max = np.sqrt(2 * 5.0 * max(5.3 - p[2], 0.0))
+        if v[2] < vz_min:
+            a[2] = max(a[2], 0.0) + 8.0 * (vz_min - v[2])
+        elif v[2] > vz_max:
+            a[2] = min(a[2], 0.0) - 8.0 * (v[2] - vz_max)
+        a[2] = np.clip(a[2], -7.0, 14.0)
+        f = a + np.array([0.0, 0.0, G])
+        b3d = f / np.linalg.norm(f)
+        b2d = np.cross(b3d, [1.0, 0.0, 0.0]); b2d /= np.linalg.norm(b2d)
+        b1d = np.cross(b2d, b3d)
+        Rd = np.column_stack([b1d, b2d, b3d])
+        eR = 0.5 * vee(Rd.T @ R - R.T @ Rd)
+        self.integ_att = np.clip(self.integ_att + dt * eR, -0.3, 0.3)
+        w_des = -np.array([self.k_att, self.k_att, self.k_yaw]) * eR - self.ki_att * self.integ_att
+        cmd = np.clip((w_des - RATE_BIAS) / RATE_GAIN, -3.1, 3.1)
+        u = float(np.dot(f, R[:, 2]))
+        T = float(np.clip(np.sqrt(max(u, 0.2 * G) / C_THRUST), 0.05, 0.8))
+        self.hist.append((v.copy(), R[:, 2].copy(), T, p[0], p[1]))
+        self.dbg = dict(a=a, e_perp=e_perp, r_hat=r_hat.copy(), dist=dist, wi=self.wi, vref=vref, a_av=a_av, v_av=v_av, funnel=funnel,
+                        slow=slow, movers=info, band=(slo, shi))
+        return np.array([cmd[0], cmd[1], cmd[2], T])
+
+
+def make_policy(**kw):
+    return Policy(**kw)

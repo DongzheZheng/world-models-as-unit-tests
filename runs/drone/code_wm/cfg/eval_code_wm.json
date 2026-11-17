@@ -1,0 +1,6 @@
+{"controller": "code_wm",
+ "pilot_kwargs": {"tuned": "runs/drone/code_wm/tune_A123.json", "belief": "runs/drone/code_wm/fit_l123.json"},
+ "tune_json": "runs/drone/code_wm/tune_A123.json",
+ "extra_wm_steps": 4486162, "extra_wall_s": 54.8,
+ "real_steps_calibration": 1202,
+ "notes": "Code world worlds/drone/site_world.py fitted (gradient descent through the dynamics) on code_wm lives 1-3; controller = path-following cascade (outer accel PD+I with jet feed-forward from the code world, geometric attitude -> body rates, inverse of the fitted rate bias/gain and thrust deficit), gains chosen by cross-entropy search in the code world under domain randomisation (final round 5.07M wm steps; plus 4.49M in two earlier mission-A searches). Lives used before this eval: 4 (1202 real steps; life 4 = end-to-end test of this exact controller, success 8.1 s). Code-world success of this controller 95.7% (2048 randomised imagined lives), mean time 8.0 s."}

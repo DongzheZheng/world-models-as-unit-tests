@@ -1,0 +1,1 @@
+{"tuned": "runs/drone/code_wm/tune_C3a.json", "belief": "runs/drone/code_wm/fit_all.json", "route": ["R1",[20,0,4.8],[26,0,4.8],"R2",[31,0,4.8],[50,0,4.8],"R3"]}

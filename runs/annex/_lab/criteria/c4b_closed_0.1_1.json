@@ -1,0 +1,425 @@
+{
+ "summary": {
+  "mode": "closed",
+  "scale": 0.1,
+  "draw": 1,
+  "n": 24,
+  "real_success": 0.625,
+  "median_real_tip_dist": 0.07686254254436183,
+  "wall_s": 547.7,
+  "replan_every": 15,
+  "replan_budget": 90,
+  "mean_replans": 8.875,
+  "mean_rollouts": 1098.4583333333333
+ },
+ "per_seed": [
+  {
+   "seed": 3000,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1076,
+   "real_tip_dist": 0.6948108335596197,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3001,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 131,
+   "n_replans": 8,
+   "rollouts": 866,
+   "real_tip_dist": 0.01670452027046417,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3002,
+   "model_success_initial": false,
+   "real_success": true,
+   "t_done": 152,
+   "n_replans": 10,
+   "rollouts": 1900,
+   "real_tip_dist": 0.04979985788971678,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3003,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 151,
+   "n_replans": 10,
+   "rollouts": 1029,
+   "real_tip_dist": 0.060438510260231164,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3004,
+   "model_success_initial": false,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1900,
+   "real_tip_dist": 0.7812609860140901,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3005,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 147,
+   "n_replans": 9,
+   "rollouts": 941,
+   "real_tip_dist": 0.09190533233286674,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3006,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1034,
+   "real_tip_dist": 0.47415036361269985,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3007,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 184,
+   "n_replans": 10,
+   "rollouts": 1591,
+   "real_tip_dist": 0.05566619177477443,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3008,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 108,
+   "n_replans": 7,
+   "rollouts": 963,
+   "real_tip_dist": 0.017945442430244433,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3009,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 107,
+   "n_replans": 7,
+   "rollouts": 750,
+   "real_tip_dist": 0.08134714167958818,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3010,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 8,
+   "rollouts": 788,
+   "real_tip_dist": 0.10710196030202429,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3011,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 90,
+   "n_replans": 5,
+   "rollouts": 712,
+   "real_tip_dist": 0.0063536791100891315,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3012,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 154,
+   "n_replans": 10,
+   "rollouts": 1079,
+   "real_tip_dist": 0.06987404453210892,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3013,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1324,
+   "real_tip_dist": 0.6618553166918116,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3014,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 120,
+   "n_replans": 7,
+   "rollouts": 713,
+   "real_tip_dist": 0.07237794340913548,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3015,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 137,
+   "n_replans": 9,
+   "rollouts": 886,
+   "real_tip_dist": 0.02787999541105028,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3016,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 114,
+   "n_replans": 7,
+   "rollouts": 770,
+   "real_tip_dist": 0.08987942718952226,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3017,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1091,
+   "real_tip_dist": 0.28612604137991227,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3018,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1287,
+   "real_tip_dist": 0.1954189160274952,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3019,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 172,
+   "n_replans": 10,
+   "rollouts": 991,
+   "real_tip_dist": 0.0628107716519033,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3020,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 202,
+   "n_replans": 10,
+   "rollouts": 1122,
+   "real_tip_dist": 0.027217658185185654,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3021,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1478,
+   "real_tip_dist": 0.1611408901888828,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3022,
+   "model_success_initial": true,
+   "real_success": true,
+   "t_done": 105,
+   "n_replans": 6,
+   "rollouts": 1069,
+   "real_tip_dist": 0.04593847831774101,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  },
+  {
+   "seed": 3023,
+   "model_success_initial": true,
+   "real_success": false,
+   "t_done": null,
+   "n_replans": 10,
+   "rollouts": 1003,
+   "real_tip_dist": 0.14545198752324373,
+   "mult": {
+    "mass_per_m": 1.1,
+    "tip_mass": 0.9,
+    "bend_EI": 1.1,
+    "mu_table": 1.1,
+    "mu_post": 0.9,
+    "drag": 0.9
+   }
+  }
+ ]
+}

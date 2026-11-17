@@ -1,0 +1,122 @@
+{
+ "what_it_is": "A springy rod/cable (0.70 m, ~1 cm thick, straight when relaxed) lying on the table, its near end PINNED (free to turn) to the tool, its free end to be thrown past the peg into the target disc. It slides on the table with moderate dissipation, stores bending energy (it oscillates and whips), and a violent stroke can throw it off the table (up to 0.27 m high). The snapshots are taken while the rod is still moving (it is released curved at reset and keeps moving).",
+ "evidence": [
+  "life 1, steps 0-9 with the tool held still: p1 already moves at 0.21-0.25 m/s; kinetic energy 0.12-0.18 (per unit node mass) at reset -> snapshot shapes are mid-motion, not rest shapes",
+  "life 1, slow drag (steps 10-70, 0.25 m/s): squared-turning sum fell 0.29 -> 0.001: the rod straightens -> straight rest shape",
+  "life 1, steps 179-203 and life 2 steps 168-198, tool still: kinetic energy rose (0.46 -> 3.4) while bending fell (3.0 -> 1.5): elastic bending energy",
+  "life 1: last link turned freely by > 250 deg relative to the fixed tool -> pinned, not clamped",
+  "link length 0.0368 m, max 0.0381 m in the fastest whips (compliant but nearly inextensible)",
+  "life 2 step 36-60: a 0.4 m reversing stroke threw points up to z = 0.27 m (projected link length down to 0.025 m)",
+  "life 4 steps 24-56: after the throw the free end reached full extension and rebounded towards the tool at 3 m/s",
+  "tool_pos follows the manual's reference (4 m/s, 60 m/s^2, stop at command) within 0.34 mm mean over life 1; tool_vel is the instantaneous velocity at the reading (it reads ~0 during slow staircase commands)"
+ ],
+ "mechanisms": [
+  {
+   "name": "tool reference + servo",
+   "values": {
+    "servo_w": 207.6,
+    "servo_z": 0.295,
+    "servo_amax": 100.8
+   },
+   "evidence": "life 1 tool_pos open-loop over 236 steps, 0.34 mm mean error",
+   "confidence": "high"
+  },
+  {
+   "name": "links (stretch springs)",
+   "values": {
+    "k_stretch": 526000.0,
+    "c_stretch": 400.0
+   },
+   "evidence": "CEM fit, H=20 open-loop windows of lives 1-4 (planar windows only); c_stretch sits at its upper bound: the whip loses energy faster than the model explains",
+   "confidence": "low"
+  },
+  {
+   "name": "bending elasticity + damping",
+   "values": {
+    "k_bend": 322.3,
+    "c_bend": 5.62
+   },
+   "evidence": "energy exchange with tool still (lives 1, 2); fit",
+   "confidence": "medium for existence, low for values"
+  },
+  {
+   "name": "table friction (smoothed Coulomb + small viscous + quadratic)",
+   "values": {
+    "mu": 0.134,
+    "aniso_across_over_along": 1.3,
+    "c_visc": 0.0019,
+    "c_quad": 0.0041
+   },
+   "evidence": "fit; but the rod kept rotating at ~0.8 m/s for > 0.5 s with the tool still in lives 1 and 2, which a mu of 0.13 does not easily allow: friction may be speed- or direction-dependent (e.g. rolling of a round rod) in a way the model does not capture",
+   "confidence": "low"
+  },
+  {
+   "name": "inertia distribution",
+   "values": {
+    "tip_mass": 2.0,
+    "lat_mass": 0.79
+   },
+   "evidence": "fit; tip_mass sits at its upper bound -> the lumped-mass chain is structurally wrong for whips",
+   "confidence": "low"
+  },
+  {
+   "name": "peg contact",
+   "values": {
+    "mu_post": 0.2,
+    "radius": 0.035
+   },
+   "evidence": "geometry from the manual + rod radius from the snapshots; no life touched the peg, value not fitted",
+   "confidence": "unverified"
+  },
+  {
+   "name": "lift-off (3-d flight)",
+   "values": null,
+   "evidence": "life 2 (z up to 0.27 m); NOT modelled: the world is planar; the controller limits its command rate to 3 m/s to stay out of this regime",
+   "confidence": "observed, not modelled"
+  }
+ ],
+ "different_from_hypothesis": [
+  "elasticity is a dominant mechanism (hypothesis: small bending stiffness)",
+  "the rod is moving at reset; a single reading carries no velocity, so the first two readings are needed",
+  "friction is lower than hypothesised (0.2-0.6) and its form is uncertain; rotating rods coast for seconds",
+  "the rod can leave the table in violent strokes (hypothesis: 'probably small')",
+  "the throw ends in a strong rebound (elastic / tension snap), so a thrown rod does not simply lie where it lands",
+  "the peg played no role in any life (no contact observed)"
+ ],
+ "what_the_field_note_refers_to": {
+  "one go": "the throw is a short ballistic act (~0.3 s); afterwards the rod whips, rebounds and oscillates elastically far from the tool, and a second throw starts from a messy, still-moving shape with little time left",
+  "slowly gets you nowhere": "a rod cannot be pushed: dragged slowly it trails behind the tool and straightens (life 1 steps 10-70); the free end gets ahead of the tool, towards a target out of the tool's reach, only through momentum",
+  "small change -> where it ends up": "measured in the code world (sensitivity.json): open-loop landing points move by many cm for parameter errors of a few percent; and the real outcomes of the throws in lives 2-4 differed from the code world's predictions by 0.3-0.5 m"
+ },
+ "params_file": "runs/annex/code_wm/world_params.json (= fit10.json, CEM-fitted to lives 1-4)",
+ "extended": {
+  "lift_off_regime": "Lift-off was seen ONCE: life 2, an uncapped 0.4 m reversing stroke at 4 m/s made while the rod was extended and still moving fast (z up to 0.27 m). In every other life z <= 0.0067 m: lives 1, 3, 4, the four stroke probes (strokes of 0.15-0.25 m at 1-4 m/s starting from a lying rod) and all 12 lives flown with the 3 m/s-capped v2 controllers. So a planar world is enough for the regime the capped controller operates in, not for violent reversals of an extended moving rod.",
+  "friction_form": {
+   "mu_at_speed": 0.2769504713430082,
+   "mu_low_speed": 0.08590175825959495,
+   "v_transition": 0.715416153855107,
+   "finding": "table friction is speed dependent: high (~0.28) for fast sliding, low (~0.09) at low speed; this explains why fast strokes lose energy quickly while a slowly turning rod coasts and settles slowly (25 of 34 official failures were still moving)"
+  },
+  "links": "near-inextensible with inelastic snap (position projection) fits better than stiff damped springs",
+  "still_wrong": "tip_mass sits at its bound (6): the lumped-mass inertia distribution is still not right",
+  "what_mattered_most": "on held-out lives at 60 steps: official 24.6 cm -> speed-dependent friction alone 19.3 cm -> plus link projection 14.5 cm; on unseen controller lives the v2 world halves the error at 5/20/60 steps (2.9/13.7/40 cm -> 1.2/5.8/17 cm)",
+  "params_v2": {
+   "k_stretch": 429962.258553864,
+   "c_stretch": 385.6667666071003,
+   "k_bend": 441.41200672580726,
+   "c_bend": 3.433789674487252,
+   "mu": 0.2769504713430082,
+   "aniso": 1.4614528868633838,
+   "c_visc": 0.006784724643308199,
+   "c_quad": 0.046719712410918136,
+   "lat_mass": 0.9620793933255813,
+   "tip_mass": 6.000000130432452,
+   "mu_lo": 0.08590175825959495,
+   "v_s": 0.715416153855107,
+   "mu_post": 0.2,
+   "servo_w": 207.60734613701825,
+   "servo_z": 0.2950272634072199,
+   "servo_amax": 100.77893384644021
+  }
+ }
+}

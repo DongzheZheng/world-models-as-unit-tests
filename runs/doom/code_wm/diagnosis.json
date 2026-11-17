@@ -1,0 +1,179 @@
+[
+ {
+  "name": "room / player position",
+  "value": {
+   "player_x": -416.0,
+   "player_y0": 384.0,
+   "y_limits": [
+    16.0,
+    752.0
+   ]
+  },
+  "evidence": "player x=-416 and angle 0 at every step of lives 1-4 (except hit knock-back); stops dead at y=16/752; floor_plan room x[-448,128] y[0,768]",
+  "source": "log",
+  "confidence": "high"
+ },
+ {
+  "name": "strafe dynamics per tic: v+=A*dir; y+=v; clamp; v*=F",
+  "value": {
+   "A": 0.75,
+   "F": 0.9065,
+   "control_from_tic": 8
+  },
+  "evidence": "least squares over 600 step transitions (lives 1-2): 1-step y RMSE 0.012 units; held-out 25-step error < 1.6 units (lives 2,3)",
+  "source": "log",
+  "confidence": "high"
+ },
+ {
+  "name": "imps are static at x=64",
+  "value": {
+   "x": 64.0
+  },
+  "evidence": "every imp in lives 1-4 has x=64, v=0",
+  "source": "log",
+  "confidence": "high"
+ },
+ {
+  "name": "initial imps",
+  "value": {
+   "y": [
+    652.0,
+    278.0,
+    20.0
+   ]
+  },
+  "evidence": "identical in all lives",
+  "source": "log",
+  "confidence": "high"
+ },
+ {
+  "name": "imp spawning",
+  "value": {
+   "first": 61,
+   "period": 60,
+   "success": "(13-n)/13",
+   "max_imps": 13,
+   "y": "uniform [20,748]"
+  },
+  "evidence": "all spawn tics = 1+60k (lives 1-3, 20 spawns); life 3 saturated at 13 imps, last spawn tic 6841; the 'random spot, fails if taken' form and uniform y are my model",
+  "source": "log",
+  "confidence": "medium"
+ },
+ {
+  "name": "imp wake delay + early burst",
+  "value": {
+   "delay": 57,
+   "window": 33,
+   "rate_range": [
+    0.012,
+    0.059
+   ]
+  },
+  "evidence": "first throws 58.5-88 tics after appearing for 8 of 13 imps (lives 1-2); rate randomised over the binomial CI; lab noop baseline suggests early throws are rarer than this",
+  "source": "log",
+  "confidence": "medium"
+ },
+ {
+  "name": "throw rate per imp",
+  "value": {
+   "rate": 0.0068,
+   "scale_range": [
+    0.65,
+    1.3
+   ],
+   "refractory": 20
+  },
+  "evidence": "life 3: 1492 throws / 218k imp-tics (0.0058-0.0080 per 2000-tic period); lives 1-2: 0.0048; shortest same-imp interval 22 tics",
+  "source": "log",
+  "confidence": "medium"
+ },
+ {
+  "name": "throw is a memoryless Bernoulli process per tic",
+  "value": {},
+  "evidence": "modelling assumption (PRIOR: Doom monsters attack with a random check in their chase loop); not tested beyond rates",
+  "source": "prior",
+  "confidence": "low"
+ },
+ {
+  "name": "fireball flight",
+  "value": {
+   "speed": 10.0,
+   "straight_line": true,
+   "spawn_lead": 0.5
+  },
+  "evidence": "|v|=10.000 for all balls; dead-reckoned position error < 0.001 units after 40 tics (lives 2,3); spawn lead is prior",
+  "source": "log",
+  "confidence": "high"
+ },
+ {
+  "name": "aim at player's current position",
+  "value": {
+   "aim_noise_std": 10.0
+  },
+  "evidence": "back-projected aim residual mean 11, std 20 units (life 1), dominated by my timing error; no lead/prediction",
+  "source": "log",
+  "confidence": "medium"
+ },
+ {
+  "name": "hit box",
+  "value": {
+   "half_width": 23.0
+  },
+  "evidence": "PRIOR radii 6+16=22; life 1 no hit at (19,25), life 2 hit at |dx|=22.3",
+  "source": "log+prior",
+  "confidence": "medium"
+ },
+ {
+  "name": "damage and health",
+  "value": {
+   "health": 100.0,
+   "damage": "21*U{1..8}"
+  },
+  "evidence": "hit damages 105,168,21,63,84 (lives 1-3) all multiples of 21 up to 8x; the uniform 1..8 law is PRIOR (Doom 1d8)",
+  "source": "log+prior",
+  "confidence": "medium"
+ },
+ {
+  "name": "hit knock-back",
+  "value": {
+   "modelled": false
+  },
+  "evidence": "life 3: player x displaced up to -432 after hits; ignored",
+  "source": "log",
+  "confidence": "high"
+ },
+ {
+  "name": "ball explodes at walls",
+  "value": {
+   "x_min": -442.0,
+   "y": [
+    6.0,
+    762.0
+   ]
+  },
+  "evidence": "balls stop at x=-440..-442 / y=760 (life 1)",
+  "source": "log",
+  "confidence": "high"
+ },
+ {
+  "name": "visibility = 90 deg cone with object radius margin",
+  "value": {
+   "rule": "|dy| < dx + r",
+   "r_imp": 20.0,
+   "r_ball": 6.0
+  },
+  "evidence": "matches the engine's 'visible' flag for 100% (life 1), 99.7% (life 2), 99.9% (life 3) of gt objects; occlusion ignored",
+  "source": "log",
+  "confidence": "high"
+ },
+ {
+  "name": "reward",
+  "value": {
+   "per_tic": 1,
+   "death_step": "tics until death"
+  },
+  "evidence": "returns = tics alive; life 2's death step paid 1",
+  "source": "log",
+  "confidence": "high"
+ }
+]

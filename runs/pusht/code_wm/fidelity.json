@@ -1,0 +1,250 @@
+{
+ "definition": "open-loop replay of the logged pusher commands from a logged state (block twist from the previous logged pose); errors of block position [u] and angle [deg] after h steps, over all windows in which the block moves; static_baseline = 'block does not move'.",
+ "world_fit_l12_on_unseen_controller_lives": {
+  "lives": [
+   3,
+   4
+  ],
+  "n_segments": 167,
+  "h5": {
+   "pos_err_mean_u": 0.36661553382873535,
+   "pos_err_median_u": 0.1192556694149971,
+   "ang_err_mean_deg": 0.11813225597143173,
+   "ang_err_median_deg": 0.02305871807038784,
+   "static_baseline_pos_mean_u": 12.04104232788086,
+   "static_baseline_ang_mean_deg": 5.869961738586426
+  },
+  "h10": {
+   "pos_err_mean_u": 0.48969849944114685,
+   "pos_err_median_u": 0.3023900091648102,
+   "ang_err_mean_deg": 0.22130031883716583,
+   "ang_err_median_deg": 0.15198536217212677,
+   "static_baseline_pos_mean_u": 25.114654541015625,
+   "static_baseline_ang_mean_deg": 11.986783027648926
+  },
+  "h20": {
+   "pos_err_mean_u": 0.7301486730575562,
+   "pos_err_median_u": 0.6425490379333496,
+   "ang_err_mean_deg": 0.3730444610118866,
+   "ang_err_median_deg": 0.23743101954460144,
+   "static_baseline_pos_mean_u": 51.51042175292969,
+   "static_baseline_ang_mean_deg": 23.653732299804688
+  }
+ },
+ "fit_l1_on_l2": {
+  "label": "fit life1 -> test life2",
+  "params_from": "runs/pusht/code_wm/fit_l1.json",
+  "test_lives": [
+   "runs/pusht/blackbox/code_wm/life_2.npz"
+  ],
+  "n_segments": 232,
+  "h5": {
+   "pos_err_mean_u": 0.13236597180366516,
+   "pos_err_median_u": 0.049216337502002716,
+   "ang_err_mean_deg": 0.12054247409105301,
+   "ang_err_median_deg": 0.019916830584406853,
+   "static_baseline_pos_mean_u": 4.364063262939453,
+   "static_baseline_ang_mean_deg": 2.7462081909179688
+  },
+  "h10": {
+   "pos_err_mean_u": 0.272629052400589,
+   "pos_err_median_u": 0.11918619275093079,
+   "ang_err_mean_deg": 0.26053306460380554,
+   "ang_err_median_deg": 0.09332086890935898,
+   "static_baseline_pos_mean_u": 8.694293975830078,
+   "static_baseline_ang_mean_deg": 5.41260290145874
+  },
+  "h20": {
+   "pos_err_mean_u": 0.5608550310134888,
+   "pos_err_median_u": 0.4008829593658447,
+   "ang_err_mean_deg": 0.4910140335559845,
+   "ang_err_median_deg": 0.35973238945007324,
+   "static_baseline_pos_mean_u": 17.308565139770508,
+   "static_baseline_ang_mean_deg": 10.707082748413086
+  }
+ },
+ "fit_l2_on_l1": {
+  "label": "fit life2 -> test life1",
+  "params_from": "runs/pusht/code_wm/fit_l2.json",
+  "test_lives": [
+   "runs/pusht/blackbox/code_wm/life_1.npz"
+  ],
+  "n_segments": 161,
+  "h5": {
+   "pos_err_mean_u": 0.20912876725196838,
+   "pos_err_median_u": 0.07459598034620285,
+   "ang_err_mean_deg": 0.11982610821723938,
+   "ang_err_median_deg": 0.03285320848226547,
+   "static_baseline_pos_mean_u": 6.483340263366699,
+   "static_baseline_ang_mean_deg": 2.657086133956909
+  },
+  "h10": {
+   "pos_err_mean_u": 0.34787479043006897,
+   "pos_err_median_u": 0.18088452517986298,
+   "ang_err_mean_deg": 0.23370513319969177,
+   "ang_err_median_deg": 0.06520098447799683,
+   "static_baseline_pos_mean_u": 12.671091079711914,
+   "static_baseline_ang_mean_deg": 4.993253707885742
+  },
+  "h20": {
+   "pos_err_mean_u": 0.6663145422935486,
+   "pos_err_median_u": 0.5947943925857544,
+   "ang_err_mean_deg": 0.46124789118766785,
+   "ang_err_median_deg": 0.3353895843029022,
+   "static_baseline_pos_mean_u": 24.776409149169922,
+   "static_baseline_ang_mean_deg": 9.52481746673584
+  }
+ },
+ "object_L": {
+  "held_out_world_fit_on_life1_only": {
+   "note": "params of the life-1 fit (mu = 5) on life 2",
+   "clear": {
+    "label": "L world (fit L life 1) -> L life 2, clear windows",
+    "params_from": null,
+    "test_lives": [
+     "runs/pusht/blackbox_L/code_wm/life_2.npz"
+    ],
+    "n_segments": 68,
+    "h5": {
+     "pos_err_mean_u": 4.047548770904541,
+     "pos_err_median_u": 0.4845520555973053,
+     "ang_err_mean_deg": 1.3142789602279663,
+     "ang_err_median_deg": 0.12052550911903381,
+     "static_baseline_pos_mean_u": 19.52495002746582,
+     "static_baseline_ang_mean_deg": 7.756731986999512
+    },
+    "h10": {
+     "pos_err_mean_u": 5.327821254730225,
+     "pos_err_median_u": 0.7532654404640198,
+     "ang_err_mean_deg": 1.3933155536651611,
+     "ang_err_median_deg": 0.28606879711151123,
+     "static_baseline_pos_mean_u": 29.07471466064453,
+     "static_baseline_ang_mean_deg": 9.423257827758789
+    },
+    "h20": {
+     "pos_err_mean_u": 7.19216775894165,
+     "pos_err_median_u": 3.567469596862793,
+     "ang_err_mean_deg": 1.698764681816101,
+     "ang_err_median_deg": 0.5272086262702942,
+     "static_baseline_pos_mean_u": 45.06443786621094,
+     "static_baseline_ang_mean_deg": 11.450599670410156
+    }
+   },
+   "near": {
+    "label": "L world (fit L life 1) -> L life 2, near windows",
+    "params_from": null,
+    "test_lives": [
+     "runs/pusht/blackbox_L/code_wm/life_2.npz"
+    ],
+    "n_segments": 187,
+    "h5": {
+     "pos_err_mean_u": 28.22393226623535,
+     "pos_err_median_u": 7.401386737823486,
+     "ang_err_mean_deg": 15.422822952270508,
+     "ang_err_median_deg": 0.5970951318740845,
+     "static_baseline_pos_mean_u": 27.30536651611328,
+     "static_baseline_ang_mean_deg": 10.729337692260742
+    },
+    "h10": {
+     "pos_err_mean_u": 59.440616607666016,
+     "pos_err_median_u": 17.742000579833984,
+     "ang_err_mean_deg": 29.91991424560547,
+     "ang_err_median_deg": 2.5032641887664795,
+     "static_baseline_pos_mean_u": 50.24031448364258,
+     "static_baseline_ang_mean_deg": 14.104413986206055
+    },
+    "h20": {
+     "pos_err_mean_u": 109.86685180664062,
+     "pos_err_median_u": 80.62742614746094,
+     "ang_err_mean_deg": 52.28810119628906,
+     "ang_err_median_deg": 23.944087982177734,
+     "static_baseline_pos_mean_u": 95.10973358154297,
+     "static_baseline_ang_mean_deg": 19.066370010375977
+    }
+   }
+  },
+  "final_world_on_life2": {
+   "note": "final L params (mu = 0.4 was chosen using life 2's wall-free windows, so this is NOT held out for mu)",
+   "clear": {
+    "n_segments": 68,
+    "h5": {
+     "pos_err_mean_u": 2.9222121238708496,
+     "pos_err_median_u": 0.3636944890022278,
+     "ang_err_mean_deg": 1.1737614870071411,
+     "ang_err_median_deg": 0.07920286804437637,
+     "static_baseline_pos_mean_u": 19.52495002746582,
+     "static_baseline_ang_mean_deg": 7.756731986999512
+    },
+    "h10": {
+     "pos_err_mean_u": 3.350496292114258,
+     "pos_err_median_u": 0.6406911611557007,
+     "ang_err_mean_deg": 1.260819911956787,
+     "ang_err_median_deg": 0.2050081193447113,
+     "static_baseline_pos_mean_u": 29.07471466064453,
+     "static_baseline_ang_mean_deg": 9.423257827758789
+    },
+    "h20": {
+     "pos_err_mean_u": 3.83538556098938,
+     "pos_err_median_u": 1.0223393440246582,
+     "ang_err_mean_deg": 1.4525302648544312,
+     "ang_err_median_deg": 0.30707162618637085,
+     "static_baseline_pos_mean_u": 45.06443786621094,
+     "static_baseline_ang_mean_deg": 11.450599670410156
+    }
+   },
+   "near": {
+    "n_segments": 187,
+    "h5": {
+     "pos_err_mean_u": 23.600357055664062,
+     "pos_err_median_u": 0.8079506158828735,
+     "ang_err_mean_deg": 13.534412384033203,
+     "ang_err_median_deg": 0.19681872427463531,
+     "static_baseline_pos_mean_u": 27.30536651611328,
+     "static_baseline_ang_mean_deg": 10.729337692260742
+    },
+    "h10": {
+     "pos_err_mean_u": 50.67071533203125,
+     "pos_err_median_u": 1.62540602684021,
+     "ang_err_mean_deg": 24.80927276611328,
+     "ang_err_median_deg": 1.0107859373092651,
+     "static_baseline_pos_mean_u": 50.24031448364258,
+     "static_baseline_ang_mean_deg": 14.104413986206055
+    },
+    "h20": {
+     "pos_err_mean_u": 100.05819702148438,
+     "pos_err_median_u": 58.907936096191406,
+     "ang_err_mean_deg": 42.28624725341797,
+     "ang_err_median_deg": 15.287847518920898,
+     "static_baseline_pos_mean_u": 95.10973358154297,
+     "static_baseline_ang_mean_deg": 19.066370010375977
+    }
+   }
+  },
+  "mu_scan": {
+   "life1": {
+    "n_segments": 178,
+    "loss": {
+     "0.0": 0.652,
+     "0.2": 0.282,
+     "0.36": 0.236,
+     "0.6": 0.226,
+     "1.0": 0.223,
+     "2.0": 0.22,
+     "5.0": 0.217
+    }
+   },
+   "life2_clear": {
+    "n_segments": 74,
+    "loss": {
+     "0.0": 4.408,
+     "0.2": 3.027,
+     "0.36": 2.344,
+     "0.6": 3.215,
+     "1.0": 3.417,
+     "2.0": 3.527,
+     "5.0": 3.749
+    }
+   }
+  }
+ }
+}

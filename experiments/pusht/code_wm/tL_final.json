@@ -1,0 +1,1 @@
+{"n_ep": 32, "seed": 10, "block_range": [40, 472], "planner": {"n_samples": 2048, "succ_thr": 0.965, "object": "L", "wall_w": 1.0, "time_w": 0.0, "ang_w": 300.0, "chain_k": 32, "chain_n": 64}, "out": "runs/pusht/code_wm/wmL_final_pred.json"}

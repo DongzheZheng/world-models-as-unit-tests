@@ -1,0 +1,14 @@
+{"pilot": "code_wm", "seed": 1, "tag": "life1_probe",
+ "factory": "experiments.pusht.code_wm.probe:probe_policy",
+ "kwargs": {"phases": [
+   ["track", 6],
+   ["push", ["bar_bottom_mid", "stem_top"], 4.0, 80.0],
+   ["release", 8],
+   ["push", ["bar_right", "bar_left"], 4.0, 60.0],
+   ["release", 8],
+   ["push", ["stem_right", "stem_left"], 12.0, 90.0],
+   ["release", 10],
+   ["push", ["bar_bottom_right", "bar_bottom_left"], 6.0, 60.0],
+   ["release", 10],
+   ["hold", 100]
+ ]}}

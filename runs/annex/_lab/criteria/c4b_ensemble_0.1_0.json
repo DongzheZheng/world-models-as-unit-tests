@@ -1,0 +1,1383 @@
+{
+ "summary": {
+  "mode": "ensemble",
+  "scale": 0.1,
+  "draw": 0,
+  "n": 24,
+  "real_success": 0.08333333333333333,
+  "median_real_tip_dist": 0.23785123986080361,
+  "wall_s": 695.5,
+  "n_models": 6,
+  "mean_models_succeeding": 3.0833333333333335
+ },
+ "per_seed": [
+  {
+   "seed": 3000,
+   "models_succeeding": 4,
+   "real_success": false,
+   "real_tip_dist": 0.3073559504623,
+   "rollouts": 1270,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3001,
+   "models_succeeding": 3,
+   "real_success": false,
+   "real_tip_dist": 0.14631302840412655,
+   "rollouts": 1270,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3002,
+   "models_succeeding": 1,
+   "real_success": false,
+   "real_tip_dist": 0.1896963472503349,
+   "rollouts": 1270,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3003,
+   "models_succeeding": 4,
+   "real_success": false,
+   "real_tip_dist": 0.1384269937538765,
+   "rollouts": 1029,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3004,
+   "models_succeeding": 3,
+   "real_success": false,
+   "real_tip_dist": 0.22721653083751941,
+   "rollouts": 985,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3005,
+   "models_succeeding": 5,
+   "real_success": false,
+   "real_tip_dist": 0.28810756822488265,
+   "rollouts": 1246,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3006,
+   "models_succeeding": 5,
+   "real_success": false,
+   "real_tip_dist": 1.17986080249475,
+   "rollouts": 1043,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3007,
+   "models_succeeding": 2,
+   "real_success": false,
+   "real_tip_dist": 0.5514604961590646,
+   "rollouts": 1017,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3008,
+   "models_succeeding": 4,
+   "real_success": false,
+   "real_tip_dist": 0.8534164913765312,
+   "rollouts": 1091,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3009,
+   "models_succeeding": 2,
+   "real_success": false,
+   "real_tip_dist": 0.15479193388189627,
+   "rollouts": 1133,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3010,
+   "models_succeeding": 4,
+   "real_success": true,
+   "real_tip_dist": 0.07680820819803298,
+   "rollouts": 1153,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3011,
+   "models_succeeding": 4,
+   "real_success": false,
+   "real_tip_dist": 0.25397260931659593,
+   "rollouts": 936,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3012,
+   "models_succeeding": 2,
+   "real_success": false,
+   "real_tip_dist": 0.35599151234642495,
+   "rollouts": 1270,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3013,
+   "models_succeeding": 2,
+   "real_success": false,
+   "real_tip_dist": 0.10358205427226021,
+   "rollouts": 1255,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3014,
+   "models_succeeding": 4,
+   "real_success": false,
+   "real_tip_dist": 0.246670462360558,
+   "rollouts": 1084,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3015,
+   "models_succeeding": 2,
+   "real_success": false,
+   "real_tip_dist": 0.32750353378611646,
+   "rollouts": 986,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3016,
+   "models_succeeding": 3,
+   "real_success": false,
+   "real_tip_dist": 0.6745194596995856,
+   "rollouts": 1160,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3017,
+   "models_succeeding": 5,
+   "real_success": false,
+   "real_tip_dist": 0.15397389405544293,
+   "rollouts": 1047,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3018,
+   "models_succeeding": 3,
+   "real_success": false,
+   "real_tip_dist": 0.6824639563316934,
+   "rollouts": 1067,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3019,
+   "models_succeeding": 1,
+   "real_success": false,
+   "real_tip_dist": 0.22903201736104922,
+   "rollouts": 1188,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3020,
+   "models_succeeding": 2,
+   "real_success": false,
+   "real_tip_dist": 0.14132590367604678,
+   "rollouts": 1270,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3021,
+   "models_succeeding": 0,
+   "real_success": false,
+   "real_tip_dist": 0.17038341902760534,
+   "rollouts": 1270,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3022,
+   "models_succeeding": 4,
+   "real_success": true,
+   "real_tip_dist": 0.09089921200146818,
+   "rollouts": 997,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  },
+  {
+   "seed": 3023,
+   "models_succeeding": 5,
+   "real_success": false,
+   "real_tip_dist": 0.8432291184876368,
+   "rollouts": 1020,
+   "mults": [
+    {
+     "mass_per_m": 1.0964,
+     "tip_mass": 1.0564,
+     "bend_EI": 0.9293,
+     "mu_table": 1.0761,
+     "mu_post": 1.0483,
+     "drag": 1.0939
+    },
+    {
+     "mass_per_m": 1.0817,
+     "tip_mass": 0.9095,
+     "bend_EI": 1.0974,
+     "mu_table": 0.9978,
+     "mu_post": 0.9015,
+     "drag": 0.9665
+    },
+    {
+     "mass_per_m": 1.0613,
+     "tip_mass": 1.0603,
+     "bend_EI": 1.0959,
+     "mu_table": 0.9422,
+     "mu_post": 0.9313,
+     "drag": 0.9882
+    },
+    {
+     "mass_per_m": 0.9915,
+     "tip_mass": 1.0819,
+     "bend_EI": 0.9213,
+     "mu_table": 0.9324,
+     "mu_post": 1.0027,
+     "drag": 1.0946
+    },
+    {
+     "mass_per_m": 0.9605,
+     "tip_mass": 1.0174,
+     "bend_EI": 0.9571,
+     "mu_table": 1.0211,
+     "mu_post": 1.029,
+     "drag": 1.069
+    },
+    {
+     "mass_per_m": 0.9515,
+     "tip_mass": 0.9598,
+     "bend_EI": 1.06,
+     "mu_table": 1.0858,
+     "mu_post": 1.0502,
+     "drag": 0.9771
+    }
+   ]
+  }
+ ]
+}

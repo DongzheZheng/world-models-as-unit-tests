@@ -1,0 +1,12 @@
+{
+ "controller": "code_wm",
+ "planner": {
+  "n_samples": 2048,
+  "succ_thr": 0.965
+ },
+ "real_steps_calibration": 811,
+ "wm_steps": 173349888,
+ "train_wall_s": 3632.9958910942078,
+ "n_workers": 8,
+ "notes": "4 of 5 lives used (2 scripted probes, 2 controller test runs, both succeeded). Code world = rigid T with fitted off-centre COM (24,30) vs drawn centroid (0,40.7), kinematic PD pusher, frictionless impulse contact, viscous floor friction; fitted on lives 1-2. Controller = push-primitive sampling MPC (2048 samples, 2 CEM iters) in the code world; tuned on imagined episodes only (wm success 1.0 on 32). wm_steps/train_wall_s = all in-world tuning evaluations (5 runs)."
+}

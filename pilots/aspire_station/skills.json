@@ -1,0 +1,53 @@
+{
+ "library": "aspire_station skill library (code-as-policy, station = cable routing around pegs)",
+ "skills": [
+  {
+   "name": "topological_side_routing",
+   "failure_signature": "final sides_now != post_sides although tool is at target; or |W| < pi/2 for a post",
+   "when_to_apply": "planning the tool path at t=0 for any situation",
+   "repair_strategy": "The cable cannot pass through or over the pegs, so each peg's winding is fixed by the homotopy class of the tool path (W depends only on endpoints + class). Pass every peg on the side opposite to its required sign relative to the anchor->target direction (side +1 = peg on the left of travel). Verified offline on 200/200 snapshots (min |W| 1.92 rad) and in 55/55 real episodes.",
+   "code_sketch": "left = perp(normalize(target - anchor)); waypoints = [tool0] + [c_j - side_j * left * 0.07 for posts sorted along anchor->target] + [target]",
+   "validated_by": ["life_1..life_5", "eval 1000-1049"]
+  },
+  {
+   "name": "taut_path_min_wrap",
+   "failure_signature": "load climbs to 9-10 N while the cable is wrapped tightly around pegs and dragged around them (observation 901, 902, 905, 907, 909); path with dips/U-turns between pegs",
+   "when_to_apply": "after the waypoint path is built",
+   "repair_strategy": "String-pull the waypoint path inside its homotopy class with discs of radius 0.065 m around the peg centres: straight segments + arcs, no unnecessary wrap. Median path length fell 0.98 -> 0.72 m and total turning 7.9 -> 1.35 rad on the snapshots; max real load 5.2-5.6 N.",
+   "code_sketch": "for it: Q[1:-1] = (P[:-2]+P[2:])/2; P = push_out(Q, posts, 0.065)  # coarse (3 cm) then fine (1 cm)",
+   "validated_by": ["life_2", "life_3", "life_4", "life_5", "eval"]
+  },
+  {
+   "name": "load_governed_speed",
+   "failure_signature": "load rises with drag speed ('fights back when you hurry'); overload at fixed 0.12 m/s reading (~0.15 m/s actual)",
+   "when_to_apply": "every step",
+   "repair_strategy": "Advance an internal reference along the path at v(load): vmax 0.10 m/s below 4 N, linear to 0 at 7 N, back off 4 mm/step above 8.5 N. The load reading responds within one or two control periods, so this closed-loop rule regulates wrapped-cable drag to ~5 N.",
+   "code_sketch": "v = vmax if load<=4 else 0 if load>=7 else vmax*(7-load)/3; if load>=8.5: sref -= 0.004",
+   "validated_by": ["life_1..life_5 (max load 4.9-5.6 N)", "eval (max load 5.73 N)"]
+  },
+  {
+   "name": "no_servo_windup",
+   "failure_signature": "tool blocked against a peg (tool centre 0.045 m from peg centre) while the commanded point runs ahead (lag 0.03-0.17 m); on release it races at 0.7-1.9 m/s and the load spikes to 11-21 N (observation 900, 906, 908)",
+   "when_to_apply": "every step",
+   "repair_strategy": "Command a point ON the path that advances only while the tool is within 2 cm of it; keep the path >= 0.065 m from peg centres (0.02 m gap beyond tool+peg radii).",
+   "code_sketch": "if norm(tool - P(sref)) < 0.02: sref += v*dt; cmd = P(sref)",
+   "validated_by": ["life_1..life_5 (lag <= 0.008 m)", "eval"]
+  },
+  {
+   "name": "soft_arrival",
+   "failure_signature": "tool overshoots or is still moving at the target (rest rule |v|<=0.02 m/s within 0.02 m)",
+   "when_to_apply": "last 6 cm of the path",
+   "repair_strategy": "Ramp v down proportional to remaining arc length (floor 0.012 m/s) and end the reference exactly at the target; success fires on entry to the 2 cm ball at low speed.",
+   "code_sketch": "if rem < 0.06: v = min(v, max(0.012, 0.6*rem/0.06*vmax))",
+   "validated_by": ["life_1..life_5", "eval (final_dist 0.019-0.020)"]
+  },
+  {
+   "name": "stall_recovery_and_clock",
+   "failure_signature": "reference not advancing for many steps (load held between 7 and 8.5 N, or tool blocked) -> time-out",
+   "when_to_apply": "guard; never triggered so far",
+   "repair_strategy": "After 20 steps without progress, back the reference off 2 cm along the path; after t=400 raise load thresholds by 1 N (back-off by 0.5 N) to finish within 600 steps.",
+   "code_sketch": "stall += 1; if stall > 20: sref -= 0.02; stall = 0",
+   "validated_by": ["flown in life_4, life_5 and eval without being triggered (replay of lives 2-3 gives identical commands to v2)"]
+  }
+ ]
+}

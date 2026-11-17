@@ -1,0 +1,298 @@
+{
+ "library": "aspire_drone skill library (site task, cf2x unit with maintenance flag)",
+ "validated_by": "lives 1-5 of pilot aspire_style + 50/50 eval of policy_v5 on mission A; skills N1-N5 written offline for mission B with zero B flights, then 50/50 on mission B eval (policy_v6); skills C1-C25 from 20 mission-C lives (pilots aspire_style_C, _x1.._x3), official eval v11 49/100, extended eval v14 76/100; skills W1-W6 iterated in the code_wm code world (22.6k imagined episodes), real eval of v15 95/100",
+ "skills": [
+  {
+   "id": "S1_rate_bias_feedforward",
+   "failure_signature": "in steady flight the program keeps commanding constant non-zero body rates while measured ang_vel ~ 0 and attitude stays constant; P-only attitude loop then holds a constant attitude error (life 1: yaw -5 deg, cmd ~(+0.6,-0.57,+0.29) rad/s)",
+   "when_to_apply": "always for this airframe in ctbr mode; re-fit if a new log shows a different steady command offset",
+   "diagnosis": "least squares w[i+2] = g*cmd[i] + b per axis on logged data (delay 2 steps gives rms 0.03-0.06 rad/s; delays 1 and 3 fit far worse). Attitude is constant while the gyro reads 0, so it is an actuation bias, not a gyro bias.",
+   "identified": {
+    "gain": [
+     0.89,
+     0.96,
+     0.99
+    ],
+    "bias_rad_s": [
+     -0.495,
+     0.54,
+     -0.275
+    ],
+    "cmd_equiv_offset": [
+     0.556,
+     -0.561,
+     0.277
+    ],
+    "delay_steps": 2,
+    "stable_across_lives": true
+   },
+   "repair_strategy": "invert the identified affine map: cmd = (w_des - b) / g; add a small attitude-error integral for residual bias",
+   "code_sketch": "cmd = np.clip((w_des - RATE_BIAS) / RATE_GAIN, -3.1, 3.1); integ_att = clip(integ_att + dt*eR, -0.3, 0.3); w_des = -K*eR - Ki*integ_att"
+  },
+  {
+   "id": "S2_hover_throttle",
+   "failure_signature": "altitude sags at start / z integral winds up when T_hover = 0.30 from the datasheet",
+   "when_to_apply": "always; thrust is the datasheet law (thrust ~ T^2) with a different constant",
+   "diagnosis": "fit specific force along body z = C * T[i-d]^2 on logged data; lives gave hover T = 0.329, 0.339, 0.344, ~0.34, 0.346 (fit includes high-tilt jet segments, so it is noisy)",
+   "identified": {
+    "C_specific_force_per_T2": 88.0,
+    "hover_T": 0.334,
+    "datasheet_hover_T": 0.3
+   },
+   "repair_strategy": "T = sqrt(max(u, 0.2 g) / C) with u = desired specific force projected on the current body z axis; leave the residual to the disturbance observer (S3)",
+   "code_sketch": "u = f @ R[:, 2]; T = clip(sqrt(max(u, 0.2*G) / C_THRUST), 0.05, 0.8)"
+  },
+  {
+   "id": "S3_disturbance_observer",
+   "failure_signature": "position-dependent forces the integrator cannot follow (life 1: lateral acceleration -13 m/s^2 appearing within ~0.2 s)",
+   "when_to_apply": "always in ctbr mode; it also absorbs drag, thrust-constant error and unknown gusts anywhere on a new route",
+   "diagnosis": "residual a_dist = dv/dt - C*T[i-2]^2*b3 + g*e_z computed from consecutive observations; quiet-air noise ~0.5 m/s^2 rms",
+   "repair_strategy": "low-pass the residual beyond the map prior (alpha 0.4 per 1/30 s step, clip 15 m/s^2) and subtract prior + residual from the commanded acceleration; raise the horizontal accel limit so it can actually be cancelled (S5)",
+   "code_sketch": "res = (v - v_prev)*30 - (C*T_del**2*b3_prev - [0,0,G]) - prior(x_mid, y_mid); r_hat = 0.6*r_hat + 0.4*res; a -= prior(p + v*lead) + r_hat"
+  },
+  {
+   "id": "S4_north_aisle_jet_prior",
+   "failure_signature": "sudden roll to the tilt limit and fast drift toward -y while crossing the north side aisle (x 22-25.5): life 1 crashed into the south wall at x 25",
+   "when_to_apply": "any route that crosses the canyon at x ~ 21-27 (the opening of the north side aisle); the jet blows from the aisle across the canyon (toward -y)",
+   "diagnosis": "a_dist_y from logs: onset x 21.2, peak -10..-18 m/s^2 around x 23-24 (gusty: lives 1-5 peaks -13, -12, -18, -16, -15), tail to x 26.9",
+   "identified": {
+    "x_knots": [
+     21.2,
+     21.6,
+     22.1,
+     22.6,
+     23.2,
+     23.8,
+     24.3,
+     24.9,
+     25.4,
+     25.9,
+     26.4,
+     26.9
+    ],
+    "a_y_knots": [
+     0.0,
+     -2.5,
+     -6.5,
+     -10.0,
+     -13.0,
+     -14.0,
+     -13.0,
+     -9.0,
+     -5.0,
+     -3.0,
+     -1.0,
+     0.0
+    ],
+    "valid_for_abs_y_below": 2.5
+   },
+   "repair_strategy": "feed-forward cancel the knot profile evaluated 0.15 s ahead along the velocity (covers the 2-step delay + tilt time); S3 handles the gust-to-gust variation",
+   "code_sketch": "a[1] -= np.interp(x + vx*0.15, X_N, AY_N, left=0, right=0)"
+  },
+  {
+   "id": "S5_tilt_authority",
+   "failure_signature": "attitude command saturates at the horizontal acceleration limit (life 1: a_max 8 m/s^2 = 39 deg) while the disturbance needs ~53-63 deg",
+   "when_to_apply": "whenever disturbances above ~8 m/s^2 are expected",
+   "repair_strategy": "a_max 16 m/s^2 (tilt up to ~58 deg + vertical), rate clip 3.1 rad/s; thrust headroom is ample (T 0.8 gives ~5.7 g)",
+   "code_sketch": "n = norm(a[:2]); a[:2] *= min(1, 16/n)"
+  },
+  {
+   "id": "S6_south_aisle_jet_prior",
+   "failure_signature": "drift toward +y and overshoot on exit while crossing the south side aisle (x 38-41.5): life 2 drifted 0.45 m then overshot at -1.6 m/s",
+   "when_to_apply": "any route crossing x ~ 37-42.7 inside the canyon; the jet blows from the south aisle across the canyon (toward +y)",
+   "diagnosis": "a_dist_y peaks +7.5..+12.4 m/s^2 (lives 2-5: 8, 9.4, 12.4, 11.7), onset x 37.0, tail to 42.7",
+   "identified": {
+    "x_knots": [
+     37.0,
+     37.6,
+     38.2,
+     38.8,
+     39.5,
+     40.3,
+     40.9,
+     41.4,
+     42.0,
+     42.7
+    ],
+    "a_y_knots": [
+     0.0,
+     2.5,
+     6.0,
+     8.5,
+     9.5,
+     8.0,
+     6.0,
+     4.0,
+     2.0,
+     0.0
+    ],
+    "valid_for_abs_y_below": 2.5
+   },
+   "repair_strategy": "same as S4",
+   "code_sketch": "a[1] -= np.interp(x + vx*0.15, X_S, AY_S, left=0, right=0)"
+  },
+  {
+   "id": "S7_route_from_observation",
+   "failure_signature": "(preventive) hard-coded routes break on a new mission",
+   "when_to_apply": "always",
+   "repair_strategy": "polyline start -> relays[0] -> relays[1] -> ... taken from obs['relays'] and obs['relay_index']; along-track speed reference + cross-track PD+I; segment switches when the lab advances relay_index",
+   "code_sketch": "k = int(obs['relay_index'][0]); prev = start if k == 0 else relays[k-1]; d = unit(relays[k] - prev); e_perp = rel - (rel@d)*d"
+  },
+  {
+   "id": "S8_speed_and_margins",
+   "failure_signature": "(performance) 5.5 m/s cruise used ~10.2 s of the 17 s window with <= 0.65 m excursions",
+   "when_to_apply": "after the jets are compensated (S3+S4+S6)",
+   "repair_strategy": "cruise 6.0 m/s: life 5 9.43 s with <= 0.2 m excursions in the jets; eval 50/50, 9.3-9.7 s. Keep the map-based wall push (|y| > half_width - 0.7 -> 8 m/s^2 per m) for pinch x 31-34 (|y| < 1.6)",
+   "code_sketch": "vref = cruise * min(1, (t + 0.3)/1.5); if abs(y) > hw(x + 0.3*vx) - 0.7: a[1] -= sign(y)*8*(abs(y) - lim)"
+  },
+  {
+   "id": "S9_tooling_spawn_guard",
+   "failure_signature": "RuntimeError in multiprocessing bootstrapping when a script calling parallel.evaluate is run directly (spawn context re-imports __main__); no life consumed",
+   "when_to_apply": "every script that calls reallab.drone.parallel.evaluate",
+   "repair_strategy": "wrap the call in main() under if __name__ == '__main__'",
+   "code_sketch": "if __name__ == '__main__': main()"
+  },
+  {
+   "id": "N1_route_planner_L_legs",
+   "failure_signature": "(preventive) straight relay-to-relay segment crosses a wall (mission B: R1 (17,0) -> R2 (23.75,6) cuts through the north wall stack x 10-22)",
+   "when_to_apply": "any relay list from obs['relays']",
+   "repair_strategy": "check each segment against site_map boxes inflated 0.6 m; if blocked insert corner (B.x, A.y) or (A.x, B.y) with both legs free, shorter total; shift corners inside a jet by -0.03*a_jet (<=0.8 m) away from the wall the jet pushes toward",
+   "code_sketch": "for c in ((r.x, prev.y), (prev.x, r.y)): if free(prev, c) and free(c, r): insert c",
+   "validation": "mission B eval 50/50"
+  },
+  {
+   "id": "N2_turn_speed_schedule",
+   "failure_signature": "(preventive) 6 m/s into a 90-deg corner or a dead-end relay overshoots into walls",
+   "when_to_apply": "routes with turns",
+   "repair_strategy": "vref = min(cruise_leg, sqrt(v_end^2 + 2*4*d_rem)); v_end = cruise if cos(turn)>0.94, 1.5 if cos>-0.5, else 0.5; vref negative past the end point; corners switch at 0.4 m along-track, relays on relay_index",
+   "code_sketch": "vref = min(cruise, sqrt(v_end**2 + 2*a_b*max(d_rem,0)))",
+   "validation": "mission B 50/50; residual weakness: 0.8-1.3 m overshoot at the canyon->aisle corner, closest wall 0.47 m"
+  },
+  {
+   "id": "N3_jet_in_aisle_assumption",
+   "failure_signature": "(assumption, never measured directly) jet field inside the side aisle",
+   "when_to_apply": "legs inside the side aisles",
+   "repair_strategy": "use the canyon x-profile at 70 % inside the aisle the jet comes from; S3 observer corrects",
+   "code_sketch": "if side*y > 2.5: a_y += 0.7*interp(x, X, AY)"
+  },
+  {
+   "id": "N4_authority_for_headwind_jet",
+   "failure_signature": "(preventive) a_max 16 leaves ~2 m/s^2 of control when climbing an aisle against a 14 m/s^2 jet",
+   "when_to_apply": "legs against a jet",
+   "repair_strategy": "a_max 24 m/s^2 (thrust headroom ~5.7 g), observer clip 20",
+   "code_sketch": "a[:2] *= min(1, 24/norm(a[:2]))"
+  },
+  {
+   "id": "N5_generic_wall_push",
+   "failure_signature": "(preventive) canyon half-width push is blind to aisle walls",
+   "when_to_apply": "always",
+   "repair_strategy": "distance + outward normal to nearest site_map box at p + 0.3 v; push 8 m/s^2 per m inside a 0.7 m margin",
+   "code_sketch": "clr, n = box_clearance(p + 0.3*v); if clr < 0.7: a[:2] += n*8*(0.7-clr)"
+  },
+  {
+   "id": "C1_cpa_escape_velocity",
+   "failure_signature": "other aircraft on a collision course (obs movers rows)",
+   "when_to_apply": "any mission with movers",
+   "repair_strategy": "constant-velocity CPA: t*=clip(-(r.w)/|w|^2,0,3), miss m=r+w t*; if |m|<D escape velocity 1.5 (D-|m|)/max(t*,0.3) along -m/|m| (vertical-biased x2; head-on: climb/descend), summed and capped 5 m/s, tracked by the cross-track damping kd (v_av - v_perp) and the along-track loop; the acceleration-level version acts too late because the damping cancels it",
+   "code_sketch": "v_av += 1.5*(D-dm)/max(t,0.3)*e; a = kv*(vref + v_av@d - v@d)*d - kp*e_ref + kd*(v_av_perp - v_perp)"
+  },
+  {
+   "id": "C6_hover_vs_moving_margin",
+   "failure_signature": "a hovering 'darter' can dash at ~5 m/s from any position (life C1: started 1.1 m away)",
+   "when_to_apply": "movers with |v| < 0.5 m/s",
+   "repair_strategy": "keep-out radius + 1.7 m for hovering aircraft, + 1.2 m for moving ones (C24)",
+   "code_sketch": "D = rad + (1.7 if norm(vm) < 0.5 else 1.2)"
+  },
+  {
+   "id": "C10_relay_funnel",
+   "failure_signature": "avoidance displacement makes the drone miss a relay (C life 2: 2.08 m, then flew out of the yard)",
+   "when_to_apply": "target is a relay",
+   "repair_strategy": "allowed deviation 0.5 + 0.2 max(0, d_rem - 1) m (C19); beyond it remove outward escape, add restoring 3 (dev - funnel), cut speed to max(2, 6 - 6 (dev - funnel))",
+   "code_sketch": "if dev > funnel: v_av -= max(0, v_av@u)*u + 3*(dev-funnel)*u; vref = min(vref, max(2, 6-6*(dev-funnel)))"
+  },
+  {
+   "id": "C11_missed_relay_recovery",
+   "failure_signature": "past a relay without lab confirmation the program kept flying on",
+   "when_to_apply": "relay target with d_rem < 0",
+   "repair_strategy": "come back along the leg at <= 1.5 m/s (C20)",
+   "code_sketch": "if kind == 'relay' and d_rem < 0: vref = -min(1.5, sqrt(2*4*-d_rem))"
+  },
+  {
+   "id": "C14_vertical_velocity_barrier",
+   "failure_signature": "violent vertical avoidance carried the drone to z 0.27 (C life 5)",
+   "when_to_apply": "always",
+   "repair_strategy": "vz >= -sqrt(2*5*(z-0.6)), vz <= sqrt(2*5*(5.3-z)), violations corrected at 8 m/s^2 per m/s; avoidance may not push down below 1.3 m or up above 4.1 m (C15); altitude band 0.8-4.6 (C13)",
+   "code_sketch": "if vz < vz_min: a_z = max(a_z,0) + 8*(vz_min - vz)"
+  },
+  {
+   "id": "C16_emergency_only_for_dashes",
+   "failure_signature": "emergency law / proximity shell fired on static aircraft being flown past (t* = time to pass) -> 16 m/s^2 lurch into a wall (x1 life 4)",
+   "when_to_apply": "movers with |v| >= 2.5 m/s (dashes) for the t*<0.6 s law (C21); proximity shell radius+1.0 m for |v| >= 0.5",
+   "repair_strategy": "hovering aircraft only get the smooth escape velocity",
+   "code_sketch": "if t < 0.6 and norm(vm) >= 2.5: a += min(20, 2*(D-dm)/max(t,0.25)**2)*e"
+  },
+  {
+   "id": "C17_wall_velocity_barrier",
+   "failure_signature": "avoidance-induced lateral velocity into a canyon wall (x1 life 4, x2 life 5)",
+   "when_to_apply": "wall FACES only, not box corners (C25: the canyon-mouth corners triggered it in mission-A replay)",
+   "repair_strategy": "velocity toward the wall <= sqrt(2*4*(clr - 0.35 - 0.15 v)) (C22 attitude lag), corrected at 8 m/s^2 per m/s with priority inside the 24 m/s^2 budget; no escape velocity toward a wall < 1 m (C18)",
+   "code_sketch": "v_in = -(v@n) if face; if v_in > v_lim: a_h = bar + cap(a_h, 24 - |bar|)"
+  },
+  {
+   "id": "C23_no_lingering",
+   "failure_signature": "slowing down near a moving aircraft let a patrol that reacted to the drone climb into it (x3 life 1)",
+   "when_to_apply": "always",
+   "repair_strategy": "never cut the speed reference because of nearby aircraft; pass them quickly (aircraft change velocity 1.7x more often within 3 m of the drone)",
+   "code_sketch": "(rule removed)"
+  },
+  {
+   "id": "C_tooling_mission_c",
+   "failure_signature": "mission-C diagnosis",
+   "when_to_apply": "every mission-C life",
+   "repair_strategy": "trace_c.py (own state vs truth), movers_stats.py (motion episodes per aircraft), pursuit_stats.py (reaction statistics), crash_c.py (last 1.5 s: walls and nearest aircraft), replay of logged observations through the new version",
+   "code_sketch": "-"
+  },
+  {
+   "id": "W1_corridor_lookahead",
+   "failure_signature": "wall contact where the canyon narrows ahead (pinch, aisle end faces) after an avoidance turn or jet left lateral velocity",
+   "when_to_apply": "always",
+   "repair_strategy": "free y-interval of the site map over the next 0.4 + 0.8 vx m; safe band 0.5 m inside; lateral speed toward an edge <= sqrt(2*3*room) (W6), corrected at 8 m/s^2 per m/s; outside the band push back 10 m/s^2 per m; no escape velocity out of the band",
+   "code_sketch": "lo, hi = corridor(p, v); vmax = sqrt(2*3*(hi-0.5-y)); if vy > vmax: a_y = min(a_y,0) - 8*(vy - vmax)",
+   "validation": "code world 77 -> 80 % alone; with W5 94.8 %; real 95/100"
+  },
+  {
+   "id": "W2_vertical_in_narrows",
+   "failure_signature": "lateral escape inside the 3.2 m pinch",
+   "when_to_apply": "band narrower than 2.5 m",
+   "repair_strategy": "vertical bias 4 (default 3, W5)",
+   "code_sketch": "self._vb = 4 if (hi-lo) < 2.5 else 3"
+  },
+  {
+   "id": "W3_escape_no_overspeed",
+   "failure_signature": "forward escape velocity pushed along-track speed to 8.5 m/s",
+   "when_to_apply": "always",
+   "repair_strategy": "cap vref + escape along-track at cruise + 0.5",
+   "code_sketch": "av_along = min(av_along, cruise + 0.5 - vref)"
+  },
+  {
+   "id": "W5_small_keepouts",
+   "failure_signature": "large keep-outs -> large lateral manoeuvres -> walls (C24 cost ~7 points in the code world)",
+   "when_to_apply": "mission C",
+   "repair_strategy": "keep-out radius + 0.6 m (moving), + 1.3 m (hovering), vertical bias 3, chosen by code-world sweeps on fresh imagined seeds",
+   "code_sketch": "margin=0.6, margin_hover=1.3, vert_bias=3.0"
+  },
+  {
+   "id": "W4_pursuer_handling_rejected",
+   "failure_signature": "(tried) aircraft heading at the drone within 5 m",
+   "when_to_apply": "not applied",
+   "repair_strategy": "treating them as holding position with a 1.2-1.6 m keep-out lowered code-world success (93.7 -> 91.3 / 88.0 %); disabled",
+   "code_sketch": "margin_pursuer=0"
+  }
+ ],
+ "known_unknowns": [
+  "jets were only observed on the canyon centreline (|y| < 0.9) at z 2.2-2.7; their strength off-line, at other heights, or inside the side aisles themselves is unmeasured",
+  "areas never flown (the side aisles, the yard outside the canyon) may hold other jets; S3 is the only protection there",
+  "hover-throttle fits drift 0.329 -> 0.346 over the lives (likely fit contamination by tilt/drag, possibly real); S3 absorbs it",
+  "mission C: the calibration success of v9-v11 (7/8) did not predict the 49/100 evaluation of v11; v14 (3/3 in calibration) scored 76/100. Close-range reactions of the other aircraft remain unmodelled."
+ ]
+}

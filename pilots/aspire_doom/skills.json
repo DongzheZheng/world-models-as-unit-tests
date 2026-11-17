@@ -1,0 +1,96 @@
+{
+ "scenario": "take_cover",
+ "paradigm": "code_as_policy (ASPIRE-style: write program -> fly -> read per-step trace -> repair -> distil)",
+ "skills": [
+  {
+   "id": "S1_track_out_of_view",
+   "learned_from": "life 1 (v1)",
+   "failure_signature": "hit by a projectile that was visible earlier but absent from obs['objects'] in the last ~5-20 steps before impact; balls leave the 90 deg FOV ~200 units before arriving because they come in obliquely",
+   "when_to_apply": "any projectile with constant velocity and a sensor limited to the field of view",
+   "repair_strategy": "keep a track per object id (position, velocity, tic seen) and extrapolate in closed form while unseen; drop it once its forward coordinate is past the body or it stops (velocity ~0 = exploded)",
+   "code_sketch": "tracks[id]=(x,y,vx,vy,tic) if speed>2; px=x+vx*(tic_now-tic); drop if df < -(B+4)",
+   "validated": "life 2 survived 638 vs 296; no further deaths from forgotten-but-seen balls"
+  },
+  {
+   "id": "S2_drift_respects_threats",
+   "learned_from": "life 1 (v1)",
+   "failure_signature": "policy is safe, then a 'return to centre' rule moves it into a ball's predicted path; left/right chattering around the interval edge",
+   "when_to_apply": "a reactive dodger that also has a default positioning behaviour",
+   "repair_strategy": "single target selection: candidates = 0, interval edges, room centre, walls; pick the min-cost candidate among those that are safe; centre preference only enters the cost",
+   "code_sketch": "best=min([c for c in cands if feasible(c)], key=lambda c: abs(c)+w*abs(c-mid))",
+   "validated": "life 2"
+  },
+  {
+   "id": "S3_commit_with_momentum",
+   "learned_from": "life 1 (v1) strafe logs",
+   "failure_signature": "oscillating actions; overshoot after releasing the key",
+   "when_to_apply": "actuator with acceleration and friction (strafe: v_{k+1}=0.64 v_k+2.5 per 4-tic step, terminal ~6.9 u/tic, coast ~9 x v units)",
+   "repair_strategy": "steer on target minus predicted coast distance; switch target only with hysteresis (switch_gain)",
+   "code_sketch": "err=best-9.5*vl; LEFT if err>6, RIGHT if err<-6 else NOOP",
+   "validated": "life 2+"
+  },
+  {
+   "id": "S4_wall_margin_from_body",
+   "learned_from": "life 2 (v2)",
+   "failure_signature": "no feasible target found although a safe offset existed close to a wall",
+   "when_to_apply": "wall clearance parameter larger than body radius (16)",
+   "repair_strategy": "wall margin = body radius + a few units (20)",
+   "code_sketch": "room_left = ray(left) - 20",
+   "validated": "open-loop replay of life 2 death: v3 holds position instead of stepping into the ball; life 3 reached 811"
+  },
+  {
+   "id": "S5_least_bad_escape",
+   "learned_from": "life 2 (v2)",
+   "failure_signature": "when nothing is provably safe, the fallback runs into the most imminent ball",
+   "when_to_apply": "dense fire, every candidate conflicts with some threat",
+   "repair_strategy": "score each candidate (plus a 25-point lateral grid) by the arrival time of the earliest threat it conflicts with and take the one that conflicts latest; re-plan next step",
+   "code_sketch": "best=max(grid, key=lambda c:(conflict(c), -abs(c)))",
+   "validated": "life 3+"
+  },
+  {
+   "id": "S6_S10_centre_pull_and_corner_trap",
+   "learned_from": "life 2 (v2), life 4 (v4), again life 5 (v5)",
+   "failure_signature": "death at a wall (y<110 or y>680): aimed balls converge on a pinned player, escape is one-sided",
+   "when_to_apply": "bounded strafe line with aimed projectiles",
+   "repair_strategy": "centre preference in target cost (w_center 0.5) plus a wall-proximity penalty of 2 per unit inside 140 units of a wall",
+   "code_sketch": "cost += 2*max(0, 140 - dist_to_wall(c))",
+   "validated": "partially: life 5 lasted 2095 but still died pinned at the -y wall (y~107)"
+  },
+  {
+   "id": "S7_swept_box_collision",
+   "learned_from": "life 3 (v3)",
+   "failure_signature": "hit by an oblique ball (|v_lat/v_close| 0.4-0.75) that the single-point test at the player's plane predicted as a near miss",
+   "when_to_apply": "box-overlap collision with projectiles moving obliquely",
+   "repair_strategy": "a ball can hit while its forward coordinate is within B=22 (body 16 + ball 6) of the player's; block the lateral span swept over [t_in, t_out] widened by B + 7 margin; crossing rule uses t_in/t_out",
+   "code_sketch": "t_in=(df-22)/close; t_out=(df+22)/close; span=[min(l(t_in),l(t_out))-29, max(...)+29]",
+   "validated": "life 4: 883, first hit at step 159 (later than any earlier life's first hit except life 2)"
+  },
+  {
+   "id": "S8_reversal_cost",
+   "learned_from": "life 3 strafe logs",
+   "failure_signature": "reachability overestimated when moving the other way",
+   "when_to_apply": "time-to-reach estimates with nonzero current velocity",
+   "repair_strategy": "tau(d)=|d|/6.5+6 + 0.8|v| if reversing, -0.5|v| if already moving that way",
+   "code_sketch": "rev=0.8*abs(vl) if vl*d<0 else -0.5*abs(vl)",
+   "validated": "life 4+"
+  },
+  {
+   "id": "S9_coast_dont_brake",
+   "learned_from": "life 4 (v4)",
+   "failure_signature": "player gliding out of a ball's span presses the opposite key because coast would overshoot the edge target, stops inside the span and is hit",
+   "when_to_apply": "steering towards a target with momentum",
+   "repair_strategy": "if the closed-form coast path s(t)=9 vl (1-0.64^(t/4)) is clear of every blocked span during its window and ends within 45 of the target, release (noop) instead of braking",
+   "code_sketch": "if braking and abs(err)<45 and coast_safe(vl): return NOOP",
+   "validated": "life 5: 2095 tics, single hit (fatal)"
+  },
+  {
+   "id": "OPEN_unseen_shooter",
+   "learned_from": "life 5 (v5)",
+   "failure_signature": "fatal ball never present in obs['objects'] at any step (fired from outside the FOV, steep vy ~ -7); 11 imps alive by tic 2000",
+   "when_to_apply": "late game, many monsters, player near a wall",
+   "repair_strategy": "not repaired in the official run (no life left). Candidates: stay farther from walls late in the episode; track monsters by id and treat out-of-view monsters' last positions as potential shooters",
+   "code_sketch": null,
+   "validated": false
+  }
+ ]
+}

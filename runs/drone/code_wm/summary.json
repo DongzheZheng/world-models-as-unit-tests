@@ -1,0 +1,1126 @@
+{
+ "lives_used": 5,
+ "lives": [
+  {
+   "pilot": "code_wm",
+   "life": 1,
+   "seed": 1,
+   "command_mode": "ctbr",
+   "real_steps": 223,
+   "end_cause": "collision",
+   "relays_reached": 1,
+   "time_s": 7.433,
+   "purpose": "system ID: 2 s hover with rate/thrust pulses, then datasheet-tuned path follower at 4 m/s along the relays (no fault compensation). Revealed delay, rate bias, thrust deficit, and the north-aisle jet that crashed it",
+   "gif": "runs/drone/code_wm/gifs/code_wm_life_1.gif"
+  },
+  {
+   "pilot": "code_wm",
+   "life": 2,
+   "seed": 2,
+   "command_mode": "ctbr",
+   "real_steps": 275,
+   "end_cause": "success",
+   "relays_reached": 3,
+   "time_s": 9.167,
+   "purpose": "first controller synthesised in the life-1 code world (fault compensation + north-jet feed-forward; south aisle randomised +-13 m/s^2 since unknown). End-to-end test; revealed the south-aisle jet",
+   "gif": "runs/drone/code_wm/gifs/code_wm_life_2.gif"
+  },
+  {
+   "pilot": "code_wm",
+   "life": 3,
+   "seed": 3,
+   "command_mode": "ctbr",
+   "real_steps": 461,
+   "end_cause": "success",
+   "relays_reached": 3,
+   "time_s": 15.367,
+   "purpose": "exploration for site generality: mission A route with probes into both aisle mouths (y +3 at z 4, y -3 at z 1.5) and canyon legs at z 4 / 1.5; route controller synthesised in the lives-1+2 world",
+   "gif": "runs/drone/code_wm/gifs/code_wm_life_3.gif"
+  },
+  {
+   "pilot": "code_wm",
+   "life": 4,
+   "seed": 4,
+   "command_mode": "ctbr",
+   "real_steps": 243,
+   "end_cause": "success",
+   "relays_reached": 3,
+   "time_s": 8.1,
+   "purpose": "end-to-end test of the final mission-A controller (exactly the one evaluated), synthesised in the lives-1-3 world",
+   "gif": "runs/drone/code_wm/gifs/code_wm_life_4.gif"
+  },
+  {
+   "pilot": "code_wm",
+   "life": 5,
+   "seed": 5,
+   "command_mode": "ctbr",
+   "real_steps": 452,
+   "end_cause": "success",
+   "relays_reached": 3,
+   "time_s": 15.067,
+   "purpose": "flown AFTER the official evaluation, for phase 2 only: deeper aisle probes (y +3.8 at z 3, y -3.8 at z 3.5); held-out fidelity data for the lives-1-3 world. Not used by the evaluated controller",
+   "gif": "runs/drone/code_wm/gifs/code_wm_life_5.gif"
+  }
+ ],
+ "real_steps_total": 1654,
+ "site_world_py_bytes": 15466,
+ "controller_type": "hand-written cascade policy (path following along start->relays, accel PD+I with code-world jet feed-forward, geometric attitude -> body-rate command, inverse of the fitted rate bias/gain, thrust deficit) whose 8 gains were chosen by cross-entropy search over imagined lives in the code world with domain randomisation (jets +-30 %, jet position +-0.4 m, rate bias +-0.05, thrust +-3 %, delay +-0.2 steps, drag +-0.08, OU gusts 1 m/s^2, sensor noise)",
+ "synthesis": {
+  "tuning_file": "tune_A123.json",
+  "wm_steps": 5071639,
+  "wall_s": 528.7,
+  "wm_steps_per_s": 9592,
+  "all_synthesis_runs": {
+   "tune_l2 (mission A, life-1 world; flew life 2)": {
+    "wm_steps": 2445347,
+    "wall_s": 6.9,
+    "code_world_success": 1.0,
+    "t_success": 8.97
+   },
+   "tune_l3 (exploration route, lives-1+2 world; flew life 3)": {
+    "wm_steps": 3244826,
+    "wall_s": 58.9,
+    "code_world_success": 0.896,
+    "t_success": 15.09
+   },
+   "tune_A12 (mission A, lives-1+2 world; superseded)": {
+    "wm_steps": 2040815,
+    "wall_s": 47.9,
+    "code_world_success": 0.979,
+    "t_success": 7.41
+   },
+   "tune_A123 (mission A, lives-1-3 world; FINAL, flew life 4 and the evaluation)": {
+    "wm_steps": 5071639,
+    "wall_s": 528.7,
+    "code_world_success": 0.957,
+    "t_success": 8.0
+   },
+   "tune_l5 (exploration route, lives-1-3 world; flew life 5)": {
+    "wm_steps": 2140332,
+    "code_world_success": 0.8
+   }
+  },
+  "code_world_success": 0.95703125,
+  "code_world_time_success_s": 8.000248908996582,
+  "code_world_end_causes": {
+   "success": 0.95703125,
+   "collision": 0.0283203125,
+   "oob": 0.0,
+   "timeout": 0.0146484375
+  },
+  "controller": {
+   "speed": 7.190619137811426,
+   "kp": 6.494732602830574,
+   "kv": 5.557303161137236,
+   "ki": 0.6925504562837715,
+   "k_att": 12.014725647884418,
+   "max_tilt": 1.087522968605817,
+   "thrust_gain": 0.8748074173927307,
+   "rate_gain": 0.8904488682746887,
+   "t_bias": 0.0,
+   "p_bias": -0.5885395340717504,
+   "q_bias": 0.5852626634009077,
+   "r_bias": -0.28759680955935346,
+   "lookahead_corner": 1.5,
+   "slow_r3": 0.0,
+   "corner_dist": 3.797362126492348,
+   "corner_speed": 2.392413936180213,
+   "wind_ff": 1.0
+  }
+ },
+ "gifs": [
+  "runs/drone/code_wm/gifs/code_wm_life_1.gif",
+  "runs/drone/code_wm/gifs/code_wm_life_2.gif",
+  "runs/drone/code_wm/gifs/code_wm_life_3.gif",
+  "runs/drone/code_wm/gifs/code_wm_life_4.gif",
+  "runs/drone/code_wm/gifs/code_wm_life_5.gif",
+  "runs/drone/code_wm/gifs/eval_code_wm_seed1000.gif"
+ ],
+ "real_eval_code_wm": {
+  "episodes": 50,
+  "seeds": [
+   1000,
+   1049
+  ],
+  "success_rate": 0.98,
+  "mean_time_success_s": 8.029251700680271,
+  "end_causes": {
+   "success": 49,
+   "collision": 0,
+   "out_of_bounds": 0,
+   "timeout": 1
+  },
+  "mean_relays_reached": 2.96
+ },
+ "real_steps_per_life_note": "lives 1-4 (1202 steps) preceded the evaluation; life 5 (452 steps) was flown after it for phase 2",
+ "real_steps_calibration_recorded": 1202,
+ "eval_failure_note": "the one failed eval episode (seed 1038, timeout, 1 relay) passed relay 2 at about 1.2 m and then hovered at x 33.7: when a relay is missed the path follower's along-track pull back to the relay and its forward speed reference cancel (a deadlock in my controller logic, not a world error). The same failure mode is present in the code world (1.5 % timeouts of the final controller in imagination). Not fixed, since it was seen on an evaluation seed.",
+ "gif_locations": "runs/drone/code_wm/gifs/: code_wm_life_1..5.gif (lives), eval_code_wm_seed1000.gif (first evaluation episode)",
+ "phase2_mission_B": {
+  "new_real_data": 0,
+  "real_steps_calibration_recorded": 1654,
+  "world": "fit_all.json (lives 1-5), mechanisms of worlds/drone/site_world.py",
+  "route": [
+   "R1",
+   {
+    "like": "R2",
+    "y": 0.0
+   },
+   "R2",
+   {
+    "like": "R2",
+    "y": 0.5
+   },
+   "R3"
+  ],
+  "changes": [
+   "route mode with aisle entry/exit points aligned to the jittered R2",
+   "missed-relay deadlock fix (first noticed on mission-A eval seed 1038; reproduced and validated in the code world only)",
+   "aisle-interior jet randomised (JET_N_GY in [-0.2, 0.1]) since never flown deeper than y ~3.1; tilt limit range raised to 1.4 rad"
+  ],
+  "deadlock_reproduction_in_code_world": {
+   "return_fix=0": {
+    "n": 4096,
+    "success": 0.9638671875,
+    "collision": 0.02490234375,
+    "oob": 0.0,
+    "timeout": 0.01123046875,
+    "t_success": 8.001327514648438,
+    "timeouts": 46,
+    "timeouts_relays_reached": [
+     0,
+     46,
+     0,
+     0
+    ],
+    "timeout_final_x_examples": [
+     34.45000076293945,
+     34.09000015258789,
+     34.209999084472656,
+     33.77000045776367,
+     33.9900016784668,
+     34.599998474121094,
+     34.83000183105469,
+     33.599998474121094
+    ],
+    "timeout_final_y_examples": [
+     0.4300000071525574,
+     0.30000001192092896,
+     -0.05999999865889549,
+     0.2800000011920929,
+     -0.6700000166893005,
+     -0.23999999463558197,
+     0.2800000011920929,
+     -0.46000000834465027
+    ]
+   },
+   "return_fix=1": {
+    "n": 4096,
+    "success": 0.9755859375,
+    "collision": 0.0244140625,
+    "oob": 0.0,
+    "timeout": 0.0,
+    "t_success": 8.02547836303711,
+    "timeouts": 0,
+    "timeouts_relays_reached": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "timeout_final_x_examples": [],
+    "timeout_final_y_examples": []
+   }
+  },
+  "synthesis": {
+   "wm_steps": 6893310,
+   "wall_s": 19.5,
+   "wm_steps_per_s": 352962,
+   "picked": "best",
+   "controller": {
+    "speed": 6.698535788062635,
+    "kp": 6.6830402517056,
+    "kv": 5.676744327425579,
+    "ki": 1.6112602997079204,
+    "k_att": 12.634430161921816,
+    "max_tilt": 1.4,
+    "thrust_gain": 0.8762582540512085,
+    "rate_gain": 0.8864522576332092,
+    "t_bias": 0.0,
+    "p_bias": -0.594804629119792,
+    "q_bias": 0.5935626475193551,
+    "r_bias": -0.2901122369177232,
+    "lookahead_corner": 1.5,
+    "slow_r3": 0.0,
+    "corner_dist": 2.829478272116075,
+    "corner_speed": 3.6022991446786197,
+    "return_fix": 1.0,
+    "wind_ff": 1.0
+   },
+   "stress_test": {
+    "training_randomisation": {
+     "best": {
+      "success": 0.99609375,
+      "collision": 0.00390625,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.76708984375
+     },
+     "mean": {
+      "success": 0.9912109375,
+      "collision": 0.0087890625,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.974384307861328
+     },
+     "best_tilt1.2": {
+      "success": 0.8095703125,
+      "collision": 0.189453125,
+      "oob": 0.0,
+      "timeout": 0.0009765625,
+      "t_success": 11.218330383300781
+     },
+     "best_no_fix": {
+      "success": 0.9970703125,
+      "collision": 0.0029296875,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.816322326660156
+     }
+    },
+    "nominal_no_randomisation": {
+     "best": {
+      "success": 1.0,
+      "collision": 0.0,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.651558876037598
+     },
+     "mean": {
+      "success": 0.99609375,
+      "collision": 0.00390625,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.860847473144531
+     },
+     "best_tilt1.2": {
+      "success": 0.974609375,
+      "collision": 0.025390625,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 11.118739128112793
+     },
+     "best_no_fix": {
+      "success": 1.0,
+      "collision": 0.0,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.702014923095703
+     }
+    },
+    "aisle_jet_x2.2_inside (GY=-0.3)": {
+     "best": {
+      "success": 0.88671875,
+      "collision": 0.0029296875,
+      "oob": 0.0,
+      "timeout": 0.1103515625,
+      "t_success": 10.731637001037598
+     },
+     "mean": {
+      "success": 0.8603515625,
+      "collision": 0.005859375,
+      "oob": 0.0,
+      "timeout": 0.1337890625,
+      "t_success": 10.992729187011719
+     },
+     "best_tilt1.2": {
+      "success": 0.75,
+      "collision": 0.056640625,
+      "oob": 0.0,
+      "timeout": 0.193359375,
+      "t_success": 10.973381996154785
+     },
+     "best_no_fix": {
+      "success": 0.7509765625,
+      "collision": 0.0048828125,
+      "oob": 0.0,
+      "timeout": 0.244140625,
+      "t_success": 11.066740036010742
+     }
+    },
+    "aisle_jet_weak_inside (GY=+0.15)": {
+     "best": {
+      "success": 0.9951171875,
+      "collision": 0.00390625,
+      "oob": 0.0009765625,
+      "timeout": 0.0,
+      "t_success": 11.485450744628906
+     },
+     "mean": {
+      "success": 0.9931640625,
+      "collision": 0.0068359375,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 11.690800666809082
+     },
+     "best_tilt1.2": {
+      "success": 0.623046875,
+      "collision": 0.376953125,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 12.235577583312988
+     },
+     "best_no_fix": {
+      "success": 0.9951171875,
+      "collision": 0.00390625,
+      "oob": 0.0009765625,
+      "timeout": 0.0,
+      "t_success": 11.50792407989502
+     }
+    },
+    "jets_x1.5": {
+     "best": {
+      "success": 0.953125,
+      "collision": 0.005859375,
+      "oob": 0.0,
+      "timeout": 0.041015625,
+      "t_success": 10.965776443481445
+     },
+     "mean": {
+      "success": 0.927734375,
+      "collision": 0.017578125,
+      "oob": 0.0,
+      "timeout": 0.0546875,
+      "t_success": 11.327123641967773
+     },
+     "best_tilt1.2": {
+      "success": 0.1259765625,
+      "collision": 0.7275390625,
+      "oob": 0.0,
+      "timeout": 0.146484375,
+      "t_success": 12.224332809448242
+     },
+     "best_no_fix": {
+      "success": 0.8544921875,
+      "collision": 0.00390625,
+      "oob": 0.0,
+      "timeout": 0.1416015625,
+      "t_success": 11.197863578796387
+     }
+    },
+    "thrust_gain_-8pct": {
+     "best": {
+      "success": 0.9990234375,
+      "collision": 0.0009765625,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.875985145568848
+     },
+     "mean": {
+      "success": 0.9951171875,
+      "collision": 0.0048828125,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 11.093132972717285
+     },
+     "best_tilt1.2": {
+      "success": 0.7275390625,
+      "collision": 0.2705078125,
+      "oob": 0.0,
+      "timeout": 0.001953125,
+      "t_success": 11.414714813232422
+     },
+     "best_no_fix": {
+      "success": 0.994140625,
+      "collision": 0.001953125,
+      "oob": 0.0,
+      "timeout": 0.00390625,
+      "t_success": 10.961787223815918
+     }
+    },
+    "delay_2_steps": {
+     "best": {
+      "success": 0.98046875,
+      "collision": 0.01953125,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.779777526855469
+     },
+     "mean": {
+      "success": 0.962890625,
+      "collision": 0.037109375,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 11.014874458312988
+     },
+     "best_tilt1.2": {
+      "success": 0.4365234375,
+      "collision": 0.5634765625,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 11.404587745666504
+     },
+     "best_no_fix": {
+      "success": 0.9775390625,
+      "collision": 0.0224609375,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.830700874328613
+     }
+    },
+    "gusts_x2": {
+     "best": {
+      "success": 0.9541015625,
+      "collision": 0.0458984375,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 10.838107109069824
+     },
+     "mean": {
+      "success": 0.9453125,
+      "collision": 0.0546875,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 11.033366203308105
+     },
+     "best_tilt1.2": {
+      "success": 0.71484375,
+      "collision": 0.28515625,
+      "oob": 0.0,
+      "timeout": 0.0,
+      "t_success": 11.319254875183105
+     },
+     "best_no_fix": {
+      "success": 0.9423828125,
+      "collision": 0.0478515625,
+      "oob": 0.0048828125,
+      "timeout": 0.0048828125,
+      "t_success": 10.888321876525879
+     }
+    }
+   }
+  },
+  "code_world_prediction": {
+   "success": 0.99609375,
+   "t_success_s": 10.782644271850586,
+   "end_causes": {
+    "success": 0.99609375,
+    "collision": 0.00390625,
+    "oob": 0.0,
+    "timeout": 0.0
+   },
+   "imagined_lives": 2048
+  },
+  "real_eval": {
+   "episodes": 50,
+   "seeds": [
+    1000,
+    1049
+   ],
+   "success_rate": 1.0,
+   "mean_time_success_s": 11.283333333333333,
+   "end_causes": {
+    "success": 50,
+    "collision": 0,
+    "out_of_bounds": 0,
+    "timeout": 0
+   },
+   "mean_relays_reached": 3.0
+  },
+  "gif": "runs/drone/code_wm/gifs/eval_code_wm_B_seed1000.gif",
+  "record": "runs/drone/results/site_B__code_wm.json"
+ },
+ "phase3_mission_C": {
+  "lives_used": 5,
+  "pilot": "code_wm_C",
+  "real_steps_per_life": [
+   582,
+   309,
+   316,
+   287,
+   316
+  ],
+  "real_steps_total": 1810,
+  "lives": [
+   {
+    "life": 1,
+    "seed": 101,
+    "real_steps": 582,
+    "end_cause": "timeout",
+    "time_s": 19.4,
+    "relays_reached": 0,
+    "purpose": "observe: hover at the start for the whole 19.4 s window; the instrumentation records every mover's true track (baseline behaviour, no interaction)",
+    "gif": "runs/drone/code_wm/gifs/code_wm_C_life_1.gif"
+   },
+   {
+    "life": 2,
+    "seed": 102,
+    "real_steps": 309,
+    "end_cause": "success",
+    "time_s": 10.3,
+    "relays_reached": 3,
+    "purpose": "first mission-C controller (altitude lane z 4.8 + reactive avoidance) synthesised with a mover model from life 1; revealed the pursuing 'guard' and shuttles running through the side aisles",
+    "gif": "runs/drone/code_wm/gifs/code_wm_C_life_2.gif"
+   },
+   {
+    "life": 3,
+    "seed": 103,
+    "real_steps": 316,
+    "end_cause": "success",
+    "time_s": 10.533,
+    "relays_reached": 3,
+    "purpose": "re-synthesised controller (guards modelled); revealed 3-D pursuit and one dodge, faster shuttles",
+    "gif": "runs/drone/code_wm/gifs/code_wm_C_life_3.gif"
+   },
+   {
+    "life": 4,
+    "seed": 104,
+    "real_steps": 287,
+    "end_cause": "success",
+    "time_s": 9.567,
+    "relays_reached": 3,
+    "purpose": "controller re-synthesised with 3-D pursuit guards and the best of 3 route shapes; revealed slower wanderers and more y-shuttles",
+    "gif": "runs/drone/code_wm/gifs/code_wm_C_life_4.gif"
+   },
+   {
+    "life": 5,
+    "seed": 105,
+    "real_steps": 316,
+    "end_cause": "success",
+    "time_s": 10.533,
+    "relays_reached": 3,
+    "purpose": "end-to-end test of exactly the evaluated controller (prior updated with life 4); no new behaviour type; closest pass 0.67 m",
+    "gif": "runs/drone/code_wm/gifs/code_wm_C_life_5.gif"
+   }
+  ],
+  "other_aircraft_model": {
+   "where": "worlds/drone/site_world.py (sample_movers, movers_step, mover_hit, observe_movers)",
+   "mechanisms": {
+    "shuttle_x": "back and forth along x at fixed (y, z), constant speed, short dwell at the ends (seen in all 5 lives)",
+    "shuttle_y": "back and forth across the canyon at fixed (x, z); some run deep into a side aisle (to |y| ~6.5 at x ~23-24.6 and ~39-40; lives 2-5)",
+    "wanderer": "hops at 3-6 m/s to random points of its own canyon box, dwells 0.3-7.5 s (lives 1, 2, 4, 5)",
+    "guard": "an x-shuttle that, once we are within ~1.5-3.5 m, leaves its lane and flies toward us at 1-2 m/s (3-D, climbing to our altitude) until we are 5-10 m away, then returns (life 2 mover 4, life 3 mover 2; 2 of 8 close passes)"
+   },
+   "fitted_ranges": {
+    "n_shuttle_x": [
+     1,
+     5
+    ],
+    "n_shuttle_y": [
+     0,
+     4
+    ],
+    "n_wanderer": [
+     0,
+     4
+    ],
+    "sx_y": [
+     -1.3,
+     1.3
+    ],
+    "sx_z": [
+     2.0,
+     3.6
+    ],
+    "sx_speed": [
+     0.8,
+     3.8
+    ],
+    "sx_span": [
+     6.0,
+     20.0
+    ],
+    "sx_x": [
+     10.0,
+     50.0
+    ],
+    "sx_dwell": [
+     0.0,
+     1.6
+    ],
+    "sy_x": [
+     12.0,
+     48.0
+    ],
+    "sy_halfspan": [
+     1.2,
+     1.6
+    ],
+    "sy_z": [
+     2.0,
+     3.6
+    ],
+    "sy_speed": [
+     0.6,
+     3.8
+    ],
+    "sy_dwell": [
+     0.0,
+     1.0
+    ],
+    "w_xlen": [
+     7.0,
+     24.0
+    ],
+    "w_x": [
+     10.0,
+     50.0
+    ],
+    "w_y": [
+     -1.3,
+     1.3
+    ],
+    "w_z": [
+     1.6,
+     3.6
+    ],
+    "w_speed": [
+     3.0,
+     6.0
+    ],
+    "w_dwell": [
+     0.3,
+     5.0
+    ],
+    "w_chase": [
+     0.0,
+     0.3
+    ],
+    "start_wait": [
+     0.0,
+     2.0
+    ],
+    "p_guard": 0.25,
+    "g_trig": [
+     1.5,
+     3.5
+    ],
+    "g_rel": [
+     5.0,
+     10.0
+    ],
+    "g_speed": [
+     1.0,
+     2.0
+    ],
+    "g_zmax": 5.5,
+    "p_aisle_sy": 0.5,
+    "sy_aisle_x": [
+     [
+      23.75,
+      39.75
+     ],
+     0.6
+    ],
+    "sy_aisle_depth": [
+     2.0,
+     7.0
+    ]
+   },
+   "mover_radius": 0.35,
+   "per_life_census": [
+    {
+     "life": "life_1.npz",
+     "n_movers": 8,
+     "kinds_by_track_shape": {
+      "shuttle_x": 4,
+      "shuttle_y": 1,
+      "wanderer": 3
+     },
+     "speeds": [
+      0.79,
+      0.8,
+      0.87,
+      1.53,
+      2.12,
+      3.03,
+      4.34,
+      4.37,
+      5.82
+     ],
+     "z_range": [
+      1.6312994123701237,
+      3.56046304073013
+     ]
+    },
+    {
+     "life": "life_2.npz",
+     "n_movers": 7,
+     "kinds_by_track_shape": {
+      "shuttle_x": 2,
+      "shuttle_y": 2,
+      "wanderer": 3
+     },
+     "speeds": [
+      1.35,
+      1.36,
+      1.52,
+      1.67,
+      1.78,
+      2.2,
+      2.85,
+      3.96,
+      4.33
+     ],
+     "z_range": [
+      1.7115129924546266,
+      4.2
+     ]
+    },
+    {
+     "life": "life_3.npz",
+     "n_movers": 8,
+     "kinds_by_track_shape": {
+      "wanderer": 2,
+      "shuttle_y": 3,
+      "shuttle_x": 3
+     },
+     "speeds": [
+      1.5,
+      1.79,
+      2.1,
+      2.32,
+      2.48,
+      2.57,
+      2.82,
+      3.47,
+      3.58,
+      3.67,
+      3.69
+     ],
+     "z_range": [
+      1.771474290250071,
+      3.4634326509476607
+     ]
+    },
+    {
+     "life": "life_4.npz",
+     "n_movers": 8,
+     "kinds_by_track_shape": {
+      "shuttle_y": 4,
+      "wanderer": 3,
+      "shuttle_x": 1
+     },
+     "speeds": [
+      0.95,
+      0.96,
+      0.99,
+      1.03,
+      1.33,
+      1.57,
+      1.9,
+      3.1,
+      3.58,
+      4.48
+     ],
+     "z_range": [
+      1.9214036114834074,
+      3.582545654562965
+     ]
+    },
+    {
+     "life": "life_5.npz",
+     "n_movers": 8,
+     "kinds_by_track_shape": {
+      "shuttle_y": 3,
+      "shuttle_x": 4,
+      "wanderer": 1
+     },
+     "speeds": [
+      0.78,
+      1.04,
+      1.17,
+      1.51,
+      1.68,
+      2.09,
+      2.43,
+      3.49
+     ],
+     "z_range": [
+      1.6724872782116629,
+      3.4862296874880014
+     ]
+    }
+   ],
+   "not_observed_or_not_modelled": [
+    "whether wanderers ever pursue: their hops sometimes pointed at us (cos 0.97-0.99), sometimes away; modelled as a random CHASE probability 0-0.3 per hop",
+    "the 'dodge' reaction (life 3 mover 0 moved away at 3.5 m/s for 0.8 s) is not modelled",
+    "how high a pursuing guard can climb (seen up to z 4.2, capped at 5.5 in the world) and its exact trigger rule (distance vs alignment)",
+    "line of sight in the observation is not modelled (inside the canyon all movers within 15 m were visible in the logs)",
+    "the mover population is a random draw per episode; 5 lives give 39 mover tracks, so rarer behaviours may be missing"
+   ]
+  },
+  "controller_type": "phase-1/2 cascade with missed-relay fix, waypoint route at an altitude lane z 4.8 with steep dips to R1 and R2 (route shape chosen among 3 in the code world), plus reactive avoidance: constant-velocity closest-approach repulsion on the observed movers with an upward bias; 12 gains by cross-entropy search over imagined lives with randomised aircraft, wind and mover populations",
+  "synthesis": {
+   "final_run": "tune_C5",
+   "wm_steps_final": 8498114,
+   "wall_s_final": 104.0,
+   "wm_steps_all_mission_C": 34629358,
+   "wall_s_all_mission_C": 792.8,
+   "runs": {
+    "C1": {
+     "wm_steps": 4924170,
+     "wall_s": 15.9,
+     "route": [
+      "R1",
+      [
+       20,
+       0,
+       4.8
+      ],
+      [
+       26,
+       0,
+       4.8
+      ],
+      "R2",
+      [
+       31,
+       0,
+       4.8
+      ],
+      [
+       50,
+       0,
+       4.8
+      ],
+      "R3"
+     ],
+     "code_world_success": 0.97412109375,
+     "t_success": 10.63910961151123
+    },
+    "C2": {
+     "wm_steps": 4964828,
+     "wall_s": 263.2,
+     "route": [
+      "R1",
+      [
+       20,
+       0,
+       4.8
+      ],
+      [
+       26,
+       0,
+       4.8
+      ],
+      "R2",
+      [
+       31,
+       0,
+       4.8
+      ],
+      [
+       50,
+       0,
+       4.8
+      ],
+      "R3"
+     ],
+     "code_world_success": 0.90234375,
+     "t_success": 10.334385871887207
+    },
+    "C3a": {
+     "wm_steps": 4001796,
+     "wall_s": 139.2,
+     "route": [
+      "R1",
+      [
+       20,
+       0,
+       4.8
+      ],
+      [
+       26,
+       0,
+       4.8
+      ],
+      "R2",
+      [
+       31,
+       0,
+       4.8
+      ],
+      [
+       50,
+       0,
+       4.8
+      ],
+      "R3"
+     ],
+     "code_world_success": 0.9443359375,
+     "t_success": 10.655268669128418
+    },
+    "C3b": {
+     "wm_steps": 3817631,
+     "wall_s": 122.1,
+     "route": [
+      "R1",
+      [
+       21,
+       0,
+       4.8
+      ],
+      "R2",
+      [
+       35,
+       0,
+       4.8
+      ],
+      [
+       50,
+       0,
+       4.8
+      ],
+      "R3"
+     ],
+     "code_world_success": 0.896484375,
+     "t_success": 10.059279441833496
+    },
+    "C3c": {
+     "wm_steps": 3710998,
+     "wall_s": 122.7,
+     "route": [
+      "R1",
+      [
+       20,
+       0,
+       4.3
+      ],
+      "R2",
+      [
+       36,
+       0,
+       4.3
+      ],
+      [
+       50,
+       0,
+       4.3
+      ],
+      "R3"
+     ],
+     "code_world_success": 0.8828125,
+     "t_success": 10.19135856628418
+    },
+    "C4": {
+     "wm_steps": 4711821,
+     "wall_s": 25.7,
+     "route": [
+      "R1",
+      [
+       20,
+       0,
+       4.8
+      ],
+      [
+       26,
+       0,
+       4.8
+      ],
+      "R2",
+      [
+       31,
+       0,
+       4.8
+      ],
+      [
+       50,
+       0,
+       4.8
+      ],
+      "R3"
+     ],
+     "code_world_success": 0.91259765625,
+     "t_success": 9.658246040344238
+    },
+    "C5": {
+     "wm_steps": 8498114,
+     "wall_s": 104.0,
+     "route": [
+      "R1",
+      [
+       20,
+       0,
+       4.8
+      ],
+      [
+       26,
+       0,
+       4.8
+      ],
+      "R2",
+      [
+       31,
+       0,
+       4.8
+      ],
+      [
+       50,
+       0,
+       4.8
+      ],
+      "R3"
+     ],
+     "code_world_success": 0.942626953125,
+     "t_success": 10.34985637664795
+    }
+   },
+   "controller": {
+    "speed": 6.0308536844889025,
+    "kp": 7.007123729560101,
+    "kv": 6.2957379406208975,
+    "ki": 0.7613859835676644,
+    "k_att": 11.768662391209373,
+    "max_tilt": 1.0176769825737255,
+    "thrust_gain": 0.8762582540512085,
+    "rate_gain": 0.8864522576332092,
+    "t_bias": 0.0,
+    "p_bias": -0.594804629119792,
+    "q_bias": 0.5935626475193551,
+    "r_bias": -0.2901122369177232,
+    "lookahead_corner": 1.5,
+    "slow_r3": 0.0,
+    "corner_dist": 5.383601270363668,
+    "corner_speed": 1.9739362071248334,
+    "return_fix": 1.0,
+    "av_k": 28.737818994157976,
+    "av_R": 1.3674584349385468,
+    "av_T": 1.4535415975202297,
+    "av_up": 0.34313376860073297,
+    "wind_ff": 1.0
+   }
+  },
+  "code_world_prediction": {
+   "success": 0.942626953125,
+   "t_success_s": 10.34985637664795,
+   "imagined_lives": 4096,
+   "end_causes": {
+    "success": 0.942626953125,
+    "collision": 0.052978515625,
+    "oob": 0.002685546875,
+    "timeout": 0.001708984375
+   }
+  },
+  "real_eval": {
+   "episodes": 100,
+   "seeds": [
+    1000,
+    1099
+   ],
+   "success_rate": 0.98,
+   "mean_time_success_s": 10.33673469387755,
+   "end_causes": {
+    "success": 98,
+    "collision": 2,
+    "out_of_bounds": 0,
+    "timeout": 0
+   },
+   "mean_relays_reached": 2.97,
+   "failures": "seed 1059 (t 7.7 s, 1 relay) and 1088 (t 5.7 s, 2 relays): both mover contacts at x ~30 just after the relay-2 dip, the place where the code world also concentrates its collisions"
+  },
+  "gif_first_eval": "runs/drone/code_wm/gifs/eval_code_wm_C_seed1000.gif",
+  "record": "runs/drone/results/site_C__code_wm.json",
+  "site_world_py_bytes": 25975
+ }
+}

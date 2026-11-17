@@ -1,0 +1,43 @@
+{
+ "written_before_any_life": true,
+ "what_it_is": "A thin flexible cable/rope (about 1 cm thick, 0.70 m long, effectively inextensible) lying flat on the table. The twenty tracked points are markers equally spaced along it; point 20 is the end clamped to the tool (a gripper moved in the horizontal plane at table height), point 1 is the free far end. The post is a short rigid peg standing on the table beyond the tool zone, roughly between the tool and the target. The target is a disc painted on the table 0.12 m behind the post (as seen from the tool). The task is a casting / flicking task: throw the free end of the rope across the table so that, after it slides and stops by friction, the free end lies in the disc behind the peg.",
+ "evidence": [
+  "All 200x20 point heights z are 0.0050 +- 0.0001 m: every point lies on the table surface (z=0) with its centre one radius up -> a round body of radius ~5 mm lying flat, not hanging or standing.",
+  "Neighbouring points are 0.03682 m apart (min 0.03666, max 0.03685) in 3-d and in 2-d; 0.70/19 = 0.03684. Total arc 0.6996 m (0.6989..0.7001). Spacing varies by <0.5%: effectively inextensible links.",
+  "Point 20 coincides with tool_pos to 2e-6 m in every snapshot: rigidly attached to the tool.",
+  "Shapes are smooth curves: turning angle between consecutive segments mean 0.11 rad, max 0.39 rad; total turning per scene 0.25..3.65 rad; end-to-end distance 0.20..0.70 m. So it is flexible (can curl) but with no kinks: some bending stiffness or just random smooth initial layouts.",
+  "Initial shapes point in every direction (p20->p1 heading spans -178..180 deg); points span x -0.20..0.82: the rope mostly lies on the near side of / behind the tool, away from the target.",
+  "|target - post| = 0.1200 m exactly in all 200 scenes; the post lies at 0.71..0.86 of the way from the start tool position to the target and within 0.043 m of that line: the post is deliberately an obstacle directly in front of the target.",
+  "Target distance from start tool position 0.40..0.83 m, target x 0.82..1.10, while the tool can only reach x <= 0.55: the target is reachable only by the rope (length 0.70), never by the tool.",
+  "Post-target 0.12 m vs target radius 0.10 and post radius 0.03: the free end must end up past the peg (at least 0.02 m from its centre), i.e. the rope has to go around/beside the peg."
+ ],
+ "alternatives_rejected": [
+  {"alternative": "a hanging rope / pendulum (tool above the table)", "ruled_out_by": "all z = 0.005 including point 20 at the tool; nothing hangs"},
+  {"alternative": "elastic band / spring chain", "ruled_out_by": "segment lengths constant to <0.5% across 200 random shapes (stretched shapes would show longer spacing on straighter shapes; end-to-end 0.70 m case still has spacing 0.0368)"},
+  {"alternative": "rigid linkage / stiff rod", "ruled_out_by": "shapes curl by up to 3.65 rad total; end-to-end distance down to 0.20 m"},
+  {"alternative": "a set of independent objects (e.g. 20 pucks)", "ruled_out_by": "constant neighbour spacing equal to rest arc / 19 in every scene"},
+  {"alternative": "frictionless (air-table) rope", "ruled_out_by": "not measurable statically; but the rest rule and the field note ('slowly gets you nowhere') only make sense with dissipation; to be tested in life 1"}
+ ],
+ "mechanisms": [
+  {"name": "tool kinematics", "expect": "reference generator with |v|<=4 m/s, |a|<=60 m/s^2 braking to stop at the command, then a force-limited (60 N/axis) PD position servo on a tool mass; the rope pulls on it so the tool lags under fast motion", "snapshots_pin": "nothing (no motion); servo gains/tool mass must come from life 1 tool_pos vs actions"},
+  {"name": "inextensible chain", "expect": "20 point masses, 19 links of 0.03684 m held by stiff constraints", "snapshots_pin": "link length (0.0368 m), number of nodes, the attachment of node 20 to the tool"},
+  {"name": "bending stiffness", "expect": "small; smooth shapes suggest some resistance to bending or at least smoothing", "snapshots_pin": "only that max turning per joint is 0.39 rad at rest; value of stiffness unknown"},
+  {"name": "table friction", "expect": "Coulomb friction between rope and table (mu unknown, maybe 0.2-0.6), possibly anisotropic (rolling/sliding along vs across the cable); it makes the rope stop and it makes the outcome depend on speed", "snapshots_pin": "nothing; life 1 slow drag measures it (the trailing rope's tail follows the path of the tool when pulled; deceleration of freely sliding parts after the tool stops gives mu*g)"},
+  {"name": "air drag / internal damping", "expect": "small", "snapshots_pin": "nothing"},
+  {"name": "post contact", "expect": "rigid cylinder r=0.03 m height 0.08 m, rope collides and may wrap/slide around it (with friction)", "snapshots_pin": "position and size only"},
+  {"name": "possible lift-off", "expect": "a fast flick could lift parts of the rope off the table (z>0.005); probably small", "snapshots_pin": "nothing; watch z in life 1"}
+ ],
+ "what_the_field_note_means": {
+  "you get one go at it": "after the rope has been flung and has landed, the free end is far from the tool, out of reach, and the rope (perhaps wrapped against the peg) cannot be re-thrown in the remaining time without disturbing it; the throw is a single ballistic act; also time limit 4.72 s with a few seconds for the rope to stop.",
+  "doing it slowly gets you nowhere": "a rope cannot be pushed: dragged slowly it just trails behind the tool (friction kills any momentum), so the free end can never get ahead of the tool towards a target beyond the tool's reach. Only a fast flick gives the rope enough momentum to unroll forward past the tool and slide out towards the target.",
+  "a small change in how you do it changes where it ends up": "the landing point of the free end is very sensitive to the throw (timing, speed, the rope's initial shape, and on which side of the peg it goes / whether it catches on the peg): chaotic or at least high-gain dynamics, so the world model must be very accurate or the controller must re-plan / correct after landing."
+ },
+ "unknowns_and_experiments": [
+  {"unknown": "servo dynamics of the tool (lag, gains, effect of rope load)", "life": 1, "experiment": "step commands of different sizes and a fast reversal; compare tool_pos to the ideal reference"},
+  {"unknown": "table friction coefficient and its isotropy; air/internal damping", "life": 1, "experiment": "slow drag (0.1-0.2 m/s) along x, then a stop: tail follows the tool path at low speed; after a fast jerk and a stop, measure deceleration of sliding points (Coulomb -> constant deceleration mu*g, viscous -> exponential)"},
+  {"unknown": "bending stiffness", "life": 1, "experiment": "shape relaxation after the stop and the curvature of the trailing rope; residual curvature after sliding stops"},
+  {"unknown": "response to a fast flick (does the rope unroll forward, how far does the tip slide, does it lift off)", "life": 1, "experiment": "end life 1 with a forward fling toward the target"},
+  {"unknown": "contact with the peg; accuracy of the fitted world on a full throw", "life": 2, "experiment": "a throw planned in the life-1 world, chosen to pass close to the peg; compare predicted vs real landing"},
+  {"unknown": "end-to-end controller performance and residual model error", "life": "3-5", "experiment": "full controller runs on fresh snapshot seeds; refit after each"}
+ ]
+}

@@ -1,0 +1,95 @@
+{
+ "params_file": "runs/annex/code_wm/fit10.json",
+ "horizons": {
+  "5": {
+   "n": 232,
+   "node_mean": 0.01335354601106196,
+   "node_median": 0.007031220109940709,
+   "p1_mean": 0.024665256925566946,
+   "p1_median": 0.014766910950786694,
+   "p1_p90": 0.05127449136118694
+  },
+  "20": {
+   "n": 216,
+   "node_mean": 0.06035464136288188,
+   "node_median": 0.039424767130403694,
+   "p1_mean": 0.12570371759466897,
+   "p1_median": 0.09632494925667906,
+   "p1_p90": 0.2810968116125212
+  },
+  "60": {
+   "n": 176,
+   "node_mean": 0.1456848455090663,
+   "node_median": 0.12259571801307209,
+   "p1_mean": 0.2683858048341204,
+   "p1_median": 0.1921731546466956,
+   "p1_p90": 0.5848382798564473
+  },
+  "150": {
+   "n": 88,
+   "node_mean": 0.21797425304865073,
+   "node_median": 0.1865315134857593,
+   "p1_mean": 0.3931373163628789,
+   "p1_median": 0.3436247956725548,
+   "p1_p90": 0.6501929964236431
+  }
+ },
+ "whole_life": {
+  "runs/annex/blackbox/code_wm/life_1.npz": {
+   "real_final_p1": [
+    0.3708017793883164,
+    0.4457124565083461
+   ],
+   "world_final_p1_from_reset": [
+    0.06471457332372665,
+    0.34293174743652344
+   ],
+   "dist_from_reset": 0.3228827215472102,
+   "dist_from_reading2_with_velocity": 0.3573925488500549,
+   "real_success": false,
+   "n_steps": 236
+  },
+  "runs/annex/blackbox/code_wm/life_2.npz": {
+   "real_final_p1": [
+    0.26656308466382483,
+    0.2909960703103091
+   ],
+   "world_final_p1_from_reset": [
+    -0.16330455243587494,
+    0.5131231546401978
+   ],
+   "dist_from_reset": 0.48386633176795496,
+   "dist_from_reading2_with_velocity": 0.28256550391574614,
+   "real_success": false,
+   "n_steps": 236
+  },
+  "runs/annex/blackbox/code_wm/life_3.npz": {
+   "real_final_p1": [
+    1.0691526850701316,
+    0.2045959360661141
+   ],
+   "world_final_p1_from_reset": [
+    0.7725354433059692,
+    0.16544298827648163
+   ],
+   "dist_from_reset": 0.29919014260566346,
+   "dist_from_reading2_with_velocity": 0.051642406307394625,
+   "real_success": false,
+   "n_steps": 236
+  },
+  "runs/annex/blackbox/code_wm/life_4.npz": {
+   "real_final_p1": [
+    0.4394722624625306,
+    -0.21628148352719245
+   ],
+   "world_final_p1_from_reset": [
+    0.4658316373825073,
+    0.5990741848945618
+   ],
+   "dist_from_reset": 0.8157816390883393,
+   "dist_from_reading2_with_velocity": 0.23881874098879213,
+   "real_success": false,
+   "n_steps": 236
+  }
+ }
+}

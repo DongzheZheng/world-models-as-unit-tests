@@ -1,0 +1,2774 @@
+{
+ "pilot": "aspire_style",
+ "paradigm": "code as policy (ASPIRE-style: write program, execute for real, read trace, repair, distil skills)",
+ "lives": [
+  {
+   "pilot": "aspire_style",
+   "life": 1,
+   "seed": 11,
+   "program": "policy_v1.py",
+   "success": true,
+   "max_coverage": 0.9651,
+   "n_steps": 278,
+   "trace_showed": "success at step 278 (cov 0.965); 228/278 steps walking; alternated two contacts with ~28-step walks per 7-step push; pusher closes ~40% of its target gap per step; block coasts after release (decay ~0.63/step); rotation regression COM (1.4, 42.2)",
+   "changed": "v2: travel cost in contact choice + persistence (S1), faster navigation (S2)"
+  },
+  {
+   "pilot": "aspire_style",
+   "life": 2,
+   "seed": 23,
+   "program": "policy_v2.py",
+   "success": true,
+   "max_coverage": 0.9508,
+   "n_steps": 193,
+   "trace_showed": "success at step 193 (cov 0.951); 4 pushes near the bar corner slid off laterally and re-approached; pooled COM fit (5.4, 42.9) sd (1.9, 2.7); pusher response dq = 0.30 (target-q) + 0.30 v dt",
+   "changed": "v3: COM (5, 42.5) (S3), faces trimmed away from corners, lateral tol 8 (S4), orbit look-ahead, v_free 90 (S2b)"
+  },
+  {
+   "pilot": "aspire_style",
+   "life": 3,
+   "seed": 37,
+   "program": "policy_v3.py",
+   "success": true,
+   "max_coverage": 0.9533,
+   "n_steps": 226,
+   "trace_showed": "success at step 226 (cov 0.953); same-face slip/re-approach cycles (push 5, walk 7) x4; overshoot near goal 0.943 -> 0.916; per-life COM u estimate -5.1 (pooled 3.0, 44.0)",
+   "changed": "v4: re-anchor sliding contact along the face (S4b), coast-aware push stop (S5), COM (3, 44)"
+  },
+  {
+   "pilot": "aspire_style",
+   "life": 4,
+   "seed": 52,
+   "program": "policy_v4.py",
+   "success": true,
+   "max_coverage": 0.9528,
+   "n_steps": 169,
+   "trace_showed": "success at step 169 (cov 0.953); contact slid 25->27->28 without re-approach (S4b works); 0.8 -> 0.95 took 83 steps, ~2/3 walking",
+   "changed": "v5: precision phase (twist error < 20): travel weight 0.6, keep 0.3 (S6)"
+  },
+  {
+   "pilot": "aspire_style",
+   "life": 5,
+   "seed": 68,
+   "program": "policy_v5.py",
+   "success": true,
+   "max_coverage": 0.951,
+   "n_steps": 105,
+   "trace_showed": "success at step 105 (cov 0.951); 0.79 -> 0.95 in 30 steps",
+   "changed": "none (official run ended; v5 evaluated)"
+  },
+  {
+   "pilot": "aspire_style_x1",
+   "life": 1,
+   "seed": 101,
+   "program": "policy_v6.py",
+   "success": true,
+   "max_coverage": 0.955,
+   "n_steps": 96,
+   "trace_showed": "success at step 96 (cov 0.955); walks now 6-10 steps",
+   "changed": "none"
+  },
+  {
+   "pilot": "aspire_style_x1",
+   "life": 2,
+   "seed": 202,
+   "program": "policy_v6.py",
+   "success": false,
+   "max_coverage": 0.8216,
+   "n_steps": 300,
+   "trace_showed": "FAILURE (max cov 0.822): 272 steps parked in 'push' on a contact with alignment ~0.01; travel cost made the useless adjacent contact win; coast stop held depth -4",
+   "changed": "v7: contacts below keep threshold never selected; stall watchdog bans a motionless contact for 25 steps (S8)"
+  },
+  {
+   "pilot": "aspire_style_x1",
+   "life": 3,
+   "seed": 303,
+   "program": "policy_v7.py",
+   "success": true,
+   "max_coverage": 0.954,
+   "n_steps": 93,
+   "trace_showed": "success at step 93 (cov 0.954)",
+   "changed": "none"
+  },
+  {
+   "pilot": "aspire_style_x1",
+   "life": 4,
+   "seed": 404,
+   "program": "policy_v7.py",
+   "success": true,
+   "max_coverage": 0.9536,
+   "n_steps": 115,
+   "trace_showed": "success at step 115 (cov 0.954)",
+   "changed": "none"
+  },
+  {
+   "pilot": "aspire_style_x1",
+   "life": 5,
+   "seed": 505,
+   "program": "policy_v7.py",
+   "success": true,
+   "max_coverage": 0.9504,
+   "n_steps": 246,
+   "trace_showed": "success at step 246 (cov 0.950); coverage lost in pushes started on contacts with alignment 0.33-0.55",
+   "changed": "v8: a new contact needs alignment >= 0.6 (S6b)"
+  },
+  {
+   "pilot": "aspire_style_x2",
+   "life": 1,
+   "seed": 606,
+   "program": "policy_v8.py",
+   "success": true,
+   "max_coverage": 0.9511,
+   "n_steps": 100,
+   "trace_showed": "success at step 100 (cov 0.951)",
+   "changed": "none"
+  },
+  {
+   "pilot": "aspire_style_x2",
+   "life": 2,
+   "seed": 707,
+   "program": "policy_v8.py",
+   "success": true,
+   "max_coverage": 0.9504,
+   "n_steps": 92,
+   "trace_showed": "success at step 92 (cov 0.950)",
+   "changed": "none"
+  },
+  {
+   "pilot": "aspire_style_x2",
+   "life": 3,
+   "seed": 808,
+   "program": "policy_v8.py",
+   "success": true,
+   "max_coverage": 0.9501,
+   "n_steps": 81,
+   "trace_showed": "success at step 81 (cov 0.950)",
+   "changed": "none (stopped: 8 of 15 extra lives used)"
+  }
+ ],
+ "official": {
+  "lives_used": 5,
+  "real_steps": 971,
+  "lives_succeeded": 5,
+  "final_program": "pilots/aspire_pusht/policy_v5.py",
+  "final_program_bytes": 10691,
+  "eval": {
+   "n": 50,
+   "success_rate": 0.2,
+   "mean_max_coverage": 0.7899807136467016,
+   "mean_n_steps": 270.48
+  },
+  "result_file": "runs/pusht/results/pusht__aspire_style.json",
+  "eval_gifs": "runs/pusht/aspire_style/gifs/aspire_style_eval/ep_1000.gif .. ep_1002.gif"
+ },
+ "extended": {
+  "extra_lives_used": 8,
+  "total_lives": 13,
+  "real_steps_total": 2094,
+  "extra_lives_succeeded": 7,
+  "final_program": "pilots/aspire_pusht/policy_v8.py",
+  "final_program_bytes": 13671,
+  "eval": {
+   "n": 50,
+   "success_rate": 0.94,
+   "mean_max_coverage": 0.8984953522512911,
+   "mean_n_steps": 146.32
+  },
+  "result_file": "runs/pusht/results/pusht__aspire_style_extended.json",
+  "eval_gifs": "runs/pusht/aspire_style/gifs/aspire_style_extended_eval/ep_1000.gif .. ep_1002.gif"
+ },
+ "life_gifs": "runs/pusht/aspire_style/gifs/<pilot>_life_<k>_v<ver>_seed<seed>.gif",
+ "skill_library": "pilots/aspire_pusht/skills.json",
+ "object_L": {
+  "lives": [
+   {
+    "pilot": "aspire_style",
+    "life": 1,
+    "seed": 17,
+    "program": "policy_v9.py",
+    "success": false,
+    "max_coverage": 0.9454,
+    "n_steps": 300,
+    "trace_showed": "failure, max 0.945 at t=263: angle error fell only +69 -> +2.5 deg in a fixed 4-contact cycle (left side, leg right side, leg top, bottom), ~6-10 deg per ~60-step cycle; every push ended by alignment falling below the keep threshold; rotation regression k = 0.00008 vs 0.00015 on the T",
+    "changed": "v10: S10 rotation-response scaling g = 2.5, S11 relative thresholds, COM shrunk to (39, 47)"
+   },
+   {
+    "pilot": "aspire_style",
+    "life": 2,
+    "seed": 29,
+    "program": "policy_v10.py",
+    "success": false,
+    "max_coverage": 0.4276,
+    "n_steps": 300,
+    "trace_showed": "failure, max 0.428: eth +83 deg while the body origin was 2 u from its goal; 280 steps of short pushes and 16-21-step walks; eth 83 -> 27 deg",
+    "changed": "none before the official evaluation (v10 evaluated: 8/50); then v11: S12 COM-based twist + rotation phase"
+   },
+   {
+    "pilot": "aspire_style_x1",
+    "life": 1,
+    "seed": 29,
+    "program": "policy_v11.py",
+    "success": false,
+    "max_coverage": 0.7829,
+    "n_steps": 300,
+    "trace_showed": "seed 29 again: failure, max 0.783 (was 0.428); first push turned 19 deg in 9 steps, later pushes 1-4 deg in 6 steps (depth ~8 u)",
+    "changed": "v12: S10b push depth in push units, COM (37.5, 48) from pooled regression"
+   },
+   {
+    "pilot": "aspire_style_x1",
+    "life": 2,
+    "seed": 29,
+    "program": "policy_v12.py",
+    "success": true,
+    "max_coverage": 0.9515,
+    "n_steps": 267,
+    "trace_showed": "seed 29 again: SUCCESS at step 267 (0.952); still ~80% walking, pushes 2-4 steps",
+    "changed": "none"
+   },
+   {
+    "pilot": "aspire_style_x2",
+    "life": 1,
+    "seed": 41,
+    "program": "policy_v12.py",
+    "success": false,
+    "max_coverage": 0.8617,
+    "n_steps": 300,
+    "trace_showed": "new seed 41 (start eth -135 deg): failure, max 0.862; pushes 2-4 steps then 9-22-step walks",
+    "changed": "v13: S13 push commitment (>= 6 steps)"
+   },
+   {
+    "pilot": "aspire_style_x2",
+    "life": 2,
+    "seed": 41,
+    "program": "policy_v13.py",
+    "success": false,
+    "max_coverage": 0.8824,
+    "n_steps": 300,
+    "trace_showed": "seed 41 again: failure, max 0.882; phase breakdown: 76 radial-exit steps at 10.9 u/step, 37 orbit, 48 direct, 48 corridor, 91 push",
+    "changed": "v14: S7b fast radial exit with early orbiting, corridor 2x"
+   },
+   {
+    "pilot": "aspire_style_x3",
+    "life": 1,
+    "seed": 41,
+    "program": "policy_v14.py",
+    "success": false,
+    "max_coverage": 0.9417,
+    "n_steps": 300,
+    "trace_showed": "seed 41 a third time: failure, max 0.942 (coverage > 0.9 from t=231); coverage rose in walks and fell in each precision push",
+    "changed": "v15: S10c T-validated depth inside the precision phase"
+   },
+   {
+    "pilot": "aspire_style_x3",
+    "life": 2,
+    "seed": 53,
+    "program": "policy_v15.py",
+    "success": false,
+    "max_coverage": 0.8904,
+    "n_steps": 300,
+    "trace_showed": "new seed 53 (start eth +151 deg): failure, max 0.890, never fully in the precision phase",
+    "changed": "none (all 6 extra lives used; v15 evaluated)"
+   }
+  ],
+  "official": {
+   "lives_used": 2,
+   "real_steps": 600,
+   "final_program": "pilots/aspire_pusht/policy_v10.py",
+   "final_program_bytes": 16867,
+   "eval": {
+    "n": 50,
+    "success_rate": 0.16,
+    "mean_max_coverage": 0.594369340800585,
+    "mean_n_steps": 282.34
+   },
+   "result_file": "runs/pusht/results/pusht_L__aspire_style.json",
+   "eval_gifs": "runs/pusht/aspire_style/gifs/L_aspire_style_eval/ep_1000.gif .. ep_1002.gif"
+  },
+  "extended": {
+   "extra_lives_used": 6,
+   "total_L_lives": 8,
+   "real_steps_total": 2367,
+   "final_program": "pilots/aspire_pusht/policy_v15.py",
+   "final_program_bytes": 21153,
+   "eval": {
+    "n": 50,
+    "success_rate": 0.46,
+    "mean_max_coverage": 0.8757749700303579,
+    "mean_n_steps": 255.12
+   },
+   "result_file": "runs/pusht/results/pusht_L__aspire_style_extended.json",
+   "eval_gifs": "runs/pusht/aspire_style/gifs/L_aspire_style_extended_eval/ep_1000.gif .. ep_1002.gif"
+  },
+  "life_gifs": "runs/pusht/aspire_style/gifs/L_<pilot>_life_<k>_v<ver>_seed<seed>.gif",
+  "skills_transfer": {
+   "unchanged": [
+    "S1",
+    "S2/S2b",
+    "S4/S4b",
+    "S5",
+    "S6",
+    "S6b",
+    "S7",
+    "S8"
+   ],
+   "changed": [
+    "S3 (COM re-estimated on the L; pooled fit (37.4, 48.8) vs centroid (37.6, 42.6))",
+    "S0 scoring (S10 rotation-response scaling)",
+    "S6/S6b thresholds made relative (S11)"
+   ],
+   "new": [
+    "S9",
+    "S10",
+    "S10b",
+    "S10c",
+    "S11",
+    "S12",
+    "S13",
+    "S7b"
+   ]
+  },
+  "conclusions": "Same rig behaviour as the T (pusher response, coasting) carried over unchanged. The L turns ~2-3x less per unit push relative to how far it translates; COM regressions put the mass near (37, 48) vs the area centroid (37.6, 42.6), i.e. shifted towards the far end of the long leg as the T's was shifted up its stem (weak, per-life fits scatter 26-40 in u). Large initial angle errors (>100 deg) are the hard cases: the program cannot turn the L fast enough within 300 steps."
+ },
+ "cap_in_code_world": {
+  "world": "worlds/pusht/pusht_world.py via experiments/pusht/code_wm/screen.run_in_world (object L)",
+  "screening": [
+   {
+    "name": "v9",
+    "program": "policy_v9.py",
+    "overrides": {},
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.388,
+    "mean_max_coverage": 0.775,
+    "success_away_from_walls": 0.447,
+    "success_near_wall": 0.266,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.707
+     ],
+     "eth90-135": [
+      56,
+      0.036
+     ],
+     "eth135-181": [
+      70,
+      0.014
+     ]
+    }
+   },
+   {
+    "name": "v14",
+    "program": "policy_v14.py",
+    "overrides": {},
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.621,
+    "mean_max_coverage": 0.843,
+    "success_away_from_walls": 0.72,
+    "success_near_wall": 0.418,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.879
+     ],
+     "eth90-135": [
+      56,
+      0.625
+     ],
+     "eth135-181": [
+      70,
+      0.186
+     ]
+    }
+   },
+   {
+    "name": "v15",
+    "program": "policy_v15.py",
+    "overrides": {},
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.375,
+    "mean_max_coverage": 0.827,
+    "success_away_from_walls": 0.453,
+    "success_near_wall": 0.215,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.655
+     ],
+     "eth90-135": [
+      56,
+      0.054
+     ],
+     "eth135-181": [
+      70,
+      0.0
+     ]
+    }
+   },
+   {
+    "name": "v16-default(=v15)",
+    "program": "policy_v16.py",
+    "overrides": {},
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.375,
+    "mean_max_coverage": 0.827,
+    "success_away_from_walls": 0.453,
+    "success_near_wall": 0.215,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.655
+     ],
+     "eth90-135": [
+      56,
+      0.054
+     ],
+     "eth135-181": [
+      70,
+      0.0
+     ]
+    }
+   },
+   {
+    "name": "A=v14rules",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.621,
+    "mean_max_coverage": 0.843,
+    "success_away_from_walls": 0.72,
+    "success_near_wall": 0.418,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.879
+     ],
+     "eth90-135": [
+      56,
+      0.625
+     ],
+     "eth135-181": [
+      70,
+      0.186
+     ]
+    }
+   },
+   {
+    "name": "B com_world",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "com": [
+        23.4,
+        55.6
+       ]
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.592,
+    "mean_max_coverage": 0.826,
+    "success_away_from_walls": 0.72,
+    "success_near_wall": 0.329,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.862
+     ],
+     "eth90-135": [
+      56,
+      0.536
+     ],
+     "eth135-181": [
+      70,
+      0.186
+     ]
+    }
+   },
+   {
+    "name": "B2 com_mid",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "com": [
+        30.0,
+        52.0
+       ]
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.596,
+    "mean_max_coverage": 0.83,
+    "success_away_from_walls": 0.739,
+    "success_near_wall": 0.304,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.857
+     ],
+     "eth45-90": [
+      58,
+      0.793
+     ],
+     "eth90-135": [
+      56,
+      0.607
+     ],
+     "eth135-181": [
+      70,
+      0.214
+     ]
+    }
+   },
+   {
+    "name": "C g2",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 2.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.658,
+    "mean_max_coverage": 0.844,
+    "success_away_from_walls": 0.77,
+    "success_near_wall": 0.43,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.897
+     ],
+     "eth90-135": [
+      56,
+      0.732
+     ],
+     "eth135-181": [
+      70,
+      0.214
+     ]
+    }
+   },
+   {
+    "name": "C g3.5",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 3.5
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.654,
+    "mean_max_coverage": 0.841,
+    "success_away_from_walls": 0.789,
+    "success_near_wall": 0.38,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.839
+     ],
+     "eth45-90": [
+      58,
+      0.845
+     ],
+     "eth90-135": [
+      56,
+      0.696
+     ],
+     "eth135-181": [
+      70,
+      0.314
+     ]
+    }
+   },
+   {
+    "name": "C g5",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 5.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.729,
+    "mean_max_coverage": 0.858,
+    "success_away_from_walls": 0.839,
+    "success_near_wall": 0.506,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.839
+     ],
+     "eth45-90": [
+      58,
+      0.879
+     ],
+     "eth90-135": [
+      56,
+      0.75
+     ],
+     "eth135-181": [
+      70,
+      0.5
+     ]
+    }
+   },
+   {
+    "name": "D commit0",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "commit": 0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.654,
+    "mean_max_coverage": 0.841,
+    "success_away_from_walls": 0.758,
+    "success_near_wall": 0.443,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.914
+     ],
+     "eth90-135": [
+      56,
+      0.679
+     ],
+     "eth135-181": [
+      70,
+      0.229
+     ]
+    }
+   },
+   {
+    "name": "D commit10",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "commit": 10
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.629,
+    "mean_max_coverage": 0.843,
+    "success_away_from_walls": 0.745,
+    "success_near_wall": 0.392,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.879
+     ],
+     "eth90-135": [
+      56,
+      0.679
+     ],
+     "eth135-181": [
+      70,
+      0.186
+     ]
+    }
+   },
+   {
+    "name": "E wt0.3",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "wt_rot": 0.3
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.704,
+    "mean_max_coverage": 0.848,
+    "success_away_from_walls": 0.807,
+    "success_near_wall": 0.494,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.911
+     ],
+     "eth45-90": [
+      58,
+      0.897
+     ],
+     "eth90-135": [
+      56,
+      0.839
+     ],
+     "eth135-181": [
+      70,
+      0.271
+     ]
+    }
+   },
+   {
+    "name": "E wt1",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "wt_rot": 1.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.679,
+    "mean_max_coverage": 0.86,
+    "success_away_from_walls": 0.801,
+    "success_near_wall": 0.43,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.914
+     ],
+     "eth90-135": [
+      56,
+      0.661
+     ],
+     "eth135-181": [
+      70,
+      0.343
+     ]
+    }
+   },
+   {
+    "name": "F rot25",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_deg": 25.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.692,
+    "mean_max_coverage": 0.847,
+    "success_away_from_walls": 0.801,
+    "success_near_wall": 0.468,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.897
+     ],
+     "eth90-135": [
+      56,
+      0.714
+     ],
+     "eth135-181": [
+      70,
+      0.343
+     ]
+    }
+   },
+   {
+    "name": "B+g3.5",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "com": [
+        23.4,
+        55.6
+       ],
+       "rot_gain": 3.5
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.683,
+    "mean_max_coverage": 0.837,
+    "success_away_from_walls": 0.789,
+    "success_near_wall": 0.468,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.828
+     ],
+     "eth90-135": [
+      56,
+      0.679
+     ],
+     "eth135-181": [
+      70,
+      0.414
+     ]
+    }
+   },
+   {
+    "name": "g5 wt0.3",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 5.0,
+       "wt_rot": 0.3
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.646,
+    "mean_max_coverage": 0.844,
+    "success_away_from_walls": 0.739,
+    "success_near_wall": 0.456,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.839
+     ],
+     "eth45-90": [
+      58,
+      0.828
+     ],
+     "eth90-135": [
+      56,
+      0.679
+     ],
+     "eth135-181": [
+      70,
+      0.314
+     ]
+    }
+   },
+   {
+    "name": "g5 wt0.3 rot25",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 5.0,
+       "wt_rot": 0.3,
+       "rot_deg": 25.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.692,
+    "mean_max_coverage": 0.85,
+    "success_away_from_walls": 0.764,
+    "success_near_wall": 0.544,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.793
+     ],
+     "eth90-135": [
+      56,
+      0.661
+     ],
+     "eth135-181": [
+      70,
+      0.471
+     ]
+    }
+   },
+   {
+    "name": "g5 wt0.3 commit0",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 5.0,
+       "wt_rot": 0.3,
+       "commit": 0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.683,
+    "mean_max_coverage": 0.847,
+    "success_away_from_walls": 0.801,
+    "success_near_wall": 0.443,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.81
+     ],
+     "eth90-135": [
+      56,
+      0.714
+     ],
+     "eth135-181": [
+      70,
+      0.386
+     ]
+    }
+   },
+   {
+    "name": "g8",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 8.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.637,
+    "mean_max_coverage": 0.858,
+    "success_away_from_walls": 0.702,
+    "success_near_wall": 0.506,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.768
+     ],
+     "eth45-90": [
+      58,
+      0.793
+     ],
+     "eth90-135": [
+      56,
+      0.589
+     ],
+     "eth135-181": [
+      70,
+      0.443
+     ]
+    }
+   },
+   {
+    "name": "g8 wt0.3",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 8.0,
+       "wt_rot": 0.3
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.604,
+    "mean_max_coverage": 0.84,
+    "success_away_from_walls": 0.689,
+    "success_near_wall": 0.43,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.804
+     ],
+     "eth45-90": [
+      58,
+      0.828
+     ],
+     "eth90-135": [
+      56,
+      0.518
+     ],
+     "eth135-181": [
+      70,
+      0.329
+     ]
+    }
+   },
+   {
+    "name": "g3.5 wt0.3",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 3.5,
+       "wt_rot": 0.3
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.583,
+    "mean_max_coverage": 0.843,
+    "success_away_from_walls": 0.714,
+    "success_near_wall": 0.316,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.776
+     ],
+     "eth90-135": [
+      56,
+      0.571
+     ],
+     "eth135-181": [
+      70,
+      0.186
+     ]
+    }
+   },
+   {
+    "name": "g5 wt0.3 comW",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 5.0,
+       "wt_rot": 0.3,
+       "com": [
+        23.4,
+        55.6
+       ]
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.625,
+    "mean_max_coverage": 0.829,
+    "success_away_from_walls": 0.739,
+    "success_near_wall": 0.392,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.857
+     ],
+     "eth45-90": [
+      58,
+      0.776
+     ],
+     "eth90-135": [
+      56,
+      0.589
+     ],
+     "eth135-181": [
+      70,
+      0.343
+     ]
+    }
+   },
+   {
+    "name": "g5 wt0.15",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "rot_gain": 5.0,
+       "wt_rot": 0.15
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.592,
+    "mean_max_coverage": 0.824,
+    "success_away_from_walls": 0.689,
+    "success_near_wall": 0.392,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.828
+     ],
+     "eth90-135": [
+      56,
+      0.482
+     ],
+     "eth135-181": [
+      70,
+      0.257
+     ]
+    }
+   },
+   {
+    "name": "dmax60",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "d_max": 60.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.675,
+    "mean_max_coverage": 0.845,
+    "success_away_from_walls": 0.795,
+    "success_near_wall": 0.43,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.879
+     ],
+     "eth90-135": [
+      56,
+      0.714
+     ],
+     "eth135-181": [
+      70,
+      0.314
+     ]
+    }
+   },
+   {
+    "name": "dmax80 k0.8",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "d_max": 80.0,
+       "k_depth": 0.8
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.787,
+    "mean_max_coverage": 0.851,
+    "success_away_from_walls": 0.857,
+    "success_near_wall": 0.646,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.828
+     ],
+     "eth90-135": [
+      56,
+      0.696
+     ],
+     "eth135-181": [
+      70,
+      0.743
+     ]
+    }
+   },
+   {
+    "name": "k0.8",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.767,
+    "mean_max_coverage": 0.848,
+    "success_away_from_walls": 0.882,
+    "success_near_wall": 0.532,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.857
+     ],
+     "eth45-90": [
+      58,
+      0.897
+     ],
+     "eth90-135": [
+      56,
+      0.75
+     ],
+     "eth135-181": [
+      70,
+      0.6
+     ]
+    }
+   },
+   {
+    "name": "dmin4",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "d_min": 4.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.579,
+    "mean_max_coverage": 0.843,
+    "success_away_from_walls": 0.683,
+    "success_near_wall": 0.367,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.821
+     ],
+     "eth45-90": [
+      58,
+      0.828
+     ],
+     "eth90-135": [
+      56,
+      0.571
+     ],
+     "eth135-181": [
+      70,
+      0.186
+     ]
+    }
+   },
+   {
+    "name": "vfree180",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "v_free": 180.0,
+       "look": 140.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.625,
+    "mean_max_coverage": 0.849,
+    "success_away_from_walls": 0.745,
+    "success_near_wall": 0.38,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.914
+     ],
+     "eth90-135": [
+      56,
+      0.714
+     ],
+     "eth135-181": [
+      70,
+      0.114
+     ]
+    }
+   },
+   {
+    "name": "lam0.5",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "lam": 0.5
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.596,
+    "mean_max_coverage": 0.846,
+    "success_away_from_walls": 0.708,
+    "success_near_wall": 0.367,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.81
+     ],
+     "eth90-135": [
+      56,
+      0.643
+     ],
+     "eth135-181": [
+      70,
+      0.157
+     ]
+    }
+   },
+   {
+    "name": "lam0.1",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "lam": 0.1
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.617,
+    "mean_max_coverage": 0.839,
+    "success_away_from_walls": 0.714,
+    "success_near_wall": 0.418,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.862
+     ],
+     "eth90-135": [
+      56,
+      0.625
+     ],
+     "eth135-181": [
+      70,
+      0.186
+     ]
+    }
+   },
+   {
+    "name": "hyst0.2",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "hyst": 0.2
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.625,
+    "mean_max_coverage": 0.843,
+    "success_away_from_walls": 0.727,
+    "success_near_wall": 0.418,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.879
+     ],
+     "eth90-135": [
+      56,
+      0.643
+     ],
+     "eth135-181": [
+      70,
+      0.186
+     ]
+    }
+   },
+   {
+    "name": "prec_nt30",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "prec_nt": 30.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.588,
+    "mean_max_coverage": 0.842,
+    "success_away_from_walls": 0.671,
+    "success_near_wall": 0.418,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.828
+     ],
+     "eth90-135": [
+      56,
+      0.554
+     ],
+     "eth135-181": [
+      70,
+      0.186
+     ]
+    }
+   },
+   {
+    "name": "coast1.0",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "coast": 1.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.662,
+    "mean_max_coverage": 0.846,
+    "success_away_from_walls": 0.783,
+    "success_near_wall": 0.418,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.893
+     ],
+     "eth45-90": [
+      58,
+      0.897
+     ],
+     "eth90-135": [
+      56,
+      0.732
+     ],
+     "eth135-181": [
+      70,
+      0.229
+     ]
+    }
+   },
+   {
+    "name": "k1.2 d80",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 1.2,
+       "d_max": 80.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.65,
+    "mean_max_coverage": 0.852,
+    "success_away_from_walls": 0.752,
+    "success_near_wall": 0.443,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.768
+     ],
+     "eth45-90": [
+      58,
+      0.776
+     ],
+     "eth90-135": [
+      56,
+      0.571
+     ],
+     "eth135-181": [
+      70,
+      0.514
+     ]
+    }
+   },
+   {
+    "name": "k1.2 d120",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 1.2,
+       "d_max": 120.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.779,
+    "mean_max_coverage": 0.852,
+    "success_away_from_walls": 0.876,
+    "success_near_wall": 0.582,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.821
+     ],
+     "eth45-90": [
+      58,
+      0.741
+     ],
+     "eth90-135": [
+      56,
+      0.821
+     ],
+     "eth135-181": [
+      70,
+      0.743
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d60",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 60.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.792,
+    "mean_max_coverage": 0.848,
+    "success_away_from_walls": 0.888,
+    "success_near_wall": 0.595,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.875
+     ],
+     "eth45-90": [
+      58,
+      0.845
+     ],
+     "eth90-135": [
+      56,
+      0.786
+     ],
+     "eth135-181": [
+      70,
+      0.686
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d80 g5",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 80.0,
+       "rot_gain": 5.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.717,
+    "mean_max_coverage": 0.865,
+    "success_away_from_walls": 0.807,
+    "success_near_wall": 0.532,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.714
+     ],
+     "eth45-90": [
+      58,
+      0.741
+     ],
+     "eth90-135": [
+      56,
+      0.768
+     ],
+     "eth135-181": [
+      70,
+      0.657
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d80 wt0.3",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 80.0,
+       "wt_rot": 0.3
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.792,
+    "mean_max_coverage": 0.853,
+    "success_away_from_walls": 0.87,
+    "success_near_wall": 0.633,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.857
+     ],
+     "eth45-90": [
+      58,
+      0.776
+     ],
+     "eth90-135": [
+      56,
+      0.768
+     ],
+     "eth135-181": [
+      70,
+      0.771
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d80 coast1",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 80.0,
+       "coast": 1.0
+      }
+     }
+    },
+    "imagined_episodes": 240,
+    "seeds": "70000..70239",
+    "success": 0.858,
+    "mean_max_coverage": 0.856,
+    "success_away_from_walls": 0.95,
+    "success_near_wall": 0.671,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      56,
+      0.911
+     ],
+     "eth45-90": [
+      58,
+      0.897
+     ],
+     "eth90-135": [
+      56,
+      0.839
+     ],
+     "eth135-181": [
+      70,
+      0.8
+     ]
+    }
+   },
+   {
+    "name": "v15",
+    "program": "policy_v15.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "72000..72479",
+    "success": 0.377,
+    "mean_max_coverage": 0.825,
+    "success_away_from_walls": 0.413,
+    "success_near_wall": 0.301,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      118,
+      0.839
+     ],
+     "eth45-90": [
+      113,
+      0.602
+     ],
+     "eth90-135": [
+      131,
+      0.107
+     ],
+     "eth135-181": [
+      118,
+      0.0
+     ]
+    }
+   },
+   {
+    "name": "A=v14rules",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "72000..72479",
+    "success": 0.604,
+    "mean_max_coverage": 0.841,
+    "success_away_from_walls": 0.673,
+    "success_near_wall": 0.458,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      118,
+      0.856
+     ],
+     "eth45-90": [
+      113,
+      0.858
+     ],
+     "eth90-135": [
+      131,
+      0.557
+     ],
+     "eth135-181": [
+      118,
+      0.161
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d80",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 80.0
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "72000..72479",
+    "success": 0.773,
+    "mean_max_coverage": 0.844,
+    "success_away_from_walls": 0.841,
+    "success_near_wall": 0.627,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      118,
+      0.839
+     ],
+     "eth45-90": [
+      113,
+      0.832
+     ],
+     "eth90-135": [
+      131,
+      0.809
+     ],
+     "eth135-181": [
+      118,
+      0.61
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d60",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 60.0
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "72000..72479",
+    "success": 0.792,
+    "mean_max_coverage": 0.843,
+    "success_away_from_walls": 0.869,
+    "success_near_wall": 0.627,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      118,
+      0.805
+     ],
+     "eth45-90": [
+      113,
+      0.85
+     ],
+     "eth90-135": [
+      131,
+      0.809
+     ],
+     "eth135-181": [
+      118,
+      0.703
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d80 coast1",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 80.0,
+       "coast": 1.0
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "72000..72479",
+    "success": 0.817,
+    "mean_max_coverage": 0.847,
+    "success_away_from_walls": 0.896,
+    "success_near_wall": 0.647,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      118,
+      0.856
+     ],
+     "eth45-90": [
+      113,
+      0.867
+     ],
+     "eth90-135": [
+      131,
+      0.84
+     ],
+     "eth135-181": [
+      118,
+      0.703
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d60 coast1",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 60.0,
+       "coast": 1.0
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "72000..72479",
+    "success": 0.827,
+    "mean_max_coverage": 0.845,
+    "success_away_from_walls": 0.933,
+    "success_near_wall": 0.601,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      118,
+      0.831
+     ],
+     "eth45-90": [
+      113,
+      0.858
+     ],
+     "eth90-135": [
+      131,
+      0.832
+     ],
+     "eth135-181": [
+      118,
+      0.788
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d80 coast1 wt0.3",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 80.0,
+       "coast": 1.0,
+       "wt_rot": 0.3
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "72000..72479",
+    "success": 0.823,
+    "mean_max_coverage": 0.841,
+    "success_away_from_walls": 0.911,
+    "success_near_wall": 0.634,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      118,
+      0.856
+     ],
+     "eth45-90": [
+      113,
+      0.841
+     ],
+     "eth90-135": [
+      131,
+      0.847
+     ],
+     "eth135-181": [
+      118,
+      0.746
+     ]
+    }
+   },
+   {
+    "name": "k0.8 d80 coast0.5",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 80.0,
+       "coast": 0.5
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "72000..72479",
+    "success": 0.825,
+    "mean_max_coverage": 0.847,
+    "success_away_from_walls": 0.908,
+    "success_near_wall": 0.647,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      118,
+      0.864
+     ],
+     "eth45-90": [
+      113,
+      0.885
+     ],
+     "eth90-135": [
+      131,
+      0.817
+     ],
+     "eth135-181": [
+      118,
+      0.737
+     ]
+    }
+   },
+   {
+    "name": "v16 k0.8 d60 coast1",
+    "program": "policy_v16.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s10c": false,
+       "k_depth": 0.8,
+       "d_max": 60.0,
+       "coast": 1.0
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.846,
+    "mean_max_coverage": 0.86,
+    "success_away_from_walls": 0.941,
+    "success_near_wall": 0.68,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.892
+     ],
+     "eth45-90": [
+      113,
+      0.903
+     ],
+     "eth90-135": [
+      111,
+      0.856
+     ],
+     "eth135-181": [
+      126,
+      0.738
+     ]
+    }
+   },
+   {
+    "name": "v17",
+    "program": "policy_v17.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.825,
+    "mean_max_coverage": 0.848,
+    "success_away_from_walls": 0.902,
+    "success_near_wall": 0.691,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.862
+     ],
+     "eth45-90": [
+      113,
+      0.894
+     ],
+     "eth90-135": [
+      111,
+      0.82
+     ],
+     "eth135-181": [
+      126,
+      0.73
+     ]
+    }
+   },
+   {
+    "name": "v17 wt0.3",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "wt_rot": 0.3
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.806,
+    "mean_max_coverage": 0.846,
+    "success_away_from_walls": 0.862,
+    "success_near_wall": 0.709,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.846
+     ],
+     "eth45-90": [
+      113,
+      0.903
+     ],
+     "eth90-135": [
+      111,
+      0.784
+     ],
+     "eth135-181": [
+      126,
+      0.698
+     ]
+    }
+   },
+   {
+    "name": "v17 commit0",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "commit": 0
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.794,
+    "mean_max_coverage": 0.845,
+    "success_away_from_walls": 0.882,
+    "success_near_wall": 0.64,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.846
+     ],
+     "eth45-90": [
+      113,
+      0.894
+     ],
+     "eth90-135": [
+      111,
+      0.766
+     ],
+     "eth135-181": [
+      126,
+      0.675
+     ]
+    }
+   },
+   {
+    "name": "v17 g4",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "rot_gain": 4.0
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.815,
+    "mean_max_coverage": 0.852,
+    "success_away_from_walls": 0.898,
+    "success_near_wall": 0.669,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.823
+     ],
+     "eth45-90": [
+      113,
+      0.876
+     ],
+     "eth90-135": [
+      111,
+      0.793
+     ],
+     "eth135-181": [
+      126,
+      0.77
+     ]
+    }
+   },
+   {
+    "name": "v17 none",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s14": []
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.846,
+    "mean_max_coverage": 0.86,
+    "success_away_from_walls": 0.941,
+    "success_near_wall": 0.68,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.892
+     ],
+     "eth45-90": [
+      113,
+      0.903
+     ],
+     "eth90-135": [
+      111,
+      0.856
+     ],
+     "eth135-181": [
+      126,
+      0.738
+     ]
+    }
+   },
+   {
+    "name": "v17 watch",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s14": [
+        "watch"
+       ]
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.854,
+    "mean_max_coverage": 0.868,
+    "success_away_from_walls": 0.941,
+    "success_near_wall": 0.703,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.9
+     ],
+     "eth45-90": [
+      113,
+      0.912
+     ],
+     "eth90-135": [
+      111,
+      0.856
+     ],
+     "eth135-181": [
+      126,
+      0.754
+     ]
+    }
+   },
+   {
+    "name": "v17 launch",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s14": [
+        "launch"
+       ]
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.848,
+    "mean_max_coverage": 0.862,
+    "success_away_from_walls": 0.938,
+    "success_near_wall": 0.691,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.908
+     ],
+     "eth45-90": [
+      113,
+      0.885
+     ],
+     "eth90-135": [
+      111,
+      0.856
+     ],
+     "eth135-181": [
+      126,
+      0.746
+     ]
+    }
+   },
+   {
+    "name": "v17 orbit",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s14": [
+        "orbit"
+       ]
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.815,
+    "mean_max_coverage": 0.835,
+    "success_away_from_walls": 0.905,
+    "success_near_wall": 0.657,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.869
+     ],
+     "eth45-90": [
+      113,
+      0.885
+     ],
+     "eth90-135": [
+      111,
+      0.784
+     ],
+     "eth135-181": [
+      126,
+      0.722
+     ]
+    }
+   },
+   {
+    "name": "v17 watch+launch",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "s14": [
+        "watch",
+        "launch"
+       ]
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "73000..73479",
+    "success": 0.848,
+    "mean_max_coverage": 0.862,
+    "success_away_from_walls": 0.938,
+    "success_near_wall": 0.691,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      130,
+      0.908
+     ],
+     "eth45-90": [
+      113,
+      0.885
+     ],
+     "eth90-135": [
+      111,
+      0.856
+     ],
+     "eth135-181": [
+      126,
+      0.746
+     ]
+    }
+   },
+   {
+    "name": "v17 final-candidate",
+    "program": "policy_v17.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.84,
+    "mean_max_coverage": 0.866,
+    "success_away_from_walls": 0.918,
+    "success_near_wall": 0.671,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.883
+     ],
+     "eth45-90": [
+      120,
+      0.858
+     ],
+     "eth90-135": [
+      113,
+      0.92
+     ],
+     "eth135-181": [
+      136,
+      0.721
+     ]
+    }
+   },
+   {
+    "name": "v17 k0.65 d50",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "k_depth": 0.65,
+       "d_max": 50.0
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.817,
+    "mean_max_coverage": 0.867,
+    "success_away_from_walls": 0.884,
+    "success_near_wall": 0.671,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.91
+     ],
+     "eth45-90": [
+      120,
+      0.833
+     ],
+     "eth90-135": [
+      113,
+      0.876
+     ],
+     "eth135-181": [
+      136,
+      0.676
+     ]
+    }
+   },
+   {
+    "name": "v15 ref",
+    "program": "policy_v15.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.362,
+    "mean_max_coverage": 0.827,
+    "success_away_from_walls": 0.412,
+    "success_near_wall": 0.257,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.91
+     ],
+     "eth45-90": [
+      120,
+      0.533
+     ],
+     "eth90-135": [
+      113,
+      0.08
+     ],
+     "eth135-181": [
+      136,
+      0.0
+     ]
+    }
+   },
+   {
+    "name": "v14 ref",
+    "program": "policy_v14.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.596,
+    "mean_max_coverage": 0.845,
+    "success_away_from_walls": 0.68,
+    "success_near_wall": 0.414,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.919
+     ],
+     "eth45-90": [
+      120,
+      0.808
+     ],
+     "eth90-135": [
+      113,
+      0.619
+     ],
+     "eth135-181": [
+      136,
+      0.125
+     ]
+    }
+   },
+   {
+    "name": "v9 ref",
+    "program": "policy_v9.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.375,
+    "mean_max_coverage": 0.787,
+    "success_away_from_walls": 0.427,
+    "success_near_wall": 0.263,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.928
+     ],
+     "eth45-90": [
+      120,
+      0.55
+     ],
+     "eth90-135": [
+      113,
+      0.088
+     ],
+     "eth135-181": [
+      136,
+      0.007
+     ]
+    }
+   }
+  ],
+  "reference_on_heldout_seeds_74000": [
+   {
+    "name": "v17 final-candidate",
+    "program": "policy_v17.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.84,
+    "mean_max_coverage": 0.866,
+    "success_away_from_walls": 0.918,
+    "success_near_wall": 0.671,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.883
+     ],
+     "eth45-90": [
+      120,
+      0.858
+     ],
+     "eth90-135": [
+      113,
+      0.92
+     ],
+     "eth135-181": [
+      136,
+      0.721
+     ]
+    }
+   },
+   {
+    "name": "v17 k0.65 d50",
+    "program": "policy_v17.py",
+    "overrides": {
+     "obj_over": {
+      "L": {
+       "k_depth": 0.65,
+       "d_max": 50.0
+      }
+     }
+    },
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.817,
+    "mean_max_coverage": 0.867,
+    "success_away_from_walls": 0.884,
+    "success_near_wall": 0.671,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.91
+     ],
+     "eth45-90": [
+      120,
+      0.833
+     ],
+     "eth90-135": [
+      113,
+      0.876
+     ],
+     "eth135-181": [
+      136,
+      0.676
+     ]
+    }
+   },
+   {
+    "name": "v15 ref",
+    "program": "policy_v15.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.362,
+    "mean_max_coverage": 0.827,
+    "success_away_from_walls": 0.412,
+    "success_near_wall": 0.257,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.91
+     ],
+     "eth45-90": [
+      120,
+      0.533
+     ],
+     "eth90-135": [
+      113,
+      0.08
+     ],
+     "eth135-181": [
+      136,
+      0.0
+     ]
+    }
+   },
+   {
+    "name": "v14 ref",
+    "program": "policy_v14.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.596,
+    "mean_max_coverage": 0.845,
+    "success_away_from_walls": 0.68,
+    "success_near_wall": 0.414,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.919
+     ],
+     "eth45-90": [
+      120,
+      0.808
+     ],
+     "eth90-135": [
+      113,
+      0.619
+     ],
+     "eth135-181": [
+      136,
+      0.125
+     ]
+    }
+   },
+   {
+    "name": "v9 ref",
+    "program": "policy_v9.py",
+    "overrides": {},
+    "imagined_episodes": 480,
+    "seeds": "74000..74479",
+    "success": 0.375,
+    "mean_max_coverage": 0.787,
+    "success_away_from_walls": 0.427,
+    "success_near_wall": 0.263,
+    "by_initial_angle_error": {
+     "eth0-45": [
+      111,
+      0.928
+     ],
+     "eth45-90": [
+      120,
+      0.55
+     ],
+     "eth90-135": [
+      113,
+      0.088
+     ],
+     "eth135-181": [
+      136,
+      0.007
+     ]
+    }
+   }
+  ],
+  "submitted": {
+   "program": "pilots/aspire_pusht/policy_v17.py",
+   "bytes": 24535,
+   "code_world_prediction": {
+    "success": 0.84,
+    "mean_max_coverage": 0.866,
+    "seeds": "74000..74479 (held out)"
+   },
+   "changes_vs_v15": [
+    "S10c removed (precision depth back to push units)",
+    "k_depth 0.5 -> 0.8, d_max 40 -> 60 on the L",
+    "coast factor 1.7 -> 1.0 on the L",
+    "S14 approach-stall watchdog"
+   ]
+  },
+  "what_the_world_showed": [
+   "S10c (adopted after one real flight) was harmful in aggregate: v15 37.7% vs v14-rules 60.4% (480 imagined episodes); it slowed the end of long episodes (5% vs 56% success at initial |eth| 90-135 deg). One real flight per change could not reveal this.",
+   "Failures were dominated by time: success fell from ~0.9 at initial |eth| < 45 deg to 0.0-0.2 above 135 deg; pushing faster (k_depth 0.8, d_max 60) was the one lever that moved every band (60% -> 79%).",
+   "Many single-knob changes (COM, g, commitment, translation weight, thresholds) were within noise (+-0.03 at n=240); the world's COM (23.4, 55.6) did not help my program.",
+   "0-coverage failures near walls came from a navigation livelock (pusher pinned at the clipped wall line); the orbit-direction fix hurt (81.5%), only a stall watchdog was kept."
+  ],
+  "distrust": [
+   "Near-wall starts (block within 40 u of a wall): the world makes the wall a hard stop; success there 0.67-0.71 vs 0.92-0.94 away from walls; I did not tune for wall behaviour and kept only a wall-independent watchdog.",
+   "Faster pushes extrapolate: in contact, imagined v17 pusher steps have median 12 / p90 25 / max 51 u per step vs 5.6 / 16 / 37 in my 8 real L lives.",
+   "Selection bias: ~45 candidates on the same 240/480 seeds; the submitted program was re-scored on held-out imagined seeds 74000-74479."
+  ],
+  "imagined_episodes": 20779,
+  "wm_steps_recorded": 4496746,
+  "screening_wall_s": 249.0,
+  "real": {
+   "eval": {
+    "n": 50,
+    "success_rate": 0.84,
+    "mean_max_coverage": 0.9326501573411725,
+    "mean_n_steps": 179.32
+   },
+   "result_file": "runs/pusht/results/pusht_L__cap_in_code_world.json",
+   "gifs": "runs/pusht/aspire_style/gifs/L_cap_in_code_world_eval/ep_1000.gif .. ep_1002.gif"
+  }
+ }
+}

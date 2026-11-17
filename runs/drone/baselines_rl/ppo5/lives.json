@@ -1,0 +1,59 @@
+{
+ "lives": [
+  {
+   "life": 1,
+   "seed": 0,
+   "steps": 46,
+   "relays": 0,
+   "success": false,
+   "collision": true,
+   "ret": -47.87540011895414,
+   "train_samples": 46
+  },
+  {
+   "life": 2,
+   "seed": 1,
+   "steps": 41,
+   "relays": 0,
+   "success": false,
+   "collision": true,
+   "ret": -48.54219394334919,
+   "train_samples": 87
+  },
+  {
+   "life": 3,
+   "seed": 2,
+   "steps": 43,
+   "relays": 0,
+   "success": false,
+   "collision": true,
+   "ret": -46.91050112424397,
+   "train_samples": 130
+  },
+  {
+   "life": 4,
+   "seed": 3,
+   "steps": 40,
+   "relays": 0,
+   "success": false,
+   "collision": true,
+   "ret": -50.66410738701851,
+   "train_samples": 170
+  },
+  {
+   "life": 5,
+   "seed": 4,
+   "steps": 42,
+   "relays": 0,
+   "success": false,
+   "collision": true,
+   "ret": -48.658307403145976,
+   "train_samples": 212
+  }
+ ],
+ "real_steps": 212,
+ "train_wall_s": 4.784804582595825,
+ "epochs": 40,
+ "lr": 0.0003,
+ "log_std": -1.0
+}

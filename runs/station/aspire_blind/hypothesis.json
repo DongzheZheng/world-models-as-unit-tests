@@ -1,0 +1,34 @@
+{
+ "written_before_life": 1,
+ "what_it_is": "A flexible cable/rope (about 1.0 m long, about 8 mm thick) lying flat on the table. The 20 tracked points are markers spaced evenly along it; point 1 sits at the same spot (0.05, 0.0) in every situation, so that end is most likely clamped to the table (an anchor), though static data cannot prove it is fixed rather than merely placed there. Point 20 is the other end, held by the tool (a small ball gripper on an x-y gantry). The three posts are fixed vertical pegs; the task is to drag the free end around the pegs so the cable wraps each peg on the required side (winding about each peg at least 90 degrees in the required sense) and then park the tool at the target. The 'load' reading is most likely the cable tension / pulling force felt at the tool (or at the anchor): small at rest (0.2-0.85 N, residual from how the cable settled) and expected to grow with dragging speed (friction/drag of the cable on the table, 'fights back when you hurry'), with wrap friction around pegs (capstan effect) and sharply when the cable is pulled taut against the anchor (stretch).",
+ "evidence": {
+  "point_spacing": "3-d distance between consecutive points: mean 0.0523 m, std 0.0003, range 0.0514-0.0526 over 200 snapshots x 19 segments -> an inextensible-looking chain of equal links; total polyline length 0.994 +/- 0.0009 m.",
+  "point_1": "p1 = (0.050, 0.000, 0.004) with zero spread over all 200 snapshots -> clamped end (anchor) or fixed placement.",
+  "point_20_vs_tool": "|tool_pos - p20(xy)| <= 1.4e-6 m in all snapshots -> point 20 is attached to the tool.",
+  "z": "all points z = 0.0039-0.0040 m -> the cable lies on the table, radius about 4 mm.",
+  "initial_shape": "chord p1-p20 0.045-0.43 m (mean 0.27) for a 1 m cable, max lateral deviation from the chord about 0.32 m -> cable starts folded/looped near the anchor, x <= 0.344 m, i.e. entirely left of the posts (posts x >= 0.380).",
+  "initial_winding": "sides_now = 0 for all 600 post-situations; |W| <= 1.40 rad -> nothing is wrapped at reset.",
+  "posts": "3 posts, always sorted by x, x in [0.380, 0.718], y in [-0.248, 0.247], min centre spacing 0.150 m.",
+  "post_sides": "all 8 side combinations occur (counts 49,24,3,23,19,3,37,42 for ---, --+, -+-, -++, +--, +-+, ++-, +++).",
+  "target": "x in [0.607, 0.896], y in [-0.276, 0.290]; always at least 0.10 m right of the last post; distance from p1 0.57-0.85 m.",
+  "tool_start": "x in [0.050, 0.320], y in [-0.359, 0.333].",
+  "load_at_rest": "0.57 +/- 0.10 N (range 0.23-0.85), uncorrelated with chord length (r=0.07); limit is 10 N.",
+  "geometry_budget": "if p1 is anchored, a crude anchor->posts->target taut path (hugging each post at 0.034 m with straight y-offsets) is 0.87-1.48 m (mean 1.12) vs cable length about 1.0 m, so with an anchor the length budget is tight and over-pulling would tension the cable; a properly string-pulled path is shorter, but this suggests the anchor question matters."
+ },
+ "what_static_data_cannot_tell": [
+  "whether point 1 is truly clamped or free (towed cable vs tethered cable)",
+  "how the cable responds to dragging: whether it follows the tool path, cuts corners, slides off posts, or springs back when slack",
+  "friction (static/kinetic, isotropic or not) of the cable on the table and against the posts; wrap (capstan) friction",
+  "how load depends on tool speed and acceleration ('fights back when you hurry'), its time constants, and whether stopping relieves it",
+  "cable stiffness/stretch and how quickly load rises when it goes taut",
+  "how much the tool lags its reference under load and how fast it can come to rest at the target",
+  "whether the winding is retained after the tool stops (slack cable relaxing off the posts)"
+ ],
+ "plan_for_lives": {
+  "life_1": "Fly a cautious v1 on a typical seed: x-monotone corridor path passing each post on the side that gives the required winding (clearance 0.075 m), carrot following at a moderate 0.10 m/s, load-proportional slowdown and back-off above 8 N, settle at target. Purpose: see whether p1 moves (anchored or towed), how load scales with speed and wraps, whether the cable follows the path and wraps the posts, and how the final rest condition behaves.",
+  "life_2": "Repair the dominant failure mode from life 1 (e.g. speed/load limits, path clearance, overshoot needed to wrap, settling), fly on a different side pattern.",
+  "life_3": "Test the repaired program on a harder seed (tight geometry / long path / mixed sides).",
+  "life_4": "Tune speed vs time budget (fast enough to finish in 600 steps, slow enough to keep load below limit) on another hard seed.",
+  "life_5": "Validation flight of the candidate final program on a fresh seed; submit if it succeeds."
+ }
+}

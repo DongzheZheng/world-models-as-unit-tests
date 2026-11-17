@@ -1,0 +1,32 @@
+{
+ "label": "L world (fit L life 1) -> L life 2",
+ "params_from": null,
+ "test_lives": [
+  "runs/pusht/blackbox_L/code_wm/life_2.npz"
+ ],
+ "n_segments": 255,
+ "h5": {
+  "pos_err_mean_u": 21.776897430419922,
+  "pos_err_median_u": 2.840301513671875,
+  "ang_err_mean_deg": 11.660543441772461,
+  "ang_err_median_deg": 0.5058711171150208,
+  "static_baseline_pos_mean_u": 25.2305850982666,
+  "static_baseline_ang_mean_deg": 9.93664264678955
+ },
+ "h10": {
+  "pos_err_mean_u": 45.01054000854492,
+  "pos_err_median_u": 11.78416919708252,
+  "ang_err_mean_deg": 22.312822341918945,
+  "ang_err_median_deg": 1.1437287330627441,
+  "static_baseline_pos_mean_u": 44.596153259277344,
+  "static_baseline_ang_mean_deg": 12.856107711791992
+ },
+ "h20": {
+  "pos_err_mean_u": 82.4869384765625,
+  "pos_err_median_u": 29.49544334411621,
+  "ang_err_mean_deg": 38.79761505126953,
+  "ang_err_median_deg": 3.946756362915039,
+  "static_baseline_pos_mean_u": 81.76431274414062,
+  "static_baseline_ang_mean_deg": 17.035499572753906
+ }
+}

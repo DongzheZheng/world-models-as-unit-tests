@@ -1,0 +1,7 @@
+{"lives": {"1": "scripted probe: pusher step/ramp tracking, axial push through stem tip, off-centre pushes, fast push, release-and-watch",
+           "2": "scripted probe: 9 denser pushes at varied faces/speeds (3-8 u/step) with release phases",
+           "3": "end-to-end test of primitive-MPC (1024 samples) in the code world fitted on lives 1-2",
+           "4": "end-to-end test of the final controller (2048 samples, succ_thr 0.965)"},
+ "controller_lives": [3, 4],
+ "tuning_files": ["runs/pusht/code_wm/wm_eval_smoke.json", "runs/pusht/code_wm/wm_tune_a.json", "runs/pusht/code_wm/wm_tune_b.json", "runs/pusht/code_wm/wm_tune_c.json", "runs/pusht/code_wm/wm_tune_d.json"],
+ "chosen": "runs/pusht/code_wm/wm_tune_c.json"}

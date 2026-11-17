@@ -1,0 +1,242 @@
+{
+ "training_randomisation": {
+  "best": {
+   "success": 0.99609375,
+   "collision": 0.00390625,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.76708984375
+  },
+  "mean": {
+   "success": 0.9912109375,
+   "collision": 0.0087890625,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.974384307861328
+  },
+  "best_tilt1.2": {
+   "success": 0.8095703125,
+   "collision": 0.189453125,
+   "oob": 0.0,
+   "timeout": 0.0009765625,
+   "t_success": 11.218330383300781
+  },
+  "best_no_fix": {
+   "success": 0.9970703125,
+   "collision": 0.0029296875,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.816322326660156
+  }
+ },
+ "nominal_no_randomisation": {
+  "best": {
+   "success": 1.0,
+   "collision": 0.0,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.651558876037598
+  },
+  "mean": {
+   "success": 0.99609375,
+   "collision": 0.00390625,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.860847473144531
+  },
+  "best_tilt1.2": {
+   "success": 0.974609375,
+   "collision": 0.025390625,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 11.118739128112793
+  },
+  "best_no_fix": {
+   "success": 1.0,
+   "collision": 0.0,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.702014923095703
+  }
+ },
+ "aisle_jet_x2.2_inside (GY=-0.3)": {
+  "best": {
+   "success": 0.88671875,
+   "collision": 0.0029296875,
+   "oob": 0.0,
+   "timeout": 0.1103515625,
+   "t_success": 10.731637001037598
+  },
+  "mean": {
+   "success": 0.8603515625,
+   "collision": 0.005859375,
+   "oob": 0.0,
+   "timeout": 0.1337890625,
+   "t_success": 10.992729187011719
+  },
+  "best_tilt1.2": {
+   "success": 0.75,
+   "collision": 0.056640625,
+   "oob": 0.0,
+   "timeout": 0.193359375,
+   "t_success": 10.973381996154785
+  },
+  "best_no_fix": {
+   "success": 0.7509765625,
+   "collision": 0.0048828125,
+   "oob": 0.0,
+   "timeout": 0.244140625,
+   "t_success": 11.066740036010742
+  }
+ },
+ "aisle_jet_weak_inside (GY=+0.15)": {
+  "best": {
+   "success": 0.9951171875,
+   "collision": 0.00390625,
+   "oob": 0.0009765625,
+   "timeout": 0.0,
+   "t_success": 11.485450744628906
+  },
+  "mean": {
+   "success": 0.9931640625,
+   "collision": 0.0068359375,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 11.690800666809082
+  },
+  "best_tilt1.2": {
+   "success": 0.623046875,
+   "collision": 0.376953125,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 12.235577583312988
+  },
+  "best_no_fix": {
+   "success": 0.9951171875,
+   "collision": 0.00390625,
+   "oob": 0.0009765625,
+   "timeout": 0.0,
+   "t_success": 11.50792407989502
+  }
+ },
+ "jets_x1.5": {
+  "best": {
+   "success": 0.953125,
+   "collision": 0.005859375,
+   "oob": 0.0,
+   "timeout": 0.041015625,
+   "t_success": 10.965776443481445
+  },
+  "mean": {
+   "success": 0.927734375,
+   "collision": 0.017578125,
+   "oob": 0.0,
+   "timeout": 0.0546875,
+   "t_success": 11.327123641967773
+  },
+  "best_tilt1.2": {
+   "success": 0.1259765625,
+   "collision": 0.7275390625,
+   "oob": 0.0,
+   "timeout": 0.146484375,
+   "t_success": 12.224332809448242
+  },
+  "best_no_fix": {
+   "success": 0.8544921875,
+   "collision": 0.00390625,
+   "oob": 0.0,
+   "timeout": 0.1416015625,
+   "t_success": 11.197863578796387
+  }
+ },
+ "thrust_gain_-8pct": {
+  "best": {
+   "success": 0.9990234375,
+   "collision": 0.0009765625,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.875985145568848
+  },
+  "mean": {
+   "success": 0.9951171875,
+   "collision": 0.0048828125,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 11.093132972717285
+  },
+  "best_tilt1.2": {
+   "success": 0.7275390625,
+   "collision": 0.2705078125,
+   "oob": 0.0,
+   "timeout": 0.001953125,
+   "t_success": 11.414714813232422
+  },
+  "best_no_fix": {
+   "success": 0.994140625,
+   "collision": 0.001953125,
+   "oob": 0.0,
+   "timeout": 0.00390625,
+   "t_success": 10.961787223815918
+  }
+ },
+ "delay_2_steps": {
+  "best": {
+   "success": 0.98046875,
+   "collision": 0.01953125,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.779777526855469
+  },
+  "mean": {
+   "success": 0.962890625,
+   "collision": 0.037109375,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 11.014874458312988
+  },
+  "best_tilt1.2": {
+   "success": 0.4365234375,
+   "collision": 0.5634765625,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 11.404587745666504
+  },
+  "best_no_fix": {
+   "success": 0.9775390625,
+   "collision": 0.0224609375,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.830700874328613
+  }
+ },
+ "gusts_x2": {
+  "best": {
+   "success": 0.9541015625,
+   "collision": 0.0458984375,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 10.838107109069824
+  },
+  "mean": {
+   "success": 0.9453125,
+   "collision": 0.0546875,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 11.033366203308105
+  },
+  "best_tilt1.2": {
+   "success": 0.71484375,
+   "collision": 0.28515625,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 11.319254875183105
+  },
+  "best_no_fix": {
+   "success": 0.9423828125,
+   "collision": 0.0478515625,
+   "oob": 0.0048828125,
+   "timeout": 0.0048828125,
+   "t_success": 10.888321876525879
+  }
+ }
+}

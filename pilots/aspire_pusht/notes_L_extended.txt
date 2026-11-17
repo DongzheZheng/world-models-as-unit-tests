@@ -1,0 +1,1 @@
+code-as-policy (ASPIRE-style) extended run on the L: policy_v15.py = v10 + COM-based twist, rotation phase, push-unit depth, push commitment, faster exit from the block, precision-phase depth (v11-v15), from 6 extra L lives (aspire_style_x1/x2/x3, 2 each); total L lives 8 = 2 official + 6 extended; no simulator or forward model

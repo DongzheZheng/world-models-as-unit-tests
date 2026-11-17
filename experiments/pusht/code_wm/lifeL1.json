@@ -1,0 +1,14 @@
+{"pilot": "code_wm", "seed": 11, "tag": "L_life1_probe", "object": "L",
+ "factory": "experiments.pusht.code_wm.probe:probe_policy",
+ "kwargs": {"object": "L", "phases": [
+   ["push", ["foot_bottom", "leg_top", "leg_left_mid", "foot_right"], 4.0, 70.0], ["release", 5],
+   ["push", ["leg_right", "leg_left_high", "foot_top_tip", "leg_bottom"], 5.0, 60.0], ["release", 5],
+   ["push", ["foot_right", "leg_left_low", "leg_top", "foot_bottom"], 3.0, 60.0], ["release", 5],
+   ["push", ["foot_top", "leg_bottom", "leg_left_high", "leg_right"], 7.0, 80.0], ["release", 7],
+   ["push", ["leg_left_mid", "foot_right", "foot_bottom", "leg_top"], 4.0, 60.0], ["release", 5],
+   ["push", ["foot_top_tip", "leg_left_high", "leg_bottom", "leg_right"], 5.0, 60.0], ["release", 5],
+   ["push", ["foot_bottom", "leg_top", "leg_left_low", "foot_right"], 6.0, 70.0], ["release", 6],
+   ["push", ["leg_right", "leg_left_mid", "foot_top", "leg_bottom"], 4.0, 60.0], ["release", 5],
+   ["push", ["foot_right", "foot_bottom", "leg_top", "leg_left_high"], 5.0, 70.0], ["release", 5],
+   ["hold", 100]
+ ]}}

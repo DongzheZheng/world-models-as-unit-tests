@@ -1,0 +1,63 @@
+
+== doom / take_cover   (metric: ret, n=100 real episodes)
+controller                     family    trained in      mean    ± sem    median  real cal real train   wm steps  train s
+ppo_real_1000lives             model_free_rl real          981.13    77.70    848.50         0     176640          0       90
+ppo_real_100lives              model_free_rl real          391.51    24.85    327.50         0       7168          0        8
+ppo_real_2000lives             model_free_rl real         1206.17    87.22   1010.50         0     439808          0      206
+ppo_real_200lives              model_free_rl real          438.30    19.40    442.00         0      16896          0       14
+ppo_real_20lives               model_free_rl real          354.51    12.13    367.50         0       1024          0        2
+ppo_real_250lives              model_free_rl real          430.64    15.80    417.50         0      22016          0       96
+ppo_real_300lives              model_free_rl real          482.93    19.62    458.50         0      28160          0      117
+ppo_real_350lives              model_free_rl real          471.73    15.67    448.00         0      33280          0      142
+ppo_real_400lives              model_free_rl real          595.17    24.17    589.00         0      39424          0      169
+ppo_real_450lives              model_free_rl real          818.84    47.20    756.00         0      47104          0      195
+ppo_real_4672lives             model_free_rl real         1716.41   116.09   1507.00         0    1300992          0     1800
+ppo_real_500lives              model_free_rl real          971.05    60.27    837.50         0      57856          0       45
+ppo_real_50lives               model_free_rl real          346.26    21.44    310.00         0       3072          0        4
+ppo_real_5lives                model_free_rl real          205.72     4.28    199.50         0        318          0        1
+ppo_real_5lives_noreuse        model_free_rl real          243.91     4.56    237.00         0        318          0        1
+aspire_style                   code_as_policy real         2384.56   213.34   1992.00         0       1182          0        0
+code_wm                        code_as_wm code_world  19162.49  1658.72  14407.00      6216          0   3.89e+08     2054
+
+== drone / site_A   (metric: success, n=50 real episodes)
+controller                     family    trained in      mean    ± sem    median  real cal real train   wm steps  train s
+ppo_real_10082lives            model_free_rl real            1.00     0.00      1.00         0     972800          0     1585
+ppo_real_1137lives             model_free_rl real            0.00     0.00      0.00         0      76800          0      152
+ppo_real_14811lives            model_free_rl real            1.00     0.00      1.00         0    1408000          0     2450
+ppo_real_3065lives             model_free_rl real            0.98     0.02      1.00         0     281600          0      458
+ppo_real_395lives              model_free_rl real            0.00     0.00      0.00         0      25600          0       65
+ppo_real_5lives                model_free_rl real            0.00     0.00      0.00         0        212          0        5
+neural_wm_5lives               neural_wm real            0.00     0.00      0.00         0        907          0       29
+aspire_style                   code_as_policy real            1.00     0.00      1.00         0       1354          0        0
+code_wm                        code_as_wm code_world      0.98     0.02      1.00      1202          0   9.56e+06      584
+
+== drone / site_B   (metric: success, n=50 real episodes)
+controller                     family    trained in      mean    ± sem    median  real cal real train   wm steps  train s
+aspire_style                   code_as_policy real            1.00     0.00      1.00         0       1354          0        0
+code_wm                        code_as_wm code_world      1.00     0.00      1.00      1654          0   6.89e+06       20
+
+== drone / site_C   (metric: success, n=100 real episodes)
+controller                     family    trained in      mean    ± sem    median  real cal real train   wm steps  train s
+aspire_style                   code_as_policy real            0.49     0.05      0.00         0       1556          0        0
+aspire_style_extended          code_as_policy real            0.76     0.04      1.00         0       6031          0        0
+code_wm                        code_as_wm code_world      0.98     0.01      1.00      1810          0   3.46e+07      793
+cap_in_code_world              code_as_policy_in_code_world code_world      0.95     0.02      1.00      1810       6031   6.33e+06      157
+
+== pusht / pusht   (metric: success, n=50 real episodes)
+controller                     family    trained in      mean    ± sem    median  real cal real train   wm steps  train s
+aspire_style                   code_as_policy real            0.20     0.06      0.00         0        971          0        0
+aspire_style_extended          code_as_policy real            0.94     0.03      1.00         0       2094          0        0
+code_wm                        code_as_wm code_world      0.90     0.04      1.00       811          0   1.73e+08     3633
+
+== pusht / pusht_L   (metric: success, n=50 real episodes)
+controller                     family    trained in      mean    ± sem    median  real cal real train   wm steps  train s
+aspire_style                   code_as_policy real            0.16     0.05      0.00         0        600          0        0
+aspire_style_extended          code_as_policy real            0.46     0.07      0.00         0       2367          0        0
+code_wm                        code_as_wm code_world      0.72     0.06      1.00       600          0   1.69e+09    14718
+cap_in_code_world              code_as_policy_in_code_world code_world      0.84     0.05      1.00       600       2367    4.5e+06      249
+
+== station / station   (metric: success, n=50 real episodes)
+controller                     family    trained in      mean    ± sem    median  real cal real train   wm steps  train s
+aspire_blind                   code_as_policy real            0.94     0.03      1.00         0       1124          0        0
+aspire_style                   code_as_policy real            1.00     0.00      1.00         0       1127          0        0
+code_wm                        code_as_wm code_world      1.00     0.00      1.00      1286          0   6.48e+05      120

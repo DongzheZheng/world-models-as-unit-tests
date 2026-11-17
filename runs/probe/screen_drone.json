@@ -1,0 +1,159 @@
+{
+ "A": {
+  "v1": {
+   "n": 100,
+   "success": 0.01,
+   "time_success_s": 11.000033378601074,
+   "collision": 0.9,
+   "timeout": 0.0,
+   "out_of_bounds": 0.09,
+   "mean_relays_reached": 1.08,
+   "wall_s": 1.1955556869506836
+  },
+  "v2": {
+   "n": 100,
+   "success": 0.99,
+   "time_success_s": 10.292279821453672,
+   "collision": 0.01,
+   "timeout": 0.0,
+   "out_of_bounds": 0.0,
+   "mean_relays_reached": 2.99,
+   "wall_s": 2.034735679626465
+  },
+  "v3": {
+   "n": 100,
+   "success": 1.0,
+   "time_success_s": 10.286690521240235,
+   "collision": 0.0,
+   "timeout": 0.0,
+   "out_of_bounds": 0.0,
+   "mean_relays_reached": 3.0,
+   "wall_s": 2.1751694679260254
+  },
+  "v4": {
+   "n": 100,
+   "success": 0.99,
+   "time_success_s": 10.286219134475246,
+   "collision": 0.01,
+   "timeout": 0.0,
+   "out_of_bounds": 0.0,
+   "mean_relays_reached": 2.99,
+   "wall_s": 2.162885904312134
+  },
+  "v5": {
+   "n": 100,
+   "success": 1.0,
+   "time_success_s": 9.497679986953734,
+   "collision": 0.0,
+   "timeout": 0.0,
+   "out_of_bounds": 0.0,
+   "mean_relays_reached": 3.0,
+   "wall_s": 1.9513771533966064
+  }
+ },
+ "C": {
+  "v6": {
+   "n": 200,
+   "success": 0.41,
+   "time_success_s": 9.505704484334807,
+   "collision": 0.59,
+   "timeout": 0.0,
+   "out_of_bounds": 0.0,
+   "mean_relays_reached": 2.02,
+   "wall_s": 5.565038442611694
+  },
+  "v7": {
+   "n": 200,
+   "success": 0.53,
+   "time_success_s": 9.587435902289624,
+   "collision": 0.065,
+   "timeout": 0.0,
+   "out_of_bounds": 0.405,
+   "mean_relays_reached": 2.08,
+   "wall_s": 9.158565044403076
+  },
+  "v8": {
+   "n": 200,
+   "success": 0.115,
+   "time_success_s": 9.542042898095172,
+   "collision": 0.35,
+   "timeout": 0.0,
+   "out_of_bounds": 0.535,
+   "mean_relays_reached": 1.18,
+   "wall_s": 8.810012340545654
+  },
+  "v9": {
+   "n": 200,
+   "success": 0.555,
+   "time_success_s": 10.478404792579445,
+   "collision": 0.43,
+   "timeout": 0.0,
+   "out_of_bounds": 0.015,
+   "mean_relays_reached": 2.285,
+   "wall_s": 9.090461015701294
+  },
+  "v10": {
+   "n": 200,
+   "success": 0.565,
+   "time_success_s": 10.489407092069102,
+   "collision": 0.42,
+   "timeout": 0.0,
+   "out_of_bounds": 0.015,
+   "mean_relays_reached": 2.305,
+   "wall_s": 9.243841409683228
+  },
+  "v11": {
+   "n": 200,
+   "success": 0.55,
+   "time_success_s": 10.51366324858232,
+   "collision": 0.45,
+   "timeout": 0.0,
+   "out_of_bounds": 0.0,
+   "mean_relays_reached": 2.295,
+   "wall_s": 9.276001214981079
+  },
+  "v12": {
+   "n": 200,
+   "success": 0.81,
+   "time_success_s": 10.481919435807216,
+   "collision": 0.19,
+   "timeout": 0.0,
+   "out_of_bounds": 0.0,
+   "mean_relays_reached": 2.695,
+   "wall_s": 11.7278151512146
+  },
+  "v13": {
+   "n": 200,
+   "success": 0.89,
+   "time_success_s": 10.105264717273498,
+   "collision": 0.11,
+   "timeout": 0.0,
+   "out_of_bounds": 0.0,
+   "mean_relays_reached": 2.835,
+   "wall_s": 11.601536750793457
+  },
+  "v14": {
+   "n": 200,
+   "success": 0.765,
+   "time_success_s": 9.969954060573205,
+   "collision": 0.235,
+   "timeout": 0.0,
+   "out_of_bounds": 0.0,
+   "mean_relays_reached": 2.67,
+   "wall_s": 11.104204654693604
+  }
+ },
+ "wall_s": 12.547459125518799,
+ "setup": {
+  "A": {
+   "world": "runs/drone/code_wm/fit_l123.json",
+   "randomisation": "runs/drone/code_wm/cfg/tune_A123.json",
+   "time_limit": 17.0
+  },
+  "C": {
+   "world": "runs/drone/code_wm/fit_all.json",
+   "randomisation": "runs/drone/code_wm/cfg/tune_C5.json",
+   "time_limit": 19.4
+  }
+ }
+}

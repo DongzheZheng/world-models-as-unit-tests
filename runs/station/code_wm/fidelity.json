@@ -1,0 +1,214 @@
+{
+ "note": "open-loop replay of the logged commands from the logged state (velocities by finite difference); error = mean over the 20 markers of |predicted - logged| position, and |predicted - logged| load. Restart every 10 steps.",
+ "held_out_logs": [
+  "runs/station/observation/episode_908.npz",
+  "runs/station/observation/episode_909.npz",
+  "runs/station/blackbox/code_wm/life_2.npz",
+  "runs/station/blackbox/code_wm/life_3.npz"
+ ],
+ "held_out": {
+  "5_steps": {
+   "n": 92,
+   "marker_pos_err_mean_m": 0.002808089171024927,
+   "marker_pos_err_median_m": 0.00255986740615447,
+   "load_abs_err_mean_N": 0.26026909279274263,
+   "load_abs_err_median_N": 0.14742312095795462
+  },
+  "20_steps": {
+   "n": 85,
+   "marker_pos_err_mean_m": 0.00868666854918422,
+   "marker_pos_err_median_m": 0.008095413404806183,
+   "load_abs_err_mean_N": 0.30540591762068464,
+   "load_abs_err_median_N": 0.19512412392655742
+  },
+  "60_steps": {
+   "n": 69,
+   "marker_pos_err_mean_m": 0.020487600527329914,
+   "marker_pos_err_median_m": 0.018548853516537206,
+   "load_abs_err_mean_N": 0.3675633089726294,
+   "load_abs_err_median_N": 0.2727922195731347
+  }
+ },
+ "fitted_logs_for_reference": {
+  "5_steps": {
+   "n": 165,
+   "marker_pos_err_mean_m": 0.0029783687083956793,
+   "marker_pos_err_median_m": 0.0028316409837811553,
+   "load_abs_err_mean_N": 0.4035236002694369,
+   "load_abs_err_median_N": 0.19860429829030046
+  },
+  "20_steps": {
+   "n": 153,
+   "marker_pos_err_mean_m": 0.0092761098124647,
+   "marker_pos_err_median_m": 0.008819084699012842,
+   "load_abs_err_mean_N": 0.47627075073960595,
+   "load_abs_err_median_N": 0.26688740036318426
+  },
+  "60_steps": {
+   "n": 117,
+   "marker_pos_err_mean_m": 0.017632346877581664,
+   "marker_pos_err_median_m": 0.016980668550259568,
+   "load_abs_err_mean_N": 0.6320712115155609,
+   "load_abs_err_median_N": 0.3465648092853515
+  }
+ },
+ "rope_stays_still_baseline": {
+  "held_out_marker_pos_err_mean_m": {
+   "5_steps": 0.007456471383944411,
+   "20_steps": 0.02746607094058492,
+   "60_steps": 0.06447005964591516
+  }
+ },
+ "observation_episode_outcomes": [
+  {
+   "log": "episode_900.npz",
+   "used_for_fit": true,
+   "real": {
+    "outcome": "overload",
+    "step": 132,
+    "max_load": 10.80780185642091
+   },
+   "world": {
+    "outcome": "overload",
+    "step": 126,
+    "max_load": 12.932720184326172
+   },
+   "outcome_match": true
+  },
+  {
+   "log": "episode_901.npz",
+   "used_for_fit": true,
+   "real": {
+    "outcome": "overload",
+    "step": 95,
+    "max_load": 10.022879922039378
+   },
+   "world": {
+    "outcome": "overload",
+    "step": 94,
+    "max_load": 10.263710021972656
+   },
+   "outcome_match": true
+  },
+  {
+   "log": "episode_902.npz",
+   "used_for_fit": true,
+   "real": {
+    "outcome": "overload",
+    "step": 142,
+    "max_load": 10.16486166745939
+   },
+   "world": {
+    "outcome": "still running when the log ends",
+    "step": 142,
+    "max_load": 9.617959976196289
+   },
+   "outcome_match": false
+  },
+  {
+   "log": "episode_903.npz",
+   "used_for_fit": true,
+   "real": {
+    "outcome": "success",
+    "step": 148,
+    "max_load": 8.430956521027312
+   },
+   "world": {
+    "outcome": "overload",
+    "step": 131,
+    "max_load": 10.081698417663574
+   },
+   "outcome_match": false
+  },
+  {
+   "log": "episode_904.npz",
+   "used_for_fit": true,
+   "real": {
+    "outcome": "success",
+    "step": 203,
+    "max_load": 9.354258070185589
+   },
+   "world": {
+    "outcome": "overload",
+    "step": 202,
+    "max_load": 10.017362594604492
+   },
+   "outcome_match": false
+  },
+  {
+   "log": "episode_905.npz",
+   "used_for_fit": true,
+   "real": {
+    "outcome": "overload",
+    "step": 117,
+    "max_load": 10.047582596453802
+   },
+   "world": {
+    "outcome": "overload",
+    "step": 112,
+    "max_load": 10.101675987243652
+   },
+   "outcome_match": true
+  },
+  {
+   "log": "episode_906.npz",
+   "used_for_fit": true,
+   "real": {
+    "outcome": "overload",
+    "step": 82,
+    "max_load": 21.038644796232802
+   },
+   "world": {
+    "outcome": "still running when the log ends",
+    "step": 82,
+    "max_load": 7.277154445648193
+   },
+   "outcome_match": false
+  },
+  {
+   "log": "episode_907.npz",
+   "used_for_fit": true,
+   "real": {
+    "outcome": "overload",
+    "step": 146,
+    "max_load": 10.513408466800515
+   },
+   "world": {
+    "outcome": "still running when the log ends",
+    "step": 146,
+    "max_load": 9.731829643249512
+   },
+   "outcome_match": false
+  },
+  {
+   "log": "episode_908.npz",
+   "used_for_fit": false,
+   "real": {
+    "outcome": "overload",
+    "step": 85,
+    "max_load": 11.17328842669241
+   },
+   "world": {
+    "outcome": "still running when the log ends",
+    "step": 85,
+    "max_load": 6.887261390686035
+   },
+   "outcome_match": false
+  },
+  {
+   "log": "episode_909.npz",
+   "used_for_fit": false,
+   "real": {
+    "outcome": "overload",
+    "step": 147,
+    "max_load": 10.431990584955793
+   },
+   "world": {
+    "outcome": "still running when the log ends",
+    "step": 147,
+    "max_load": 8.628645896911621
+   },
+   "outcome_match": false
+  }
+ ]
+}

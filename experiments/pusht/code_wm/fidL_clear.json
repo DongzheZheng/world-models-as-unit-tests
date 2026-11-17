@@ -1,0 +1,1 @@
+{"object": "L", "params": null, "test": ["runs/pusht/blackbox_L/code_wm/life_2.npz"], "wall": "clear", "label": "L world (fit L life 1) -> L life 2, clear windows", "out": "runs/pusht/code_wm/fidL_l1_on_l2_clear.json"}

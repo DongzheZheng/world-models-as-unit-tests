@@ -1,0 +1,112 @@
+{
+ "world": "runs/drone/code_wm/fit_all.json",
+ "world_override": {
+  "OBS_NOISE_POS": 0.02,
+  "OBS_NOISE_VEL": 0.03,
+  "GUST_STD": 1.0,
+  "GUST_TAU": 0.5
+ },
+ "unc": {
+  "JET_S_AY": [
+   "mul",
+   0.3
+  ],
+  "JET_S_SIG": [
+   "add",
+   0.3
+  ],
+  "JET_N_AY": [
+   "mul",
+   0.3
+  ],
+  "JET_N_SIG": [
+   "add",
+   0.3
+  ],
+  "JET_N_X": [
+   "add",
+   0.4
+  ],
+  "JET_S_X": [
+   "add",
+   0.4
+  ],
+  "JET_N_GY": [
+   "add",
+   0.1
+  ],
+  "JET_S_GY": [
+   "add",
+   0.1
+  ],
+  "RATE_BIAS_P": [
+   "add",
+   0.05
+  ],
+  "RATE_BIAS_Q": [
+   "add",
+   0.05
+  ],
+  "RATE_BIAS_R": [
+   "add",
+   0.05
+  ],
+  "THRUST_GAIN": [
+   "mul",
+   0.03
+  ],
+  "CMD_DELAY": [
+   "add",
+   0.2
+  ],
+  "DRAG": [
+   "add",
+   0.08
+  ]
+ },
+ "init": {
+  "speed": 6.127200588212294,
+  "kp": 5.644726742334053,
+  "kv": 5.6830103191489245,
+  "ki": 1.410473703033082,
+  "k_att": 12.65252832816223,
+  "max_tilt": 1.037201996492484,
+  "corner_speed": 1.7298668260290295,
+  "corner_dist": 5.460886289895909,
+  "av_k": 27.670211071434352,
+  "av_R": 1.1151757856159368,
+  "av_T": 1.46976775822425,
+  "av_up": 0.5513045936810174
+ },
+ "time_weight": 0.002,
+ "N": 48,
+ "M": 48,
+ "rounds": 4,
+ "final_M": 2048,
+ "out": "runs/drone/code_wm/tune_C3c.json",
+ "time_limit": 19.4,
+ "movers": {},
+ "fixed": {
+  "return_fix": 1.0
+ },
+ "route": [
+  "R1",
+  [
+   20,
+   0,
+   4.3
+  ],
+  "R2",
+  [
+   36,
+   0,
+   4.3
+  ],
+  [
+   50,
+   0,
+   4.3
+  ],
+  "R3"
+ ]
+}

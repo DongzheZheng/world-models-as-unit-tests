@@ -1,0 +1,1 @@
+{"params": "runs/pusht/code_wm/fit_l1.json", "test": ["runs/pusht/blackbox/code_wm/life_2.npz"], "label": "fit life1 -> test life2", "out": "runs/pusht/code_wm/fid_l1_on_l2.json"}

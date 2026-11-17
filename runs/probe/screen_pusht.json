@@ -1,0 +1,158 @@
+{
+ "T": {
+  "v1": {
+   "n": 200,
+   "success": 0.595,
+   "success_world_estimate": 0.64,
+   "max_coverage": 0.848311062924036,
+   "n_steps": 261.265,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v2": {
+   "n": 200,
+   "success": 0.95,
+   "success_world_estimate": 0.945,
+   "max_coverage": 0.934626631454521,
+   "n_steps": 213.395,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v3": {
+   "n": 200,
+   "success": 0.965,
+   "success_world_estimate": 0.965,
+   "max_coverage": 0.941030797216356,
+   "n_steps": 196.43,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v4": {
+   "n": 200,
+   "success": 0.98,
+   "success_world_estimate": 0.97,
+   "max_coverage": 0.9409432132487002,
+   "n_steps": 189.05,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v5": {
+   "n": 200,
+   "success": 0.2,
+   "success_world_estimate": 0.255,
+   "max_coverage": 0.7972262761864038,
+   "n_steps": 273.07,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v6": {
+   "n": 200,
+   "success": 0.225,
+   "success_world_estimate": 0.27,
+   "max_coverage": 0.814557980414481,
+   "n_steps": 259.28,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v7": {
+   "n": 200,
+   "success": 0.99,
+   "success_world_estimate": 0.995,
+   "max_coverage": 0.9496889472174033,
+   "n_steps": 164.795,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v8": {
+   "n": 200,
+   "success": 0.995,
+   "success_world_estimate": 0.995,
+   "max_coverage": 0.9499440275510292,
+   "n_steps": 147.6,
+   "n_errors": 0,
+   "first_error": null
+  }
+ },
+ "L": {
+  "v9": {
+   "n": 200,
+   "success": 0.31,
+   "success_world_estimate": 0.33,
+   "max_coverage": 0.7907759490758249,
+   "n_steps": 265.53,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v10": {
+   "n": 200,
+   "success": 0.08,
+   "success_world_estimate": 0.08,
+   "max_coverage": 0.5167030366333459,
+   "n_steps": 289.88,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v11": {
+   "n": 200,
+   "success": 0.14,
+   "success_world_estimate": 0.14,
+   "max_coverage": 0.6832458148272447,
+   "n_steps": 280.97,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v12": {
+   "n": 200,
+   "success": 0.37,
+   "success_world_estimate": 0.385,
+   "max_coverage": 0.8247807712237717,
+   "n_steps": 261.285,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v13": {
+   "n": 200,
+   "success": 0.335,
+   "success_world_estimate": 0.39,
+   "max_coverage": 0.8217416090560551,
+   "n_steps": 265.73,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v14": {
+   "n": 200,
+   "success": 0.56,
+   "success_world_estimate": 0.655,
+   "max_coverage": 0.8540644974644575,
+   "n_steps": 250.635,
+   "n_errors": 0,
+   "first_error": null
+  },
+  "v15": {
+   "n": 200,
+   "success": 0.32,
+   "success_world_estimate": 0.37,
+   "max_coverage": 0.8336252208773703,
+   "n_steps": 269.11,
+   "n_errors": 0,
+   "first_error": null
+  }
+ },
+ "wall_s": 19.269808292388916,
+ "protocol": {
+  "seeds": "50000..50000+n-1 (same initial states for every version of an object)",
+  "init_ranges": {
+   "T": [
+    100.0,
+    412.0
+   ],
+   "L": [
+    40.0,
+    472.0
+   ]
+  },
+  "world": "worlds/pusht/pusht_world.py as evaluated",
+  "success": "reallab.pusht.api.coverage_of > 0.95 (terminates)",
+  "success_world_estimate": "world grid coverage > 0.95 at any step"
+ }
+}

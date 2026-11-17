@@ -1,0 +1,175 @@
+{
+ "cfg": {
+  "world": "runs/drone/code_wm/fit_l1.json",
+  "world_override": {
+   "OBS_NOISE_POS": 0.02,
+   "OBS_NOISE_VEL": 0.03,
+   "GUST_STD": 0.5,
+   "GUST_TAU": 0.5
+  },
+  "unc": {
+   "JET_S_AY": [
+    "uniform",
+    [
+     -13,
+     13
+    ]
+   ],
+   "JET_S_SIG": [
+    "uniform",
+    [
+     1.0,
+     2.0
+    ]
+   ],
+   "JET_N_AY": [
+    "mul",
+    0.25
+   ],
+   "JET_N_SIG": [
+    "add",
+    0.4
+   ],
+   "RATE_BIAS_P": [
+    "add",
+    0.05
+   ],
+   "RATE_BIAS_Q": [
+    "add",
+    0.05
+   ],
+   "RATE_BIAS_R": [
+    "add",
+    0.05
+   ],
+   "THRUST_GAIN": [
+    "mul",
+    0.03
+   ],
+   "CMD_DELAY": [
+    "add",
+    0.2
+   ],
+   "DRAG": [
+    "add",
+    0.05
+   ]
+  },
+  "N": 48,
+  "M": 32,
+  "rounds": 4,
+  "final_M": 1024,
+  "out": "runs/drone/code_wm/tune_l2.json"
+ },
+ "history": [
+  {
+   "round": 0,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 5.514,
+    "kp": 4.367,
+    "kv": 3.364,
+    "ki": 0.365,
+    "k_att": 10.645,
+    "max_tilt": 1.02
+   },
+   "mean_succ": 0.4375,
+   "elapsed": 1.7024621963500977
+  },
+  {
+   "round": 1,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 6.41,
+    "kp": 2.557,
+    "kv": 4.344,
+    "ki": 0.908,
+    "k_att": 7.281,
+    "max_tilt": 0.938
+   },
+   "mean_succ": 0.908203125,
+   "elapsed": 3.004549026489258
+  },
+  {
+   "round": 2,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 6.466,
+    "kp": 4.395,
+    "kv": 4.796,
+    "ki": 0.504,
+    "k_att": 7.122,
+    "max_tilt": 0.957
+   },
+   "mean_succ": 0.970703125,
+   "elapsed": 4.27808952331543
+  },
+  {
+   "round": 3,
+   "best_succ": 1.0,
+   "best": {
+    "speed": 6.327,
+    "kp": 5.306,
+    "kv": 4.93,
+    "ki": 0.136,
+    "k_att": 9.036,
+    "max_tilt": 0.946
+   },
+   "mean_succ": 0.9986979166666666,
+   "elapsed": 5.515241861343384
+  }
+ ],
+ "finals": {
+  "mean": {
+   "params": {
+    "speed": 6.248810690181635,
+    "kp": 5.913000465326409,
+    "kv": 5.052430962396409,
+    "ki": 0.5217591425757009,
+    "k_att": 8.516527202139118,
+    "max_tilt": 0.9730096809370895
+   },
+   "success": 1.0,
+   "collision": 0.0,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 9.049291610717773
+  },
+  "best": {
+   "params": {
+    "speed": 6.327398113372887,
+    "kp": 5.305610570381156,
+    "kv": 4.930179902104199,
+    "ki": 0.1356864829160136,
+    "k_att": 9.03603780427657,
+    "max_tilt": 0.9455538884271394
+   },
+   "success": 1.0,
+   "collision": 0.0,
+   "oob": 0.0,
+   "timeout": 0.0,
+   "t_success": 8.967290878295898
+  }
+ },
+ "pick": "best",
+ "controller": {
+  "speed": 6.327398113372887,
+  "kp": 5.305610570381156,
+  "kv": 4.930179902104199,
+  "ki": 0.1356864829160136,
+  "k_att": 9.03603780427657,
+  "max_tilt": 0.9455538884271394,
+  "thrust_gain": 0.8770360350608826,
+  "rate_gain": 0.907318651676178,
+  "t_bias": 0.0,
+  "p_bias": -0.5506742386374289,
+  "q_bias": 0.5423508802655791,
+  "r_bias": -0.26915493151124986,
+  "lookahead_corner": 1.5,
+  "slow_r3": 0.0,
+  "wind_ff": 1.0
+ },
+ "wm_steps": 2445347,
+ "wall_s": 6.914708375930786,
+ "wm_steps_per_s": 353644.2705974325
+}

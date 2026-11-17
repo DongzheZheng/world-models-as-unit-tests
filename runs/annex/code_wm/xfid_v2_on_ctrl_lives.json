@@ -1,0 +1,73 @@
+{
+ "params_file": "runs/annex/code_wm/world_params_v2.json",
+ "horizons": {
+  "5": {
+   "n": 87,
+   "node_mean": 0.008432410948838964,
+   "node_median": 0.005377264155574867,
+   "p1_mean": 0.011741953204145531,
+   "p1_median": 0.00756749803295928,
+   "p1_p90": 0.026252529100137575
+  },
+  "20": {
+   "n": 77,
+   "node_mean": 0.03494682942091882,
+   "node_median": 0.024802581475393624,
+   "p1_mean": 0.05797730967146457,
+   "p1_median": 0.04120717976592774,
+   "p1_p90": 0.1063439949703141
+  },
+  "60": {
+   "n": 47,
+   "node_mean": 0.10414119914470116,
+   "node_median": 0.07736086491565088,
+   "p1_mean": 0.17410688189848533,
+   "p1_median": 0.1288004099978915,
+   "p1_p90": 0.34648022706737874
+  }
+ },
+ "whole_life": {
+  "runs/annex/blackbox/code_wm_x1/life_4.npz": {
+   "real_final_p1": [
+    0.9953356709036019,
+    0.07208907697294784
+   ],
+   "world_final_p1_from_reset": [
+    0.580696165561676,
+    -0.021231776103377342
+   ],
+   "dist_from_reset": 0.42501141279863297,
+   "dist_from_reading2_with_velocity": 0.794441700710457,
+   "real_success": true,
+   "n_steps": 144
+  },
+  "runs/annex/blackbox/code_wm_x1/life_5.npz": {
+   "real_final_p1": [
+    0.8978632652355653,
+    0.2754099770161947
+   ],
+   "world_final_p1_from_reset": [
+    0.902899980545044,
+    0.29308193922042847
+   ],
+   "dist_from_reset": 0.018375710850375402,
+   "dist_from_reading2_with_velocity": 0.0229121119300618,
+   "real_success": true,
+   "n_steps": 71
+  },
+  "runs/annex/blackbox/code_wm_x2/life_1.npz": {
+   "real_final_p1": [
+    0.7912491119417362,
+    0.2965923603908362
+   ],
+   "world_final_p1_from_reset": [
+    0.5929427742958069,
+    0.44164082407951355
+   ],
+   "dist_from_reset": 0.24569179955583964,
+   "dist_from_reading2_with_velocity": 0.289711888412795,
+   "real_success": true,
+   "n_steps": 150
+  }
+ }
+}

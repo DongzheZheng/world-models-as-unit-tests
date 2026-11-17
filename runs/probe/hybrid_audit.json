@@ -1,0 +1,16 @@
+{
+ "drone_C/cap_in_code_world_v15": {
+  "n": 100,
+  "success": 0.95,
+  "time_success_s": 9.684912280701756,
+  "collision": 5,
+  "timeout": 0,
+  "out_of_bounds": 0
+ },
+ "push_L/cap_in_code_world_v17": {
+  "n": 50,
+  "success": 0.8,
+  "max_coverage": 0.8585065101580934,
+  "n_steps": 183.82
+ }
+}

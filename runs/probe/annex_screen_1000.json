@@ -1,0 +1,166 @@
+{
+ "seeds": 1000,
+ "n_programs": 19,
+ "mae_points": 0.9473684210526316,
+ "max_err_points": 6.0,
+ "episode_agreement": 0.9905263157894737,
+ "world_false_success": 7,
+ "real_success_total": 2,
+ "world_success_total": 7,
+ "tip_corr": 0.26717841571556233,
+ "tip_abs_err_median": 0.1060305268332759,
+ "rows": [
+  {
+   "version": "v1",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 1.2191342920064037,
+   "world_tip_median": 1.169453271530555,
+   "tip_abs_err_median": 0.040320005987772634
+  },
+  {
+   "version": "v2",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 1.2631686698581652,
+   "world_tip_median": 1.205247241462518,
+   "tip_abs_err_median": 0.05980009431073707
+  },
+  {
+   "version": "v3",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 0.9431834669637454,
+   "world_tip_median": 0.9886058405031464,
+   "tip_abs_err_median": 0.1237602073317225
+  },
+  {
+   "version": "v4",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 1.0746753909305164,
+   "world_tip_median": 1.0438501838857515,
+   "tip_abs_err_median": 0.04084912632912585
+  },
+  {
+   "version": "v5",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 1.2054513626418324,
+   "world_tip_median": 1.160307133912069,
+   "tip_abs_err_median": 0.05039706844192693
+  },
+  {
+   "version": "v6",
+   "real": 0.02,
+   "world": 0.0,
+   "real_tip_median": 0.994332280093507,
+   "world_tip_median": 0.9298819424319851,
+   "tip_abs_err_median": 0.26697869408795416
+  },
+  {
+   "version": "v7",
+   "real": 0.02,
+   "world": 0.0,
+   "real_tip_median": 0.9943322800935247,
+   "world_tip_median": 0.9298811147268797,
+   "tip_abs_err_median": 0.26697837281839765
+  },
+  {
+   "version": "v8",
+   "real": 0.0,
+   "world": 0.02,
+   "real_tip_median": 1.0170381001727045,
+   "world_tip_median": 1.023009159700218,
+   "tip_abs_err_median": 0.20866186942700454
+  },
+  {
+   "version": "v9",
+   "real": 0.0,
+   "world": 0.02,
+   "real_tip_median": 1.1015145264350075,
+   "world_tip_median": 0.9982062446878268,
+   "tip_abs_err_median": 0.22120984869004498
+  },
+  {
+   "version": "v10",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 1.189932399515315,
+   "world_tip_median": 1.2127264765526586,
+   "tip_abs_err_median": 0.07114731566761967
+  },
+  {
+   "version": "v11",
+   "real": 0.0,
+   "world": 0.02,
+   "real_tip_median": 1.0658651220417044,
+   "world_tip_median": 1.0992576314700346,
+   "tip_abs_err_median": 0.11336882231468937
+  },
+  {
+   "version": "v12",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 1.1265299198233458,
+   "world_tip_median": 1.0673158133445049,
+   "tip_abs_err_median": 0.1228848774854129
+  },
+  {
+   "version": "v13",
+   "real": 0.0,
+   "world": 0.06,
+   "real_tip_median": 1.0395594359257592,
+   "world_tip_median": 0.9158052868660636,
+   "tip_abs_err_median": 0.21468814209457848
+  },
+  {
+   "version": "v14",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 1.1260845904800485,
+   "world_tip_median": 1.0430666453997264,
+   "tip_abs_err_median": 0.21059533473497472
+  },
+  {
+   "version": "v15",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 1.055380601496623,
+   "world_tip_median": 1.1142578349121774,
+   "tip_abs_err_median": 0.08465451391031209
+  },
+  {
+   "version": "v16",
+   "real": 0.0,
+   "world": 0.02,
+   "real_tip_median": 1.107697919311379,
+   "world_tip_median": 1.0768795560591937,
+   "tip_abs_err_median": 0.2171647613048172
+  },
+  {
+   "version": "v17",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 0.9643206039769129,
+   "world_tip_median": 1.0662756853322568,
+   "tip_abs_err_median": 0.10600076964355237
+  },
+  {
+   "version": "v18",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 0.938121447014443,
+   "world_tip_median": 0.9862229011900527,
+   "tip_abs_err_median": 0.17812038217191062
+  },
+  {
+   "version": "v19",
+   "real": 0.0,
+   "world": 0.0,
+   "real_tip_median": 1.0019199403026304,
+   "world_tip_median": 1.0159093618273887,
+   "tip_abs_err_median": 0.13116622101302466
+  }
+ ]
+}

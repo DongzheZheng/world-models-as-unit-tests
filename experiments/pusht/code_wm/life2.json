@@ -1,0 +1,14 @@
+{"pilot": "code_wm", "seed": 2, "tag": "life2_probe",
+ "factory": "experiments.pusht.code_wm.probe:probe_policy",
+ "kwargs": {"phases": [
+   ["push", ["bar_bottom_mid", "stem_top"], 3.0, 70.0], ["release", 5],
+   ["push", ["bar_top_left", "bar_top_right", "bar_bottom_left", "bar_bottom_right"], 5.0, 60.0], ["release", 5],
+   ["push", ["stem_left", "stem_right", "bar_left", "bar_right"], 4.0, 60.0], ["release", 5],
+   ["push", ["bar_bottom_mid", "stem_top", "bar_left", "bar_right"], 8.0, 80.0], ["release", 8],
+   ["push", ["bar_bottom_left", "bar_bottom_right", "bar_top_left", "bar_top_right"], 3.0, 50.0], ["release", 5],
+   ["push", ["stem_left", "stem_right"], 6.0, 70.0], ["release", 5],
+   ["push", ["bar_bottom_mid", "stem_top", "stem_left", "stem_right", "bar_left", "bar_right"], 4.0, 80.0], ["release", 8],
+   ["push", ["bar_top_left", "bar_top_right", "bar_bottom_left", "bar_bottom_right"], 5.0, 60.0], ["release", 5],
+   ["push", ["bar_bottom_mid", "stem_top", "stem_left", "stem_right", "bar_left", "bar_right"], 5.0, 80.0], ["release", 5],
+   ["hold", 100]
+ ]}}

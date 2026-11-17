@@ -1,0 +1,349 @@
+{
+ "summary": {
+  "mode": "open",
+  "scale": 0.0,
+  "draw": 0,
+  "n": 24,
+  "real_success": 0.16666666666666666,
+  "median_real_tip_dist": 0.2541696270333761,
+  "wall_s": 306.0
+ },
+ "per_seed": [
+  {
+   "seed": 3000,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.10794405479371902,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3001,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.5218075656749797,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3002,
+   "model_success": false,
+   "real_success": false,
+   "real_tip_dist": 0.37386263528433283,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3003,
+   "model_success": true,
+   "real_success": true,
+   "real_tip_dist": 0.0969472649212627,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3004,
+   "model_success": false,
+   "real_success": false,
+   "real_tip_dist": 0.10712863004867669,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3005,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 1.341627886129746,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3006,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.7814515715516084,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3007,
+   "model_success": true,
+   "real_success": true,
+   "real_tip_dist": 0.07833434844714031,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3008,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.24993809679715026,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3009,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.2864223273218901,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3010,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.11424009371482131,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3011,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 1.2344781789386468,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3012,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.3821831151591538,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3013,
+   "model_success": false,
+   "real_success": false,
+   "real_tip_dist": 0.2907534381134136,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3014,
+   "model_success": true,
+   "real_success": true,
+   "real_tip_dist": 0.09099585804474249,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3015,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.9950309368587215,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3016,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.38123034545090384,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3017,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.15653789495613074,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3018,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.14705054527171796,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3019,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.7706075868917318,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3020,
+   "model_success": true,
+   "real_success": true,
+   "real_tip_dist": 0.0685307616206332,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3021,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.11370274737732355,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3022,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.2584011572696019,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  },
+  {
+   "seed": 3023,
+   "model_success": true,
+   "real_success": false,
+   "real_tip_dist": 0.12945708038396386,
+   "mult": {
+    "mass_per_m": 1.0,
+    "tip_mass": 1.0,
+    "bend_EI": 1.0,
+    "mu_table": 1.0,
+    "mu_post": 1.0,
+    "drag": 1.0
+   }
+  }
+ ]
+}

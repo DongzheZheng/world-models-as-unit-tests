@@ -1,0 +1,18 @@
+{"name": "ppo_real_5lives_noreuse", "lives": 5, "steps": 318, "wall_s": 0.7516982555389404}
+{"name": "ppo_real_5lives", "lives": 5, "steps": 318, "wall_s": 0.9872214794158936}
+{"name": "ppo_real_200lives", "lives": 242, "target": 200, "steps": 20480, "wall_s": 23.916786670684814, "ep_ret_train": 94.29205322265625, "ep_len_train": 94.70093536376953}
+{"name": "ppo_real_20lives", "lives": 28, "target": 20, "steps": 1024, "wall_s": 2.2863402366638184, "ep_ret_train": 45.13888931274414, "ep_len_train": 45.55555725097656}
+{"name": "ppo_real_50lives", "lives": 52, "target": 50, "steps": 3072, "wall_s": 4.06847620010376, "ep_ret_train": 100.85714721679688, "ep_len_train": 101.42857360839844}
+{"name": "ppo_real_100lives", "lives": 102, "target": 100, "steps": 7168, "wall_s": 7.551538467407227, "ep_ret_train": 100.91667175292969, "ep_len_train": 101.33333587646484}
+{"name": "ppo_real_200lives", "lives": 206, "target": 200, "steps": 16896, "wall_s": 14.344713687896729, "ep_ret_train": 78.64286041259766, "ep_len_train": 79.14286041259766}
+{"name": "ppo_real_500lives", "lives": 505, "target": 500, "steps": 57856, "wall_s": 45.43214440345764, "ep_ret_train": 141.625, "ep_len_train": 141.75}
+{"name": "ppo_real_1000lives", "lives": 1000, "target": 1000, "steps": 176640, "wall_s": 90.46420383453369, "ep_ret_train": 201.6999969482422, "ep_len_train": 202.0}
+{"name": "ppo_real_2000lives", "lives": 2001, "target": 2000, "steps": 439808, "wall_s": 206.30611085891724, "ep_ret_train": 280.75, "ep_len_train": 281.0}
+{"name": "ppo_real_final", "lives": 4672, "steps": 1300992, "wall_s": 1800.193725824356}
+{"name": "ppo_real_4672lives", "lives": 4672, "steps": 1300992, "wall_s": 1800.193725824356}
+{"name": "ppo_real_250lives", "lives": 252, "target": 250, "steps": 22016, "wall_s": 96.21811151504517, "ep_ret_train": 107.5227279663086, "ep_len_train": 107.90909576416016}
+{"name": "ppo_real_300lives", "lives": 302, "target": 300, "steps": 28160, "wall_s": 117.32224822044373, "ep_ret_train": 69.16667175292969, "ep_len_train": 69.33333587646484}
+{"name": "ppo_real_350lives", "lives": 351, "target": 350, "steps": 33280, "wall_s": 142.32360005378723, "ep_ret_train": 82.33333587646484, "ep_len_train": 82.5}
+{"name": "ppo_real_400lives", "lives": 400, "target": 400, "steps": 39424, "wall_s": 169.22827243804932, "ep_ret_train": 113.25, "ep_len_train": 113.5}
+{"name": "ppo_real_450lives", "lives": 454, "target": 450, "steps": 47104, "wall_s": 194.6559455394745, "ep_ret_train": 176.32144165039062, "ep_len_train": 176.57144165039062}
+{"name": "ppo_real_final_fine", "lives": 931, "steps": 149504, "wall_s": 484.78792905807495}

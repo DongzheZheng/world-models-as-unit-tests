@@ -1,0 +1,50 @@
+# Writes runs/station/code_wm/diagnosis.json (after the lives).
+import json, time
+from worlds.station import station_world as W
+
+P = W.DEFAULT_PAR
+D = {
+ "written": time.strftime("%Y-%m-%d %H:%M:%S"),
+ "what_it_is": ("A ~0.99 m flexible rope lying on the table, clamped at (0.05, 0) (marker 1), its free end held by the tool "
+                "(marker 20); 20 markers ~0.052 m apart. Task = cable routing: drag the rope through three pegs so it wraps each on the "
+                "required side, and park the end at the target. 'load' = magnitude of the force the rope exerts on the tool; it is a "
+                "dynamic force (drag + inertia of the sliding rope, rubbing on pegs, and a small elastic part from bent rope), not a "
+                "static tension."),
+ "mechanisms": [
+  {"name": "inextensible-ish chain clamped at marker 1, end on the tool", "values": {"SEG_L0": W.SEG_L0, "ANCHOR": W.ANCHOR, "k": P["k"], "cd": P["cd"]},
+   "evidence": "marker 1 std 0 over 200 snapshots and all logs; |marker20-tool| < 2e-6; polyline 0.988..1.000 m in all logs incl. life_1 near-taut pull", "confidence": "high"},
+  {"name": "viscous table drag + rope inertia (superlinear 'fights back when you hurry')", "values": {"cv": P["cv"], "m": P["m"], "fc": P["fc"]},
+   "evidence": "life_1 speed steps on the same rope: load 0.45/0.7/1.7/3.4/6.0 N at 0.02/0.05/0.10/0.15/0.20 m/s; Coulomb part fitted ~0 (fc=0.002 N)",
+   "confidence": "high for the speed dependence in the dragging regime; individual m/cv values are effective (coarse chain)"},
+  {"name": "rope pushes back (bilateral links) and bending elasticity", "values": {"kb": P["kb"]},
+   "evidence": "life_1 t=236-244: pushing slack rope back at 0.3 m/s -> 4.3 N; at rest the coiled rope creeps (sum|v| ~0.1 m/s) with load 0.45 N, "
+               "straight rope at rest 0.13-0.19 N (life_1 t>430)", "confidence": "medium (world predicts 2.2 N for the 4.3 N push peak)"},
+  {"name": "near-taut stiffening", "values": {}, "evidence": "life_1 t=400-426: at 0.06 m/s load 4.1 -> 9.0 N as end-to-end 0.91 -> 0.98 m; "
+   "emerges from chain + drag (world 5.3 N at the last point: under-predicts the final rise)", "confidence": "medium-low"},
+  {"name": "rope rubbing on pegs (capstan-like)", "values": {"cpost": P["cpost"]},
+   "evidence": "observation logs: load/sum|v| 3.9 -> 5.2 -> 6.1 for wrap 0-1, 1-2, 2-3 rad; fitted extra tangential drag of touching nodes",
+   "confidence": "medium-low (not separately probed)"},
+  {"name": "tool servo: reference ramps to the command at 0.30 m/s, force-limited PD, tool mass, peg blocks the tool",
+   "values": {"kp": P["kp"], "kd": P["kd"], "fmax": P["fmax"], "mt": P["mt"], "vread": P["vread"]},
+   "evidence": "life_1: tool_vel reading 0.011/0.030/0.068/0.115/0.172 vs displacement speed 0.02/0.05/0.10/0.15/0.20 (reference reaches each command "
+               "early in the step, then waits); 906/908: tool held at 0.045 from a peg, lag up to 0.094 m, then lurch 0.3-0.74 m/s -> overload",
+   "confidence": "high for tracking, medium for the snag/lurch magnitude (world under-predicts the 908 spike: 6.9 vs 11.2 N)"},
+  {"name": "load read-out", "values": {"lscale": P["lscale"], "loff": P["loff"]}, "evidence": "fitted jointly; mean |error| 0.44 N on fit segments", "confidence": "medium"}
+ ],
+ "different_from_hypothesis": [
+  "Hypothesis: load ~ c * sum|v_i| (linear friction). Found: strongly superlinear in drag speed (life_1), best explained with inertia + viscous drag; Coulomb friction ~0.",
+  "Hypothesis: load = rope tension. Found: the rope also pushes on the tool (slack push gives 4 N), so load is the magnitude of the rope force, tension or compression.",
+  "Hypothesis: reset load 0.23-0.85 N unexplained offset. Found: the coiled rope keeps relaxing (markers creep at rest), i.e. a bending-elastic force; a straight rope at rest reads ~0.15 N.",
+  "Hypothesis assumed a taut rope gives a large static tension. Not observed: at end-to-end 0.983 m (rope 0.994 m) the rope at rest reads 0.18 N; only pulling it near taut raises the load steeply (dynamic).",
+  "World artefact found during design: in a few simulated situations (seed 12) the chain gets stretched between two pegs and holds ~9 N at rest; the real rope did not (life_3 max 4.1 N). The controller has a back-off guard for it."
+ ],
+ "field_note_refers_to": ("'Fights back when you hurry': the rope's resisting force grows faster than linearly with drag speed (x13 from 0.02 to 0.20 m/s on the "
+                          "same rope), so the old program's fixed 0.15 m/s overloads once ~15 nodes slide and wrap pegs; and if the tool is held by a peg, "
+                          "the servo catches up at up to 0.3-0.7 m/s and the load spikes (906: 21 N)."),
+ "lives": {"life_1": "seed 18, scripted probe: speed steps, lateral drag, slack fast push, near-taut pull (600 steps, no overload, max 9.97 N)",
+           "life_2": "seed 3, controller end-to-end: success at step 378, max load 4.63 N (world: success 388, 5.35 N)",
+           "life_3": "seed 12 (world's hardest case), controller: success at step 308, max load 4.13 N (world: success 328, 9.71 N)",
+           "life_4_5": "not used"}
+}
+json.dump(D, open("runs/station/code_wm/diagnosis.json", "w"), indent=1)
+print("ok")

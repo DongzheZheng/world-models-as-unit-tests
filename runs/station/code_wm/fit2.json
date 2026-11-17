@@ -1,0 +1,33 @@
+{
+ "par": {
+  "m": 0.09615933895111084,
+  "k": 660.357177734375,
+  "cd": 24.42058753967285,
+  "kb": 6.254219055175781,
+  "cv": 1.2358471155166626,
+  "fc": 0.002189105609431863,
+  "cpost": 2.071619987487793,
+  "kp": 1360.7425537109375,
+  "kd": 60.401729583740234,
+  "fmax": 2.061598062515259,
+  "mt": 0.42745721340179443,
+  "lscale": 4.321481704711914,
+  "loff": 0.21356041729450226,
+  "vread": 0.8982008099555969
+ },
+ "score": 2.1893844604492188,
+ "segments": 120,
+ "logs": [
+  "observation/episode_900.npz",
+  "observation/episode_901.npz",
+  "observation/episode_902.npz",
+  "observation/episode_903.npz",
+  "observation/episode_904.npz",
+  "observation/episode_905.npz",
+  "observation/episode_906.npz",
+  "observation/episode_907.npz",
+  "blackbox/code_wm/life_1.npz"
+ ],
+ "H": 20,
+ "wall_s": 29.947288036346436
+}
