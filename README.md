@@ -2,8 +2,6 @@
 
 Code as World Models: agents observe their task environment, write its world model as code, and use it to help write and verify policies, including Code-as-Policies programs
 
-Denzel Zheng · Mechanical and Aerospace Engineering (MAE), Princeton University · November 2026
-
 **[Read the full write-up →](https://dongzhezheng.github.io/world-models-as-unit-tests/)**
 
 <p align="center"><img src="assets/rope.gif" width="720" alt="Four programs on the same rope-throw episode"></p>
