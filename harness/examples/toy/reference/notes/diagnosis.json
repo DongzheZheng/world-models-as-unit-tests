@@ -1,0 +1,18 @@
+{
+ "_note": "Hand-written stand-in for an agent's notes/diagnosis.json (toy example).",
+ "what_it_is": "A puck on a table that is not level: a point mass with viscous friction, a constant pull towards +x and -y, and a random acceleration at every step.",
+ "mechanisms": [
+  {"name": "M1 force", "fitted": {"gain": 1.97}, "evidence": "least squares over the 160 steps of trials 1 and 2, standard error 0.035", "confidence": "high"},
+  {"name": "M2 friction", "fitted": {"friction": 0.777}, "evidence": "same fit, standard error 0.029", "confidence": "medium: assumed proportional to velocity; a constant part was not tested"},
+  {"name": "M3 drift", "fitted": {"drift_x": 0.337, "drift_y": -0.221}, "evidence": "same fit, standard errors 0.030 and 0.029; visible directly in trial 1, steps 0-9, with zero force", "confidence": "high"},
+  {"name": "M4 puffs", "fitted": {"noise": 0.332}, "evidence": "standard deviation of the residual of the fit", "confidence": "medium: 160 steps"}
+ ],
+ "different_from_hypothesis": "The field note covers two things, not one: a constant drift (which a controller can cancel) and a random acceleration (which it cannot, and which decides whether the puck counts as at rest at the last step).",
+ "real_trials": [
+  {"trial": 1, "seed": 11, "purpose": "scripted probe: pauses and single-axis pushes", "outcome": "not a success, as expected for a probe"},
+  {"trial": 2, "seed": 12, "purpose": "scripted probe: both axes at once, opposite directions", "outcome": "not a success, as expected for a probe"},
+  {"trial": 3, "seed": 13, "purpose": "policy.py end to end", "outcome": "0.008 m from the target centre, still moving at 0.093 m/s: failure"}
+ ],
+ "real_trials_used": 3,
+ "controller": "position gain 6 and velocity gain 3, set by hand for a well-damped response with the fitted gain and friction; constant force -drift/gain from the fitted parameters; tested in world.py: 182 of 200 episodes"
+}

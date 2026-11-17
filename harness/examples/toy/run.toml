@@ -1,0 +1,41 @@
+# Zero-token example of the whole procedure on a toy environment.
+#
+#     python -m harness run --config harness/examples/toy/run.toml
+#
+# The environment is toy_env.py (a puck on a table; its physics are hidden from the workspace).  The "agent" is the
+# replay adapter: it re-flies three recorded real trials through lab.py and then copies the files of reference/ into
+# the workspace.  Those files are hand-written stand-ins for an agent's output.  No model is called.
+#
+#     python -m harness screen --config harness/examples/toy/run.toml
+#
+# scores the two policies of the [screen] section in reference/world.py and in the environment.
+
+[run]
+name = "toy"
+dir = "runs/toy"                    # relative to this file
+
+[environment]
+factory = "toy_env:make_env"
+paths = ["."]                       # where toy_env.py is; only the environment process imports from here
+name = "puck table"
+
+[budget]
+trials = 5
+seed_range = [0, 99]
+held_out_seed_range = [1000, 1999]
+held_out_episodes = 50
+
+[agent]
+kind = "replay"
+role = "world_model"
+script = "replay.json"
+
+[verify]
+model_episodes = 200
+workers = 4
+episode_timeout_s = 30
+
+[screen]
+world = "reference/world.py"
+policies = ["reference/policy.py", "reference/policy_poor.py"]
+names = ["reference", "poor"]

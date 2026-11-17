@@ -1,0 +1,58 @@
+# EXAMPLE ONLY.  THIS COMMAND WAS NOT EXECUTED WHEN THE HARNESS WAS WRITTEN: no model was called, no tokens spent.
+#
+# An [agent] section for a run config that starts the OpenAI Codex CLI in non-interactive mode in the workspace.
+# Copy it into your run config in place of its [agent] section, then check every flag against `codex exec --help`
+# of the version you have installed; flags change between versions.
+#
+# Flags as documented on 2026-11-17 at (the developers.openai.com/codex/... addresses redirect to these pages)
+#   https://learn.chatgpt.com/docs/non-interactive-mode              (codex exec, --sandbox, --skip-git-repo-check,
+#                                                                     --json, --ephemeral, -o; --full-auto is gone)
+#   https://learn.chatgpt.com/docs/developer-commands?surface=cli    (--cd, --config/-c, --ignore-user-config)
+#   https://learn.chatgpt.com/docs/agent-approvals-security          (workspace-write, network off by default,
+#                                                                     approval policy "never")
+#   https://learn.chatgpt.com/docs/sandboxing                        (what the sandbox modes mean)
+#   https://learn.chatgpt.com/docs/config-file/config-reference      (approval_policy, sandbox_workspace_write.*,
+#                                                                     features.network_proxy.unix_sockets)
+#
+# What each part is for:
+#   codex exec "<prompt>"         non-interactive run; the prompt points at BRIEF.md, which is in the workspace.
+#   --cd {workspace}              the workspace root of the run.
+#   --sandbox workspace-write     commands may edit files inside the workspace only (the default of `codex exec` is
+#                                 a read-only sandbox, in which the agent could not write its deliverables).
+#   -c approval_policy="never"    nobody is there to approve anything.
+#   --skip-git-repo-check         the workspace is not a Git repository.
+#   --ephemeral                   no session files are kept.
+#   --json                        events as JSON lines, into state/logs/agent_stdout.log.
+#
+# Reaching the environment.  lab.py talks to the environment server through a Unix socket inside the workspace
+# (.lab/lab.sock).  The pages above say that the workspace-write sandbox keeps network access off and that no Unix
+# socket destination is allowed without an explicit rule; whether that blocks this socket was NOT tested.  The brief
+# tells the agent to run `python -c "import lab; print(lab.status())"` first and to stop if it fails.  If it fails,
+# the documented switches are:
+#   (a) in the run config `[server] transport = "tcp"`, and here the two commented lines below, which turn on
+#       network access inside the sandbox.  That also lets the agent's commands reach the internet, which the brief
+#       forbids only by instruction; or
+#   (b) a Unix-socket allow rule for {workspace}/.lab/lab.sock (features.network_proxy.unix_sockets or a permissions
+#       profile; see the configuration reference).
+#
+# Not enforced by this example: the pages above state where commands may WRITE, not that reading outside the
+# workspace is prevented.  Keep the environment's source and the run's state directory where the agent's user cannot
+# read them if that matters to you (a container, another account), or use the `[run] workspace` key of the config to
+# put the workspace far from both.
+# Placeholders the harness fills in: {workspace}, {state_dir}, {brief_file}, {brief_text}, {python}.
+
+[agent]
+kind = "command"
+role = "world_model"                # or "cap", "cap_with_tests"
+timeout_s = 10800
+command = [
+    "codex", "exec",
+    "--cd", "{workspace}",
+    "--sandbox", "workspace-write",
+    "-c", 'approval_policy="never"',
+    # "-c", "sandbox_workspace_write.network_access=true",      # only with [server] transport = "tcp", see (a)
+    "--skip-git-repo-check",
+    "--ephemeral",
+    "--json",
+    "Read BRIEF.md in the current directory and carry out the task it describes. Work only inside this directory.",
+]

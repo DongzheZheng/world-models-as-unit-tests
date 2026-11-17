@@ -1,0 +1,54 @@
+# EXAMPLE ONLY.  THIS COMMAND WAS NOT EXECUTED WHEN THE HARNESS WAS WRITTEN: no model was called, no tokens spent.
+#
+# An [agent] section for a run config that starts Claude Code in non-interactive mode in the workspace.
+# Copy it into your run config in place of its [agent] section, then check every flag against `claude --help`
+# of the version you have installed; flags change between versions.
+#
+# Flags as documented on 2026-11-17 at
+#   https://code.claude.com/docs/en/headless           (-p, --allowedTools, --permission-mode, --output-format)
+#   https://code.claude.com/docs/en/cli-reference      (--restricted, --tools, --settings, --max-budget-usd, --model)
+#   https://code.claude.com/docs/en/permissions        (working directories, what Read/Edit rules do not cover)
+#   https://code.claude.com/docs/en/sandboxing         (sandbox.* settings, Unix sockets, localhost)
+#   https://code.claude.com/docs/en/settings-reference (the sandbox.* and permissions.* keys)
+#
+# What each part is for:
+#   -p "<prompt>"            non-interactive run; the prompt points at BRIEF.md, which is in the workspace.
+#   --restricted             documented for a harness that drives `claude`: user and project settings are not
+#                            loaded, the built-in file tools are confined to the working directory, and the tools
+#                            that run commands are removed unless named in --tools (needs v2.1.248 or later).
+#   --tools                  the agent needs Bash to run Python, and the file tools.
+#   --allowedTools           these tools run without a permission prompt; nobody is there to answer one.
+#   --permission-mode dontAsk   anything else that would prompt is denied instead of waiting.
+#   --settings '{"sandbox": ...}'   operating-system sandbox for Bash commands.  Per the documentation a sandboxed
+#                            command may write only below the working directory and the temp directory, but may by
+#                            default READ the whole machine, so `denyRead` lists what must stay hidden:
+#                            {state_dir} (the harness's state) and the directories with your environment's source.
+#                            REPLACE /path/to/your/environment/source.  `allowUnixSockets` names the socket through
+#                            which lab.py reaches the environment (the key is documented for macOS).  For Linux the
+#                            documentation says that a sandboxed command cannot reach a 127.0.0.1 server of the
+#                            host and that Unix sockets are blocked only if the optional seccomp filter is
+#                            installed, so keep `[server] transport` at "auto" or "unix".  Whether lab.py gets
+#                            through the sandbox on your platform was NOT tested here.
+#   --output-format json     the result, with cost and session id, goes to state/logs/agent_stdout.log.
+#
+# Not enforced by this example: the file tools are confined by --restricted and Bash by the sandbox only as far as
+# those two features go on your platform; verify with a harmless run that `cat` of a file under {state_dir} fails
+# and that `python -c "import lab; print(lab.status())"` works, before you trust a result.
+# Placeholders the harness fills in: {workspace}, {state_dir}, {brief_file}, {brief_text}, {python}.
+
+[agent]
+kind = "command"
+role = "world_model"                # or "cap", "cap_with_tests"
+timeout_s = 10800
+command = [
+    "claude",
+    "--restricted",
+    "-p", "Read BRIEF.md in the current directory and carry out the task it describes. Work only inside this directory.",
+    "--tools", "Bash,Read,Edit,Write",
+    "--allowedTools", "Bash,Read,Edit,Write",
+    "--permission-mode", "dontAsk",
+    "--settings", '{"sandbox": {"enabled": true, "failIfUnavailable": true, "allowUnsandboxedCommands": false, "filesystem": {"denyRead": ["{state_dir}", "/path/to/your/environment/source"]}, "network": {"allowUnixSockets": ["{workspace}/.lab/lab.sock"]}}}',
+    "--output-format", "json",
+    # "--max-budget-usd", "20",     # optional spending cap (print mode only)
+    # "--model", "<model name>",    # optional
+]

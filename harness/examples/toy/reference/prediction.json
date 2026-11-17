@@ -1,0 +1,6 @@
+{
+ "_note": "Hand-written stand-in for an agent's prediction.json (toy example).",
+ "predicted_success_rate": 0.91,
+ "episodes": 200,
+ "basis": "182 of 200 episodes of policy.py in world.py (python evaluate_in_model.py policy.py 200 0); not corrected"
+}

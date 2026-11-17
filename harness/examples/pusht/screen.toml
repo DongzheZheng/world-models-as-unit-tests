@@ -1,0 +1,53 @@
+# Zero-token example: the study's predicted-against-real comparison for the pushing task (T block), through the
+# generic code path of the harness.
+#
+#     python -m harness screen --config harness/examples/pusht/screen.toml --workers 8
+#
+# Programs:     pilots/aspire_pusht/policy_v1.py .. policy_v8.py, the eight versions the CaP agent wrote (unchanged).
+# World model:  worlds/pusht/pusht_world.py, the file the world-model agent wrote (unchanged), wrapped by world.py.
+# Environment:  reallab/pusht, wrapped by env_adapter.py.
+# world.py and env_adapter.py in this directory are hand-written adapters, not agent-written.
+#
+# Recorded numbers this reproduces:
+#     world model   runs/probe/screen_pusht.json, "T", 200 episodes per program, seeds 50000..50199
+#     environment   runs/probe/curves.json, "push_T/aspire_v<k>", 50 episodes per program, seeds 6000..6049
+# About 1,600 model episodes at roughly one second each: a few minutes on 8 workers.
+
+[run]
+name = "pusht"
+dir = "runs/pusht"                  # relative to this file
+
+[environment]
+factory = "env_adapter:make_env"
+paths = ["."]
+cwd = "../../.."                    # the repository root
+name = "Push-T"
+
+[budget]
+trials = 5
+seed_range = [0, 999]
+held_out_seed_range = [6000, 6049]  # the seeds of the recorded environment runs
+held_out_episodes = 50
+
+[agent]
+kind = "none"
+
+[verify]
+model_episodes = 200
+model_seed_first = 50000            # the seeds of the recorded model-based evaluation
+workers = 8
+episode_timeout_s = 300
+
+[screen]
+world = "world.py"
+policies = [
+    "../../../pilots/aspire_pusht/policy_v1.py",
+    "../../../pilots/aspire_pusht/policy_v2.py",
+    "../../../pilots/aspire_pusht/policy_v3.py",
+    "../../../pilots/aspire_pusht/policy_v4.py",
+    "../../../pilots/aspire_pusht/policy_v5.py",
+    "../../../pilots/aspire_pusht/policy_v6.py",
+    "../../../pilots/aspire_pusht/policy_v7.py",
+    "../../../pilots/aspire_pusht/policy_v8.py",
+]
+names = ["v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8"]

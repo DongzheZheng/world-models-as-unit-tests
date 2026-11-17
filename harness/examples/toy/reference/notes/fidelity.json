@@ -1,0 +1,17 @@
+{
+ "_note": "Hand-written stand-in for an agent's notes/fidelity.json (toy example). The numbers are the output of `python fidelity.py trials/trial_1.npz trials/trial_2.npz trials/trial_3.npz`.",
+ "open_loop": "the model without its random term, started from recorded observations at steps 0, 20 and 40, recorded actions replayed",
+ "records": [
+  {"record": "trials/trial_1.npz", "seed": 11, "used_for_fit": true,
+   "position_error_after_5_steps_m": 0.0255, "position_error_after_20_steps_m": 0.1493, "position_error_after_40_steps_m": 0.2031,
+   "final_distance_to_target_real_m": 5.7644, "final_distance_to_target_model_m": 5.684},
+  {"record": "trials/trial_2.npz", "seed": 12, "used_for_fit": true,
+   "position_error_after_5_steps_m": 0.0148, "position_error_after_20_steps_m": 0.1135, "position_error_after_40_steps_m": 0.2131,
+   "final_distance_to_target_real_m": 3.1782, "final_distance_to_target_model_m": 3.2623},
+  {"record": "trials/trial_3.npz", "seed": 13, "used_for_fit": false,
+   "position_error_after_5_steps_m": 0.026, "position_error_after_20_steps_m": 0.1668, "position_error_after_40_steps_m": 0.3634,
+   "final_distance_to_target_real_m": 0.0081, "final_distance_to_target_model_m": 0.3676}
+ ],
+ "reading": "The open-loop error grows with the horizon on fitted and unfitted records alike, because the random acceleration (M4) cannot be predicted step by step; the target radius is 0.07 m, so an open-loop plan would miss. The controller of policy.py closes the loop on the observed position and velocity, so what it needs from the model is the size of the drift and of the random term, not a long open-loop prediction.",
+ "end_to_end": "Trial 3 ran policy.py: the puck ended 0.008 m from the target centre but still moving at 0.093 m/s (limit 0.08), a failure. In world.py the same controller fails in 18 of 200 episodes."
+}

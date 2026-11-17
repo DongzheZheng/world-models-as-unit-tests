@@ -2,7 +2,7 @@
 
 Code as World Models: agents observe their task environment, write its world model as code, and use it to help write and verify policies, including Code-as-Policies programs
 
-**[Read the full write-up →](https://dongzhezheng.github.io/world-models-as-unit-tests/)**
+**[Read the full write-up →](https://dongzhezheng.github.io/world-models-as-unit-tests/)** · **[Interactive Space](https://huggingface.co/spaces/DenzelZheng/world-models-as-unit-tests)** · **[Dataset](https://huggingface.co/datasets/DenzelZheng/world-models-as-unit-tests)**
 
 <p align="center"><img src="assets/rope.gif" width="720" alt="Four programs on the same rope-throw episode"></p>
 
@@ -59,6 +59,9 @@ Each GIF compares controllers side by side on the same real episode. Full-qualit
 | `runs/` | Recorded results, fitted parameters, the agents' hypothesis and diagnosis files, real-trial logs |
 | `blog/`, `site/` | Page sources |
 | `assets/` | README images |
+| `space/` | Sources of the Hugging Face Space: the static page builder, the recorded runs it replays, and a live variant that runs programs on a server (not deployed) |
+| `dataset/` | Scripts that build and check the Hugging Face dataset |
+| `harness/` | A small harness for trying this procedure on your own environment ([README](harness/README.md)) |
 | `tests/` | Test suite |
 
 **Record names.** `aspire_style` = the CaP agent (modelled on ASPIRE, five-trial budget); `code_wm` = the world-model agent; `cap_in_code_world` = the CaP agent using the world model as its tests; `*_extended` = runs with more real trials. "Lives" in file names and code = real trials.
@@ -111,6 +114,10 @@ The environments are deterministic given the seed. Every re-run with a per-episo
 | `real rope code_wm_extended --episodes 4` | 3/4, same episodes as the record | (39/50 over all 50) | 257 s |
 
 The two rope world-model controllers take about 25 and 50 minutes for all 50 episodes. We re-ran only 4 episodes each in this check.
+
+## Harness
+
+`harness/` is a small framework for trying this procedure on your own environment. You bring a Python environment object and a TOML config. The harness gives a coding agent a workspace, a brief, a trial budget and a client for the environment, then scores the delivered controller against held-out seeds in both the delivered world model and the real environment. No model has been run through it by us. See [`harness/README.md`](harness/README.md) for setup and examples.
 
 ## What is not here
 

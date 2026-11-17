@@ -1,0 +1,21 @@
+{
+ "_note": "Hand-written stand-in for an agent's notes/hypothesis.json (toy example). Written from MANUAL.md alone.",
+ "what_it_is": "A puck sliding on a table, pushed by a force of at most 1 N per axis. Position and velocity are observed, so the response to a force is an acceleration.",
+ "evidence": [
+  "MANUAL.md: the action is a force, the observation has position and velocity, one step is 0.1 s",
+  "MANUAL.md, field note: 'It never quite stays where you leave it'"
+ ],
+ "alternatives_rejected": [
+  "The action sets the velocity directly: the manual calls it a force, and a puck at rest then would stay at rest, against the field note"
+ ],
+ "mechanisms": [
+  {"name": "force", "expect": "acceleration proportional to the force", "unknown": "the factor (the puck's mass)"},
+  {"name": "friction", "expect": "the puck slows down when not pushed", "unknown": "viscous or constant, and how strong"},
+  {"name": "drift", "expect": "the field note suggests a constant pull or a disturbance", "unknown": "direction, size, constant or random"}
+ ],
+ "unknowns_and_experiments": [
+  {"trial": 1, "experiment": "no force for 10 steps (what moves the puck by itself), then full force along +x, pause, full force along -y, pause, half force on both axes"},
+  {"trial": 2, "experiment": "the opposite directions and both axes at once, with pauses, to separate friction from drift"},
+  {"trial": 3, "experiment": "the controller obtained in the model, end to end"}
+ ]
+}
