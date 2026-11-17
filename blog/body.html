@@ -3,6 +3,7 @@
 <h1>World Models as Unit Tests</h1>
 <p class="dek">Code as World Models: agents observe their task environment, write its world model as code, and use it to help write and verify policies, including Code-as-Policies programs</p>
 <p class="byline">Denzel Zheng &middot; Mechanical and Aerospace Engineering (MAE), Princeton University &middot; November 2026</p>
+<p class="byline"><a href="https://github.com/DongzheZheng/world-models-as-unit-tests">Code and results on GitHub</a></p>
 </header>
 
 <p class="lede">Frontier language models are starting to write robot controllers. On <a href="https://www.anthropic.com/claude-fable-and-mythos-5-2">RoboDojo Sim</a>, Claude Fable 5.2 scored 64.9% against 29.8% for GPT-6 Astra.<sup><a href="#fn-fable" id="fnref-fable">*</a></sup> In Code as Policies (CaP), an LLM writes a controller as code, runs it on the real system, and revises (<a href="https://arxiv.org/abs/2209.07753">Liang et&nbsp;al., 2022</a>).<sup><a href="#fn-cap" id="fnref-cap">1</a></sup> ASPIRE (<a href="https://arxiv.org/abs/2607.00272">Lu et&nbsp;al., 2026</a>) extends this with agentic skill discovery.<sup><a href="#fn-aspire" id="fnref-aspire">2</a></sup> The more often the model edits the program, the more real-world evaluation becomes the bottleneck.</p>
@@ -44,6 +45,8 @@
 <p>These tests may help most when three conditions combine: episodes vary at random, the physics hides changes the agent is not told about, and there is no live signal the controller can use to correct itself.</p>
 
 <p>We tried this across eight tasks in four simulators, with our CaP agent modelled on ASPIRE under a five-trial cap and each world model a single Python file of 14 to 26&nbsp;KB, with dynamics equations, collision rules and friction fitted from the agent&rsquo;s observation logs. These tests can be wrong: they ranked programs well and overestimated absolute success.</p>
+
+<p>The <a href="https://github.com/DongzheZheng/world-models-as-unit-tests">repository</a> holds the eight environments, every program and world model the agents wrote, and the recorded results. A script, <code>reproduce.py</code>, re-runs any of the frozen controllers and prints the reproduced number next to the recorded one. The code is under the MIT licence.</p>
 
 <details class="note">
 <summary>Other RoboDojo scores and Chen et&nbsp;al. (2026) results</summary>
@@ -649,6 +652,7 @@
   year        = {2026},
   note        = {Early research note. Simulators stand in for
                  reality; one run per agent per task; results
-                 are not peer-reviewed.}
+                 are not peer-reviewed.},
+  howpublished = {\url{https://github.com/DongzheZheng/world-models-as-unit-tests}}
 }</code></pre>
 </section>
