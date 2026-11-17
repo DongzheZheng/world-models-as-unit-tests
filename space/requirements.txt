@@ -1,0 +1,50 @@
+# Python environment of the Space (Python 3.12, Linux x86_64, CPU only): the complete pinned set, dependencies
+# included.  Install with
+#
+#   pip install --no-deps -r space/requirements.txt
+#
+# --no-deps because gym-pusht declares opencv-python, which needs system OpenGL libraries; the headless build
+# listed here provides the same cv2 module (`pip check` then reports that one declaration and nothing else).
+# The versions shared with the repository's requirements.txt are the same; torch is the CPU-only build of that
+# version, from the PyTorch index.
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# used by the repository code the Space runs
+numpy==1.26.4
+torch==2.14.1+cpu
+shapely==2.2.0
+gymnasium==1.4.0
+pymunk==6.11.1
+gym-pusht==0.1.8
+pygame==2.6.1                        # imported by gym-pusht
+opencv-python-headless==4.11.0.86    # imported by gym-pusht (in place of opencv-python)
+
+# web app
+fastapi==0.163.2
+uvicorn==0.54.0
+
+# dependencies of the above
+annotated-doc==0.0.6
+annotated-types==0.8.0
+anyio==4.16.0
+cffi==2.1.1
+click==8.5.1
+cloudpickle==3.1.2
+Farama-Notifications==0.0.6
+filelock==4.2.11
+fsspec==2026.9.0
+h11==0.16.0
+idna==3.20
+Jinja2==3.1.6
+MarkupSafe==3.0.4
+mpmath==1.3.0
+networkx==3.7
+opentelemetry-api==1.45.2
+pycparser==3.12
+pydantic==2.14.3
+pydantic_core==2.50.4
+setuptools==84.2.1
+starlette==1.10.0
+sympy==1.14.0
+typing-inspection==0.4.5
+typing_extensions==4.16.0

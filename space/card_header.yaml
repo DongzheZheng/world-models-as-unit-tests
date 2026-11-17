@@ -1,0 +1,23 @@
+title: World Models as Unit Tests
+emoji: 🧪
+colorFrom: blue
+colorTo: gray
+sdk: docker
+app_port: 7860
+license: mit
+pinned: true
+thumbnail: https://huggingface.co/spaces/DenzelZheng/world-models-as-unit-tests/resolve/main/thumbnail.jpg
+datasets:
+  - DenzelZheng/world-models-as-unit-tests
+tags:
+  - world-models
+  - robotics
+  - code-as-policies
+  - llm-agents
+  - ai-agents
+  - coding-agents
+  - embodied-ai
+  - physical-ai
+  - sim-to-real
+  - system-identification
+  - verification

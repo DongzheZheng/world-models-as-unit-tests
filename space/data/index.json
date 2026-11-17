@@ -1,0 +1,463 @@
+{
+ "default": {
+  "task": "T",
+  "version": 5
+ },
+ "tasks": [
+  "T",
+  "L"
+ ],
+ "programs": [
+  {
+   "task": "T",
+   "version": 1,
+   "tag": null,
+   "file": "T_v1.json",
+   "world": {
+    "n": 200,
+    "k": 119
+   },
+   "real": {
+    "n": 50,
+    "k": 36
+   }
+  },
+  {
+   "task": "T",
+   "version": 2,
+   "tag": null,
+   "file": "T_v2.json",
+   "world": {
+    "n": 200,
+    "k": 190
+   },
+   "real": {
+    "n": 50,
+    "k": 45
+   }
+  },
+  {
+   "task": "T",
+   "version": 3,
+   "tag": null,
+   "file": "T_v3.json",
+   "world": {
+    "n": 200,
+    "k": 193
+   },
+   "real": {
+    "n": 50,
+    "k": 46
+   }
+  },
+  {
+   "task": "T",
+   "version": 4,
+   "tag": null,
+   "file": "T_v4.json",
+   "world": {
+    "n": 200,
+    "k": 196
+   },
+   "real": {
+    "n": 50,
+    "k": 48
+   }
+  },
+  {
+   "task": "T",
+   "version": 5,
+   "tag": "submitted",
+   "file": "T_v5.json",
+   "world": {
+    "n": 200,
+    "k": 40
+   },
+   "real": {
+    "n": 50,
+    "k": 8
+   }
+  },
+  {
+   "task": "T",
+   "version": 6,
+   "tag": null,
+   "file": "T_v6.json",
+   "world": {
+    "n": 200,
+    "k": 45
+   },
+   "real": {
+    "n": 50,
+    "k": 8
+   }
+  },
+  {
+   "task": "T",
+   "version": 7,
+   "tag": null,
+   "file": "T_v7.json",
+   "world": {
+    "n": 200,
+    "k": 198
+   },
+   "real": {
+    "n": 50,
+    "k": 48
+   }
+  },
+  {
+   "task": "T",
+   "version": 8,
+   "tag": "extended",
+   "file": "T_v8.json",
+   "world": {
+    "n": 200,
+    "k": 199
+   },
+   "real": {
+    "n": 50,
+    "k": 48
+   }
+  },
+  {
+   "task": "L",
+   "version": 9,
+   "tag": null,
+   "file": "L_v9.json",
+   "world": {
+    "n": 200,
+    "k": 62
+   },
+   "real": {
+    "n": 50,
+    "k": 25
+   }
+  },
+  {
+   "task": "L",
+   "version": 10,
+   "tag": "submitted",
+   "file": "L_v10.json",
+   "world": {
+    "n": 200,
+    "k": 16
+   },
+   "real": {
+    "n": 50,
+    "k": 4
+   }
+  },
+  {
+   "task": "L",
+   "version": 11,
+   "tag": null,
+   "file": "L_v11.json",
+   "world": {
+    "n": 200,
+    "k": 28
+   },
+   "real": {
+    "n": 50,
+    "k": 5
+   }
+  },
+  {
+   "task": "L",
+   "version": 12,
+   "tag": null,
+   "file": "L_v12.json",
+   "world": {
+    "n": 200,
+    "k": 74
+   },
+   "real": {
+    "n": 50,
+    "k": 23
+   }
+  },
+  {
+   "task": "L",
+   "version": 13,
+   "tag": null,
+   "file": "L_v13.json",
+   "world": {
+    "n": 200,
+    "k": 67
+   },
+   "real": {
+    "n": 50,
+    "k": 23
+   }
+  },
+  {
+   "task": "L",
+   "version": 14,
+   "tag": null,
+   "file": "L_v14.json",
+   "world": {
+    "n": 200,
+    "k": 112
+   },
+   "real": {
+    "n": 50,
+    "k": 39
+   }
+  },
+  {
+   "task": "L",
+   "version": 15,
+   "tag": "extended",
+   "file": "L_v15.json",
+   "world": {
+    "n": 200,
+    "k": 64
+   },
+   "real": {
+    "n": 50,
+    "k": 18
+   }
+  },
+  {
+   "task": "L",
+   "version": 16,
+   "tag": null,
+   "file": "L_v16.json",
+   "world": {
+    "n": 200,
+    "k": 64
+   },
+   "real": {
+    "n": 50,
+    "k": 18
+   }
+  },
+  {
+   "task": "L",
+   "version": 17,
+   "tag": "with_tests",
+   "file": "L_v17.json",
+   "world": {
+    "n": 200,
+    "k": 169
+   },
+   "real": {
+    "n": 50,
+    "k": 39
+   }
+  }
+ ],
+ "geometry": {
+  "T": {
+   "world": {
+    "block": [
+     [
+      [
+       -60.0,
+       0.0
+      ],
+      [
+       60.0,
+       0.0
+      ],
+      [
+       60.0,
+       30.0
+      ],
+      [
+       15.0,
+       30.0
+      ],
+      [
+       15.0,
+       120.0
+      ],
+      [
+       -15.0,
+       120.0
+      ],
+      [
+       -15.0,
+       30.0
+      ],
+      [
+       -60.0,
+       30.0
+      ]
+     ]
+    ],
+    "goal": [
+     256.0,
+     256.0,
+     0.7853981633974483
+    ],
+    "pusher_radius": 15.0,
+    "workspace": [
+     512.0,
+     512.0
+    ],
+    "wall": [
+     7.0,
+     504.0
+    ]
+   },
+   "real": {
+    "block": [
+     [
+      [
+       60.0,
+       30.0
+      ],
+      [
+       15.0,
+       30.0
+      ],
+      [
+       15.0,
+       120.0
+      ],
+      [
+       -15.0,
+       120.0
+      ],
+      [
+       -15.0,
+       30.0
+      ],
+      [
+       -60.0,
+       30.0
+      ],
+      [
+       -60.0,
+       0.0
+      ],
+      [
+       60.0,
+       0.0
+      ]
+     ]
+    ],
+    "goal": [
+     256.0,
+     256.0,
+     0.7853981633974483
+    ],
+    "pusher_radius": 15.0,
+    "workspace": [
+     512.0,
+     512.0
+    ],
+    "wall": [
+     7.0,
+     504.0
+    ]
+   }
+  },
+  "L": {
+   "world": {
+    "block": [
+     [
+      [
+       0.0,
+       0.0
+      ],
+      [
+       100.0,
+       0.0
+      ],
+      [
+       100.0,
+       40.0
+      ],
+      [
+       40.0,
+       40.0
+      ],
+      [
+       40.0,
+       110.0
+      ],
+      [
+       0.0,
+       110.0
+      ]
+     ]
+    ],
+    "goal": [
+     300.0,
+     200.0,
+     1.5707963267948966
+    ],
+    "pusher_radius": 15.0,
+    "workspace": [
+     512.0,
+     512.0
+    ],
+    "wall": [
+     7.0,
+     504.0
+    ]
+   },
+   "real": {
+    "block": [
+     [
+      [
+       100.0,
+       40.0
+      ],
+      [
+       40.0,
+       40.0
+      ],
+      [
+       40.0,
+       110.0
+      ],
+      [
+       0.0,
+       110.0
+      ],
+      [
+       0.0,
+       0.0
+      ],
+      [
+       100.0,
+       0.0
+      ]
+     ]
+    ],
+    "goal": [
+     300.0,
+     200.0,
+     1.5707963267948966
+    ],
+    "pusher_radius": 15.0,
+    "workspace": [
+     512.0,
+     512.0
+    ],
+    "wall": [
+     7.0,
+     504.0
+    ]
+   }
+  }
+ },
+ "world": {
+  "seed0": 50000,
+  "n": 200
+ },
+ "real": {
+  "seed0": 6000,
+  "n": 50
+ },
+ "time_limit": 300,
+ "steps_per_second": 10,
+ "encoding": {
+  "unit": 0.25,
+  "turn": 4096,
+  "alphabet": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+ }
+}

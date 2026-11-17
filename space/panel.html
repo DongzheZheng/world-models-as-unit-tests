@@ -1,0 +1,293 @@
+<!-- Live interactive panel (the Docker Space).  Inserted after the article header by space/build_page.py, which
+     fills in the double-braced placeholders: "include <file>" is that file of this folder, a text key its
+     HTML-escaped string, text_json all strings as JSON, repo_url the repository link of the article header. -->
+<style>
+{{include panel.css}}
+</style>
+
+<section class="wm-panel" id="wm-panel" aria-labelledby="wm-heading">
+<div class="wm-head">
+<p class="wm-kicker">{{kicker}}</p>
+<h2 class="wm-heading" id="wm-heading">{{heading}}</h2>
+<p class="wm-intro">{{intro}}</p>
+</div>
+
+<div class="wm-box">
+<form class="wm-controls" id="wm-form">
+<span class="wm-label" id="wm-task-label">{{label_task}}</span>
+<div class="wm-options wm-task" id="wm-task" role="radiogroup" aria-labelledby="wm-task-label"></div>
+<span class="wm-label" id="wm-version-label">{{label_program}}</span>
+<div>
+<div class="wm-options" id="wm-version" role="radiogroup" aria-labelledby="wm-version-label"></div>
+<p class="wm-tags" id="wm-tags"></p>
+</div>
+<button class="wm-run" id="wm-run" type="submit" disabled>{{button_run}}</button>
+</form>
+<p class="wm-alert" id="wm-alert" role="alert"></p>
+
+<div class="wm-cols">
+<section class="wm-col" id="wm-world" aria-labelledby="wm-world-title">
+<h3 class="wm-title" id="wm-world-title">{{world_title}}</h3>
+<p class="wm-sub">{{world_sub}}</p>
+<div class="wm-result"><p class="wm-status" role="status"></p><span class="wm-time"></span></div>
+<div class="wm-marks" aria-hidden="true"></div>
+<div class="wm-stage"><canvas class="wm-canvas" role="img" aria-label="{{world_title}}"></canvas>
+<button class="wm-replay" type="button" aria-label="Replay" title="Replay" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.6 7.2A8 8 0 1 1 4.07 13"/><path d="M5.6 3.2v4h4"/></svg></button></div>
+</section>
+<section class="wm-col" id="wm-real" aria-labelledby="wm-real-title">
+<h3 class="wm-title" id="wm-real-title">{{real_title}}</h3>
+<p class="wm-sub">{{real_sub}}</p>
+<div class="wm-result"><p class="wm-status" role="status"></p><span class="wm-time"></span></div>
+<div class="wm-marks" aria-hidden="true"></div>
+<div class="wm-stage"><canvas class="wm-canvas" role="img" aria-label="{{real_title}}"></canvas>
+<button class="wm-replay" type="button" aria-label="Replay" title="Replay" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.6 7.2A8 8 0 1 1 4.07 13"/><path d="M5.6 3.2v4h4"/></svg></button></div>
+</section>
+</div>
+<p class="wm-caption">{{anim_caption}}</p>
+
+<div class="wm-chart">
+<h3 class="wm-title">{{chart_title}}</h3>
+<div class="wm-plot"><svg id="wm-svg" viewBox="0 0 316 304" role="img" aria-label="{{chart_title}}"></svg></div>
+<div class="wm-side">
+<div class="wm-legend"><span><i class="wm-k-rec"></i>{{chart_legend_recorded}}</span><span><i class="wm-k-live"></i>{{chart_legend_live}}</span></div>
+<p class="wm-note">{{note_sample}}</p>
+</div>
+</div>
+</div>
+
+<p class="wm-foot">{{note_scope}} <a href="{{repo_url}}">{{link_repo}}</a></p>
+<script type="application/json" id="wm-text">{{text_json}}</script>
+</section>
+
+<script>
+(function () {
+  "use strict";
+  if (!document.getElementById("wm-panel")) return;
+  const T = JSON.parse(document.getElementById("wm-text").textContent);
+{{include panel_shared.js}}
+
+  const QUEUED_AFTER_MS = 2000;     // the "queued" text appears only after this long
+  const REQUEST_TIMEOUT_MS = 240000;
+  const form = $("wm-form"), runBtn = $("wm-run"), alertBox = $("wm-alert");
+  let data = null, sel = null, busy = false;
+  const live = [];                  // runs made in this page session: {task, version, world, real}
+
+  // ------------------------------------------------------------------ one side (world model / environment)
+  function makeSide(name) {
+    const col = $("wm-" + name);
+    const s = { name: name, canvas: col.querySelector("canvas"), status: col.querySelector(".wm-status"),
+                time: col.querySelector(".wm-time"), marks: col.querySelector(".wm-marks"),
+                replay: col.querySelector(".wm-replay"), geo: null, traj: null, success: false, limit: 300, pos: 0, raf: 0 };
+    s.replay.addEventListener("click", function () { play(s); });
+    return s;
+  }
+  const sides = { world: makeSide("world"), real: makeSide("real") };
+
+  function setStatus(s, text, cls, detail) {
+    s.status.className = "wm-status" + (cls ? " " + cls : "");
+    s.status.textContent = text;
+    if (detail) {
+      const d = document.createElement("span");
+      d.className = "wm-detail";
+      d.textContent = detail;
+      s.status.appendChild(d);
+    }
+  }
+
+  function setMarks(s, outcomes, pending) {
+    const n = outcomes ? outcomes.length : (data ? data.n : 0);
+    s.marks.textContent = "";
+    s.marks.classList.toggle("wm-busy", !!pending);
+    for (let i = 0; i < n; i++) {
+      const m = document.createElement("i");
+      if (outcomes) m.className = (outcomes[i] ? "wm-pass" : "wm-fail") + (i === 0 ? " wm-first" : "");
+      s.marks.appendChild(m);
+    }
+  }
+
+  function clearSide(s) {                   // back to the empty stage with the goal of the selected task
+    cancelAnimationFrame(s.raf);
+    s.traj = null;
+    s.replay.hidden = true;
+    s.geo = data && sel ? data.geometry[sel.task] : null;
+    setStatus(s, "", "");
+    s.time.textContent = "";
+    setMarks(s, null, false);
+    draw(s);
+  }
+
+  function showResult(s, res) {
+    setStatus(s, fill(T.result_template, { k: res.k, n: res.n }), "");
+    s.time.textContent = fill(T.time_template, { s: Number(res.elapsed_s).toFixed(1) });
+    setMarks(s, res.success, false);        // the marks repeat the status line for the eye
+    s.geo = res.geometry;
+    s.limit = res.time_limit || 300;
+    s.traj = res.first ? res.first.trajectory : null;
+    s.success = !!(res.first && res.first.success);
+    s.replay.hidden = !s.traj;
+    show(s);
+  }
+
+  // ------------------------------------------------------------------ chart: recorded results and this session's runs
+  function drawChart() {
+    const svg = $("wm-svg");
+    chartFrame(svg);
+    if (!data) return;
+    let chosen = null;
+    data.programs.forEach(function (p) {
+      if (!p.recorded) return;
+      if (sel && p.task === sel.task && p.version === sel.version) { chosen = p; return; }
+      const c = node("circle", { class: "wm-rec", cx: plotX(p.recorded.world), cy: plotY(p.recorded.real), r: 4 }, svg);
+      node("title", {}, c).textContent = pointText(p.version, p.recorded.world, p.recorded.real);
+    });
+    if (chosen) {                             // the recorded point of the selected program, on top and labelled
+      const cx = plotX(chosen.recorded.world), cy = plotY(chosen.recorded.real), side = labelSide(cx);
+      const c = node("circle", { class: "wm-rec wm-sel", cx: cx, cy: cy, r: 4.5 }, svg);
+      node("title", {}, c).textContent = pointText(chosen.version, chosen.recorded.world, chosen.recorded.real);
+      node("text", { class: "wm-lbl", x: cx + side.dx, y: cy + 13, "text-anchor": side.anchor }, svg).textContent = "v" + chosen.version;
+    }
+    live.forEach(function (p, i) {
+      const cx = plotX(p.world), cy = plotY(p.real), newest = i === live.length - 1, side = labelSide(cx);
+      const c = node("circle", { class: "wm-live" + (newest ? "" : " wm-old"), cx: cx, cy: cy, r: 5 }, svg);
+      node("title", {}, c).textContent = pointText(p.version, p.world, p.real);
+      if (newest) node("text", { class: "wm-lbl wm-hot", x: cx + side.dx, y: cy - 6, "text-anchor": side.anchor }, svg).textContent = "v" + p.version;
+    });
+  }
+
+  // ------------------------------------------------------------------ controls
+  function programsOf(task) { return data.programs.filter(function (p) { return p.task === task; }); }
+
+  function select(task, version) {
+    const list = programsOf(task);
+    if (version == null) version = submitted(list);
+    if (!sel || sel.task !== task) listVersions(list);
+    sel = { task: task, version: version };
+    checkChips(task, version);
+    clearSide(sides.world);
+    clearSide(sides.real);
+    drawChart();
+  }
+
+  function setBusy(on) {
+    const focused = document.activeElement === runBtn;
+    busy = on;
+    runBtn.disabled = on;
+    runBtn.textContent = on ? T.button_busy : T.button_run;
+    form.querySelectorAll("input").forEach(function (i) { i.disabled = on; });
+    if (on) runBtn.dataset.refocus = focused ? "1" : "";      // a disabled button loses the keyboard focus: give it back
+    else if (runBtn.dataset.refocus && (!document.activeElement || document.activeElement === document.body)) {
+      runBtn.focus({ preventScroll: true });
+    }
+  }
+
+  // ------------------------------------------------------------------ talking to the server
+  async function detailOf(resp) {
+    try {
+      const j = await resp.json();
+      if (typeof j.detail === "string") return j.detail;
+      if (Array.isArray(j.detail)) return j.detail.map(function (d) { return d.msg; }).join("; ");
+    } catch (e) { /* not JSON */ }
+    return "";
+  }
+
+  // POSTs a run and reads the newline-delimited JSON events of the reply; resolves with the final "done" event.
+  async function stream(url, body, onEvent) {
+    const ctl = new AbortController(), kill = setTimeout(function () { ctl.abort(); }, REQUEST_TIMEOUT_MS);
+    try {
+      const resp = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" },
+                                      body: JSON.stringify(body), signal: ctl.signal });
+      if (!resp.ok) {
+        const d = await detailOf(resp);
+        throw new Error("HTTP " + resp.status + (d ? ": " + d : ""));
+      }
+      let lastEvent = null;
+      const handle = function (text) {
+        if (!text.trim()) return;
+        lastEvent = JSON.parse(text);
+        onEvent(lastEvent);
+      };
+      if (resp.body && resp.body.getReader) {
+        const reader = resp.body.getReader(), dec = new TextDecoder();
+        let buf = "";
+        for (;;) {
+          const part = await reader.read();
+          if (part.done) break;
+          buf += dec.decode(part.value, { stream: true });
+          let cut;
+          while ((cut = buf.indexOf("\n")) >= 0) { handle(buf.slice(0, cut)); buf = buf.slice(cut + 1); }
+        }
+        handle(buf);
+      } else {
+        (await resp.text()).split("\n").forEach(handle);
+      }
+      if (lastEvent && lastEvent.status === "done") return lastEvent;
+      throw new Error(lastEvent && lastEvent.status === "error" ? lastEvent.detail : "connection closed");
+    } finally {
+      clearTimeout(kill);
+    }
+  }
+
+  async function request(s, body) {
+    const running = s.name === "world" ? T.status_world : T.status_real, t0 = performance.now();
+    let queued = false;
+    setStatus(s, running, "wm-wait");
+    setMarks(s, null, true);
+    const timer = setTimeout(function () { if (queued) setStatus(s, T.status_queued, "wm-wait"); }, QUEUED_AFTER_MS);
+    try {
+      return await stream("api/run/" + s.name, body, function (ev) {
+        if (ev.status === "queued") {
+          queued = true;
+          if (performance.now() - t0 >= QUEUED_AFTER_MS) setStatus(s, T.status_queued, "wm-wait");
+        } else if (ev.status === "running") {
+          queued = false;
+          setStatus(s, running, "wm-wait");
+        }
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function run() {
+    if (busy || !data || !sel) return;
+    const body = { task: sel.task, version: sel.version }, got = {};
+    setBusy(true);
+    clearSide(sides.world);
+    clearSide(sides.real);
+    for (const name of ["world", "real"]) {
+      const s = sides[name];
+      try {
+        got[name] = await request(s, body);
+        showResult(s, got[name]);
+      } catch (e) {
+        setMarks(s, null, false);
+        setStatus(s, T.status_error, "wm-err", e && e.message ? String(e.message) : "");
+        setBusy(false);
+        return;
+      }
+    }
+    live.push({ task: body.task, version: body.version, world: got.world.k / got.world.n, real: got.real.k / got.real.n });
+    drawChart();
+    setBusy(false);
+  }
+
+  // ------------------------------------------------------------------ start
+  form.addEventListener("submit", function (e) { e.preventDefault(); run(); });
+  $("wm-task").addEventListener("change", function (e) { if (!busy) select(e.target.value, null); });
+  $("wm-version").addEventListener("change", function (e) { if (!busy) select(sel.task, parseInt(e.target.value, 10)); });
+  keepDrawn([sides.world, sides.real]);
+  drawChart();
+
+  fetch("api/programs").then(function (resp) {
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    return resp.json();
+  }).then(function (d) {
+    data = d;
+    listTasks(d.tasks);
+    select(d.default.task, d.default.version);
+    runBtn.disabled = false;
+  }).catch(function (e) {
+    alertBox.textContent = T.status_error + " (" + (e && e.message ? e.message : "") + ")";
+  });
+})();
+</script>

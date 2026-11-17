@@ -1,0 +1,303 @@
+<!-- Recorded interactive panel (the static Space): replays the runs recorded by space/make_data.py.  Inserted after
+     the article header by space/build_static.py, which fills in the double-braced placeholders: "include <file>"
+     is that file of this folder, a text key its HTML-escaped string, text_json all strings as JSON, data_json the
+     catalog data/index.json, repo_url the repository link of the article header. -->
+<style>
+{{include panel.css}}
+</style>
+
+<section class="wm-panel" id="wm-panel" aria-labelledby="wm-heading">
+<div class="wm-head">
+<p class="wm-kicker">{{kicker}}</p>
+<h2 class="wm-heading" id="wm-heading">{{heading}}</h2>
+<p class="wm-intro">{{intro}}</p>
+</div>
+
+<div class="wm-box wm-recorded">
+<div class="wm-controls">
+<span class="wm-label" id="wm-task-label">{{label_task}}</span>
+<div class="wm-options wm-task" id="wm-task" role="radiogroup" aria-labelledby="wm-task-label"></div>
+<span class="wm-label" id="wm-version-label">{{label_program}}</span>
+<div class="wm-task">
+<div class="wm-options" id="wm-version" role="radiogroup" aria-labelledby="wm-version-label"></div>
+<p class="wm-tags" id="wm-tags"></p>
+</div>
+</div>
+
+<div class="wm-cols">
+<section class="wm-col" id="wm-world" aria-labelledby="wm-world-title">
+<h3 class="wm-title" id="wm-world-title">{{world_title}}</h3>
+<p class="wm-sub">{{world_sub}}</p>
+<div class="wm-result"><p class="wm-status"></p><span class="wm-time"></span></div>
+<div class="wm-stage"><canvas class="wm-canvas" role="img" aria-label="{{world_title}}"></canvas>
+<button class="wm-replay" type="button" aria-label="{{label_replay}}" title="{{label_replay}}" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.6 7.2A8 8 0 1 1 4.07 13"/><path d="M5.6 3.2v4h4"/></svg></button></div>
+<p class="wm-episode" role="status"></p>
+<div class="wm-grid" role="radiogroup" aria-label="{{world_title}}"></div>
+</section>
+<section class="wm-col" id="wm-real" aria-labelledby="wm-real-title">
+<h3 class="wm-title" id="wm-real-title">{{real_title}}</h3>
+<p class="wm-sub">{{real_sub}}</p>
+<div class="wm-result"><p class="wm-status"></p><span class="wm-time"></span></div>
+<div class="wm-stage"><canvas class="wm-canvas" role="img" aria-label="{{real_title}}"></canvas>
+<button class="wm-replay" type="button" aria-label="{{label_replay}}" title="{{label_replay}}" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.6 7.2A8 8 0 1 1 4.07 13"/><path d="M5.6 3.2v4h4"/></svg></button></div>
+<p class="wm-episode" role="status"></p>
+<div class="wm-grid" role="radiogroup" aria-label="{{real_title}}"></div>
+</section>
+</div>
+<p class="wm-hint">{{hint_marks}}</p>
+<p class="wm-caption">{{anim_caption}}</p>
+
+<div class="wm-chart">
+<h3 class="wm-title">{{chart_title}}</h3>
+<div class="wm-plot"><svg id="wm-svg" viewBox="0 0 316 304" role="radiogroup" aria-label="{{chart_title}}"></svg></div>
+<div class="wm-side">
+<div class="wm-legend"><span><i class="wm-k-rec"></i>{{chart_legend_all}}</span><span><i class="wm-k-live"></i>{{chart_legend_selected}}</span></div>
+<p class="wm-note">{{note_recorded}}</p>
+</div>
+</div>
+</div>
+
+<p class="wm-foot">{{note_scope}} <a href="{{repo_url}}">{{link_repo}}</a></p>
+<script type="application/json" id="wm-text">{{text_json}}</script>
+<script type="application/json" id="wm-data">{{data_json}}</script>
+</section>
+
+<script>
+(function () {
+  "use strict";
+  if (!document.getElementById("wm-panel")) return;
+  const T = JSON.parse(document.getElementById("wm-text").textContent);
+  const D = JSON.parse(document.getElementById("wm-data").textContent);       // the catalog of the recorded runs
+{{include panel_shared.js}}
+
+  const DATA_DIR = "data/";         // relative: the page may be served from any path
+  const records = new Map();        // file name -> promise of that program's record
+  let sel = null;                   // the selected entry of D.programs
+
+  const programsOf = (task) => D.programs.filter(function (p) { return p.task === task; });
+  const programOf = (task, version) => D.programs.find(function (p) { return p.task === task && p.version === version; });
+
+  function load(file) {             // a program's episodes are fetched when it is first selected
+    if (!records.has(file)) {
+      const got = fetch(DATA_DIR + file).then(function (resp) {
+        if (!resp.ok) throw new Error("HTTP " + resp.status);
+        return resp.json();
+      });
+      got.catch(function () { records.delete(file); });       // a failed load can be tried again
+      records.set(file, got);
+    }
+    return records.get(file);
+  }
+
+  // ------------------------------------------------------------------ trajectories (the encoding of space/make_data.py)
+  const DIGIT = {};
+  D.encoding.alphabet.split("").forEach(function (c, i) { DIGIT[c] = i; });
+
+  function decode(text) {
+    const unit = D.encoding.unit, turn = D.encoding.turn, rows = [], cur = [0, 0, 0, 0, 0];
+    let z = 0, shift = 0, j = 0;
+    for (let i = 0; i < text.length; i++) {
+      const d = DIGIT[text[i]];
+      z |= (d & 31) << shift;
+      shift += 5;
+      if (d & 32) continue;
+      cur[j] += z & 1 ? -((z + 1) >> 1) : z >> 1;
+      z = 0;
+      shift = 0;
+      if (++j === 5) {
+        j = 0;
+        rows.push([cur[0] * unit, cur[1] * unit, cur[2] * unit, cur[3] * unit,
+                   ((cur[4] % turn) + turn) % turn * 2 * Math.PI / turn]);
+      }
+    }
+    return rows;
+  }
+
+  // ------------------------------------------------------------------ one side (world model / environment)
+  const episodeName = (rec, i) => fill(T.episode_template, { i: i + 1, n: rec.n });
+  const outcome = (rec, i) => rec.success[i] === "1"
+    ? fill(T.outcome_success, { t: (rec.steps[i] / D.steps_per_second).toFixed(1) }) : T.outcome_fail;
+
+  // The episode a side starts with: the first failed one if the program mostly succeeds there, otherwise the first.
+  function firstEpisode(rec) {
+    const failed = rec.success.indexOf("0");
+    return 2 * rec.k > rec.n && failed >= 0 ? failed : 0;
+  }
+
+  function columnsOf(grid) {        // marks per row, as laid out
+    const marks = grid.children, top = marks[0].offsetTop;
+    let c = 1;
+    while (c < marks.length && marks[c].offsetTop === top) c++;
+    return c;
+  }
+
+  function makeSide(name) {
+    const col = $("wm-" + name);
+    const s = { name: name, canvas: col.querySelector("canvas"), result: col.querySelector(".wm-status"),
+                rate: col.querySelector(".wm-time"), line: col.querySelector(".wm-episode"),
+                grid: col.querySelector(".wm-grid"), replay: col.querySelector(".wm-replay"),
+                geo: null, traj: null, success: false, limit: D.time_limit, pos: 0, raf: 0, rec: null, index: -1 };
+    s.replay.addEventListener("click", function () { play(s); });
+    s.grid.addEventListener("click", function (e) {
+      const mark = e.target.closest("button");
+      if (mark && s.rec) pick(s, Number(mark.dataset.i), true);
+    });
+    s.grid.addEventListener("keydown", function (e) {         // arrow keys move the selection through the marks
+      if (!s.rec || s.index < 0) return;
+      const n = s.rec.n, cols = columnsOf(s.grid);
+      const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -cols, ArrowDown: cols, Home: -s.index, End: n - 1 - s.index }[e.key];
+      if (step === undefined) return;
+      e.preventDefault();
+      const i = s.index + step;
+      if (i >= 0 && i < n && i !== s.index) pick(s, i, true);
+    });
+    return s;
+  }
+
+  function setMarks(s, rec, n) {    // one mark per episode; without a record, placeholders
+    const marks = document.createDocumentFragment();
+    for (let i = 0; i < n; i++) {
+      const b = document.createElement("button");
+      b.type = "button";
+      if (rec) {
+        b.className = rec.success[i] === "1" ? "wm-pass" : "wm-fail";
+        b.dataset.i = i;
+        b.tabIndex = -1;
+        b.setAttribute("role", "radio");
+        b.setAttribute("aria-checked", "false");
+        b.title = episodeName(rec, i) + ", " + outcome(rec, i);
+        b.setAttribute("aria-label", b.title);
+      } else {
+        b.disabled = true;
+        b.setAttribute("aria-hidden", "true");
+      }
+      marks.appendChild(b);
+    }
+    s.grid.textContent = "";
+    s.grid.appendChild(marks);
+  }
+
+  function setLine(s, text, cls) {  // the line under the stage: a plain text ...
+    s.line.className = "wm-episode" + (cls ? " " + cls : "");
+    s.line.textContent = text;
+  }
+
+  function pick(s, i, focus) {      // ... or the selected episode and its outcome; the episode is replayed
+    const marks = s.grid.children, ok = s.rec.success[i] === "1";
+    if (s.index >= 0) {
+      marks[s.index].setAttribute("aria-checked", "false");
+      marks[s.index].tabIndex = -1;
+    }
+    s.index = i;
+    marks[i].setAttribute("aria-checked", "true");
+    marks[i].tabIndex = 0;
+    if (focus) marks[i].focus();
+    setLine(s, "", "");
+    const name = document.createElement("b"), result = document.createElement("span");
+    name.textContent = episodeName(s.rec, i);
+    result.textContent = outcome(s.rec, i);
+    result.className = ok ? "wm-pass" : "wm-fail";
+    s.line.appendChild(name);
+    s.line.appendChild(result);
+    s.traj = decode(s.rec.traj[i]);
+    s.success = ok;
+    s.replay.hidden = false;
+    show(s);
+  }
+
+  // ------------------------------------------------------------------ chart: one point per program, each selectable
+  const svg = $("wm-svg"), points = [];
+  let mark = null;
+
+  function buildChart() {
+    chartFrame(svg);
+    D.programs.forEach(function (p) {
+      const cx = plotX(p.world.k / p.world.n), cy = plotY(p.real.k / p.real.n);
+      const text = pointText(p.version, p.world.k / p.world.n, p.real.k / p.real.n);
+      const g = node("g", { class: "wm-pt", role: "radio", "aria-checked": "false", "aria-label": text, tabindex: "-1" }, svg);
+      node("circle", { class: "wm-hit", cx: cx, cy: cy, r: 9 }, g);
+      node("circle", { class: "wm-rec", cx: cx, cy: cy, r: 4 }, g);
+      node("title", {}, g).textContent = text;
+      g.addEventListener("click", function () { choose(p); });
+      points.push(g);
+    });
+    mark = node("g", { class: "wm-mark" }, svg);        // drawn over the selected program's point
+    svg.addEventListener("keydown", function (e) {      // arrow keys move the selection through the programs
+      const i = D.programs.indexOf(sel), last = D.programs.length - 1;
+      const step = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1, Home: -i, End: last - i }[e.key];
+      if (step === undefined) return;
+      e.preventDefault();
+      const j = i + step;
+      if (j >= 0 && j <= last && j !== i) {
+        choose(D.programs[j]);
+        points[j].focus();
+      }
+    });
+  }
+
+  function markChart() {
+    const cx = plotX(sel.world.k / sel.world.n), cy = plotY(sel.real.k / sel.real.n), side = labelSide(cx);
+    points.forEach(function (g, i) {
+      const on = D.programs[i] === sel;
+      g.setAttribute("aria-checked", on ? "true" : "false");
+      g.setAttribute("tabindex", on ? "0" : "-1");
+    });
+    mark.textContent = "";
+    node("circle", { class: "wm-live", cx: cx, cy: cy, r: 5 }, mark);
+    node("text", { class: "wm-lbl wm-hot", x: cx + 1.3 * side.dx, y: cy - 9, "text-anchor": side.anchor }, mark).textContent = "v" + sel.version;
+  }
+
+  // ------------------------------------------------------------------ selecting a program
+  const sides = [makeSide("world"), makeSide("real")];
+
+  function choose(p) {
+    if (!sel || sel.task !== p.task) listVersions(programsOf(p.task));
+    sel = p;
+    checkChips(p.task, p.version);
+    markChart();
+    sides.forEach(function (s) {    // the counts are in the catalog; the episodes follow
+      const c = p[s.name];
+      cancelAnimationFrame(s.raf);
+      s.rec = null;
+      s.traj = null;
+      s.index = -1;
+      s.replay.hidden = true;
+      s.geo = D.geometry[p.task][s.name];
+      s.result.textContent = fill(T.result_template, { k: c.k, n: c.n });
+      s.rate.textContent = pct(c.k / c.n);
+      setMarks(s, null, c.n);
+      setLine(s, T.loading, "wm-wait");
+      draw(s);
+    });
+    load(p.file).then(function (record) {
+      if (sel !== p) return;
+      sides.forEach(function (s) {
+        s.rec = record[s.name];
+        setMarks(s, s.rec, s.rec.n);
+        pick(s, firstEpisode(s.rec), false);
+      });
+    }, function () {
+      if (sel !== p) return;
+      sides.forEach(function (s) {  // the error text is a button that tries again
+        const again = document.createElement("button");
+        again.type = "button";
+        again.textContent = T.load_error;
+        again.addEventListener("click", function () { choose(p); });
+        setLine(s, "", "");
+        s.line.appendChild(again);
+      });
+    });
+  }
+
+  // ------------------------------------------------------------------ start
+  keepDrawn(sides);
+  listTasks(D.tasks);
+  buildChart();
+  $("wm-task").addEventListener("change", function (e) {
+    const task = e.target.value;
+    choose(programOf(task, submitted(programsOf(task))));
+  });
+  $("wm-version").addEventListener("change", function (e) { choose(programOf(sel.task, parseInt(e.target.value, 10))); });
+  choose(programOf(D.default.task, D.default.version));
+})();
+</script>
