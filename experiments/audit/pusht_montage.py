@@ -27,7 +27,7 @@ CODE_WM = "experiments.pusht.code_wm.controller:mpc_policy"
 
 def stat(controller):
     r = json.loads((RES / f"pusht__{controller}.json").read_text())
-    return f"50 局成功率 {r['eval']['mean'] * 100:.0f}% · 平均最高覆盖 {r['other']['max_coverage']['mean']:.2f}"
+    return f"{r['eval']['mean'] * 100:.0f}% of 50 · mean best coverage {r['other']['max_coverage']['mean']:.2f}"
 
 
 def audit():
@@ -54,13 +54,13 @@ def font(size):
 def montage():
     base = json.loads(Path("runs/pusht/baselines.json").read_text())
     panels = [
-        dict(key="random", factory="reallab.pusht.parallel:random_policy", kw={"seed": 0}, title="随机策略",
-             lives="0 条命", stat="50 局成功率 0%"),
+        dict(key="random", factory="reallab.pusht.parallel:random_policy", kw={"seed": 0}, title="Random policy",
+             lives="0 real trials", stat="0% of 50"),
         dict(key="aspire5", factory="pilots.aspire_pusht.policy_v5:make_policy", kw={},
-             title="ASPIRE 式 · 代码即策略", lives="5 条命", stat=stat("aspire_style")),
+             title="Code as Policies agent (ASPIRE-style)", lives="5 real trials", stat=stat("aspire_style")),
         dict(key="aspire13", factory="pilots.aspire_pusht.policy_v8:make_policy", kw={},
-             title="ASPIRE 式 · 加命后", lives="13 条命", stat=stat("aspire_style_extended")),
-        dict(key="code_wm", factory=CODE_WM, kw=PLANNER, title="Code WM · 代码即世界模型", lives="4 条命",
+             title="Code as Policies agent, more trials", lives="13 real trials", stat=stat("aspire_style_extended")),
+        dict(key="code_wm", factory=CODE_WM, kw=PLANNER, title="Code-as-world-model agent", lives="4 real trials",
              stat=stat("code_wm")),
     ]
     del base
@@ -85,7 +85,7 @@ def montage():
         kk = min(k, n - 1)
         canvas = Image.new("RGB", (W, H), (16, 18, 22))
         d = ImageDraw.Draw(canvas)
-        d.text((pad, 9), f"Push-T 推物 · 真实物理（pymunk）· 同一局（种子 {SEED}）· {SPEED} 倍速 · 成功 = 覆盖率 > 95%",
+        d.text((pad, 9), f"Push-T · real physics (pymunk) · same episode (seed {SEED}) · {SPEED}x speed · success = coverage > 95%",
                font=f_big, fill=(235, 235, 235))
         for i, c in enumerate(clips):
             x, y = pad + i * (fw + pad), head + pad
@@ -99,13 +99,13 @@ def montage():
             d.text((x + 6, y + 25), f"{c['lives']} · {c['stat']}", font=f_small, fill=(170, 200, 255))
             if ended:
                 if c["ep"]["success"]:
-                    d.text((x + 6, y + 45), f"成功 @ 第 {c['ep']['n_steps']} 步", font=f_small, fill=(120, 235, 140))
+                    d.text((x + 6, y + 45), f"solved at step {c['ep']['n_steps']}", font=f_small, fill=(120, 235, 140))
                 else:
-                    d.text((x + 6, y + 45), f"未完成（300 步上限，最高覆盖 {c['ep']['max_coverage']:.2f}）", font=f_small,
+                    d.text((x + 6, y + 45), f"not solved (300-step limit, best coverage {c['ep']['max_coverage']:.2f})", font=f_small,
                            fill=(255, 110, 110))
             else:
-                d.text((x + 6, y + 45), f"第 {kk * SPEED} 步", font=f_small, fill=(220, 220, 220))
-        d.text((pad, H - foot + 6), "这个方块的质心被暗中移到了一侧，松手后还会滑行；飞手只被告知「它推起来和图纸不一样」。",
+                d.text((x + 6, y + 45), f"step {kk * SPEED}", font=f_small, fill=(220, 220, 220))
+        d.text((pad, H - foot + 6), "The block's centre of mass was secretly moved to one side and it keeps sliding after release; the agents were told only that it pushes differently from the drawing.",
                font=f_small, fill=(150, 150, 150))
         out.append(canvas)
 

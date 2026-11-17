@@ -29,7 +29,7 @@ def rec(scenario, controller):
 
 def stat(scenario, controller):
     s, t = rec(scenario, controller)
-    return f"50 局成功率 {s * 100:.0f}%" + (f" · 平均 {t:.1f} s" if t else "")
+    return f"{s * 100:.0f}% of 50" + (f" · mean {t:.1f} s" if t else "")
 
 
 def log_of(folder):
@@ -37,20 +37,20 @@ def log_of(folder):
 
 
 PANELS = [
-    dict(key="stock", title="出厂自动驾驶（预置原语）", lives="不学习", stat="50 局成功率 0%",
+    dict(key="stock", title="Stock autopilot (built-in primitive)", lives="no learning", stat="0% of 50",
          log="runs/drone/logs/site_nominal_autopilot_A"),
-    dict(key="ppo5", title="直接 PPO（无世界模型）", lives="5 条命", stat=stat("site_A", "ppo_real_5lives"),
+    dict(key="ppo5", title="PPO on real trials", lives="5 real trials", stat=stat("site_A", "ppo_real_5lives"),
          log="runs/drone/baselines_rl/evlogs/ppo_real_5lives"),
-    dict(key="nwm", title="神经网络世界模型 + 规划", lives="5 条命", stat=stat("site_A", "neural_wm_5lives"),
+    dict(key="nwm", title="Neural dynamics model + planner", lives="5 real trials", stat=stat("site_A", "neural_wm_5lives"),
          log="runs/drone/baselines_rl/evlogs/neural_wm_5lives"),
-    dict(key="aspire", title="ASPIRE 式 · 代码即策略", lives="5 条命", stat=stat("site_A", "aspire_style"),
+    dict(key="aspire", title="Code as Policies agent (ASPIRE-style)", lives="5 real trials", stat=stat("site_A", "aspire_style"),
          log="runs/drone/aspire_style/eval_logs_aspire_style"),
-    dict(key="code_wm", title="Code WM · 代码即世界模型", lives="4 条命", stat=stat("site_A", "code_wm"),
+    dict(key="code_wm", title="Code-as-world-model agent", lives="4 real trials", stat=stat("site_A", "code_wm"),
          log="runs/drone/code_wm/eval_logs/code_wm"),
-    dict(key="ppo_big", title="直接 PPO（不限命数）", lives="14,811 条命", stat=stat("site_A", "ppo_real_14811lives"),
+    dict(key="ppo_big", title="PPO on real trials, no cap", lives="14,811 real trials", stat=stat("site_A", "ppo_real_14811lives"),
          log="runs/drone/baselines_rl/evlogs/ppo_real_14811lives"),
 ]
-OUTCOME = {"success": "完成", "collision": "坠毁", "timeout": "超时", "out_of_bounds": "出界", "unknown": "结束"}
+OUTCOME = {"success": "completed", "collision": "crashed", "timeout": "timed out", "out_of_bounds": "out of bounds", "unknown": "ended"}
 
 
 def font(size):
@@ -86,7 +86,7 @@ def main():
         kk = min(k, n - 1)
         canvas = Image.new("RGB", (W, H), (16, 18, 22))
         d = ImageDraw.Draw(canvas)
-        d.text((pad, 9), f"港区峡谷 · 17 秒内切断三处中继 · 真实物理（PyBullet）· 同一局（种子 {SEED}）· 实时播放",
+        d.text((pad, 9), f"Container-yard canyon · pass three checkpoints within 17 s · real physics (PyBullet) · same episode (seed {SEED}) · real time",
                font=f_big, fill=(235, 235, 235))
         for i, c in enumerate(clips):
             x = pad + (i % cols) * (fw + pad)
@@ -104,8 +104,8 @@ def main():
                 d.text((x + 6, y + 45), f"{OUTCOME[c['outcome']]} @ {c['dur']:.1f} s", font=f_small,
                        fill=(120, 235, 140) if ok else (255, 110, 110))
             else:
-                d.text((x + 6, y + 45), f"飞行中 {kk / FPS:.1f} s", font=f_small, fill=(220, 220, 220))
-        d.text((pad, H - foot + 6), "地面色块 = 隐藏的横风区，洋红标记 = 受损旋翼：只为观众揭示，飞手从未被告知，只能从自己的黑匣子日志里推断。",
+                d.text((x + 6, y + 45), f"flying {kk / FPS:.1f} s", font=f_small, fill=(220, 220, 220))
+        d.text((pad, H - foot + 6), "Floor patches: hidden cross-wind jets. Magenta marker: damaged rotor. Revealed for the viewer only; the agents had to infer both from their own flight logs.",
                font=f_small, fill=(150, 150, 150))
         out.append(canvas)
 

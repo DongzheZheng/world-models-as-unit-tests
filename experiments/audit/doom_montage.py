@@ -35,16 +35,16 @@ def _full_length(path, seed):
 
 PANELS = [
     dict(key="random", factory="reallab.doom.parallel:random_policy", kw={"seed": 0},
-         title="随机策略", lives="0 条命",
+         title="Random policy", lives="0 real trials",
          mean=json.loads(Path("runs/doom/baselines.json").read_text())["take_cover"]["random"]["ret"]["mean"]),
     dict(key="ppo5", factory="experiments.doom.rl_baseline.ppo_real:make_policy",
          kw={"ckpt": "runs/doom/rl_baseline/ckpt/ppo_real_5lives.pt"},
-         title="直接 PPO（无世界模型）", lives="5 条命", mean=_mean("ppo_real_5lives")),
+         title="PPO on real trials", lives="5 real trials", mean=_mean("ppo_real_5lives")),
     dict(key="aspire", factory="pilots.aspire_doom.policy_v5:make_policy", kw={},
-         title="ASPIRE 式 · 代码即策略", lives="5 条命", mean=_mean("aspire_style")),
+         title="Code as Policies agent (ASPIRE-style)", lives="5 real trials", mean=_mean("aspire_style")),
     dict(key="code_wm", factory="experiments.doom.code_wm.planner:planner",
          kw=dict(horizon=24, margin=2.0, w_center=0.3),
-         title="Code WM · 代码即世界模型", lives="4 条命", mean=_mean("code_wm")),
+         title="Code-as-world-model agent", lives="4 real trials", mean=_mean("code_wm")),
 ]
 
 
@@ -107,7 +107,7 @@ def main():
         tic = kk * TICS_PER_FRAME
         canvas = Image.new("RGB", (W, H), (16, 18, 22))
         d = ImageDraw.Draw(canvas)
-        d.text((pad, 9), f"Doom take_cover · 真实 VizDoom · 同一局（种子 {SEED}）· 延时播放", font=f_big, fill=(235, 235, 235))
+        d.text((pad, 9), f"Doom take_cover · real VizDoom · same episode (seed {SEED}) · time-lapse", font=f_big, fill=(235, 235, 235))
         for i, c in enumerate(clips):
             x = pad + (i % 2) * (fw + pad)
             y = head + (i // 2) * (bar + fh + pad)
@@ -119,15 +119,15 @@ def main():
             canvas.paste(frame, (x, y + bar))
             d.rectangle([x, y, x + fw, y + bar], fill=(34, 38, 46))
             d.text((x + 6, y + 4), c["title"], font=f_mid, fill=(255, 255, 255))
-            d.text((x + 6, y + 25), f"{c['lives']} · 100 局均值 {c['mean']:,.0f} tic", font=f_small, fill=(170, 200, 255))
+            d.text((x + 6, y + 25), f"{c['lives']} · mean {c['mean']:,.0f} ticks over 100 episodes", font=f_small, fill=(170, 200, 255))
             if dead:
-                status, col = f"阵亡 @ {c['tics']} tic", (255, 110, 110)
+                status, col = f"dead at tick {c['tics']}", (255, 110, 110)
             elif k >= n_out and c["key"] in full:
-                status, col = f"仍存活（本局共活 {full[c['key']]:,} tic）", (120, 235, 140)
+                status, col = f"still alive (episode ran {full[c['key']]:,} ticks)", (120, 235, 140)
             else:
-                status, col = f"存活 {tic} tic", (120, 235, 140)
+                status, col = f"alive at tick {tic}", (120, 235, 140)
             d.text((x + 6, y + 45), status, font=f_small, fill=col)
-        d.text((pad, H - foot + 6), "每个飞手只允许在真实环境里用标注的命数；标签里的分数是 100 局真实评测的平均存活时间。",
+        d.text((pad, H - foot + 6), "Each agent could use only the stated number of real trials; scores are mean survival over 100 held-out episodes.",
                font=f_small, fill=(150, 150, 150))
         out.append(canvas)
 

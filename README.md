@@ -5,12 +5,8 @@ Code as World Models: agents observe their task environment, write its world mod
 Denzel Zheng · Mechanical and Aerospace Engineering (MAE), Princeton University · November 2026
 
 **[Read the full write-up →](https://dongzhezheng.github.io/world-models-as-unit-tests/)**
-&ensp;|&ensp;
-[中文 README](README.zh.md)
-&ensp;|&ensp;
-[中文 NEWS](NEWS.zh.md)
 
-<p align="center"><img src="site/media/annex_poster.png" width="720" alt="Four programs on the same rope-throw episode"></p>
+<p align="center"><img src="assets/rope.gif" width="720" alt="Four programs on the same rope-throw episode"></p>
 
 ## What this is about
 
@@ -19,6 +15,38 @@ When a coding agent writes robot controllers, every new version needs testing, a
 The idea is straightforward: the agent writes a world model as a small Python file (249 to 412 lines, 14 to 26 KB), fits its parameters to its own observation logs, and runs candidate controllers inside the model. The world model plays the role that unit tests play for ordinary code. These tests can be wrong: they ranked programs well and overestimated absolute success. Across 34 programs from five tasks, the predicted and real success rates correlated at r = 0.97 (MAE 5.2 percentage points).
 
 We tried this across eight tasks in four simulators (VizDoom, a quadrotor in PyBullet/PyFlyt, planar pushing in pymunk, cable and rope manipulation in MuJoCo), with each agent capped at five real trials per task. These runs suggest that a world model may not need to be a neural network trained on thousands of rollouts. A Python file of a few hundred lines, fitted on the spot from the agent's own experiments, may serve as the unit-test layer between code generation and physical deployment. In our runs, files of this size came close to a planner that had the true simulator: 78% on the rope throw against the oracle planner's 84%, and 84% held-out on the unseen L-shaped block against the oracle planner's 80%.
+
+## The tasks in motion
+
+Each GIF compares controllers side by side on the same real episode. Full-quality videos are on the [project page](https://dongzhezheng.github.io/world-models-as-unit-tests/).
+
+<p align="center"><img src="assets/drone_fixed_route.gif" width="720" alt="Drone, fixed route (mission A)"></p>
+
+**Drone, fixed route (mission A).** Six controllers on the same episode. Hidden wind zones and the damaged rotor are drawn for the viewer. The stock autopilot, PPO with 5 real trials and the neural dynamics model with 5 real trials crash. The CaP agent finishes in 9.4 s, the world-model agent in 8.0 s. PPO with 14,811 real trials finishes in 2.9 s.
+
+<p align="center"><img src="assets/cable.gif" width="720" alt="Cable routing"></p>
+
+**Cable routing.** Three programs on the same episode: an existing constant-speed program, the CaP agent (5 real trials, 50/50) and the world-model agent (3 real trials, 50/50). Pulling too fast overloads the cable.
+
+<p align="center"><img src="assets/doom.gif" width="498" alt="Doom survival"></p>
+
+**Doom survival.** Four controllers in the same episode, time-lapse. Random dies at tick 680, PPO (5 real trials) at 270, the CaP agent at 2,533. The world-model agent's controller is still alive at tick 3,000. That episode ran 24,421 ticks.
+
+<p align="center"><img src="assets/push_t.gif" width="720" alt="Push-T"></p>
+
+**Push-T.** Pushing a T-shaped block with a secretly moved centre of mass. Random. The CaP agent with 5 real trials times out at 0.94 coverage (the threshold is above 0.95). The CaP agent with 13 real trials solves it. The world-model agent with 4 real trials solves it.
+
+<p align="center"><img src="assets/push_l.gif" width="720" alt="Push-L"></p>
+
+**Push-L (unseen shape).** A new block the agents had not met before (they had two real trials on it). Random and the CaP agent with 2 real trials do not solve it. The CaP agent with 8 real trials solves it at step 295 of 300. The world-model agent's controller solves it at step 152.
+
+<p align="center"><img src="assets/drone_traffic.gif" width="720" alt="Drone with traffic (mission C)"></p>
+
+**Drone with traffic (mission C).** Seven to eight random other aircraft. The stock autopilot and the CaP agent with 5 real trials crash. The CaP agent with 20 real trials finishes. The world-model agent with 5 real trials finishes by climbing over the traffic and descending to each checkpoint.
+
+<p align="center"><img src="assets/rope.gif" width="720" alt="Rope throw"></p>
+
+**Rope throw.** Four programs on the same episode (seed 1000). The CaP agent after 19 real trials (0/50) comes to rest 1.12 m from the target. The world-model agent's first model (4 real trials, 16/50) is still moving at the time limit. Its revised model (20 real trials, 39/50) comes to rest inside the target after 2.22 s. The oracle planner with the true simulator (42/50) comes to rest after 1.94 s.
 
 ## What is in this repository
 
@@ -32,6 +60,7 @@ We tried this across eight tasks in four simulators (VizDoom, a quadrotor in PyB
 | `cawm/` | Shared code: budget counter for real trials, result records, MPC, PPO |
 | `runs/` | Recorded results, fitted parameters, the agents' hypothesis and diagnosis files, real-trial logs |
 | `blog/`, `site/` | Page sources |
+| `assets/` | README images |
 | `tests/` | Test suite |
 
 **Record names.** `aspire_style` = the CaP agent (modelled on ASPIRE, five-trial budget); `code_wm` = the world-model agent; `cap_in_code_world` = the CaP agent using the world model as its tests; `*_extended` = runs with more real trials. "Lives" in file names and code = real trials.

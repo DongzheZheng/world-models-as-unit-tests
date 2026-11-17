@@ -27,7 +27,7 @@ CASES = [
     ("aspire_style_C_20lives", "pilots.aspire_drone.policy_v14:make_policy", {}),
     ("code_wm_C", "experiments.drone.code_wm.controller:make_pilot", CODE_WM_KW),
 ]
-OUTCOME = {"success": "完成", "collision": "坠毁", "timeout": "超时", "out_of_bounds": "出界", "unknown": "结束"}
+OUTCOME = {"success": "completed", "collision": "crashed", "timeout": "timed out", "out_of_bounds": "out of bounds", "unknown": "ended"}
 
 
 def audit():
@@ -49,7 +49,7 @@ def audit():
 def stat(controller):
     r = json.loads((RES / f"site_C__{controller}.json").read_text())
     t = r["other"].get("time_success_s", {}).get("mean")
-    return f"100 局成功率 {r['eval']['mean'] * 100:.0f}%" + (f" · 平均 {t:.1f} s" if t else "")
+    return f"{r['eval']['mean'] * 100:.0f}% of 100" + (f" · mean {t:.1f} s" if t else "")
 
 
 def font(size):
@@ -63,13 +63,13 @@ def font(size):
 
 def montage():
     panels = [
-        dict(key="stock", title="出厂自动驾驶（预置原语）", lives="不学习", stat="100 局成功率 0%",
+        dict(key="stock", title="Stock autopilot (built-in primitive)", lives="no learning", stat="0% of 100",
              log="runs/drone/logs/site_nominal_autopilot_C"),
-        dict(key="aspire5", title="ASPIRE 式 · 代码即策略", lives="航线 C 上 5 条命", stat=stat("aspire_style"),
+        dict(key="aspire5", title="Code as Policies agent (ASPIRE-style)", lives="5 real trials on mission C", stat=stat("aspire_style"),
              log="runs/drone/aspire_style/eval_logs_aspire_style_C"),
-        dict(key="aspire20", title="ASPIRE 式 · 加命后", lives="航线 C 上 20 条命", stat=stat("aspire_style_extended"),
+        dict(key="aspire20", title="Code as Policies agent, four times the trials", lives="20 real trials on mission C", stat=stat("aspire_style_extended"),
              log="runs/drone/aspire_style/eval_logs_aspire_style_extended_C"),
-        dict(key="code_wm", title="Code WM · 代码即世界模型", lives="航线 C 上 5 条命", stat=stat("code_wm"),
+        dict(key="code_wm", title="Code-as-world-model agent", lives="5 real trials on mission C", stat=stat("code_wm"),
              log="runs/drone/code_wm/eval_logs/code_wm_C"),
     ]
     RAW.mkdir(parents=True, exist_ok=True)
@@ -95,7 +95,7 @@ def montage():
         kk = min(k, n - 1)
         canvas = Image.new("RGB", (W, H), (16, 18, 22))
         d = ImageDraw.Draw(canvas)
-        d.text((pad, 10), f"航线 C：峡谷里有行为随机的巡逻机 · 真实物理 · 同一局（种子 {SEED}）", font=f_big, fill=(235, 235, 235))
+        d.text((pad, 10), f"Mission C: other aircraft with stochastic behaviour · real physics · same episode (seed {SEED})", font=f_big, fill=(235, 235, 235))
         for i, c in enumerate(clips):
             x = pad + (i % cols) * (fw + pad)
             y = head + pad + (i // cols) * (bar + fh + pad)
@@ -112,8 +112,8 @@ def montage():
                 d.text((x + 6, y + 45), f"{OUTCOME[c['outcome']]} @ {c['dur']:.1f} s", font=f_small,
                        fill=(120, 235, 140) if ok else (255, 110, 110))
             else:
-                d.text((x + 6, y + 45), f"飞行中 {kk / FPS:.1f} s", font=f_small, fill=(220, 220, 220))
-        d.text((pad, H - foot + 6), "洋红圆球 = 其他飞行器，地面色块 = 横风区：只为观众揭示，飞手只能看到 15 米内且无遮挡的那几架。",
+                d.text((x + 6, y + 45), f"flying {kk / FPS:.1f} s", font=f_small, fill=(220, 220, 220))
+        d.text((pad, H - foot + 6), "Magenta: other aircraft. Floor patches: cross-wind jets. Agents see only aircraft within 15 m, in line of sight.",
                font=f_small, fill=(150, 150, 150))
         out.append(canvas)
 
