@@ -1,0 +1,96 @@
+/* Styles of the screwdriver panel (panel_hand.html).  They build on panel.css, which the page already carries with
+   the pushing panel: the frame, the chips, the titles and the result lines are its classes.  An episode's outcome is
+   shown by colour and by shape, so that no two outcomes differ in colour alone: tightened is a full square, too
+   loose is filled at the bottom, too tight at the top, a stripped thread is crossed out, a dropped tool is a ring.
+   Tightened and stripped use the article's --good and --bad; the other three colours are set here per theme. */
+:root { --wh-low: #2468b4; --wh-high: #a35f00; --wh-drop: #7a4ab8; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --wh-low: #72b7ff; --wh-high: #f0b040; --wh-drop: #c9a5f7; }
+}
+:root[data-theme="dark"] { --wh-low: #72b7ff; --wh-high: #f0b040; --wh-drop: #c9a5f7; }
+
+/* ---- outcome marks (cards, caption, counts) */
+.wh-m { display: block; flex: none; width: 100%; aspect-ratio: 1; border-radius: 2px; }
+.wh-ok { background: var(--good); }
+.wh-low { box-shadow: inset 0 0 0 1.5px var(--wh-low); background: linear-gradient(to top, var(--wh-low) 50%, transparent 50%); }
+.wh-high { box-shadow: inset 0 0 0 1.5px var(--wh-high); background: linear-gradient(to bottom, var(--wh-high) 50%, transparent 50%); }
+.wh-strip { box-shadow: inset 0 0 0 1.5px var(--bad);
+  background: linear-gradient(45deg, transparent 43%, var(--bad) 43% 57%, transparent 57%),
+    linear-gradient(-45deg, transparent 43%, var(--bad) 43% 57%, transparent 57%); }
+.wh-drop { border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--wh-drop); }
+/* what the world model said: success is filled, failure is an empty outline */
+.wh-yes { background: var(--good); }
+.wh-no { box-shadow: inset 0 0 0 1px var(--muted); }
+
+/* ---- the video of the selected held-out seed, and the line that names it */
+.wh-player { display: flex; flex-direction: column; gap: 0.55rem; padding-top: 1.1rem; border-top: 1px solid var(--rule); }
+.wh-screen { border: 1px solid var(--rule); border-radius: 6px; background: #101319; overflow: hidden; }
+.wh-screen video { display: block; width: 100%; height: auto; background: #101319; }
+.wh-line .wh-part { display: inline-flex; align-items: baseline; gap: 0.4rem; }
+.wh-line .wh-m { width: 0.68rem; align-self: center; }
+
+/* ---- the two programs; their rows line up across the cards */
+.wh-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem 1.3rem; padding-top: 1.1rem; border-top: 1px solid var(--rule); }
+.wh-card { display: flex; flex-direction: column; gap: 0.55rem; min-width: 0; }
+@supports (grid-template-rows: subgrid) {
+  .wh-card { display: grid; grid-template-rows: subgrid; grid-row: span 7; }
+}
+.wh-counts, .wh-key { display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; font-size: 0.82rem; line-height: 1.5; color: var(--muted); }
+.wh-counts span, .wh-key span { display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+.wh-counts b { font: 600 0.76rem var(--mono); color: var(--ink); }
+.wh-counts .wh-m { width: 0.68rem; }
+.wh-key i { display: block; flex: none; width: 0.68rem; height: 5px; border-radius: 1px; }
+.wh-set, .wh-world { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+.wh-set-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.8rem; max-width: 24rem;
+  font-size: 0.86rem; line-height: 1.4; color: var(--muted); }
+.wh-set-head b { flex: none; font: 400 0.76rem var(--mono); white-space: nowrap; }
+.wh-grid { display: grid; grid-template-columns: repeat(25, minmax(0, 1fr)); gap: 3px; max-width: 24rem; width: 100%; padding: 3px 0; }
+
+/* held-out seeds: every mark is a button that plays that seed's video; under it, in the world-model agent's card,
+   a bar says what the world model predicted for the same situation (the rows are set apart so that a bar reads
+   with the mark above it) */
+.wh-pick { row-gap: 7px; }
+.wh-pick button { appearance: none; -webkit-appearance: none; display: flex; flex-direction: column; gap: 2px; width: 100%;
+  margin: 0; padding: 0; border: 0; border-radius: 2px; background: none; cursor: pointer; }
+.wh-pick button:hover { outline: 1px solid var(--muted); outline-offset: 1px; }
+.wh-pick button[aria-checked="true"] { outline: 2px solid var(--ink); outline-offset: 1px; }
+.wh-pick button:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+.wh-bar { display: block; width: 100%; height: 5px; border-radius: 1px; }
+/* re-test seeds: no video, so the marks are smaller and inert */
+.wh-still .wh-m { transform: scale(0.7); }
+
+/* ---- the world model's verdict on the world-model agent's program */
+.wh-world { gap: 0.5rem; margin-top: 0.35rem; padding-top: 0.8rem; border-top: 1px dashed var(--rule); }
+.wh-world-title { margin: 0; font: 400 0.72rem var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.wh-model { grid-template-columns: repeat(50, minmax(0, 1fr)); gap: 2px; padding: 2px 0; }
+.wh-model i { display: block; width: 100%; aspect-ratio: 1; border-radius: 1px; }
+.wh-fact { font-size: 0.88rem; line-height: 1.5; }
+
+/* ---- chart: the hold of every episode, one lane per program */
+.wh-chart { display: flex; flex-direction: column; gap: 0.7rem; padding-top: 1.1rem; border-top: 1px solid var(--rule); }
+.wh-plot svg { display: block; width: 100%; height: auto; overflow: visible; }
+.wh-plot text { font-family: var(--sans); }
+.wh-plot .wh-tk { font-size: 10px; fill: var(--muted); }
+.wh-plot .wh-ax { font-size: 10.5px; fill: var(--muted); }
+.wh-plot .wh-lane { font-size: 11.5px; font-weight: 600; fill: var(--ink); }
+.wh-plot .wh-base { stroke: var(--rule); stroke-width: 1; }
+.wh-plot .wh-tick { stroke: var(--muted); stroke-width: 1; }
+.wh-plot .wh-band { fill: var(--good); opacity: 0.13; }
+.wh-plot .wh-band-t { font-size: 10px; fill: var(--good); }
+.wh-plot .wh-limit { stroke: var(--bad); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.wh-plot .wh-limit-t { font-size: 10px; fill: var(--bad); }
+.wh-plot .wh-p-ok { color: var(--good); }
+.wh-plot .wh-p-low { color: var(--wh-low); }
+.wh-plot .wh-p-high { color: var(--wh-high); }
+.wh-plot .wh-p-strip { color: var(--bad); }
+.wh-plot .wh-p-drop { color: var(--wh-drop); }
+.wh-plot .wh-pf { fill: currentColor; }
+.wh-plot .wh-po { fill: none; stroke: currentColor; stroke-width: 1.2; }
+.wh-plot .wh-sel { fill: none; stroke: var(--ink); stroke-width: 1.6; pointer-events: none; }
+
+@media (max-width: 640px) {
+  .wh-cols { grid-template-columns: minmax(0, 1fr); }
+  .wh-card + .wh-card { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--rule); }
+  .wh-grid { grid-template-columns: repeat(20, minmax(0, 1fr)); }
+  .wh-model { grid-template-columns: repeat(40, minmax(0, 1fr)); gap: 1px; }
+}

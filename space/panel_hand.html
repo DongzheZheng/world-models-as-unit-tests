@@ -1,0 +1,385 @@
+<!-- Screwdriver panel of the static Space: the four programs of the screw-turning task (two agents, each after 5 and
+     after 15 real trials), their episodes in the environment, what the world model said about the world-model
+     agent's programs, the hold every episode ended with, and a side-by-side video per held-out seed.  The data
+     space/hand/index.json and the videos space/hand/media/ are written by a lab script outside this repository
+     (the environment is not published); space/check_hand.py checks them.  Inserted after the pushing panel by
+     space/build_static.py, which fills in the double-braced placeholders as in panel_static.html: "include <file>"
+     is that file of this folder, a text key (all of them start with hand_) its HTML-escaped string, text_json
+     those strings as JSON, data_json space/hand/index.json.  The frame, the chips, the titles and the result lines
+     are styled by panel.css, which the pushing panel has already put on the page. -->
+<style>
+{{include panel_hand.css}}
+</style>
+
+<section class="wm-panel wh-panel" id="wh-panel" aria-labelledby="wh-heading">
+<div class="wm-head">
+<p class="wm-kicker">{{hand_kicker}}</p>
+<h2 class="wm-heading" id="wh-heading">{{hand_heading}}</h2>
+<p class="wm-intro">{{hand_intro}}</p>
+</div>
+
+<div class="wm-box">
+<div class="wm-controls">
+<span class="wm-label" id="wh-stage-label">{{hand_label_stage}}</span>
+<div class="wm-options wm-task" id="wh-stage" role="radiogroup" aria-labelledby="wh-stage-label"></div>
+</div>
+
+<div class="wh-player">
+<div class="wh-screen"><video id="wh-video" controls playsinline muted preload="metadata" aria-label="{{hand_video_label}}"></video></div>
+<p class="wm-episode wh-line" id="wh-line" role="status"></p>
+<p class="wm-alert" id="wh-alert" role="alert"></p>
+<p class="wm-hint">{{hand_hint_marks}}</p>
+<p class="wm-caption">{{hand_video_caption}}</p>
+</div>
+
+<div class="wh-cols">
+<section class="wh-card" id="wh-cap" aria-labelledby="wh-cap-title">
+<h3 class="wm-title" id="wh-cap-title">{{hand_cap_title}}</h3>
+<p class="wm-sub">{{hand_cap_sub}}</p>
+<div class="wm-result"><p class="wm-status"></p><span class="wm-time"></span></div>
+<p class="wh-counts"></p>
+<div class="wh-set" data-set="held_out"><p class="wh-set-head"><span></span><b></b></p><div class="wh-grid wh-pick" role="radiogroup"></div></div>
+<div class="wh-set" data-set="retest"><p class="wh-set-head"><span></span><b></b></p><div class="wh-grid wh-still" role="group"></div></div>
+<div class="wh-world"><p class="wm-note">{{hand_cap_note}}</p></div>
+</section>
+<section class="wh-card" id="wh-wm" aria-labelledby="wh-wm-title">
+<h3 class="wm-title" id="wh-wm-title">{{hand_wm_title}}</h3>
+<p class="wm-sub">{{hand_wm_sub}}</p>
+<div class="wm-result"><p class="wm-status"></p><span class="wm-time"></span></div>
+<p class="wh-counts"></p>
+<div class="wh-set" data-set="held_out"><p class="wh-set-head"><span></span><b></b></p><div class="wh-grid wh-pick" role="radiogroup"></div></div>
+<div class="wh-set" data-set="retest"><p class="wh-set-head"><span></span><b></b></p><div class="wh-grid wh-still" role="group"></div></div>
+<div class="wh-world">
+<h4 class="wh-world-title">{{hand_world_title}}</h4>
+<div class="wm-result"><p class="wm-status"></p><span class="wm-time"></span></div>
+<div class="wh-grid wh-model" role="img"></div>
+<p class="wh-key"><span><i class="wh-yes"></i>{{hand_world_success}}</span><span><i class="wh-no"></i>{{hand_world_fail}}</span></p>
+<p class="wh-fact wh-paired"></p>
+<p class="wh-fact wh-predicted"></p>
+</div>
+</section>
+</div>
+
+<div class="wh-chart">
+<h3 class="wm-title">{{hand_chart_title}}</h3>
+<div class="wh-plot" id="wh-plot"><svg id="wh-svg" viewBox="0 0 640 280" role="img" aria-label="{{hand_chart_title}}"></svg></div>
+<p class="wm-note">{{hand_chart_note}}</p>
+</div>
+</div>
+
+<p class="wm-foot">{{hand_foot}}</p>
+<script type="application/json" id="wh-text">{{text_json}}</script>
+<script type="application/json" id="wh-data">{{data_json}}</script>
+</section>
+
+<script>
+(function () {
+  "use strict";
+  if (!document.getElementById("wh-panel")) return;
+  const T = JSON.parse(document.getElementById("wh-text").textContent);
+  const D = JSON.parse(document.getElementById("wh-data").textContent);       // space/hand/index.json
+  const $ = (id) => document.getElementById(id);
+  const SVG = "http://www.w3.org/2000/svg";
+  const MEDIA_DIR = "hand/media/";  // relative: the page may be served from any path
+  const MARK = { ok: "ok", hold_low: "low", hold_high: "high", damaged: "strip", tool_lost: "drop" };       // class suffixes
+  const HELD = D.sets.find(function (s) { return s.video; });       // the seed set that has videos
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const fill = (template, values) => Object.keys(values).reduce((s, k) => s.split("{" + k + "}").join(values[k]), template);
+  const pct = (v) => Math.round(v * 1000) / 10 + "%";
+  const holdText = (h) => fill(T.hand_hold_template, { h: h.toFixed(D.hold_decimals) });
+  const seedText = (seed) => fill(T.hand_seed_template, { seed: seed });
+  const outcomeText = (o) => T["hand_outcome_" + o];
+
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  function node(name, attrs, parent) {
+    const e = document.createElementNS(SVG, name);
+    Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    parent.appendChild(e);
+    return e;
+  }
+
+  let stage = null;                 // the selected entry of D.stages
+  let seed = D.default.seed;        // the selected held-out seed
+  let started = false;              // a video has been played: later selections play too
+
+  // ------------------------------------------------------------------ one episode of the selected stage
+  function episode(program, set, i) {
+    const e = stage.programs[program], s = e.sets[set.id];
+    return { seed: set.seed0 + i, outcome: D.outcomes[Number(s.outcome[i])], hold: s.hold[i],
+             model: set === HELD && e.paired ? e.paired.success[i] === "1" : null };      // the world model, same situation
+  }
+
+  function describe(ep) {
+    return seedText(ep.seed) + ", " + outcomeText(ep.outcome) + ", " + holdText(ep.hold)
+      + (ep.model === null ? "" : ", " + (ep.model ? T.hand_world_success : T.hand_world_fail));
+  }
+
+  // ------------------------------------------------------------------ the two cards
+  const cards = D.programs.map(function (p) {
+    const box = $("wh-" + p), sets = {}, world = box.querySelector(".wh-model");
+    box.querySelectorAll(".wh-set").forEach(function (s) {
+      sets[s.dataset.set] = { name: s.querySelector(".wh-set-head span"), k: s.querySelector(".wh-set-head b"),
+                              grid: s.querySelector(".wh-grid") };
+    });
+    return { program: p, result: box.querySelector(".wm-status"), rate: box.querySelector(".wm-time"),
+             counts: box.querySelector(".wh-counts"), sets: sets, pick: sets[HELD.id].grid,
+             world: world && { grid: world, result: box.querySelector(".wh-world .wm-status"),
+                               rate: box.querySelector(".wh-world .wm-time"), paired: box.querySelector(".wh-paired"),
+                               predicted: box.querySelector(".wh-predicted") } };
+  });
+
+  function fillCard(c) {
+    const e = stage.programs[c.program], count = {};
+    c.result.textContent = fill(T.hand_result_template, { k: e.k, n: e.n });
+    c.rate.textContent = pct(e.k / e.n);
+    D.sets.forEach(function (set) {
+      const side = c.sets[set.id], marks = document.createDocumentFragment();
+      for (let i = 0; i < set.n; i++) {
+        const ep = episode(c.program, set, i), text = describe(ep), m = el("i", "wh-m wh-" + MARK[ep.outcome]);
+        count[ep.outcome] = (count[ep.outcome] || 0) + 1;
+        if (set === HELD) {         // a button that plays the seed's video
+          const b = el("button");
+          b.type = "button";
+          b.dataset.seed = ep.seed;
+          b.tabIndex = -1;
+          b.title = text;
+          b.setAttribute("role", "radio");
+          b.setAttribute("aria-checked", "false");
+          b.setAttribute("aria-label", text);
+          b.appendChild(m);
+          if (ep.model !== null) b.appendChild(el("i", "wh-bar " + (ep.model ? "wh-yes" : "wh-no")));
+          marks.appendChild(b);
+        } else {                    // no video: a mark with its description
+          m.title = text;
+          m.setAttribute("role", "img");
+          m.setAttribute("aria-label", text);
+          marks.appendChild(m);
+        }
+      }
+      side.name.textContent = fill(T["hand_set_" + set.id + "_template"], { a: set.seed0, b: set.seed0 + set.n - 1 });
+      side.k.textContent = fill(T.hand_set_result_template, { k: e.sets[set.id].k, n: set.n });
+      side.grid.setAttribute("aria-label", side.name.textContent + ", " + side.k.textContent);
+      side.grid.textContent = "";
+      side.grid.appendChild(marks);
+    });
+    c.counts.textContent = "";      // every outcome with its mark and its number of episodes: the legend of the marks
+    D.outcomes.forEach(function (o) {
+      const item = el("span"), m = el("i", "wh-m wh-" + MARK[o]);
+      m.setAttribute("aria-hidden", "true");
+      item.appendChild(m);
+      item.appendChild(document.createTextNode(outcomeText(o)));
+      item.appendChild(el("b", "", String(count[o] || 0)));
+      c.counts.appendChild(item);
+    });
+    if (!c.world) return;
+    const w = e.world, marks = document.createDocumentFragment();
+    for (let i = 0; i < w.n; i++) marks.appendChild(el("i", w.success[i] === "1" ? "wh-yes" : "wh-no"));
+    c.world.result.textContent = fill(T.hand_world_result_template, { k: w.k, n: w.n });
+    c.world.rate.textContent = pct(w.k / w.n);
+    c.world.grid.setAttribute("aria-label", T.hand_world_title + ", " + c.world.result.textContent);
+    c.world.grid.textContent = "";
+    c.world.grid.appendChild(marks);
+    c.world.paired.textContent = fill(T.hand_paired_template, { k: e.paired.k, n: e.paired.n });
+    c.world.predicted.textContent = fill(T.hand_predicted_template, { p: pct(e.predicted) });
+  }
+
+  function columnsOf(grid) {        // marks per row, as laid out
+    const marks = grid.children, top = marks[0].offsetTop;
+    let c = 1;
+    while (c < marks.length && marks[c].offsetTop === top) c++;
+    return c;
+  }
+
+  cards.forEach(function (c) {
+    c.pick.addEventListener("click", function (e) {       // also Enter and Space on a focused mark
+      const b = e.target.closest("button");
+      if (b) select(Number(b.dataset.seed), true);
+    });
+    c.pick.addEventListener("keydown", function (e) {     // arrow keys move the selection; the video waits for Enter
+      const i = seed - HELD.seed0, cols = columnsOf(c.pick);
+      const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -cols, ArrowDown: cols, Home: -i, End: HELD.n - 1 - i }[e.key];
+      if (step === undefined) return;
+      e.preventDefault();
+      const j = i + step;
+      if (j >= 0 && j < HELD.n && j !== i) {
+        select(HELD.seed0 + j, false);
+        c.pick.children[j].focus();
+      }
+    });
+  });
+
+  // ------------------------------------------------------------------ chart: the hold of every episode, a lane per program
+  const plot = $("wh-plot"), svg = $("wh-svg");
+  let spots = {}, spot = 7, ring = null, drawn = 0;
+
+  function shape(g, o, s) {         // the mark of outcome o, s wide, centred on the origin of g
+    const h = s / 2, q = h - 0.6;
+    if (o === "ok") node("rect", { class: "wh-pf", x: -h, y: -h, width: s, height: s, rx: 1 }, g);
+    else if (o === "tool_lost") node("circle", { class: "wh-po", r: q }, g);
+    else {
+      node("rect", { class: "wh-po", x: -q, y: -q, width: 2 * q, height: 2 * q, rx: 0.6 }, g);
+      if (o === "hold_low") node("rect", { class: "wh-pf", x: -h, y: 0, width: s, height: h }, g);
+      else if (o === "hold_high") node("rect", { class: "wh-pf", x: -h, y: -h, width: s, height: h }, g);
+      else node("path", { class: "wh-po", d: "M" + -q + " " + -q + "L" + q + " " + q + "M" + -q + " " + q + "L" + q + " " + -q }, g);
+    }
+  }
+
+  // The axis runs from 0 to the strip limit.  Marks are stacked in columns one mark wide, at most `rows` high (a
+  // full column passes its marks on to the nearest one with room), and the columns never cross an edge of the
+  // success window or the limit.  A stripped thread has no hold left (recorded as 0): it is drawn past the limit.
+  function drawChart() {
+    drawn = Math.round(plot.getBoundingClientRect().width);
+    const W = Math.max(240, drawn), small = W < 560, s = small ? 6 : 7, pitch = s + 1.5, rows = small ? 12 : 10;
+    const lo = D.window[0], hi = D.window[1], top = D.strip_torque;
+    const x0 = Math.ceil(s / 2) + 1, x1 = W - Math.ceil(2 * pitch + 6);
+    const X = (h) => x0 + h / top * (x1 - x0);
+    const y0 = 18, head = 20, laneH = rows * pitch + 2, gap = 12, lanes = D.programs.length;
+    const bottom = y0 + lanes * (head + laneH) + (lanes - 1) * gap, H = bottom + 38;
+    const summary = [];
+    spot = s;
+    spots = {};
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.textContent = "";
+    node("rect", { class: "wh-band", x: X(lo), y: y0 - 2, width: X(hi) - X(lo), height: bottom - y0 + 2 }, svg);
+    node("text", { class: "wh-band-t", x: (X(lo) + X(hi)) / 2, y: 10, "text-anchor": "middle" }, svg).textContent = T.hand_chart_window;
+    node("text", { class: "wh-limit-t", x: W, y: 10, "text-anchor": "end" }, svg).textContent = T.hand_chart_strip;
+
+    function zone(a, b, centred) {  // the columns between a and b
+      const n = Math.max(1, Math.floor((b - a - s) / pitch) + 1), slack = Math.max(0, b - a - s - (n - 1) * pitch);
+      return { n: n, first: a + s / 2 + (centred ? slack / 2 : 0), used: [] };
+    }
+
+    function place(z, x) {          // the nearest column with room, and the row there
+      const want = Math.min(z.n - 1, Math.max(0, Math.round((x - z.first) / pitch)));
+      let c = want;
+      for (let d = 0; d < z.n; d++) {
+        if (want + d < z.n && (z.used[want + d] || 0) < rows) { c = want + d; break; }
+        if (want - d >= 0 && (z.used[want - d] || 0) < rows) { c = want - d; break; }
+      }
+      const r = z.used[c] || 0;
+      z.used[c] = r + 1;
+      return [z.first + c * pitch, r];
+    }
+
+    D.programs.forEach(function (p, lane) {
+      const y = y0 + lane * (head + laneH + gap), base = y + head + laneH, eps = [], count = {};
+      const zones = [zone(x0 - s / 2, X(lo) - 1, false), zone(X(lo) + 1, X(hi) - 1, true),
+                     zone(X(hi) + 1, x1 - 2, true), zone(x1 + 3, W, false)];
+      node("text", { class: "wh-lane", x: 0, y: y + 13 }, svg).textContent = T["hand_name_" + p];
+      node("line", { class: "wh-base", x1: 0, y1: base + 0.5, x2: W, y2: base + 0.5 }, svg);
+      D.sets.forEach(function (set) { for (let i = 0; i < set.n; i++) eps.push(episode(p, set, i)); });
+      eps.sort(function (a, b) {
+        return a.hold - b.hold || D.outcomes.indexOf(a.outcome) - D.outcomes.indexOf(b.outcome) || a.seed - b.seed;
+      });
+      const layer = node("g", {}, svg);
+      spots[p] = {};
+      eps.forEach(function (ep) {
+        const z = ep.outcome === "damaged" ? zones[3] : ep.hold < lo ? zones[0] : ep.hold <= hi ? zones[1] : zones[2];
+        const at = place(z, X(ep.hold)), cx = at[0], cy = base - 1 - (at[1] + 0.5) * pitch;
+        const g = node("g", { class: "wh-p-" + MARK[ep.outcome], transform: "translate(" + cx + " " + cy + ")" }, layer);
+        node("title", {}, g).textContent = describe(ep);
+        shape(g, ep.outcome, s);
+        spots[p][ep.seed] = [cx, cy];
+        count[ep.outcome] = (count[ep.outcome] || 0) + 1;
+      });
+      summary.push(T["hand_name_" + p] + ": " + D.outcomes.map(function (o) { return outcomeText(o) + " " + (count[o] || 0); }).join(", "));
+    });
+
+    node("line", { class: "wh-limit", x1: x1, y1: y0 - 2, x2: x1, y2: bottom }, svg);
+    [0, lo, hi, top].forEach(function (v) {
+      node("line", { class: "wh-tick", x1: X(v), y1: bottom + 1, x2: X(v), y2: bottom + 5 }, svg);
+      node("text", { class: "wh-tk", x: X(v), y: bottom + 17, "text-anchor": v ? "middle" : "start" }, svg).textContent = String(v);
+    });
+    node("text", { class: "wh-ax", x: (x0 + x1) / 2, y: bottom + 34, "text-anchor": "middle" }, svg).textContent = T.hand_chart_x;
+    svg.setAttribute("aria-label", T.hand_chart_title + ". " + summary.join(". "));
+    ring = null;
+  }
+
+  function markChart() {            // a frame around the selected seed's mark in every lane
+    if (ring) ring.remove();
+    ring = node("g", {}, svg);
+    const r = spot / 2 + 2.5;
+    D.programs.forEach(function (p) {
+      const at = spots[p] && spots[p][seed];
+      if (at) node("rect", { class: "wh-sel", x: at[0] - r, y: at[1] - r, width: 2 * r, height: 2 * r, rx: 2 }, ring);
+    });
+  }
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(function () {
+      if (stage && Math.round(plot.getBoundingClientRect().width) !== drawn) { drawChart(); markChart(); }
+    }).observe(plot);
+  }
+
+  // ------------------------------------------------------------------ the selected seed: marks, line, chart, video
+  const video = $("wh-video"), line = $("wh-line"), alert = $("wh-alert");
+  video.width = D.video.width;      // the page keeps this shape before the video has loaded
+  video.height = D.video.height;
+  video.addEventListener("play", function () { started = true; });
+  video.addEventListener("error", function () { alert.textContent = T.hand_video_error; });
+  video.addEventListener("loadeddata", function () { alert.textContent = ""; });
+
+  function setLine() {              // the seed, and for each program its outcome and hold there
+    line.textContent = "";
+    line.appendChild(el("b", "", seedText(seed)));
+    D.programs.forEach(function (p) {
+      const ep = episode(p, HELD, seed - HELD.seed0), part = el("span", "wh-part"), m = el("i", "wh-m wh-" + MARK[ep.outcome]);
+      m.setAttribute("aria-hidden", "true");
+      part.appendChild(m);
+      part.appendChild(document.createTextNode(fill(T.hand_caption_template, {
+        name: T["hand_name_" + p], outcome: outcomeText(ep.outcome), hold: holdText(ep.hold) })));
+      line.appendChild(part);
+    });
+  }
+
+  function select(s, play) {        // one video element; a seed's file is requested when the seed is selected
+    seed = s;
+    cards.forEach(function (c) {
+      Array.prototype.forEach.call(c.pick.children, function (b) {
+        const on = Number(b.dataset.seed) === s;
+        b.setAttribute("aria-checked", on ? "true" : "false");
+        b.tabIndex = on ? 0 : -1;
+      });
+    });
+    setLine();
+    markChart();
+    const src = MEDIA_DIR + fill(stage.video, { seed: s }) + "#t=0.001";       // the fragment makes the first frame show
+    if (video.getAttribute("src") !== src) {
+      alert.textContent = "";
+      video.setAttribute("src", src);
+    } else if (play) video.currentTime = 0;
+    if (play && !reduced.matches) {
+      const p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+  }
+
+  // ------------------------------------------------------------------ stage chips
+  function setStage(trials, play) {
+    stage = D.stages.find(function (st) { return st.trials === trials; });
+    $("wh-stage").querySelectorAll("input").forEach(function (i) { i.checked = Number(i.value) === trials; });
+    cards.forEach(fillCard);
+    drawChart();
+    select(seed, play);
+  }
+
+  D.stages.forEach(function (st) {
+    const l = el("label", "wm-chip"), i = el("input"), t = el("span", "", fill(T.hand_stage_template, { t: st.trials }));
+    i.type = "radio";
+    i.name = "wh-stage";
+    i.value = st.trials;
+    l.appendChild(i);
+    l.appendChild(t);
+    $("wh-stage").appendChild(l);
+  });
+  $("wh-stage").addEventListener("change", function (e) { setStage(Number(e.target.value), started); });
+  setStage(D.default.trials, false);
+})();
+</script>

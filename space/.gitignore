@@ -1,2 +1,6 @@
 # page built by build_page.py
 _site/
+
+# videos of the screwdriver panel (space/panel_hand.html): they are uploaded to the Space and not kept on GitHub;
+# space/build_static.py says where to get them
+hand/media/
